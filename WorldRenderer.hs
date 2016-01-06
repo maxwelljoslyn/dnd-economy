@@ -27,12 +27,12 @@ drawGrid hs = atPoints pts $ map draw hs
 
 draw :: Hex -> Diagram B
 draw h =
-	hexagon 1 # fc (climateColor' $ climate h) # lc black # lw veryThin
+	hexagon 1 # fc moistColor' # lc black # lw veryThin
 	where
-		moistureTest = moistColor $ moist h
+		moistColor' = moistColor $ moist h
 		elevColor' = elevColor (elev h) (isLand h)
 		onlyColorLandBorder = if (isLand h) == True then black else elevColor'
-		--onlyColorLandBorder creates weird image b/c hexes get in strange order,
+		--onlyColorLandBorder creates weird image b/c hexes render in strange order,
 		--and some border colors overlap onto others,
 		--creating weird "bites" taken out of some hexes.
 
@@ -49,24 +49,17 @@ coordToPixel (Coord (q,r,s)) = p2 (x,y)
 
 elevColor (Elevation e) l
 	|l == False	= sRGB 0 0 e --it's sea, therefore color it blueish
-	|e < 1.0		= lightgreen
-	|e < 1.05		= green
-	|e < 1.1		= darkgreen
-	|e < 1.15		= lightpink
-	|e < 1.2		= pink
-	|e < 1.25		= lavender
-	|e < 1.3		= magenta
-	|e < 1.35		= red
-	|e < 1.4		= darkred
-	|e < 1.45		=	lightseagreen
-	|e < 1.5		= seagreen
-	|e < 1.55		= darkseagreen
-	|e < 1.6		= lightgoldenrodyellow
-	|e < 1.65		= goldenrod
-	|e < 1.7		= darkgoldenrod
-	|otherwise	= slategray
-	--with noise library's generator, actual range of values is approximately 0.3XX to 1.7XX
-	--thus, 1.7 is the highest value that needs to be explicitly tested
+	|e < 0.50		= lightgreen
+	|e < 0.55		= green
+	|e < 0.60		= darkgreen
+	|e < 0.65		= pink
+	|e < 0.70		= lavender
+	|e < 0.75		= magenta
+	|e < 0.80		= red
+	|e < 0.85		= seagreen
+	|e < 0.90		= goldenrod
+	|e < 0.95		= slategray
+	|otherwise	= white
 
 tempColor (Temperature t)
 	|t' <= 0		= sRGB (0) (0) (abs (t'))

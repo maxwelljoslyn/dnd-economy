@@ -110,30 +110,40 @@ def initialize():
         q = coord[0]
         r = coord[1]
         data.elevation = (Decimal(noise.snoise3(q/frequency, r/frequency, 2, octaves)) + Decimal(1))
+        # this will be changed in the next loop, it's just a starting point
 
         data.temperature = tempAtCoord(coord)
-
-        seaLevel = 0.95 # 0.94 results in 44% sea, 0.95 in 46%, 1.0 in 54%, 1.05 in 62%, 1.1 in 69%
-        if data.elevation >= seaLevel:
-            data.isLand = True
-        else:
-            data.isLand = False
 
         # fill in neighbors list
         for name, member in Direction.__members__.items():
             data.neighbors[name] = getNeighbor(coord, member)
 
-        # initial conditions for moisture: 0 (default) for land, 1 for water
-        if data.isLand == False:
-            data.moisture = Decimal(1)
 
-    # second for loop
+    # normalize terrain to be between 0 and 1, which the current noise generator doesn't actually do
+    elevations = [d.elevation for c,d in worldModel.items()]
+    elevMax = max(elevations)
+    elevMin = min(elevations)
+    seaLevel = 0.46 # gives most aesthetically-pleasing results WRT shape of landmasses, islands
+    for coord, data in worldModel.items():
+        normalizedElevation = (data.elevation - elevMin) / (elevMax - elevMin)
+        data.elevation = normalizedElevation
+
+        # while looping, might as well assign land/sea distinction too
+        if data.elevation >= seaLevel:
+            data.isLand = True
+        else:
+            data.isLand = False
+
+    # next for loop
     # moistureLine requires all the elevations to be assigned before it works properly,
-    # which means the first loop has to be completely done before proceeding.
+    # which means the previous loop has to be completely done before proceeding.
     #
     # because there are six moisture passes, any of which might alter part of the map,
     # we have to do all of them before proceeding onto the next assignment loop.
     for coord, data in worldModel.items():
+        # initial conditions for moisture: 0 (default) for land, 1 for water
+        if data.isLand == False:
+            data.moisture = Decimal(1)
 
         def moistureLine(aCoord, aDir):
             """Move moisture from one hex to another.
@@ -154,7 +164,7 @@ def initialize():
                         neighbor.moisture = max(neighbor.moisture, Decimal(0.8) * currentMoisture)
                     else:
                         deltaElevation = abs(currentHex.elevation - neighbor.elevation)
-                        neighbor.moisture = max(neighbor.moisture, currentMoisture - (Decimal(2) * Decimal(deltaElevation)))
+                        neighbor.moisture = max(neighbor.moisture, currentMoisture - (Decimal(2.5) * Decimal(deltaElevation)))
                 currentHex = neighbor
                 currentMoisture = neighbor.moisture
 
@@ -214,7 +224,6 @@ def initialize():
 
 def main():
     worldModelReadyToGo = initialize()
-    elevs = []
     with open("inputForParser.txt", "w") as f:
         for c,d in worldModelReadyToGo.items():
             outputString = "Hex Coord " + str(c) +\
@@ -224,7 +233,7 @@ def main():
                            " Moisture " + str(d.moisture) +\
                            " Climate " + d.climate + "\n"
             f.write(outputString)
-            elevs.append(d.elevation)
-    print("smallest elev is " + str(min(elevs)) + "\n" + "biggest is " + str(max(elevs)) + "\n")
+
+
 if __name__ == "__main__":
     main()
