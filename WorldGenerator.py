@@ -476,7 +476,7 @@ def makeCityName():
 def main():
     worldModelReady, cityModelReady = initialize()
     counter = {}
-    with open("inputForParser.txt", "w") as f:
+    with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModelReady.items():
             outputString = "Hex Coord " + str(c) + \
                            " Elevation " + str(d.elevation) + \

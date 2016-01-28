@@ -135,7 +135,7 @@ parseHex = do
 
 parseWorld = do
 	let
-		contents	= (liftM lines) $ readFile "inputForParser.txt"
+		contents	= (liftM lines) $ readFile "inputWorldParser.txt"
 		f					= liftM $ (mapM (parse parseHex "SRC"))
 	result <- f contents
 	return result
