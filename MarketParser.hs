@@ -1,4 +1,4 @@
-module CityParser where
+module MarketParser where
 
 import Text.Parsec
 import Control.Monad (liftM)
@@ -36,5 +36,5 @@ parseMarketFile = do
   let
     contents = (liftM lines) $ readFile "inputMarketParser.txt"
     f = liftM $ (mapM (parse parseMarket "source"))
-  result = f contents
+  result <- f contents
   return result
