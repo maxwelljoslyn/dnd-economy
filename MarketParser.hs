@@ -31,3 +31,10 @@ parseMarket = do
   spaces
   c <- parseCoord
   return $ Market n c
+
+parseMarketFile = do
+  let
+    contents = (liftM lines) $ readFile "inputMarketParser.txt"
+    f = liftM $ (mapM (parse parseMarket "source"))
+  result = f contents
+  return result
