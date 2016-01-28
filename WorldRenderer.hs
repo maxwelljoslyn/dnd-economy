@@ -5,17 +5,19 @@ import Diagrams.Backend.SVG.CmdLine
 import Data.Colour.SRGB
 
 import WorldParser
+import qualified MarketParser as MP
 
-import qualified Text.Parsec as P
+import Text.Parsec
 import Control.Monad (liftM)
 
 main = do
-	resultOfParse <- parseWorld
+	worldInfo <- parseWorld
 	--having parsed in the world data, now we can proceed to rendering
 	--we have to do all the rendering under the Right branch of the case statement below
 	--why? because we can't know ahead of time whether resultOfParse is Left or Right
 	--the only way to extract the data inside, which we need for parsing, is a pattern match
-	case resultOfParse of
+        marketInfo <- MP.parseMarketFile
+	case worldInfo of
 		Right v		-> mainWith $ drawGrid v
 		Left err	-> mainWith failure
 
@@ -27,7 +29,7 @@ drawGrid hs = atPoints pts $ map draw hs
 
 draw :: Hex -> Diagram B
 draw h =
-	hexagon 1 # fc moistColor' # lc black # lw veryThin
+	hexagon 1 # fc elevColor' # lc black # lw veryThin
 	where
 		moistColor' = moistColor $ moist h
 		elevColor' = elevColor (elev h) (isLand h)
@@ -86,22 +88,4 @@ climateColor TropicalRainforest		= darkgreen
 climateColor HumidSubtropical			= lightgreen
 climateColor Taiga								= brown
 climateColor Tundra								= gray
-climateColor IceCap								= white
-
-climateColor' Water									= blue
-climateColor' Desert								= hotpink
-climateColor' Steppe								= pink
-climateColor' Mediterranean					= black
-climateColor' HotSummerContinental	= yellow
-climateColor' ColdContinental				= violet
-climateColor' WetContinental				= seagreen
-climateColor' Savannah							= orange
-climateColor' Monsoon								= black
-climateColor' Oceanic								= yellowgreen
-climateColor' ColdOceanic						= red
-climateColor' TropicalRainforest		= black
-climateColor' HumidSubtropical			= white
-climateColor' Taiga									= magenta
-climateColor' Tundra								= brown
-climateColor' IceCap								= black
-
+climateColor IceCap						= white
