@@ -461,11 +461,12 @@ def makeMarketName():
     vowels = ["a","e","i","o","u"]
     cons = ["b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","z"]
     result = []
+    # starting consonant is made uppercase
+    result.append(str.upper(random.choice(cons)))
     while numSoundPairs > 0:
-        result.append(random.choice(cons))
         result.append(random.choice(vowels))
+        result.append(random.choice(cons))
         numSoundPairs -= 1
-    result.append(random.choice(cons))
     return "".join(result)
 
 
@@ -495,8 +496,8 @@ def main():
 
     with open("inputMarketParser.txt", "w") as f:
         for n,c in marketModelReady.items():
-            outputString = "Market Name " + n + " Coord " + c + "\n"
-            f.write(outpuString)
+            outputString = "Market Name " + n + " Coord " + str(c) + "\n"
+            f.write(outputString)
 
 
 if __name__ == "__main__":

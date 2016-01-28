@@ -47,7 +47,7 @@ parseElevation :: Parsec String () Elevation
 parseElevation = do
 	string "Elevation"
 	spaces
-	e <- many	$ oneOf "-.0123456789"
+	e <- many $ oneOf "-.0123456789"
 	return $ Elevation (read e)
 
 parseTemperature :: Parsec String () Temperature
@@ -135,7 +135,7 @@ parseHex = do
 
 parseWorld = do
 	let
-		contents	= (liftM lines) $ readFile "inputWorldParser.txt"
-		f					= liftM $ (mapM (parse parseHex "SRC"))
+	  contents = (liftM lines) $ readFile "inputWorldParser.txt"
+	  f = liftM $ (mapM (parse parseHex "SRC"))
 	result <- f contents
 	return result
