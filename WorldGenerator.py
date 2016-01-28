@@ -1,14 +1,11 @@
-import random
 import noise
 from enum import Enum
 from decimal import *
 from math import pi
-import bisect
+from HexResources import *
 
 # set up the Decimal environment
 getcontext().prec = 6
-# seed the RNG (very important for resource distribution to ensure it is deterministic)
-random.seed(a=42)
 
 # number of rings on the world map, with 0 = just the center hex
 mapSize = 80
@@ -19,8 +16,10 @@ mapSize = 80
 planetDiameter = mapSize * 20 * 2 * pi
 # mapSize needed to match earth's equatorial diameter: 198
 
-# All possible valid cube coordinates for a given mapSize, for a hexagon-shaped world map.
-# In cube coordinates, there are three values, not two as with cartesian coordinates,
+# All possible valid cube coordinates for a given mapSize,
+# for a hexagon-shaped world map.
+# In cube coordinates, there are three values,
+#S not two as with cartesian coordinates,
 # but the third value (denoted "s") is dependent on the other two.
 # I store it so it doesn't have to be calculated every time;
 # thus, there's less risk of an arithmetic mistake popping up elsewhere.
@@ -34,11 +33,11 @@ for q in range(-mapSize, mapSize+1):
         possibleCoords.add((q,r,0-q-r))
 
 class Direction(Enum):
-    """The six directions on a grid of flat-topped hexagons: up-left, up, up-right,
-    down-right, down, down-left.
-
-    These aren't called NW/northwest, TN/true north, etc. because on my map, the coordinate
-    (0,0,0), the center of the map, is the North Pole. So north on the map is not the same as up."""
+    """The six directions on a grid of flat-topped hexagons: up-left, up,
+    up-right, down-right, down, down-left.
+    These aren't called NW/northwest, TN/true north, etc. because on my map,
+    the coordinate (0,0,0), the center of the map, is the North Pole.
+    So going north on the map is not the same as going up."""
     UL = (-1,1,0)
     UP = (0,1,-1)
     UR = (1,0,-1)
@@ -56,7 +55,8 @@ def addCoord(coord1, coord2):
 
 def getNeighbor(coord, direction):
     """Return coord's neighboring coordinate in the given direction.
-    Calculate what that neighbor is, regardless of validity of its coord for the mapSize.
+    Calculate what that neighbor is,
+    regardless of validity of its coord for the mapSize.
     If it would be off the grid (i.e. is not in possibleCoords), return None.
     Otherwise, return the neighbor's coordinate as calculated."""
     intermediate = addCoord(coord, direction.value)
@@ -64,7 +64,6 @@ def getNeighbor(coord, direction):
         return intermediate
     else:
         return None
-
 
 class HexData:
     """Stores the metadata information associated with a given hexagon."""
@@ -75,15 +74,20 @@ class HexData:
         self.neighbors = {}
         self.moisture = Decimal(0)
         self.climate = ""
+        self.resources = {}
+        self.services = {}
 
 def cubeDistance(a,b):
-    """Distance from a to b on a hexagonal grid, where a and b are cube coordinates."""
+    """Distance from a to b on a hexagonal grid,
+    where a and b are cube coordinates."""
     return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
-    Low 'never hot', high means 'always hot', and in between means variation, meaning seasonal heat changes."""
-    distanceFromCenter = cubeDistance((0,0,0),coord) # 0 at center hex, 1 on first ring, 2 on next ring, etc
+    Low 'never hot', high means 'always hot',
+    and in between means variation, meaning seasonal heat changes."""
+    distanceFromCenter = cubeDistance((0,0,0),coord)
+    # 0 at center hex, 1 on first ring, 2 on next ring, etc
     minTemp = Decimal(-30)
     # temp at (0,0,0), the center of the map and the North Pole
     maxTemp = Decimal(90)
@@ -91,9 +95,6 @@ def tempAtCoord(coord):
     stepSize = Decimal((abs(minTemp) + maxTemp) / mapSize)
     adjustment = Decimal(distanceFromCenter) * stepSize
     return(minTemp + adjustment)
-
-
-
 
 # TODO: write my own noise generator (see AmitP noise page)
 def initialize():
@@ -111,34 +112,35 @@ def initialize():
         r = coord[1]
         data.elevation = (Decimal(noise.snoise3(q/frequency, r/frequency, 2, octaves)) + Decimal(1))
         # this will be changed in the next loop, it's just a starting point
-
         data.temperature = tempAtCoord(coord)
-
         # fill in neighbors list
         for name, member in Direction.__members__.items():
             data.neighbors[name] = getNeighbor(coord, member)
 
-
-    # normalize terrain to be between 0 and 1, which the current noise generator doesn't actually do
+    # normalize terrain to be between 0 and 1
     elevations = [d.elevation for c,d in worldModel.items()]
     elevMax = max(elevations)
     elevMin = min(elevations)
-    seaLevel = 0.46 # gives most aesthetically-pleasing results WRT shape of landmasses, islands
+    seaLevel = 0.46
+    # this value gives most aesthetically-pleasing shapes for landmasses, islands
+
+    # first for loop: assign elevation, land/sea
     for coord, data in worldModel.items():
         normalizedElevation = (data.elevation - elevMin) / (elevMax - elevMin)
         data.elevation = normalizedElevation
 
-        # while looping, might as well assign land/sea distinction too
+        # land/sea distinction
         if data.elevation >= seaLevel:
             data.isLand = True
         else:
             data.isLand = False
 
     # next for loop
-    # moistureLine requires all the elevations to be assigned before it works properly,
+    # moistureLine requires all the elevations to be assigned
+    # before it works properly,
     # which means the previous loop has to be completely done before proceeding.
-    #
-    # because there are six moisture passes, any of which might alter part of the map,
+    # because there are six moisture passes,
+    # any of which might alter part of the map,
     # we have to do all of them before proceeding onto the next assignment loop.
     for coord, data in worldModel.items():
         # initial conditions for moisture: 0 (default) for land, 1 for water
@@ -147,7 +149,7 @@ def initialize():
 
         def moistureLine(aCoord, aDir):
             """Move moisture from one hex to another.
-            Has to be defined within this loop because it makes use of the generated elevations."""
+            Defined within this loop because it uses generated elevations."""
             currentHex = worldModel[aCoord]
             currentMoisture = currentHex.moisture
 
@@ -168,7 +170,8 @@ def initialize():
                 currentHex = neighbor
                 currentMoisture = neighbor.moisture
 
-        # starting at the sea hexes, move in each direction, spreading moisture as we go
+        # starting at the sea hexes, move in each direction,
+        # spreading moisture as we go
         if data.isLand is False:
             for name, member in Direction.__members__.items():
                 moistureLine(coord, name)
@@ -220,19 +223,277 @@ def initialize():
         else:
             data.climate = "IceCap"
 
-    return worldModel
+    # resource assignment
+    for coord, data in worldModel.items():
+        if data.isLand is False:
+            pass
+        else:
+            # Different resources are available based on climate.
+            # Some are given automatically (e.g. polar bear for icecaps).
+            # Some are added to a "choices" variable, which means they
+            # have a chance of being selected as a resource at that hex.
+            # And some climates have no resources of a certain kind (e.g. icecap has no plants or fruits).
+            # this one must be predefined since the water-beast-adding code uses it:
+            animalChoices = []
+            if data.climate == "IceCap":
+                animalChoices = coldClimateBeasts
+                fruitChoices = None
+                vegChoices = None
+                cropChoices = None
+                spiceChoices = None
+                alchemyChoices = None
+                hasTimber = False
+            if data.climate == "Tundra":
+                animalChoices = coldClimateBeasts
+                fruitChoices = subarcticFruits
+                vegChoices = None
+                cropChoices = tundraCrops
+                spiceChoices = None
+                alchemyChoices = None
+                hasTimber = False
+            if data.climate == "Taiga":
+                animalChoices = livestock + otherBeasts + coldClimateBeasts
+                fruitChoices = subarcticFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "Desert":
+                animalChoices = desertBeasts
+                fruitChoices = None
+                vegChoices = None
+                cropChoices = None
+                spiceChoices = None
+                alchemyChoices = None
+                hasTimber = False
+            if data.climate == "Steppe":
+                animalChoices = livestock + otherBeasts
+                fruitChoices = temperateFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = False
+            if data.climate == "HotSummerContinental":
+                animalChoices = livestock + otherBeasts
+                fruitChoices = temperateFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "ColdContinental":
+                animalChoices = livestock + otherBeasts
+                fruitChoices = subarcticFruits + temperateFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "WetContinental":
+                animalChoices = livestock + otherBeasts
+                fruitChoices = temperateFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "Oceanic":
+                animalChoices = livestock + otherBeasts
+                fruitChoices = temperateFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "ColdOceanic":
+                animalChoices = livestock + otherBeasts
+                fruitChoices = subarcticFruits = temperateFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "Mediterranean":
+                animalChoices = livestock + otherBeasts
+                fruitChoices = mediterraneanFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "Savannah":
+                animalChoices = savannahOnlyBeasts + tropicalOrSavannahBeasts + [(name,(count-2)) for name,count in livestock] + [("fish",2),("snake",2),("bird",2)]
+                fruitChoices = temperateFruits
+                vegChoices = vegetables
+                cropChoices = crops
+                spiceChoices = spices
+                alchemyChoices = alchemyPlants
+                hasTimber = True
+            if data.climate == "Monsoon":
+                animalChoices = [(name,(count-2)) for name,count in livestock] + tropicalOrSavannahBeasts
+                fruitChoices = tropicalFruits
+                vegChoices = tropicalVegetables
+                cropChoices = tropicalCrops
+                alchemyChoices = alchemyPlants
+                spiceChoices = tropicalSpices
+                hasTimber = True
+            if data.climate == "HumidSubtropical":
+                animalChoices = [(name,(count-2)) for name,count in livestock] + tropicalOrSavannahBeasts
+                fruitChoices = subtropicalFruits
+                vegChoices = tropicalVegetables
+                cropChoices = tropicalCrops
+                alchemyChoices = alchemyPlants
+                spiceChoices = tropicalSpices
+                hasTimber = True
+            if data.climate == "TropicalRainforest":
+                animalChoices = [(name,(count-2)) for name,count in livestock] + tropicalOrSavannahBeasts
+                fruitChoices = tropicalFruits
+                vegChoices = tropicalVegetables
+                cropChoices = tropicalCrops
+                alchemyChoices = alchemyPlants
+                spiceChoices = tropicalSpices
+                hasTimber = True
+            
+            # todo auto resources: ice for icecap; timber for taiga plus tropicals
+            # if there's a non-land neighbor, allow the chance of water beasts in normal animal generation
+            actualNeighbors = [b for a,b in data.neighbors.items() if b is not None]
+            waterNeighbors = [x for x in actualNeighbors if worldModel[x].isLand is False]
+            if waterNeighbors == []:
+                pass
+            else:
+                animalChoices = animalChoices + waterBeasts
 
+            chanceResourceCount = random.choice([4,5,5,6,6,6,7,7,7,7,8,8,8,9,9,10])
+            # note: random seed is already set in HexResources
+
+            while chanceResourceCount > 0:
+                choice = None
+                # 1/3 chance to get animal, metal/mineral/stone, or plant
+                whichResource = random.randint(1,3)
+                if whichResource == 1:
+                    choice = weightedChoice(animalChoices)
+                elif whichResource == 2:
+                    # 50% chance for a metal, 40% for a stone/mineral
+                    # 9% for ornamental, 1% for gem
+                    picker = random.randint(1,100)
+                    if picker <= 50:
+                        choice = weightedChoice(metalOres)
+                    elif picker <= 90:
+                        choice = random.choice(stoneAndMinerals)
+                    elif picker <= 99:
+                        choice = random.choice(ornamentalGems)
+                    else:
+                        choice = weightedChoice(preciousGems)
+                else:
+                    # fruit: 25%, veg: 15%, crops: 25%
+                    # spices: 10%, alchemy: 10%, timber: 15%
+                    picker = random.randint(1,100)
+                    if picker <= 25:
+                        if fruitChoices is None:
+                            choice = None
+                        else:
+                            choice = random.choice(fruitChoices)
+                    elif picker <= 40:
+                        if vegChoices is None:
+                            choice = None
+                        else:
+                            choice = random.choice(vegChoices)
+                    elif picker <= 65:
+                        if cropChoices is None:
+                            choice = None
+                        else:
+                            choice = random.choice(cropChoices)
+                    elif picker <= 75:
+                        if spiceChoices is None:
+                            choice = None
+                        else:
+                            choice = weightedChoice(spiceChoices)
+                    elif picker <= 85:
+                        if alchemyChoices is None:
+                            choice = None
+                        else:
+                            choice = weightedChoice(alchemyChoices)
+                    else:
+                        if hasTimber:
+                            choice = "timber"
+                        else:
+                            choice = None
+
+                if choice is None:
+                    chanceResourceCount -= 1
+                    continue
+                else:
+                    # increment value if there, otherwise start at 1
+                    if choice in data.resources:
+                        data.resources[choice] += 1
+                    else:
+                        data.resources[choice] = 1
+                
+                chanceResourceCount -= 1
+
+    # creating cities in some, but not all, hexes, and giving hex resources to them
+    cityModel = {}
+    for coord,data in worldModel.items():
+        resCount = sum(list(data.resources.values()))
+        chanceOfCity = resCount * 5
+        x = random.randint(1,100)
+        if x <= chanceOfCity:
+            n = makeCityName()
+            # this loop prevents duplication of names
+            # it gets slower as you add more cities since they all have to be checked
+            while n in cityModel:
+                print(n,"is a problem")
+                n = makeCityName()
+                print("now it's:",n)
+            cityModel[n] = coord
+        else:
+            pass
+
+    return (worldModel,cityModel)
+
+# this is v1
+# one day there will be a version which has a different name gen scheme
+# for each of several regions defined on the map
+def makeCityName():
+    numSoundPairs = random.randint(2,6)
+    vowels = ["a","e","i","o","u"]
+    cons = ["b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","z"]
+    result = []
+    while numSoundPairs > 0:
+        result.append(random.choice(cons))
+        result.append(random.choice(vowels))
+        numSoundPairs -= 1
+    result.append(random.choice(cons))
+    return "".join(result)
+
+
+# todo: commit resource assignment to Git once it's in v1 form
+# todo: city assignment for a hex in same loop as resource assignment
+# todo: city population assignment, based on resource count: something like "within (2^x)*1000 and (2^(x+1)*1000)-1,
+# todo: where x is the num of RANDOM resources at the city" (since we might do the bonus water beast)
 def main():
-    worldModelReadyToGo = initialize()
+    worldModelReady, cityModelReady = initialize()
+    counter = {}
     with open("inputForParser.txt", "w") as f:
-        for c,d in worldModelReadyToGo.items():
-            outputString = "Hex Coord " + str(c) +\
-                           " Elevation " + str(d.elevation) +\
-                           " Temperature " + str(d.temperature) +\
-                           " Land " + str(d.isLand) +\
-                           " Moisture " + str(d.moisture) +\
+        for c,d in worldModelReady.items():
+            outputString = "Hex Coord " + str(c) + \
+                           " Elevation " + str(d.elevation) + \
+                           " Temperature " + str(d.temperature) + \
+                           " Land " + str(d.isLand) + \
+                           " Moisture " + str(d.moisture) + \
                            " Climate " + d.climate + "\n"
             f.write(outputString)
+            for x,y in d.resources.items():
+                if x in counter:
+                    counter[x] += 1
+                else:
+                    counter[x] = 1
+    totalWorldCount = sorted([(x,y) for (y,x) in counter.items()])
+    print(totalWorldCount)
+    for n,c in cityModelReady.items():
+        print(n,c,"\n")
 
 
 if __name__ == "__main__":
