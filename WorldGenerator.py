@@ -434,29 +434,29 @@ def initialize():
                 chanceResourceCount -= 1
 
     # creating cities in some, but not all, hexes, and giving hex resources to them
-    cityModel = {}
+    marketModel = {}
     for coord,data in worldModel.items():
         resCount = sum(list(data.resources.values()))
-        chanceOfCity = resCount * 5
+        chanceOfMarket = resCount * 5
         x = random.randint(1,100)
-        if x <= chanceOfCity:
-            n = makeCityName()
+        if x <= chanceOfMarket:
+            n = makeMarketName()
             # this loop prevents duplication of names
             # it gets slower as you add more cities since they all have to be checked
-            while n in cityModel:
+            while n in marketModel:
                 print(n,"is a problem")
-                n = makeCityName()
+                n = makeMarketName()
                 print("now it's:",n)
-            cityModel[n] = coord
+            marketModel[n] = coord
         else:
             pass
 
-    return (worldModel,cityModel)
+    return (worldModel,marketModel)
 
 # this is v1
 # one day there will be a version which has a different name gen scheme
 # for each of several regions defined on the map
-def makeCityName():
+def makeMarketName():
     numSoundPairs = random.randint(2,6)
     vowels = ["a","e","i","o","u"]
     cons = ["b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","z"]
@@ -474,7 +474,7 @@ def makeCityName():
 # todo: city population assignment, based on resource count: something like "within (2^x)*1000 and (2^(x+1)*1000)-1,
 # todo: where x is the num of RANDOM resources at the city" (since we might do the bonus water beast)
 def main():
-    worldModelReady, cityModelReady = initialize()
+    worldModelReady, marketModelReady = initialize()
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModelReady.items():
@@ -492,8 +492,11 @@ def main():
                     counter[x] = 1
     totalWorldCount = sorted([(x,y) for (y,x) in counter.items()])
     print(totalWorldCount)
-    for n,c in cityModelReady.items():
-        print(n,c,"\n")
+
+    with open("inputMarketParser.txt", "w") as f:
+        for n,c in marketModelReady.items():
+            outputString = "Market Name " + n + " Coord " + c + "\n"
+            f.write(outpuString)
 
 
 if __name__ == "__main__":
