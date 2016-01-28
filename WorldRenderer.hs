@@ -22,13 +22,13 @@ main = do
 		Left err	-> mainWith failure
 
 drawGrid :: [Hex] -> Diagram B
-drawGrid hs = atPoints pts $ map draw hs
+drawGrid hs = atPoints pts $ map drawHex hs
 	where
 		pts :: [P2 Double]
 		pts = map (coordToPixel . coord) hs
 
-draw :: Hex -> Diagram B
-draw h =
+drawHex :: Hex -> Diagram B
+drawHex h =
 	hexagon 1 # fc elevColor' # lc black # lw veryThin
 	where
 		moistColor' = moistColor $ moist h
