@@ -17,29 +17,52 @@ main = do
 	--why? because we can't know ahead of time whether resultOfParse is Left or Right
 	--the only way to extract the data inside, which we need for parsing, is a pattern match
         marketInfo <- MP.parseMarketFile
-	case worldInfo of
-		Right v		-> mainWith $ drawGrid v
+        case marketInfo of
+          Left err -> mainWith failure2
+          Right ms -> 
+	    case worldInfo of
+		Right v		-> mainWith $ drawGrid ms v
 		Left err	-> mainWith failure
 
-drawGrid :: [Hex] -> Diagram B
-drawGrid hs = atPoints pts $ map drawHex hs
+drawGrid :: [MP.Market] -> [Hex] -> Diagram B
+drawGrid ms hs = atPoints pts $ map (drawHex ms) hs
 	where
 		pts :: [P2 Double]
 		pts = map (coordToPixel . coord) hs
 
-drawHex :: Hex -> Diagram B
-drawHex h =
-	hexagon 1 # fc elevColor' # lc black # lw veryThin
-	where
-		moistColor' = moistColor $ moist h
-		elevColor' = elevColor (elev h) (isLand h)
-		onlyColorLandBorder = if (isLand h) == True then black else elevColor'
-		--onlyColorLandBorder creates weird image b/c hexes render in strange order,
-		--and some border colors overlap onto others,
-		--creating weird "bites" taken out of some hexes.
+
+drawHex :: [MP.Market] -> Hex -> Diagram B
+drawHex ms h =
+  (drawMarket $ hasMarket h ms)
+  `atop`
+  hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
+  where
+    moistColor' = moistColor $ moist h
+    elevColor' = elevColor (elev h) (isLand h)
+    onlyColorLandBorder = if (isLand h) == True then black else elevColor'
+    --onlyColorLandBorder creates weird image b/c hexes render in strange order,
+    --and some border colors overlap onto others,
+    --creating weird "bites" taken out of some hexes.
 
 failure :: Diagram B
 failure =  circle 1 # fc pink # lw thick
+
+failure2 :: Diagram B
+failure2 =  triangle 1 # fc pink # lw thick
+
+--TODO: upgrade from list of markets to dict of markets,
+--so info from the market data structure can be retrieved
+--this requires rewriting the market parser to some degree or possibly entirely
+--but it's worth it, since that's how we'll get info out of the market record
+--while preserving it for later calls (unlike current approach which
+--destroys info by returning a Bool)
+hasMarket :: Hex -> [MP.Market] -> Bool
+hasMarket h ms = (coord h) `elem` (map MP.coord ms)
+
+drawMarket :: Bool -> Diagram B
+drawMarket True = square 0.1 # fc black  # lc black
+drawMarket False = mempty
+
 
 coordToPixel :: Coord -> P2 Double
 coordToPixel (Coord (q,r,s)) = p2 (x,y)
@@ -64,22 +87,31 @@ elevColor (Elevation e) l
 	|otherwise	= white
 
 tempColor (Temperature t)
-	|t' <= 0		= sRGB (0) (0) (abs (t'))
+	|t' <= 0	= sRGB (0) (0) (abs (t'))
 	|otherwise	= sRGB t' 0 0
 	where
 		t' = t / 100
 
 moistColor m
-	|m == 1			= white --sea
+	|m == 1		= white --sea
 	|otherwise	= sRGB 0 0 (m)
 
-climateColor Water								= blue
-climateColor Desert								= khaki
-climateColor Steppe								= darkkhaki
-climateColor Mediterranean				= yellow
-climateColor HotSummerContinental = lightseagreen
-climateColor ColdContinental			= seagreen
-climateColor WetContinental				= darkseagreen
+
+
+climateColor Water =
+  blue
+climateColor Desert =
+  khaki
+climateColor Steppe =
+  darkkhaki
+climateColor Mediterranean =
+  yellow
+climateColor HotSummerContinental =
+  lightseagreen
+climateColor ColdContinental =
+  seagreen
+climateColor WetContinental =
+  darkseagreen
 climateColor Savannah							= yellowgreen
 climateColor Monsoon							= red
 climateColor Oceanic							= lightsteelblue
