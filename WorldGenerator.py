@@ -439,7 +439,7 @@ def initialize():
     marketModel = {}
     for coord,data in worldModel.items():
         resCount = sum(list(data.resources.values()))
-        # market chance v1:
+        # market chance:
         # base chance of having a market is based on num of resources.
         # a resource is counted multiple times if there are multiple abstract units of it
         chanceOfMarket = sum(list(data.resources.values())) * 5
@@ -500,6 +500,18 @@ def main():
     totalWorldCount = sorted([(x,y) for (y,x) in counter.items()])
     print(totalWorldCount)
 
+    print("\n\n\n")
+    # count up those resources which ARE available through a market
+    accumulator = {}
+    for n,c in marketModelReady.items():
+        reses = worldModelReady[c].resources
+        for r,count in reses.items():
+            if r in accumulator:
+                accumulator[r] += count
+            else:
+                accumulator[r] = 1
+    totalAccumulator = sorted([(x,y) for (y,x) in accumulator.items()])
+    print(totalAccumulator)
 
     with open("inputMarketParser.txt", "w") as f:
         for n,c in marketModelReady.items():
