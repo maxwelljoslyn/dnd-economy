@@ -438,8 +438,10 @@ def initialize():
     marketModel = {}
     for coord,data in worldModel.items():
         resCount = sum(list(data.resources.values()))
-        # todo: better way to calculate chance of market, since this way SUCKS
-        chanceOfMarket = 30
+        # market chance v1:
+        # base chance of having a market is based on num of resources.
+        # a resource is counted multiple times if there are multiple abstract units of it
+        chanceOfMarket = sum(list(data.resources.values())) * 5
         x = random.randint(1,100)
         if x <= chanceOfMarket:
             n = makeMarketName()
@@ -452,6 +454,8 @@ def initialize():
             marketModel[n] = coord
         else:
             pass
+
+    # set up market populations
 
     return (worldModel,marketModel)
 
