@@ -233,7 +233,7 @@ def initialize():
             # Some are added to a "choices" variable, which means they
             # have a chance of being selected as a resource at that hex.
             # And some climates have no resources of a certain kind (e.g. icecap has no plants or fruits).
-            # this one must be predefined since the water-beast-adding code uses it:
+            # animalChoices must be predefined since the water-beast-adding code uses it:
             animalChoices = []
             if data.climate == "IceCap":
                 animalChoices = coldClimateBeasts
@@ -365,7 +365,8 @@ def initialize():
             else:
                 animalChoices = animalChoices + waterBeasts
 
-            chanceResourceCount = random.choice([4,5,5,6,6,6,7,7,7,7,8,8,8,9,9,10])
+            chances = 5 * [1,2,3] + 4 * [4,5,6] + 3 * [7,8] + [9,9,10]
+            chanceResourceCount = random.choice(chances)
             # note: random seed is already set in HexResources
 
             while chanceResourceCount > 0:
@@ -437,14 +438,15 @@ def initialize():
     marketModel = {}
     for coord,data in worldModel.items():
         resCount = sum(list(data.resources.values()))
-        chanceOfMarket = resCount * 5
+        # todo: better way to calculate chance of market, since this way SUCKS
+        chanceOfMarket = 30
         x = random.randint(1,100)
         if x <= chanceOfMarket:
             n = makeMarketName()
             # this loop prevents duplication of names
             # it gets slower as you add more cities since they all have to be checked
             while n in marketModel:
-                print(n,"is a problem")
+                print(n,"is already used.")
                 n = makeMarketName()
                 print("now it's:",n)
             marketModel[n] = coord
@@ -470,8 +472,6 @@ def makeMarketName():
     return "".join(result)
 
 
-# todo: commit resource assignment to Git once it's in v1 form
-# todo: city assignment for a hex in same loop as resource assignment
 # todo: city population assignment, based on resource count: something like "within (2^x)*1000 and (2^(x+1)*1000)-1,
 # todo: where x is the num of RANDOM resources at the city" (since we might do the bonus water beast)
 def main():
@@ -496,7 +496,7 @@ def main():
 
     with open("inputMarketParser.txt", "w") as f:
         for n,c in marketModelReady.items():
-            outputString = "Market Name " + n + " Coord " + str(c) + "\n"
+            outputString = "Market Coord " + str(c) + " Name " + n + "\n"
             f.write(outputString)
 
 
