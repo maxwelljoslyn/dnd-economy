@@ -365,7 +365,8 @@ def initialize():
             else:
                 animalChoices = animalChoices + waterBeasts
 
-            chances = 5 * [1,2,3] + 4 * [4,5,6] + 3 * [7,8] + [9,9,10]
+            # generate number of resources for this hex
+            chances = 3 * [1,2,3] + 4 * [4,5,6] + 3 * [7,8,9,10]
             chanceResourceCount = random.choice(chances)
             # note: random seed is already set in HexResources
 
@@ -490,13 +491,15 @@ def main():
                            " Moisture " + str(d.moisture) + \
                            " Climate " + d.climate + "\n"
             f.write(outputString)
+            # count up total generated resources (without considering whether they are available thru a market)
             for x,y in d.resources.items():
                 if x in counter:
-                    counter[x] += 1
+                    counter[x] += y
                 else:
                     counter[x] = 1
     totalWorldCount = sorted([(x,y) for (y,x) in counter.items()])
     print(totalWorldCount)
+
 
     with open("inputMarketParser.txt", "w") as f:
         for n,c in marketModelReady.items():
