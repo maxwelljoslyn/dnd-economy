@@ -37,6 +37,7 @@ drawHex ms h =
   `atop`
   hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
   where
+    
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)
     onlyColorLandBorder = if (isLand h) == True then black else elevColor'
@@ -58,6 +59,11 @@ failure2 =  triangle 1 # fc pink # lw thick
 --destroys info by returning a Bool)
 hasMarket :: Hex -> [MP.Market] -> Bool
 hasMarket h ms = (coord h) `elem` (map MP.coord ms)
+--so this will be changed to a case statement on the result of looking up
+--(coord h) in a dict from coords to market-info data structures
+--then we can get whatever we want out of the market-info, to draw it
+--and then return the diagram from this function,
+--to be drawn on top of the base hexagon in drawHex
 
 drawMarket :: Bool -> Diagram B
 drawMarket True = square 0.1 # fc black  # lc black
