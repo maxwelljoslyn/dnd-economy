@@ -530,7 +530,8 @@ def main():
 
     with open("inputMarketParser.txt", "w") as f:
         for n,c in marketModelReady.items():
-            outputString = "Market Coord " + str(c) + " Name " + n + "\n"
+#            outputString = "Market Coord " + str(c) + " Name " + n + "\n"
+            outputString = "Coord " + str(c) + " Name " + n + "\n"
             f.write(outputString)
 
 

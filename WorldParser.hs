@@ -4,7 +4,7 @@ import Text.Parsec
 import Control.Monad (liftM)
 
 data Coord = Coord (Int, Int, Int)
-	deriving (Eq, Read, Show)
+	deriving (Ord, Eq, Read, Show)
 
 data Elevation = Elevation Double
 	deriving (Read, Show)

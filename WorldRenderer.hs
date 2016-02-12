@@ -3,12 +3,15 @@
 import Diagrams.Prelude
 import Diagrams.Backend.SVG.CmdLine
 import Data.Colour.SRGB
+import Diagrams.TwoD.Text
 
 import WorldParser
-import qualified MarketParser as MP
+import MarketParser
 
 import Text.Parsec
 import Control.Monad (liftM)
+import Data.Map (Map, (!))
+import qualified Data.Map as DM
 
 main = do
 	worldInfo <- parseWorld
@@ -16,34 +19,15 @@ main = do
 	--we have to do all the rendering under the Right branch of the case statement below
 	--why? because we can't know ahead of time whether resultOfParse is Left or Right
 	--the only way to extract the data inside, which we need for parsing, is a pattern match
-        marketInfo <- MP.parseMarketFile
+        marketInfo <- parseMarketFile
         case marketInfo of
           Left err -> mainWith failure2
           Right ms -> 
 	    case worldInfo of
-		Right v		-> mainWith $ drawGrid ms v
+		Right v		-> mainWith $ drawGrid marketMap v
+                  where
+                    marketMap = DM.fromList ms
 		Left err	-> mainWith failure
-
-drawGrid :: [MP.Market] -> [Hex] -> Diagram B
-drawGrid ms hs = atPoints pts $ map (drawHex ms) hs
-	where
-		pts :: [P2 Double]
-		pts = map (coordToPixel . coord) hs
-
-
-drawHex :: [MP.Market] -> Hex -> Diagram B
-drawHex ms h =
-  (drawMarket $ hasMarket h ms)
-  `atop`
-  hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
-  where
-    
-    moistColor' = moistColor $ moist h
-    elevColor' = elevColor (elev h) (isLand h)
-    onlyColorLandBorder = if (isLand h) == True then black else elevColor'
-    --onlyColorLandBorder creates weird image b/c hexes render in strange order,
-    --and some border colors overlap onto others,
-    --creating weird "bites" taken out of some hexes.
 
 failure :: Diagram B
 failure =  circle 1 # fc pink # lw thick
@@ -51,24 +35,31 @@ failure =  circle 1 # fc pink # lw thick
 failure2 :: Diagram B
 failure2 =  triangle 1 # fc pink # lw thick
 
---TODO: upgrade from list of markets to dict of markets,
---so info from the market data structure can be retrieved
---this requires rewriting the market parser to some degree or possibly entirely
---but it's worth it, since that's how we'll get info out of the market record
---while preserving it for later calls (unlike current approach which
---destroys info by returning a Bool)
-hasMarket :: Hex -> [MP.Market] -> Bool
-hasMarket h ms = (coord h) `elem` (map MP.coord ms)
---so this will be changed to a case statement on the result of looking up
---(coord h) in a dict from coords to market-info data structures
---then we can get whatever we want out of the market-info, to draw it
---and then return the diagram from this function,
---to be drawn on top of the base hexagon in drawHex
+drawGrid :: Map Coord MarketData -> [Hex] -> Diagram B
+drawGrid ms hs = atPoints pts $ map (drawHex ms) hs
+	where
+		pts :: [P2 Double]
+		pts = map (coordToPixel . coord) hs
 
-drawMarket :: Bool -> Diagram B
-drawMarket True = square 0.1 # fc black  # lc black
-drawMarket False = mempty
+drawHex :: Map Coord MarketData -> Hex -> Diagram B
+drawHex ms h =
+  (drawMarket ms h)
+  `atop`
+  hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
+  where
+    moistColor' = moistColor $ moist h
+    elevColor' = elevColor (elev h) (isLand h)
+    onlyColorLandBorder = if (isLand h) == True then black else elevColor'
+    --onlyColorLandBorder creates weird image b/c hexes render in strange order,
+    --and some border colors overlap onto others,
+    --creating weird "bites" taken out of some hexes.
 
+drawMarket :: Map Coord MarketData -> Hex -> Diagram B
+drawMarket ms h = case hasMarket of
+  Nothing -> mempty
+  Just (MarketData n) -> text n
+  where
+    hasMarket = DM.lookup (coord h) ms
 
 coordToPixel :: Coord -> P2 Double
 coordToPixel (Coord (q,r,s)) = p2 (x,y)
