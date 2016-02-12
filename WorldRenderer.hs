@@ -57,7 +57,7 @@ drawHex ms h =
 drawMarket :: Map Coord MarketData -> Hex -> Diagram B
 drawMarket ms h = case hasMarket of
   Nothing -> mempty
-  Just (MarketData n) -> text n
+  Just (MarketData n) -> text n # fc white # lc pink
   where
     hasMarket = DM.lookup (coord h) ms
 
