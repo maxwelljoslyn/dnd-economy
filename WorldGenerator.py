@@ -45,7 +45,6 @@ class Direction(Enum):
     DN = (0,-1,1)
     DL = (-1,0,1)
 
-
 def addCoord(coord1, coord2):
     """Addition of cubic coordinates."""
     q = coord1[0] + coord2[0]
@@ -65,6 +64,31 @@ def getNeighbor(coord, direction):
     else:
         return None
 
+def cubeDistance(a,b):
+    """Distance from a to b on a hexagonal grid,
+    where a and b are cube coordinates."""
+    return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
+
+# http://www.redblobgames.com/grids/hexagons/#range
+def nearbyCoords(startCoord, distance):
+    """Return all hexes which are distance or fewer hexes away from starting point.
+    Since this operates on and returns coords, it doesn't test for existence in
+    the possibleCoords set."""
+    results = []
+    for x in range(-distance,distance+1):
+        rangeBot = max(-distance,(-x) - distance)
+        rangeTop = min(distance,(-x)+distance)
+        for y in range(rangeBot,rangeTop+1):
+            z = -x - y
+            results.append(addCoord(startCoord,(x,y,z)))
+    return results
+
+def nearbyHexes(startHex, distance):
+    """Calls nearbyCoords but then filters for membership in possibleCoords."""
+    res = nearbyCoords(startHex, distance)
+    res = [r for r in res if r in possibleCoords]
+    return res
+
 class HexData:
     """Stores the metadata information associated with a given hexagon."""
     def __init__(self):
@@ -76,25 +100,6 @@ class HexData:
         self.climate = ""
         self.resources = {}
         self.services = {}
-
-def cubeDistance(a,b):
-    """Distance from a to b on a hexagonal grid,
-    where a and b are cube coordinates."""
-    return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
-
-#dummy version: todo: replace this with elevation-sensitive version
-def mapDistance(source,dest):
-    return 1
-
-def distanceOfRoad(road):
-    sum = 0
-    if road[1:] == []: #i.e. if tail of list is empty
-        pass
-    else:
-        next = road[1] # first element in tail
-        portion = mapDistance(road[0],road[1])
-        sum += portion + distanceOfRoad(road[1:]) # portion, plus recursion on the tail
-    return sum
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
