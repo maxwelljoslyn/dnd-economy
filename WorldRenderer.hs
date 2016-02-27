@@ -43,7 +43,7 @@ drawGrid ms hs = atPoints pts $ map (drawHex ms) hs
 
 drawHex :: Map Coord MarketData -> Hex -> Diagram B
 drawHex ms h =
-  (drawMarket ms h)
+  drawMarket ms h
   `atop`
   hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
   where
@@ -57,7 +57,7 @@ drawHex ms h =
 drawMarket :: Map Coord MarketData -> Hex -> Diagram B
 drawMarket ms h = case hasMarket of
   Nothing -> mempty
-  Just (MarketData n) -> text n # fc white # lc pink
+  Just (MarketData n) -> baselineText n # fc white # scale 0.5
   where
     hasMarket = DM.lookup (coord h) ms
 
