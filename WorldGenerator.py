@@ -83,9 +83,8 @@ def cubeDistance(a,b):
     return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
 
 #dummy version: todo: replace this with elevation-sensitive version
-def hexDistance(source,dest):
+def mapDistance(source,dest):
     return 1
-
 
 def distanceOfRoad(road):
     sum = 0
@@ -93,7 +92,7 @@ def distanceOfRoad(road):
         pass
     else:
         next = road[1] # first element in tail
-        portion = hexDistance(road[0],road[1])
+        portion = mapDistance(road[0],road[1])
         sum += portion + distanceOfRoad(road[1:]) # portion, plus recursion on the tail
     return sum
 
