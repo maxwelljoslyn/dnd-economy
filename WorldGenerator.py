@@ -69,11 +69,13 @@ def cubeDistance(a,b):
     where a and b are cube coordinates."""
     return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
 
+#todo: make elevAwareRoadDistance or whatever the fuck, to stitch multiple calls to EAD
+    
 # http://www.redblobgames.com/grids/hexagons/#range
 def nearbyCoords(startCoord, distance):
     """Return all hexes which are distance or fewer hexes away from starting point.
     Since this operates on and returns coords, it doesn't test for existence in
-    the possibleCoords set."""
+    the possibleCoords set (which really ought to be called possibleHexes.)"""
     results = []
     for x in range(-distance,distance+1):
         rangeBot = max(-distance,(-x) - distance)
@@ -81,7 +83,8 @@ def nearbyCoords(startCoord, distance):
         for y in range(rangeBot,rangeTop+1):
             z = -x - y
             results.append(addCoord(startCoord,(x,y,z)))
-    return results
+    # the returned hexes include the start hex, so we want to throw that out
+    return [r for r in results if r != startCoord]
 
 def nearbyHexes(startHex, distance):
     """Calls nearbyCoords but then filters for membership in possibleCoords."""
@@ -451,7 +454,7 @@ def initialize():
                         data.resources[choice] += 1
                     else:
                         data.resources[choice] = 1
-                
+
                 chanceResourceCount -= 1
 
     # creating cities in some, but not all, hexes, and giving hex resources to them
@@ -465,19 +468,61 @@ def initialize():
         x = random.randint(1,100)
         if x <= chanceOfMarket:
             n = makeMarketName()
-            # this loop prevents duplication of names
+            # this while loop prevents duplication of names
             # it gets slower as you add more cities since they all have to be checked
             while n in marketModel:
                 print(n,"is already used.")
                 n = makeMarketName()
                 print("now it's:",n)
-            marketModel[n] = coord
+            marketModel[coord] = n
         else:
             pass
 
-    # set up market populations
+    # todo: set up market populations
 
-    return (worldModel,marketModel)
+    # holds the network of roads which spans the markets
+    roadModel = {}
+    # generate road network
+    for coord, name in marketModel.items():
+        #membership test: has an entry for this name already been created in roadmodel?
+        #(see below for what makes this possible)
+        if name not in list(roadModel.keys()):
+            roadModel[name] = {}
+        # get the nearest markets
+        nearestMarkets = getNearestMarkets(coord, marketModel)
+        # make entries for name and for each of the others
+        for nearMarketCoord,dist in nearestMarkets:
+            nearMarketName = marketModel[nearMarketCoord]
+            roadModel[name][nearMarketName] = dist
+            # membership test: do I need to create the dict?
+            if nearMarketName in list(roadModel.keys()):
+                roadModel[nearMarketName][name] = dist
+            else: # create dictionary if needed
+                roadModel[nearMarketName] = {}
+                roadModel[nearMarketName][name] = dist
+    for r,connects in roadModel.items():
+        # remove instances of r connecting to itself
+        if r in connects:
+            del(connects[r])
+
+
+    return (worldModel,marketModel,roadModel)
+
+
+
+# todo: fix this to do a distance calculation and not just return the i value
+def getNearestMarkets(coord, marketModel):
+    """Returns a list of tuples. First element in tuple is a market's coord,
+    second element is its distance from the argument coord."""
+    targets = []
+    i = 1
+    while targets == []:
+        hs = nearbyHexes(coord, i)
+        marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
+        if marketHavers != []:
+            targets = [(m,i) for m in marketHavers]
+        i+=1
+    return targets
 
 # this is v1
 # one day there will be a version which has a different name gen scheme
@@ -495,11 +540,11 @@ def makeMarketName():
         numSoundPairs -= 1
     return "".join(result)
 
+worldModelReady, marketModelReady, roadModelReady = initialize()
 
 # todo: city population assignment, based on resource count: something like "within (2^x)*1000 and (2^(x+1)*1000)-1,
 # todo: where x is the num of RANDOM resources at the city" (since we might do the bonus water beast)
 def main():
-    worldModelReady, marketModelReady = initialize()
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModelReady.items():
@@ -522,7 +567,7 @@ def main():
     print("\n\n\n")
     # count up those resources which ARE available through a market
     accumulator = {}
-    for n,c in marketModelReady.items():
+    for c,n in marketModelReady.items():
         reses = worldModelReady[c].resources
         for r,count in reses.items():
             if r in accumulator:
@@ -533,10 +578,13 @@ def main():
     print(totalAccumulator)
 
     with open("inputMarketParser.txt", "w") as f:
-        for n,c in marketModelReady.items():
+        for c,n in marketModelReady.items():
 #            outputString = "Market Coord " + str(c) + " Name " + n + "\n"
             outputString = "Coord " + str(c) + " Name " + n + "\n"
             f.write(outputString)
+
+    for a,b in roadModelReady.items():
+        print(a,b)
 
 
                         
