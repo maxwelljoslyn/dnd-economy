@@ -69,6 +69,22 @@ def cubeDistance(a,b):
     where a and b are cube coordinates."""
     return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
 
+# still testing
+def elevAwareDistance(a,b,worldModel):
+    """Returns distance from coord a to coord b (in days of travel) in the worldModel.
+    These two must be neighbors, so an error is given if they aren't."""
+    if b not in list(worldModel[a].neighbors.values()):
+        raise ValueError("FUCK")
+    aElev = worldModel[a].elevation
+    bElev = worldModel[b].elevation
+    distance = 1 # basic distance between two hexes
+    # for each full increment of 0.05 of difference in elevation, add one to distance
+    diff = abs(aElev - bElev)
+    numIncrements = int(diff / Decimal(0.05))
+    # call to int is to round down incrementss to whole number
+    distance += numIncrements
+    return distance
+
 #todo: make elevAwareRoadDistance or whatever the fuck, to stitch multiple calls to EAD
     
 # http://www.redblobgames.com/grids/hexagons/#range
@@ -586,7 +602,7 @@ def main():
     for a,b in roadModelReady.items():
         print(a,b)
 
-
+        
                         
 if __name__ == "__main__":
     main()
