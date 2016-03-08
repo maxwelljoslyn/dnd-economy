@@ -62,7 +62,7 @@ stoneAndMinerals = ["chalk","coal","salt","talc","emery","granite",
                     "witherite","sulfur"] + (["limestone"] * 2)
 
 preciousGems = [("ruby",10),("emerald",10),("topaz",10),("sapphire",10),
-                ("diamond",2)]
+                ("diamond",3)]
 
 ornamentalGems = ["agate","azurite","cat's eye","hawk's eye","hematite",
                     "malachite","lapis lazuli","mother-of-pearl","quartz",
