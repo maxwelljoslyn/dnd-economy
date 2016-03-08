@@ -1,8 +1,9 @@
 import noise
-from enum import Enum
 from decimal import *
 from math import pi
 from HexResources import *
+from Direction import Direction
+import Regions
 
 # set up the Decimal environment
 getcontext().prec = 6
@@ -31,19 +32,6 @@ for q in range(-mapSize, mapSize+1):
     rEnd = min(mapSize, -q + mapSize)
     for r in range(rStart, rEnd+1):
         possibleCoords.add((q,r,0-q-r))
-
-class Direction(Enum):
-    """The six directions on a grid of flat-topped hexagons: up-left, up,
-    up-right, down-right, down, down-left.
-    These aren't called NW/northwest, TN/true north, etc. because on my map,
-    the coordinate (0,0,0), the center of the map, is the North Pole.
-    So going north on the map is not the same as going up."""
-    UL = (-1,1,0)
-    UP = (0,1,-1)
-    UR = (1,0,-1)
-    DR = (1,-1,0)
-    DN = (0,-1,1)
-    DL = (-1,0,1)
 
 def addCoord(coord1, coord2):
     """Addition of cubic coordinates."""
@@ -119,6 +107,7 @@ class HexData:
         self.climate = ""
         self.resources = {}
         self.services = {}
+        self.region = 0
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
@@ -473,6 +462,13 @@ def initialize():
 
                 chanceResourceCount -= 1
 
+    # now, before making markets, we assign a region to each land hex
+    regionAssignments = Regions.getRegionCoords(worldModel)
+    # remember, sea hexes won't get a region; their region is 0
+    for r,vals in regionAssignments.items():
+        for v in vals:
+            worldModel[v].region = r
+                
     # creating cities in some, but not all, hexes, and giving hex resources to them
     marketModel = {}
     for coord,data in worldModel.items():
@@ -483,7 +479,7 @@ def initialize():
         chanceOfMarket = sum(list(data.resources.values())) * 5
         x = random.randint(1,100)
         if x <= chanceOfMarket:
-            n = makeMarketName()
+            n = makeMarketName() # todo: change this to be region-specific
             # this while loop prevents duplication of names
             # it gets slower as you add more cities since they all have to be checked
             while n in marketModel:
@@ -523,8 +519,6 @@ def initialize():
 
 
     return (worldModel,marketModel,roadModel)
-
-
 
 # todo: fix this to do a distance calculation and not just return the i value
 def getNearestMarkets(coord, marketModel):
