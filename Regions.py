@@ -1,8 +1,9 @@
 import random
 from Direction import Direction
 
+random.seed(42)
+
 numRegions = 20
-dirNames = [n for n in Direction.__members__.keys()]
 
 def getRegionCoords(worldModel):
     """Assigns a region (can be a country, a culture, whatever) to each HexData
@@ -11,7 +12,6 @@ def getRegionCoords(worldModel):
     # storage for coordinates belonging to each region
     regionCoords = {x:[] for x in range(1,numRegions+1)}
     unassignedCoords = list(worldModel.keys())
-    print("FOOOFOOFOO", unassignedCoords, "DOODOODOO")
     counter = 1
     # assign starting coordinates for each region
     while counter <= numRegions:
@@ -21,28 +21,40 @@ def getRegionCoords(worldModel):
         # as yet unassigned to a region
         unassignedCoords.remove(x)
         counter+=1
-    # assign all remaining coords by branching out from each start point
+    # assign remaining coords by spreading out from each start point
+    remainingRegions = list(range(1,numRegions+1))
+    # listify this because we want to be able to remove stuff from it later
+    # it's defined outside the while loop because
+    # eventually we want runs thru the while loop
+    # (i.e. each set of runs thru the inner for loop)
+    # to "shrink" to reflect the fact that some regions are "filled up"
+    # and cannot expand further
     while unassignedCoords != []:
-        for i in range(1,numRegions+1):
-            # select a coord in those already belonging to region i
-            # to serve as a "launch pad" from which to grab a neighboring coord
-            launchpad = random.choice(regionCoords[i])
-            # get its neighbors;
-            # we'll add as many as we can to the region
-            launchNeighs = worldModel[launchpad].neighbors.values()
-            # remove any neighbors which are invalid
-            # i.e. some region has already claimed them
-            validLaunchNeighs = [c for c in launchNeighs if c in unassignedCoords]
-            # no valid launch neighs? oh well, I say. better luck next loop
-            for v in validLaunchNeighs:
-                regionCoords[i].append(v)
-                unassignedCoords.remove(v)
+        for r in remainingRegions:
+            # get a list of neighbor lists
+            preNeighs = [list(worldModel[x].neighbors.values()) for x in regionCoords[r]]
+            # flatten down into one list
+            regionalNeighs = []
+            for p in preNeighs:
+                for c in p:
+                    regionalNeighs.append(c)
+            unassignedNeighs = [r for r in regionalNeighs if r in unassignedCoords]
+            # remove duplicates, since some hexes share neighbors,
+            # and we can't remove a given hex from unassignedCoords twice
+            unassignedNeighs = list(set(unassignedNeighs))
+            if unassignedNeighs == []:
+                remainingRegions.remove(r)
+            else:
+                for u in unassignedNeighs:
+                    regionCoords[r].append(u)
+                    unassignedCoords.remove(u)
+
     # having gone through all valid coords, we're almost done
     # first, though, we want to take the region label OFF water hexes
     # regions are supposed to be confined to land only
     for r,vals in regionCoords.items():
         for v in vals:
-            if not worldModel[v].isLand:
+            if worldModel[v].isLand == False:
                 vals.remove(v)
     # all done, regions are nice and dry.
     # now return the coords split up by region. voila!
