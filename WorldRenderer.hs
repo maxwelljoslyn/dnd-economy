@@ -45,6 +45,8 @@ drawHex :: Map Coord MarketData -> Hex -> Diagram B
 drawHex ms h =
   drawMarket ms h
   `atop`
+  baselineText (show $ region h) # fc black # scale 0.75
+  `atop`
   hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
   where
     moistColor' = moistColor $ moist h
@@ -93,8 +95,6 @@ moistColor m
 	|m == 1		= white --sea
 	|otherwise	= sRGB 0 0 (m)
 
-
-
 climateColor Water =
   blue
 climateColor Desert =
@@ -109,12 +109,21 @@ climateColor ColdContinental =
   seagreen
 climateColor WetContinental =
   darkseagreen
-climateColor Savannah							= yellowgreen
-climateColor Monsoon							= red
-climateColor Oceanic							= lightsteelblue
-climateColor ColdOceanic					= steelblue
-climateColor TropicalRainforest		= darkgreen
-climateColor HumidSubtropical			= lightgreen
-climateColor Taiga								= brown
-climateColor Tundra								= gray
-climateColor IceCap						= white
+climateColor Savannah =
+  yellowgreen
+climateColor Monsoon =
+  red
+climateColor Oceanic =
+  lightsteelblue
+climateColor ColdOceanic =
+  steelblue
+climateColor TropicalRainforest =
+  darkgreen
+climateColor HumidSubtropical =
+  lightgreen
+climateColor Taiga =
+  brown
+climateColor Tundra =
+  gray
+climateColor IceCap =
+  white

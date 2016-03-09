@@ -3,6 +3,8 @@ module WorldParser where
 import Text.Parsec
 import Control.Monad (liftM)
 
+type Region = Int
+
 data Coord = Coord (Int, Int, Int)
 	deriving (Ord, Eq, Read, Show)
 
@@ -18,13 +20,21 @@ data Climate = Desert | Mediterranean | HotSummerContinental | WarmSummerContine
 
 --bringing all the above datatypes together
 data Hex = Hex
-	{ coord :: Coord
+	{ region :: Region
+        , coord :: Coord
 	, elev	:: Elevation
 	, temp :: Temperature
 	, isLand :: Bool
 	, moist :: Double
 	, climate :: Climate
 	} deriving (Read, Show)
+
+parseRegion :: Parsec String () Region
+parseRegion = do
+  string "Region"
+  spaces
+  r <- many $ digit
+  return $ read r
 
 parseCoord :: Parsec String () Coord
 parseCoord = do
@@ -121,6 +131,8 @@ parseHex = do
 	spaces
 	c <- parseCoord
 	spaces
+        r <- parseRegion
+        spaces
 	e <- parseElevation
 	spaces
 	t <- parseTemperature
@@ -130,7 +142,7 @@ parseHex = do
 	m <- parseMoisture
 	spaces
 	clim <- parseClimate
-	return $ Hex c e t l m clim
+	return $ Hex r c e t l m clim
 
 
 parseWorld = do

@@ -559,11 +559,12 @@ def main():
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModelReady.items():
             outputString = "Hex Coord " + str(c) + \
-                           " Elevation " + str(d.elevation) + \
-                           " Temperature " + str(d.temperature) + \
-                           " Land " + str(d.isLand) + \
-                           " Moisture " + str(d.moisture) + \
-                           " Climate " + d.climate + "\n"
+              " Region " + str(d.region) + \
+              " Elevation " + str(d.elevation) + \
+              " Temperature " + str(d.temperature) + \
+              " Land " + str(d.isLand) + \
+              " Moisture " + str(d.moisture) + \
+              " Climate " + d.climate + "\n"
             f.write(outputString)
             # count up total generated resources (without considering whether they are available thru a market)
             for x,y in d.resources.items():
