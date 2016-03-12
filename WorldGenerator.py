@@ -464,10 +464,13 @@ def initialize():
 
     # now, before making markets, we assign a region to each land hex
     regionAssignments = Regions.getRegionCoords(worldModel)
-    # remember, sea hexes won't get a region; their region is 0
     for r,vals in regionAssignments.items():
         for v in vals:
-            worldModel[v].region = r
+            data = worldModel[v]
+            if data.isLand == False:
+                data.region = 0
+            else:
+                data.region = r
                 
     # creating cities in some, but not all, hexes, and giving hex resources to them
     marketModel = {}

@@ -49,13 +49,9 @@ def getRegionCoords(worldModel):
                     regionCoords[r].append(u)
                     unassignedCoords.remove(u)
 
-    # having gone through all valid coords, we're almost done
-    # first, though, we want to take the region label OFF water hexes
-    # regions are supposed to be confined to land only
-    for r,vals in regionCoords.items():
-        for v in vals:
-            if worldModel[v].isLand == False:
-                vals.remove(v)
-    # all done, regions are nice and dry.
     # now return the coords split up by region. voila!
+    # note: sea hexes are not appropriately assigned to region 0 in this method
+    # because for some reason that's just not working right
+    # so instead that happens after calling this method,
+    # inside WorldGenerator
     return regionCoords
