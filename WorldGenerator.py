@@ -4,6 +4,7 @@ from math import pi
 from HexResources import *
 from Direction import Direction
 import Regions
+from AStarSearch import *
 
 # set up the Decimal environment
 getcontext().prec = 6
@@ -52,25 +53,6 @@ def getNeighbor(coord, direction):
     else:
         return None
 
-def cubeDistance(a,b):
-    """Distance from a to b on a hexagonal grid,
-    where a and b are cube coordinates."""
-    return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
-
-def elevAwareDistance(a,b,worldModel):
-    """Returns distance from coord a to coord b (in days of travel) in the worldModel.
-    These two must be neighbors, so an error is given if they aren't."""
-    if b not in list(worldModel[a].neighbors.values()):
-        raise ValueError("args to elevAwareDistance must be neighbors")
-    aElev = worldModel[a].elevation
-    bElev = worldModel[b].elevation
-    distance = 1 # basic distance between two hexes
-    # for each full increment of 0.05 of difference in elevation, add one to distance
-    diff = abs(aElev - bElev)
-    numIncrements = int(diff / Decimal(0.05))
-    # call to int is to round down incrementss to whole number
-    distance += numIncrements
-    return distance
 
 #todo: make elevAwareRoadDistance or whatever the fuck, to stitch multiple calls to EAD
 # that function just takes a list of hexes, where a given hex neighbors
@@ -81,7 +63,6 @@ def elevAwareDistance(a,b,worldModel):
     
 # http://www.redblobgames.com/grids/hexagons/#range
 def nearbyCoords(startCoord, distance):
-    # todo: make this function using elev-aware distance
     """Return all hexes which are distance or fewer hexes away from starting point.
     Since this operates on and returns coords, it doesn't test for existence in
     the possibleCoords set (which really ought to be called possibleHexes.)"""
@@ -468,14 +449,14 @@ def initialize():
                 chanceResourceCount -= 1
 
     # now, before making markets, we assign a region to each land hex
-    regionAssignments = Regions.getRegionCoords(worldModel)
-    for r,vals in regionAssignments.items():
-        for v in vals:
-            data = worldModel[v]
-            if data.isLand == False:
-                data.region = 0
-            else:
-                data.region = r
+#    regionAssignments = Regions.getRegionCoords(worldModel)
+#    for r,vals in regionAssignments.items():
+#        for v in vals:
+#            data = worldModel[v]
+#            if data.isLand == False:
+#                data.region = 0
+#            else:
+#                data.region = r
                 
     # creating cities in some, but not all, hexes, and giving hex resources to them
     marketModel = {}
@@ -509,7 +490,7 @@ def initialize():
         if name not in list(roadModel.keys()):
             roadModel[name] = {}
         # get the nearest markets
-        nearestMarkets = getNearestMarkets(coord, marketModel)
+        nearestMarkets = getNearestMarkets(coord, marketModel, worldModel)
         # make entries for name and for each of the others
         for nearMarketCoord,dist in nearestMarkets:
             nearMarketName = marketModel[nearMarketCoord]
@@ -528,22 +509,30 @@ def initialize():
 
     return (worldModel,marketModel,roadModel)
 
-# todo: fix this to do a distance calculation and not just return the i value
-# to do that, once all the nearest markets are gotten according to LINEAR distance,
-# simply find out their actual elev-adjusted distance,
-# and use that in the returned list instead of the "dummy" i values
-# used to arrive at the linear-distance nearest markets
-def getNearestMarkets(coord, marketModel):
+def getNearestMarkets(coord, marketModel, worldModel):
     """Returns a list of tuples. First element in tuple is a market's coord,
-    second element is its distance from the argument coord."""
+    second element is its distance from the argument coord. This distance value
+    takes elevation into account, as it should."""
     targets = []
     i = 1
+    # this first loop gets all the nearest markets according to linear distance,
+    # that is, distance purely by number of hexes, without taking elevation
+    # into account.
+    # this is just because it doesn't really matter WHICH markets are nearby,
+    # just that we have a way for picking them.
     while targets == []:
         hs = nearbyHexes(coord, i)
         marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
         if marketHavers != []:
             targets = [(m,i) for m in marketHavers]
         i+=1
+    # now that we've figured out which other markets count as nearby,
+    # we can determine the actual, elevation-adjusted distance
+    # to get from the market at coord to these other markets
+    # that's what we want, for elevation to have its effect on the economy.
+    for targ,distance in targets:
+        path,cost = AStarSearch(worldModel, coord, targ)
+        distance = cost
     return targets
 
 # this is v1
@@ -607,7 +596,7 @@ def main():
             f.write(outputString)
 
     for a,b in roadModelReady.items():
-        print(a,b)
+        print(a,b)        
 
         
                         
