@@ -61,7 +61,7 @@ def elevAwareDistance(a,b,worldModel):
     """Returns distance from coord a to coord b (in days of travel) in the worldModel.
     These two must be neighbors, so an error is given if they aren't."""
     if b not in list(worldModel[a].neighbors.values()):
-        raise ValueError("FUCK")
+        raise ValueError("args to elevAwareDistance must be neighbors")
     aElev = worldModel[a].elevation
     bElev = worldModel[b].elevation
     distance = 1 # basic distance between two hexes
@@ -73,9 +73,15 @@ def elevAwareDistance(a,b,worldModel):
     return distance
 
 #todo: make elevAwareRoadDistance or whatever the fuck, to stitch multiple calls to EAD
+# that function just takes a list of hexes, where a given hex neighbors
+# both the one before it and the one after it,
+# and returns the total elev-aware distance of traversing the whole thing
+# there's also a separate function which FINDS such roads,
+# which requires actual pathfinding to do.
     
 # http://www.redblobgames.com/grids/hexagons/#range
 def nearbyCoords(startCoord, distance):
+    # todo: make this function using elev-aware distance
     """Return all hexes which are distance or fewer hexes away from starting point.
     Since this operates on and returns coords, it doesn't test for existence in
     the possibleCoords set (which really ought to be called possibleHexes.)"""
@@ -523,6 +529,10 @@ def initialize():
     return (worldModel,marketModel,roadModel)
 
 # todo: fix this to do a distance calculation and not just return the i value
+# to do that, once all the nearest markets are gotten according to LINEAR distance,
+# simply find out their actual elev-adjusted distance,
+# and use that in the returned list instead of the "dummy" i values
+# used to arrive at the linear-distance nearest markets
 def getNearestMarkets(coord, marketModel):
     """Returns a list of tuples. First element in tuple is a market's coord,
     second element is its distance from the argument coord."""
