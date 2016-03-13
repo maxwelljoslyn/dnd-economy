@@ -23,19 +23,16 @@ main = do
         --is a pattern match
         marketInfo <- parseMarketFile
         case marketInfo of
-          Left err -> mainWith failure2
+          Left err ->
+            mainWith (triangle 1 # fc pink # lw thick)
           Right ms -> 
 	    case worldInfo of
-		Right v		-> mainWith $ drawGrid marketMap v
+              Left err ->
+                mainWith (circle 1 # fc pink # lw thick)
+              Right v ->
+                mainWith $ drawGrid marketMap v
                   where
                     marketMap = DM.fromList ms
-		Left err	-> mainWith failure
-
-failure :: Diagram B
-failure =  circle 1 # fc pink # lw thick
-
-failure2 :: Diagram B
-failure2 =  triangle 1 # fc pink # lw thick
 
 
 
