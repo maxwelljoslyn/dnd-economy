@@ -16,9 +16,11 @@ import qualified Data.Map as DM
 main = do
 	worldInfo <- parseWorld
 	--having parsed in the world data, now we can proceed to rendering
-	--we have to do all the rendering under the Right branch of the case statement below
-	--why? because we can't know ahead of time whether resultOfParse is Left or Right
-	--the only way to extract the data inside, which we need for parsing, is a pattern match
+	--we have to do all the rendering under the patternmatch Right branch
+	--why? because we can't know ahead of time,
+        --whether resultOfParse is Left or Right.
+	--the only way to extract the data inside, which we need for parsing,
+        --is a pattern match
         marketInfo <- parseMarketFile
         case marketInfo of
           Left err -> mainWith failure2
@@ -35,16 +37,20 @@ failure =  circle 1 # fc pink # lw thick
 failure2 :: Diagram B
 failure2 =  triangle 1 # fc pink # lw thick
 
+
+
 drawGrid :: Map Coord MarketData -> [Hex] -> Diagram B
-drawGrid ms hs = atPoints pts $ map (drawHex ms) hs
+drawGrid ms hs =
+  drawMarketLayer ms hs
+  `atop`
+  (atPoints pts $ map drawHex hs)
 	where
 		pts :: [P2 Double]
 		pts = map (coordToPixel . coord) hs
+                --coord positions of each hex
 
-drawHex :: Map Coord MarketData -> Hex -> Diagram B
-drawHex ms h =
-  drawMarket ms h
-  `atop`
+drawHex :: Hex -> Diagram B
+drawHex h =
   baselineText (show $ region h) # fc black # scale 0.75
   `atop`
   hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
@@ -62,6 +68,12 @@ drawMarket ms h = case hasMarket of
   Just (MarketData n) -> baselineText n # fc white # scale 0.5
   where
     hasMarket = DM.lookup (coord h) ms
+
+drawMarketLayer :: Map Coord MarketData -> [Hex] -> Diagram B
+drawMarketLayer ms hs = atPoints pts $ map (drawMarket ms) hs
+  where
+    pts :: [P2 Double]
+    pts = map (coordToPixel . coord) hs
 
 coordToPixel :: Coord -> P2 Double
 coordToPixel (Coord (q,r,s)) = p2 (x,y)
