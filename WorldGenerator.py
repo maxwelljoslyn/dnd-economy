@@ -20,7 +20,7 @@ planetDiameter = mapSize * 20 * 2 * pi
 # All possible valid cube coordinates for a given mapSize,
 # for a hexagon-shaped world map.
 # In cube coordinates, there are three values,
-#S not two as with cartesian coordinates,
+# not two as with cartesian coordinates,
 # but the third value (denoted "s") is dependent on the other two.
 # I store it so it doesn't have to be calculated every time;
 # thus, there's less risk of an arithmetic mistake popping up elsewhere.
@@ -57,7 +57,6 @@ def cubeDistance(a,b):
     where a and b are cube coordinates."""
     return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
 
-# still testing
 def elevAwareDistance(a,b,worldModel):
     """Returns distance from coord a to coord b (in days of travel) in the worldModel.
     These two must be neighbors, so an error is given if they aren't."""
