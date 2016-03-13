@@ -24,40 +24,46 @@ main = do
         marketInfo <- parseMarketFile
         case marketInfo of
           Left err ->
-            mainWith (triangle 1 # fc pink # lw thick)
+            mainWith (triangle 1 # fc pink # lw thick :: Diagram B)
           Right ms -> 
 	    case worldInfo of
               Left err ->
-                mainWith (circle 1 # fc pink # lw thick)
+                mainWith (circle 1 # fc pink # lw thick :: Diagram B)
               Right v ->
-                mainWith $ drawGrid marketMap v
+                mainWith $ drawFullWorld marketMap v
                   where
                     marketMap = DM.fromList ms
 
 
-
-drawGrid :: Map Coord MarketData -> [Hex] -> Diagram B
-drawGrid ms hs =
-  drawMarketLayer ms hs
+drawFullWorld :: Map Coord MarketData -> [Hex] -> Diagram B
+drawFullWorld ms hs =
+  drawMarketLayer pts ms hs
   `atop`
-  (atPoints pts $ map drawHex hs)
-	where
-		pts :: [P2 Double]
-		pts = map (coordToPixel . coord) hs
-                --coord positions of each hex
+  drawHexLayer pts ms hs
+  where
+    pts :: [P2 Double]
+    pts = map (coordToPixel . coord) hs
+    --coord positions of each hex
+
+drawHexLayer :: [P2 Double] -> Map Coord MarketData -> [Hex] -> Diagram B
+drawHexLayer pts ms hs = atPoints pts $ map drawHex hs
 
 drawHex :: Hex -> Diagram B
 drawHex h =
-  baselineText (show $ region h) # fc black # scale 0.75
+  alignedText 0.5 0 (show $ region h) # fc black # scale 0.75
   `atop`
   hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
   where
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)
     onlyColorLandBorder = if (isLand h) == True then black else elevColor'
-    --onlyColorLandBorder creates weird image b/c hexes render in strange order,
+    --onlyColorLandBorder creates weird image,
+    --b/c hexes render in strange order,
     --and some border colors overlap onto others,
     --creating weird "bites" taken out of some hexes.
+
+drawMarketLayer :: [P2 Double] -> Map Coord MarketData -> [Hex] -> Diagram B
+drawMarketLayer pts ms hs = atPoints pts $ map (drawMarket ms) hs
 
 drawMarket :: Map Coord MarketData -> Hex -> Diagram B
 drawMarket ms h = case hasMarket of
@@ -65,12 +71,6 @@ drawMarket ms h = case hasMarket of
   Just (MarketData n) -> baselineText n # fc white # scale 0.5
   where
     hasMarket = DM.lookup (coord h) ms
-
-drawMarketLayer :: Map Coord MarketData -> [Hex] -> Diagram B
-drawMarketLayer ms hs = atPoints pts $ map (drawMarket ms) hs
-  where
-    pts :: [P2 Double]
-    pts = map (coordToPixel . coord) hs
 
 coordToPixel :: Coord -> P2 Double
 coordToPixel (Coord (q,r,s)) = p2 (x,y)
