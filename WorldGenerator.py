@@ -492,15 +492,16 @@ def initialize():
         # get the nearest markets
         nearestMarkets = getNearestMarkets(coord, marketModel, worldModel)
         # make entries for name and for each of the others
-        for nearMarketCoord,dist in nearestMarkets:
+        for nearMarketCoord,info in nearestMarkets:
+            print(info)
             nearMarketName = marketModel[nearMarketCoord]
-            roadModel[name][nearMarketName] = dist
+            roadModel[name][nearMarketName] = info
             # membership test: do I need to create the dict?
             if nearMarketName in list(roadModel.keys()):
-                roadModel[nearMarketName][name] = dist
+                roadModel[nearMarketName][name] = info
             else: # create dictionary if needed
                 roadModel[nearMarketName] = {}
-                roadModel[nearMarketName][name] = dist
+                roadModel[nearMarketName][name] = info
     for r,connects in roadModel.items():
         # remove instances of r connecting to itself
         if r in connects:
@@ -528,12 +529,14 @@ def getNearestMarkets(coord, marketModel, worldModel):
         i+=1
     # now that we've figured out which other markets count as nearby,
     # we can determine the actual, elevation-adjusted distance
-    # to get from the market at coord to these other markets
+    # to get from the market at coord to these other markets.
     # that's what we want, for elevation to have its effect on the economy.
-    for targ,distance in targets:
+    actualTargets = []
+    for targ,info in targets:
         path,cost = AStarSearch(worldModel, coord, targ)
-        distance = cost
-    return targets
+        useful = (targ,(cost,path))
+        actualTargets.append(useful)
+    return actualTargets
 
 # this is v1
 # one day there will be a version which has a different name gen scheme
@@ -596,8 +599,7 @@ def main():
             f.write(outputString)
 
     for a,b in roadModelReady.items():
-        print(a,b)        
-
+        print(a,b)
         
                         
 if __name__ == "__main__":
