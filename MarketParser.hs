@@ -3,7 +3,6 @@ module MarketParser where
 import Text.Parsec
 import Control.Monad (liftM)
 import WorldParser (Coord, parseCoord)
-import Data.Map
 
 data MarketData = MarketData { name :: String } deriving (Show, Read)
 
