@@ -481,34 +481,61 @@ def initialize():
 
     # todo: set up market populations
 
-    # holds the network of roads which spans the markets
-    roadModel = {}
-    # generate road network
+    # holds the network of roads which spans the markets,
+    # keyed by NAME (used for the econ simulator)
+    roadModelEcon = {}
+    # but in order to do map rendering,
+    # we also need a version of this which stores coords instead of market names
+    # so there's gonna be two of these suckers. woooo
+    roadModelRender = {}
+
+    # generate road network (both versions)
     for coord, name in marketModel.items():
-        #membership test: has an entry for this name already been created in roadmodel?
+        #membership test: has an entry for this name
+        # already been created in the given roadmodel,
+        # because another market already connects to it?
         #(see below for what makes this possible)
-        if name not in list(roadModel.keys()):
-            roadModel[name] = {}
+        if name not in list(roadModelEcon.keys()):
+            roadModelEcon[name] = {}
+        if coord not in list(roadModelRender.keys()):
+            roadModelRender[coord] = {}
+        
         # get the nearest markets
         nearestMarkets = getNearestMarkets(coord, marketModel, worldModel)
         # make entries for name and for each of the others
         for nearMarketCoord,info in nearestMarkets:
-            print(info)
+            # setup for econ version
             nearMarketName = marketModel[nearMarketCoord]
-            roadModel[name][nearMarketName] = info
-            # membership test: do I need to create the dict?
-            if nearMarketName in list(roadModel.keys()):
-                roadModel[nearMarketName][name] = info
-            else: # create dictionary if needed
-                roadModel[nearMarketName] = {}
-                roadModel[nearMarketName][name] = info
-    for r,connects in roadModel.items():
+            # put entries into right place
+            roadModelEcon[name][nearMarketName] = info
+            roadModelRender[coord][nearMarketCoord] = info
+            
+            # membership test: do I need to create the paired dictionary?
+            if nearMarketName in list(roadModelEcon.keys()):
+                roadModelEcon[nearMarketName][name] = info
+            else:
+                # create dictionary if needed
+                roadModelEcon[nearMarketName] = {}
+                roadModelEcon[nearMarketName][name] = info
+            
+            # same deal, but with the render version of the model
+            if nearMarketCoord in list(roadModelRender.keys()):
+                roadModelRender[nearMarketCoord][coord] = info
+            else:
+                roadModelRender[nearMarketCoord] = {}
+                roadModelRender[nearMarketCoord][coord] = info
+    
+    for r,connects in roadModelEcon.items():
+        # remove instances of r connecting to itself
+        if r in connects:
+            del(connects[r])
+    for r,connects in roadModelRender.items():
         # remove instances of r connecting to itself
         if r in connects:
             del(connects[r])
 
 
-    return (worldModel,marketModel,roadModel)
+    return (worldModel,marketModel,roadModelEcon, roadModelRender)
 
 def getNearestMarkets(coord, marketModel, worldModel):
     """Returns a list of tuples. First element in tuple is a market's coord,
@@ -554,7 +581,7 @@ def makeMarketName():
         numSoundPairs -= 1
     return "".join(result)
 
-worldModelReady, marketModelReady, roadModelReady = initialize()
+worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = initialize()
 
 # todo: city population assignment, based on resource count: something like "within (2^x)*1000 and (2^(x+1)*1000)-1,
 # todo: where x is the num of RANDOM resources at the city" (since we might do the bonus water beast)
@@ -597,9 +624,19 @@ def main():
             outputString = "Coord " + str(c) + " Name " + n + "\n"
             f.write(outputString)
 
-    for a,b in roadModelReady.items():
-        print(a,b)
-        
-                        
+    ### NEXT
+    ### THEN WRITE RENDERER FOR ROAD LAYER
+    ### THEN TEST EVERYTHING
+    ### THEN GIT COMMIT THE WHOLE DAMN THING
+    with open("inputRoadParser.txt", "w") as f:
+        for coord, targets in roadModelRenderReady.items():
+            for target, data in targets.items():
+                distance = data[0]
+                path = data[1]
+                pathString = ",".join([("Coord " + str(x)) for x in path])
+                outputString = "[" + pathString + "]\n"
+                f.write(outputString)
+
+
 if __name__ == "__main__":
     main()
