@@ -4,9 +4,13 @@ import Diagrams.Prelude
 import Diagrams.Backend.SVG.CmdLine
 import Data.Colour.SRGB
 import Diagrams.TwoD.Text
+import Diagrams.TwoD.Arrow
+import Diagrams.CubicSpline
+import Diagrams.TwoD.Offset
 
 import WorldParser
 import MarketParser
+import RoadParser
 
 import Text.Parsec
 import Control.Monad (liftM)
@@ -22,6 +26,7 @@ main = do
 	--the only way to extract the data inside, which we need for parsing,
         --is a pattern match
         marketInfo <- parseMarketFile
+        roadInfo <- parseRoadFile
         case marketInfo of
           Left err ->
             mainWith (triangle 1 # fc pink # lw thick :: Diagram B)
@@ -29,21 +34,34 @@ main = do
 	    case worldInfo of
               Left err ->
                 mainWith (circle 1 # fc pink # lw thick :: Diagram B)
-              Right v ->
-                mainWith $ drawFullWorld marketMap v
-                  where
-                    marketMap = DM.fromList ms
+              Right hs ->
+                case roadInfo of
+                  Left err -> mainWith (square 1 # fc pink # lw thick :: Diagram B)
+                  Right rs ->
+                    mainWith $ drawFullWorld marketMap hs rs
+                    where
+                      marketMap = DM.fromList ms
 
-
-drawFullWorld :: Map Coord MarketData -> [Hex] -> Diagram B
-drawFullWorld ms hs =
+drawFullWorld :: Map Coord MarketData -> [Hex] -> [Road] -> Diagram B
+drawFullWorld ms hs rs =
   drawMarketLayer pts ms hs
+  `atop`
+  drawRoadLayer rs
   `atop`
   drawHexLayer pts ms hs
   where
     pts :: [P2 Double]
     pts = map (coordToPixel . coord) hs
     --coord positions of each hex
+
+drawRoadLayer :: [Road] -> Diagram B
+drawRoadLayer rs = foldr (atop) mempty $ fmap drawRoad rs
+
+drawRoad :: Road -> Diagram B
+drawRoad (Road cs) =
+  (position (zip pts (repeat mempty)) <> cubicSpline False pts) # lc orchid # lw veryThin # lineCap LineCapRound
+  where
+    pts = fmap coordToPixel cs
 
 drawHexLayer :: [P2 Double] -> Map Coord MarketData -> [Hex] -> Diagram B
 drawHexLayer pts ms hs = atPoints pts $ map drawHex hs
@@ -52,8 +70,9 @@ drawHex :: Hex -> Diagram B
 drawHex h =
   alignedText 0.5 0 (show $ region h) # fc black # scale 0.75
   `atop`
-  hexagon 1 # fc (climateColor $ climate h) # lc black # lw veryThin
+  hexagon 1 # fc climateColor' # lc black # lw veryThin
   where
+    climateColor' = climateColor $ climate h
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)
     onlyColorLandBorder = if (isLand h) == True then black else elevColor'
