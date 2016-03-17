@@ -449,14 +449,14 @@ def initialize():
                 chanceResourceCount -= 1
 
     # now, before making markets, we assign a region to each land hex
-#    regionAssignments = Regions.getRegionCoords(worldModel)
-#    for r,vals in regionAssignments.items():
-#        for v in vals:
-#            data = worldModel[v]
-#            if data.isLand == False:
-#                data.region = 0
-#            else:
-#                data.region = r
+    regionAssignments = Regions.getRegionCoords(worldModel)
+    for r,vals in regionAssignments.items():
+        for v in vals:
+            data = worldModel[v]
+            if data.isLand == False:
+                data.region = 0
+            else:
+                data.region = r
                 
     # creating cities in some, but not all, hexes, and giving hex resources to them
     marketModel = {}
@@ -624,10 +624,6 @@ def main():
             outputString = "Coord " + str(c) + " Name " + n + "\n"
             f.write(outputString)
 
-    ### NEXT
-    ### THEN WRITE RENDERER FOR ROAD LAYER
-    ### THEN TEST EVERYTHING
-    ### THEN GIT COMMIT THE WHOLE DAMN THING
     with open("inputRoadParser.txt", "w") as f:
         for coord, targets in roadModelRenderReady.items():
             for target, data in targets.items():
