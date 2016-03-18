@@ -501,7 +501,7 @@ def initialize():
             roadModelRender[coord] = {}
         
         # get the nearest markets
-        nearestMarkets = getNearestMarkets(coord, marketModel, worldModel)
+        nearestMarkets = getNearestMarkets(coord, marketModel, worldModel, roadModelRender)
         # make entries for name and for each of the others
         for nearMarketCoord,info in nearestMarkets:
             # setup for econ version
@@ -537,7 +537,7 @@ def initialize():
 
     return (worldModel,marketModel,roadModelEcon, roadModelRender)
 
-def getNearestMarkets(coord, marketModel, worldModel):
+def getNearestMarkets(coord, marketModel, worldModel, roadModel):
     """Returns a list of tuples. First element in tuple is a market's coord,
     second element is its distance from the argument coord. This distance value
     takes elevation into account, as it should."""
@@ -548,9 +548,31 @@ def getNearestMarkets(coord, marketModel, worldModel):
     # into account.
     # this is just because it doesn't really matter WHICH markets are nearby,
     # just that we have a way for picking them.
+    # howeve, we DO want to throw away markets which ALREADY link to this market,
+    # so that we avoid doubling up (where they are both the closest market to each other)
+    # by avoiding that, we avoid "pockets"
+    # (little communities of 3-5 markets which don't connect to the larger system)
+    # and therefore we force all the markets to connect together,
+    # arriving at the desired pricing behavior.
+    # this is why we pass a roadModel into this function:
+    # in order to avoid re-making connections which have already been made
     while targets == []:
         hs = nearbyHexes(coord, i)
         marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
+        print("orig\n",marketHavers)
+        for m in marketHavers:
+            if m in roadModel:
+                if coord in roadModel[m]:
+                    print("coord in m dict",m)
+                    marketHavers.remove(m)
+            elif coord in roadModel:
+                if m in roadModel[coord]:
+                    print("m in coord dict",m)
+                    marketHavers.remove(m)
+            # compound if-statement avoids pockets (see above)
+            # obviously, since we're assuming coord indices,
+            # the roadModel passed into this function is roadModelRender
+        print("adjusted\n",marketHavers)
         if marketHavers != []:
             targets = [(m,i) for m in marketHavers]
         i+=1
