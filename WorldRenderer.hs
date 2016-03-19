@@ -72,6 +72,7 @@ drawHex h =
   `atop`
   hexagon 1 # fc climateColor' # lc black # lw veryThin
   where
+    regionColor' = regionColor $ region h
     climateColor' = climateColor $ climate h
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)
@@ -155,3 +156,18 @@ climateColor Tundra =
   gray
 climateColor IceCap =
   white
+
+regionColor r
+  |r == 0 = blue
+  |r == 1 = orange
+  |r == 3 = brown
+  |r == 12 = brown
+  |r == 18 = yellow
+  |r `elem` aColors = lightpink
+  |r `elem` bColors = mediumorchid
+  |r `elem` cColors = crimson
+  |otherwise = olive
+  where
+    aColors = [1,8,13]
+    bColors = [2,3,4,6,12,15]
+    cColors = [5,7,16,17,18,20]
