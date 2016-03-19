@@ -1,8 +1,6 @@
 import random
 from Direction import Direction
 
-random.seed(42)
-
 numRegions = 20
 
 def getRegionCoords(worldModel):

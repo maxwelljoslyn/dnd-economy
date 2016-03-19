@@ -6,6 +6,13 @@ from Direction import Direction
 import Regions
 from AStarSearch import *
 
+# desired see for the RNG
+# ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
+# SHOULD RESET THE RNG TO THIS SEED BEFORE PROCEEDING WITH GENERATION
+# THIS IS FOR REPLICABILITY
+mySeed = 42
+random.seed(mySeed)
+
 # set up the Decimal environment
 getcontext().prec = 6
 
@@ -52,7 +59,6 @@ def getNeighbor(coord, direction):
         return intermediate
     else:
         return None
-
 
 #todo: make elevAwareRoadDistance or whatever the fuck, to stitch multiple calls to EAD
 # that function just takes a list of hexes, where a given hex neighbors
@@ -237,6 +243,8 @@ def initialize():
             data.climate = "IceCap"
 
     # resource assignment
+    # SET THE SEED
+    random.seed(mySeed)
     for coord, data in worldModel.items():
         if data.isLand is False:
             pass
@@ -449,6 +457,8 @@ def initialize():
                 chanceResourceCount -= 1
 
     # now, before making markets, we assign a region to each land hex
+    # SET THE RANDOM SEED
+    random.seed(mySeed)
     regionAssignments = Regions.getRegionCoords(worldModel)
     for r,vals in regionAssignments.items():
         for v in vals:
@@ -459,6 +469,8 @@ def initialize():
                 data.region = r
                 
     # creating cities in some, but not all, hexes, and giving hex resources to them
+    # SET THE RANDOM SEED
+    random.seed(mySeed)
     marketModel = {}
     for coord,data in worldModel.items():
         resCount = sum(list(data.resources.values()))

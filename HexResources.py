@@ -2,11 +2,6 @@ import random
 import itertools
 import bisect
 
-# seed the RNG
-# (very important for resource distribution to ensure it is deterministic)
-mySeed = 42
-random.seed(mySeed)
-
 # choose randomly from a population built from a list of choices with weights
 def weightedChoice(weightedlist):
     choices, weights = zip(*weightedlist)
