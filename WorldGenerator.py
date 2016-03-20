@@ -139,7 +139,7 @@ def getNearestMarkets(coord, marketModel, worldModel, roadModel):
     while targets == []:
         hs = nearbyHexes(coord, i)
         marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
-        print("orig\n",marketHavers)
+        print("original\n",marketHavers)
         for m in marketHavers:
             if m in roadModel:
                 if coord in roadModel[m]:
@@ -526,15 +526,15 @@ def initialize():
 
     # now, before making markets, we assign a region to each land hex
     # SET THE RANDOM SEED
-    random.seed(mySeed)
-    regionAssignments = Regions.getRegionCoords(worldModel)
-    for r,vals in regionAssignments.items():
-        for v in vals:
-            data = worldModel[v]
-            if data.isLand == False:
-                data.region = 0
-            else:
-                data.region = r
+#    random.seed(mySeed)
+#    regionAssignments = Regions.getRegionCoords(worldModel)
+#    for r,vals in regionAssignments.items():
+#        for v in vals:
+#            data = worldModel[v]
+#            if data.isLand == False:
+#                data.region = 0
+#            else:
+#                data.region = r
                 
     # creating cities in some, but not all, hexes, and giving hex resources to them
     # SET THE RANDOM SEED
@@ -617,9 +617,22 @@ def initialize():
 # creating and using the above definitions/functions
 worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = initialize()
 
+# disconnected sub-graphs of roadModelEcon
+# each will need its own run of calculation for all-pairs shortest-paths,
+# since they are not connected to each other
+# and therefore can't have paths to each other's nodes
+subgraphs = getConnectedComponents(roadModelEconReady)
 
-# todo: city population assignment, based on resource count: something like "within (2^x)*1000 and (2^(x+1)*1000)-1,
-# todo: where x is the num of RANDOM resources at the city" (since we might do the bonus water beast)
+# next:
+# for each of these subgraphs, do all-pairs shortest-paths
+# thus for each subgraph the result is a dict of dicts.
+# with outer keys being individual markets,
+# and inner keys being the markets the outer market is connected to
+
+# after this, the dicts of dicts can be combined into one dict of dicts,
+# giving me 1 single object to query for "what does this market connect to?"
+
+
 def main():
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
@@ -667,8 +680,6 @@ def main():
                 pathString = ",".join([("Coord " + str(x)) for x in path])
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
-
-    print(subgraphs)
 
 
 if __name__ == "__main__":
