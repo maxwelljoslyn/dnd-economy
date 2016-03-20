@@ -5,6 +5,8 @@ from HexResources import *
 from Direction import Direction
 import Regions
 from AStarSearch import *
+from ConnectedComponents import getConnectedComponents
+
 
 # desired see for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
@@ -114,6 +116,72 @@ def tempAtCoord(coord):
     stepSize = Decimal((abs(minTemp) + maxTemp) / mapSize)
     adjustment = Decimal(distanceFromCenter) * stepSize
     return(minTemp + adjustment)
+
+def getNearestMarkets(coord, marketModel, worldModel, roadModel):
+    """Returns a list of tuples. First element in tuple is a market's coord,
+    second element is its distance from the argument coord. This distance value
+    takes elevation into account, as it should."""
+    targets = []
+    i = 1
+    # this first loop gets all the nearest markets according to linear distance,
+    # that is, distance purely by number of hexes, without taking elevation
+    # into account.
+    # this is just because it doesn't really matter WHICH markets are nearby,
+    # just that we have a way for picking them.
+    # howeve, we DO want to throw away markets which ALREADY link to this market,
+    # so that we avoid doubling up (where they are both the closest market to each other)
+    # by avoiding that, we avoid "pockets"
+    # (little communities of 3-5 markets which don't connect to the larger system)
+    # and therefore we force all the markets to connect together,
+    # arriving at the desired pricing behavior.
+    # this is why we pass a roadModel into this function:
+    # in order to avoid re-making connections which have already been made
+    while targets == []:
+        hs = nearbyHexes(coord, i)
+        marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
+        print("orig\n",marketHavers)
+        for m in marketHavers:
+            if m in roadModel:
+                if coord in roadModel[m]:
+                    print("coord in m dict",m)
+                    marketHavers.remove(m)
+            elif coord in roadModel:
+                if m in roadModel[coord]:
+                    print("m in coord dict",m)
+                    marketHavers.remove(m)
+            # compound if-statement avoids pockets (see above)
+            # obviously, since we're assuming coord indices,
+            # the roadModel passed into this function is roadModelRender
+        print("adjusted\n",marketHavers)
+        if marketHavers != []:
+            targets = [(m,i) for m in marketHavers]
+        i+=1
+    # now that we've figured out which other markets count as nearby,
+    # we can determine the actual, elevation-adjusted distance
+    # to get from the market at coord to these other markets.
+    # that's what we want, for elevation to have its effect on the economy.
+    actualTargets = []
+    for targ,info in targets:
+        path,cost = AStarSearch(worldModel, coord, targ)
+        useful = (targ,(cost,path))
+        actualTargets.append(useful)
+    return actualTargets
+
+# this is v1
+# one day there will be a version which has a different name gen scheme
+# for each of several regions defined on the map
+def makeMarketName():
+    numSoundPairs = random.randint(2,6)
+    vowels = ["a","e","i","o","u"]
+    cons = ["b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","z"]
+    result = []
+    # starting consonant is made uppercase
+    result.append(str.upper(random.choice(cons)))
+    while numSoundPairs > 0:
+        result.append(random.choice(vowels))
+        result.append(random.choice(cons))
+        numSoundPairs -= 1
+    return "".join(result)
 
 # TODO: write my own noise generator (see AmitP noise page)
 def initialize():
@@ -491,8 +559,6 @@ def initialize():
         else:
             pass
 
-    # todo: set up market populations
-
     # holds the network of roads which spans the markets,
     # keyed by NAME (used for the econ simulator)
     roadModelEcon = {}
@@ -546,76 +612,11 @@ def initialize():
         if r in connects:
             del(connects[r])
 
-
     return (worldModel,marketModel,roadModelEcon, roadModelRender)
 
-def getNearestMarkets(coord, marketModel, worldModel, roadModel):
-    """Returns a list of tuples. First element in tuple is a market's coord,
-    second element is its distance from the argument coord. This distance value
-    takes elevation into account, as it should."""
-    targets = []
-    i = 1
-    # this first loop gets all the nearest markets according to linear distance,
-    # that is, distance purely by number of hexes, without taking elevation
-    # into account.
-    # this is just because it doesn't really matter WHICH markets are nearby,
-    # just that we have a way for picking them.
-    # howeve, we DO want to throw away markets which ALREADY link to this market,
-    # so that we avoid doubling up (where they are both the closest market to each other)
-    # by avoiding that, we avoid "pockets"
-    # (little communities of 3-5 markets which don't connect to the larger system)
-    # and therefore we force all the markets to connect together,
-    # arriving at the desired pricing behavior.
-    # this is why we pass a roadModel into this function:
-    # in order to avoid re-making connections which have already been made
-    while targets == []:
-        hs = nearbyHexes(coord, i)
-        marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
-        print("orig\n",marketHavers)
-        for m in marketHavers:
-            if m in roadModel:
-                if coord in roadModel[m]:
-                    print("coord in m dict",m)
-                    marketHavers.remove(m)
-            elif coord in roadModel:
-                if m in roadModel[coord]:
-                    print("m in coord dict",m)
-                    marketHavers.remove(m)
-            # compound if-statement avoids pockets (see above)
-            # obviously, since we're assuming coord indices,
-            # the roadModel passed into this function is roadModelRender
-        print("adjusted\n",marketHavers)
-        if marketHavers != []:
-            targets = [(m,i) for m in marketHavers]
-        i+=1
-    # now that we've figured out which other markets count as nearby,
-    # we can determine the actual, elevation-adjusted distance
-    # to get from the market at coord to these other markets.
-    # that's what we want, for elevation to have its effect on the economy.
-    actualTargets = []
-    for targ,info in targets:
-        path,cost = AStarSearch(worldModel, coord, targ)
-        useful = (targ,(cost,path))
-        actualTargets.append(useful)
-    return actualTargets
-
-# this is v1
-# one day there will be a version which has a different name gen scheme
-# for each of several regions defined on the map
-def makeMarketName():
-    numSoundPairs = random.randint(2,6)
-    vowels = ["a","e","i","o","u"]
-    cons = ["b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","z"]
-    result = []
-    # starting consonant is made uppercase
-    result.append(str.upper(random.choice(cons)))
-    while numSoundPairs > 0:
-        result.append(random.choice(vowels))
-        result.append(random.choice(cons))
-        numSoundPairs -= 1
-    return "".join(result)
-
+# creating and using the above definitions/functions
 worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = initialize()
+
 
 # todo: city population assignment, based on resource count: something like "within (2^x)*1000 and (2^(x+1)*1000)-1,
 # todo: where x is the num of RANDOM resources at the city" (since we might do the bonus water beast)
@@ -666,6 +667,8 @@ def main():
                 pathString = ",".join([("Coord " + str(x)) for x in path])
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
+
+    print(subgraphs)
 
 
 if __name__ == "__main__":
