@@ -7,7 +7,6 @@ import Regions
 from AStarSearch import *
 from ConnectedComponents import getConnectedComponents
 
-
 # desired see for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
 # SHOULD RESET THE RNG TO THIS SEED BEFORE PROCEEDING WITH GENERATION
@@ -139,7 +138,6 @@ def getNearestMarkets(coord, marketModel, worldModel, roadModel):
     while targets == []:
         hs = nearbyHexes(coord, i)
         marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
-        print("original\n",marketHavers)
         for m in marketHavers:
             if m in roadModel:
                 if coord in roadModel[m]:
@@ -152,7 +150,6 @@ def getNearestMarkets(coord, marketModel, worldModel, roadModel):
             # compound if-statement avoids pockets (see above)
             # obviously, since we're assuming coord indices,
             # the roadModel passed into this function is roadModelRender
-        print("adjusted\n",marketHavers)
         if marketHavers != []:
             targets = [(m,i) for m in marketHavers]
         i+=1
@@ -623,14 +620,15 @@ worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = in
 # and therefore can't have paths to each other's nodes
 subgraphs = getConnectedComponents(roadModelEconReady)
 
-# next:
-# for each of these subgraphs, do all-pairs shortest-paths
-# thus for each subgraph the result is a dict of dicts.
-# with outer keys being individual markets,
-# and inner keys being the markets the outer market is connected to
-
-# after this, the dicts of dicts can be combined into one dict of dicts,
-# giving me 1 single object to query for "what does this market connect to?"
+# need to get rid of the hex-list information in order to run
+# (all together now)
+# shortest path finding to get per-subgraph all-pairs shortest paths
+# for use in the 'import references' step of the econonomy simulator
+roadModelEcon2 = {}
+for src, targs in roadModelEconReady.items():
+    roadModelEcon2[src] = {}
+    for targ, info in targs.items():
+        roadModelEcon2[src][targ] = info[0]
 
 
 def main():
@@ -681,6 +679,7 @@ def main():
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
 
+    
 
 if __name__ == "__main__":
     main()
