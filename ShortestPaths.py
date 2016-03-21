@@ -1,9 +1,6 @@
 # also written by David Eppstein (see below)
 from priodict import priorityDictionary
 
-# the paths existing directly between any two cities
-from DirectPaths import directPathMatrix
-
 # Dijkstra's algorithm for shortest paths
 # David Eppstein, UC Irvine, 4 April 2002
 # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/117228
@@ -90,28 +87,3 @@ def shortestPath(G,start,end):
 	return D, Path
 
 #code from Eppstein ends here
-
-
-#Builds the dictionary of N elements (one for each city),
-# each of which is a dictionary with (N-1) elements (one for each city other than the relevant one.)
-# This collection of N*(N-1) elements represents the DISTANCES of the shortest paths from each city to each other city.
-# The output dictionary does not record WHICH path is followed, but such info is easy to obtain.
-# The code to do so is part of the print statements in the inner loop below.
-
-Graph = directPathMatrix
-
-nodes = list(Graph.keys())
-
-shortestPathMatrix = {}
-# format of this will be such that shortestPathMatrix[x][y] returns the distance from x to y
-for source in nodes:
-    shortestPathMatrix[source] = {}  #store distances from this node to all other nodes
-    for dest in nodes:
-        if source == dest:  #avoiding calculations from source to itself
-            pass
-        else:
-            finalDists, thePath = shortestPath(Graph, source, dest)
-            distance = finalDists[dest]
-            shortestPathMatrix[source][dest] = distance
-            # The distance from source to dest is distance. The path with that distance is thePath
-
