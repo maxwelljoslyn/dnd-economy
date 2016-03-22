@@ -50,6 +50,17 @@ def cubeDistance(a,b):
     where a and b are cube coordinates."""
     return((abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])) / 2)
 
+# note:
+# this definition of A-star search is overly-specific;
+# it only works on worldModel, not, say, a generic adjacency-list graph,
+# because of the way I built neighbors (as fields inside HexData class instances).
+# in order to use it for other stuff,
+# a different way to get neighbors would be needed,
+# i.e. I'd need to rewrite the method.
+# I don't mind that for this project, but for the record it's not good practice...
+# but what am I gonna do, bork the entire project
+# by rewriting the structure of worldModel, or how neighbors are stored?
+# no way.
 def AStarSearch(worldModel, start, goal):
     frontier = PriorityQueue()
     frontier.put(start, 0)
@@ -78,3 +89,31 @@ def AStarSearch(worldModel, start, goal):
                 came_from[next] = current
     # return only the relevant information
     return reconstructPath(came_from,start,goal), cost_so_far[goal]
+
+def AStarSearch_Road(roadModel, start, goal):
+    frontier = PriorityQueue()
+    frontier.put(start, 0)
+    came_from = {}
+    cost_so_far = {}
+    came_from[start] = None
+    cost_so_far[start] = 0
+
+    while not frontier.empty():
+        current = frontier.get()
+
+        # early exit if the goal is reached
+        if current == goal:
+            break
+
+        eligibleNeighbors = roadModel[current]
+        for next in eligibleNeighbors:
+            new_cost = cost_so_far[current] + eligibleNeighbors[next]
+            # if either of these are met...
+            if next not in cost_so_far or new_cost < cost_so_far[next]:
+                # ...then the best way to get to to next from current has changed
+                cost_so_far[next] = new_cost
+                priority = new_cost * 2
+                frontier.put(next, priority)
+                came_from[next] = current
+    # return only the relevant information
+    return cost_so_far[goal]
