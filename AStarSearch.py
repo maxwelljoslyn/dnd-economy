@@ -34,6 +34,15 @@ def elevAwareDistance(a,b,worldModel):
     distance += numIncrements
     return distance
 
+def elevAwarePath(hexes,worldModel):
+    result = 0
+    if len(hexes) == 3:
+        result += elevAwareDistance(hexes[0],hexes[1],worldModel)
+        result += elevAwareDistance(hexes[1],hexes[2],worldModel)
+    else:
+        result = elevAwareDistance(hexes[0],hexes[1],worldModel) + elevAwarePath(hexes[1:],worldModel)
+    return result
+
 def reconstructPath(came_from, start, goal):
     """Processes path result of AStarSearch into useable list of coords."""
     current = goal

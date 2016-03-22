@@ -60,13 +60,6 @@ def getNeighbor(coord, direction):
         return intermediate
     else:
         return None
-
-#todo: make elevAwareRoadDistance or whatever the fuck, to stitch multiple calls to EAD
-# that function just takes a list of hexes, where a given hex neighbors
-# both the one before it and the one after it,
-# and returns the total elev-aware distance of traversing the whole thing
-# there's also a separate function which FINDS such roads,
-# which requires actual pathfinding to do.
     
 # http://www.redblobgames.com/grids/hexagons/#range
 def nearbyCoords(startCoord, distance):
