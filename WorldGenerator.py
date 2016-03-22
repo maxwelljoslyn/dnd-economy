@@ -128,37 +128,49 @@ def getNearestMarkets(coord, marketModel, worldModel, roadModel):
     # this is just because it doesn't really matter WHICH markets are nearby,
     # just that we have a way for picking them.
     # howeve, we DO want to throw away markets which ALREADY link to this market,
-    # so that we avoid doubling up (where they are both the closest market to each other)
+    # thereby avoiding the situation where two or three markets
+    # are all each other's ONLY nearby markets.
     # by avoiding that, we avoid "pockets"
-    # (little communities of 3-5 markets which don't connect to the larger system)
+    # (little communities of 3-5 markets which don't connect to the larger system),
     # and therefore we force all the markets to connect together,
     # arriving at the desired pricing behavior.
     # this is why we pass a roadModel into this function:
     # in order to avoid re-making connections which have already been made
+    # unfortunately this code doesn't work perfectly ...
+    # it lessens the pocket problem but doesn't completely get rid of it
+    # we can deal with it crudely by just increasing the size of i, above,
+    # which means each market will connect to more and more other markets
+    # theoretically getting this up to 3 or 4 will solve pockets entirely
+    # however this means a lot of super-connected markets, which isn't ideal --
+    # the ideal is for all markets to be connected into the system,
+    # but for some to still be very far away from most other markets,
+    # thus making most goods expensive.1
+    # lots of linking to other markets, as caused by increasing values of i,
+    # deviates from this ideal, even though it lessens the problem of
+    # markets forming small pocket networks.
     while targets == []:
         hs = nearbyHexes(coord, i)
         marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
         for m in marketHavers:
             if m in roadModel:
                 if coord in roadModel[m]:
-                    print("coord in m dict",m)
+                    # coord in m dict
                     marketHavers.remove(m)
             elif coord in roadModel:
                 if m in roadModel[coord]:
-                    print("m in coord dict",m)
+                    # m in coord dict
                     marketHavers.remove(m)
-            # compound if-statement avoids pockets (see above)
             # obviously, since we're assuming coord indices,
             # the roadModel passed into this function is roadModelRender
         if marketHavers != []:
-            targets = [(m,i) for m in marketHavers]
+            break
         i+=1
     # now that we've figured out which other markets count as nearby,
     # we can determine the actual, elevation-adjusted distance
     # to get from the market at coord to these other markets.
     # that's what we want, for elevation to have its effect on the economy.
     actualTargets = []
-    for targ,info in targets:
+    for targ in marketHavers:
         path,cost = AStarSearch(worldModel, coord, targ)
         useful = (targ,(cost,path))
         actualTargets.append(useful)
@@ -620,6 +632,7 @@ worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = in
 # and therefore can't have paths to each other's nodes
 subgraphs = getConnectedComponents(roadModelEconReady)
 
+
 # need to get rid of the hex-list information in order to run
 # (all together now)
 # shortest path finding to get per-subgraph all-pairs shortest paths
@@ -629,6 +642,16 @@ for src, targs in roadModelEconReady.items():
     roadModelEcon2[src] = {}
     for targ, info in targs.items():
         roadModelEcon2[src][targ] = info[0]
+
+# NEXT:
+# put back the single-market Astar code
+# test its runtime on subgraphs[10]
+# do the same for dijkstra
+# if Astar is verified faster, great, try running it on subgraph[1]
+# and seeing what the runtime is like on ~700 markets
+# then go from there.
+# one way or another this guy's GOTTA get written out to disk
+# once these actual generation issues are straightened out...
 
 
 def main():
