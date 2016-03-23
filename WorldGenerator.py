@@ -60,7 +60,7 @@ def getNeighbor(coord, direction):
         return intermediate
     else:
         return None
-    
+
 # http://www.redblobgames.com/grids/hexagons/#range
 def nearbyCoords(startCoord, distance):
     """Return all hexes which are distance or fewer hexes away from starting point.
@@ -74,7 +74,9 @@ def nearbyCoords(startCoord, distance):
             z = -x - y
             results.append(addCoord(startCoord,(x,y,z)))
     # the returned hexes include the start hex, so we want to throw that out
-    return [r for r in results if r != startCoord]
+    results.remove(startCoord)
+    return results
+
 
 def nearbyHexes(startHex, distance):
     """Calls nearbyCoords but then filters for membership in possibleCoords."""
