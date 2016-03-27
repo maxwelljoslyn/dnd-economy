@@ -4,9 +4,9 @@
 
 I run D&D (no group at the moment since I've been moving a lot in recent years). I use the computer to construct various artifacts to help me run D&D. These are a gameworld map and a set of tables giving price information for many objects which the players can sell and purchase.
 
-These tools are a work in progress. They don't work end-to-end yet. But they do produce some stuff. The map engine, in particular, can produce a map, so that might be fun to look at.
+These tools are a work in progress. They don't work end-to-end yet. But they do produce some stuff. The map engine, in particular, can produce a map, so give that a shot.
 
-These programs are not made for anyone but me. Also, I am an amateur programmer. For these reasons, do not expect the code to conform to engineering standards or to use the most sophisticated methods. I learn as I go.
+These programs are not made for anyone but me. Do not expect the code to conform to engineering standards or to use the most sophisticated methods. I learn as I go.
 
 If you want to contact me, do it at maxwelljoslyn AT gmail DOT com.
 
@@ -37,8 +37,12 @@ Simply run `python3 WorldGenerator.`
 
 The shell script `RenderWorld.sh` will compile the renderer, then run the resulting executable, rendering to the default output name of `WorldMap.svg`.
 
-#### Acknowledgments
+### Acknowledgements
 
-My economy system is based on that described by [Alexis Smolensk](http://tao-dnd.blogspot.ca/), who is in my opinion the world's most important D&D blogger. [His wiki](http://tao-of-dnd.wikispaces.com/Trade+System) goes into detail about how to set up your own system of this kind. I've been working on this project since before he wrote those tutorials (there were other, fragementary versions 
+The economy system which I am working towards is based on the one described by [Alexis Smolensk](http://tao-dnd.blogspot.ca/).  Alexis's [wiki](http://tao-of-dnd.wikispaces.com/Trade+System) goes into detail about how to set up your own system of this kind.
 
-If you're a DM and you don't want to be as committed as Alexis, you're not a DM.
+I'd read his earlier work on his system some time before setting out to work on my own project, but the fact remains that the fundamentals originate with him. My primary innovation, which prompted me to begin working, was to have one interconnected system where a single "backend" data generator powered the creation of both the world map *and* the output of trade tables for player-purchasable items. So that's my goal.
+
+In my opinion Alexis is the world's most important D&D blogger. If you want to know why, just read his blog. Other DMs don't research. Other DMs complain about working on their games. Other DMs use storebought rulesets that don't even halfway describe any kind of gameable world.
+
+By conrrast, Alexis *works*, and he writes about his work, and his craftmanship shows through in every new table or page or post he puts up.
