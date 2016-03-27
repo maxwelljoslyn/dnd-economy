@@ -563,60 +563,51 @@ def initialize():
         else:
             pass
 
-    # holds the network of roads which spans the markets,
-    # keyed by NAME (used for the econ simulator)
-    roadModelEcon = {}
-    # but in order to do map rendering,
-    # we also need a version of this which stores coords instead of market names
-    # so there's gonna be two of these suckers. woooo
+    # holds the network of roads spanning the markets,
+    # keyed by COORD (used for the map renderer)
+    # after building this, we'll build a version which is keyed by name,
+    # in order to do shortest-path calculation for the economic system
     roadModelRender = {}
-
-    # generate road network (both versions)
+    # generate road network
     for coord, name in marketModel.items():
         #membership test: has an entry for this name
         # already been created in the given roadmodel,
         # because another market already connects to it?
         #(see below for what makes this possible)
-        if name not in list(roadModelEcon.keys()):
-            roadModelEcon[name] = {}
         if coord not in list(roadModelRender.keys()):
             roadModelRender[coord] = {}
-        
         # get the nearest markets
         nearestMarkets = getNearestMarkets(coord, marketModel, worldModel, roadModelRender)
-        # make entries for name and for each of the others
         for nearMarketCoord,info in nearestMarkets:
-            # setup for econ version
-            nearMarketName = marketModel[nearMarketCoord]
             # put entries into right place
-            roadModelEcon[name][nearMarketName] = info
             roadModelRender[coord][nearMarketCoord] = info
             
             # membership test: do I need to create the paired dictionary?
-            if nearMarketName in list(roadModelEcon.keys()):
-                roadModelEcon[nearMarketName][name] = info
-            else:
-                # create dictionary if needed
-                roadModelEcon[nearMarketName] = {}
-                roadModelEcon[nearMarketName][name] = info
-            
-            # same deal, but with the render version of the model
             if nearMarketCoord in list(roadModelRender.keys()):
                 roadModelRender[nearMarketCoord][coord] = info
             else:
                 roadModelRender[nearMarketCoord] = {}
                 roadModelRender[nearMarketCoord][coord] = info
-    
-    for r,connects in roadModelEcon.items():
-        # remove instances of r connecting to itself
-        if r in connects:
-            del(connects[r])
+
     for r,connects in roadModelRender.items():
         # remove instances of r connecting to itself
         if r in connects:
             del(connects[r])
 
-    return (worldModel,marketModel,roadModelEcon, roadModelRender)
+    # roadModelRender is:
+    # dict (coord1 -> dict (coord2 -> (distance, path from coord2 to coord1, expressed in coords)))
+    # we want to make a second version of roadModelRender, called roadModelEcon,
+    # in which coord1 and coord2 are changed to the market names at those coords.
+    # then this second version can be sent off to the econ-calculator programs.
+    roadModelEcon = {}
+    for c1,valdict in roadModelRender.items():
+        name1 = marketModel[c1]
+        roadModelEcon[name1] = {}
+        for c2,info in valdict.items():
+            name2 = marketModel[c2]
+            roadModelEcon[name1][name2] = info
+
+    return (worldModel, marketModel, roadModelEcon, roadModelRender)
 
 # creating and using the above definitions/functions
 worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = initialize()
