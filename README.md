@@ -12,7 +12,7 @@ If you want to contact me, do it at maxwelljoslyn AT gmail DOT com.
 
 ## Program Information
 
-These programs are written in Python and Haskell. I greatly prefer Haskell, but it is tricky to do some stuff involving random generation in that language, and (as far as I know) impossible to replicate many standard algorithms which assume mutable reference. Thus I use Python to generate the world information, and then either import the results into other Python files for further work in that language, or write it into structured text files for parsing into Haskell programs.
+These programs are written in Python 3 and Haskell. I greatly prefer Haskell, but it is tricky to do some stuff involving random generation in that language, and (as far as I know) impossible to replicate many standard algorithms which assume mutable reference. Thus I use Python to generate the world information, and then either import the results into other Python files for further work in that language, or write it into structured text files for parsing into Haskell programs.
 
 ## You Will Need
 
@@ -24,7 +24,7 @@ One day I might figure out how to save it locally for you, so you don't have to 
 
 ### For Haskell
 
-The parsers use the Parsec library, and the renderer uses the Diagrams library. You can get both of these from your favorite Haskell package manager. I don't have any information for you about versioning, sorry. However, eventually I will update the Haskell portion of the codebase to support Stack, like a real project; then you won't have to manually install these libraries.
+The parsers use the [Parsec](https://hackage.haskell.org/package/parsec) library, and the renderer uses the [Diagrams](http://projects.haskell.org/diagrams/) library. You can get both of these from your favorite Haskell package manager. I don't have any information for you about versioning, sorry. However, eventually I will update the Haskell portion of the codebase to support Stack, like a real project; then you won't have to manually install these libraries.
 
 
 ## Usage Instructions
@@ -35,10 +35,10 @@ Simply run `python3 WorldGenerator.`
 
 ### To Run the Map Renderer
 
-The shell script `RenderWorld.sh` will compile the renderer, then run the resulting executable, rendering to the default output name of WorldMap.svg.
+The shell script `RenderWorld.sh` will compile the renderer, then run the resulting executable, rendering to the default output name of `WorldMap.svg`.
 
 #### Acknowledgments
 
-My economy system is based on that described by Alexis Smolensk at tao-dnd.blogspot.ca. In particular, [his wiki](http://tao-of-dnd.wikispaces.com/Trade+System) goes into detail about how to set up our own system of this kind.
+My economy system is based on that described by [Alexis Smolensk](http://tao-dnd.blogspot.ca/), who is in my opinion the world's most important D&D blogger. [His wiki](http://tao-of-dnd.wikispaces.com/Trade+System) goes into detail about how to set up your own system of this kind. I've been working on this project since before he wrote those tutorials (there were other, fragementary versions 
 
 If you're a DM and you don't want to be as committed as Alexis, you're not a DM.
