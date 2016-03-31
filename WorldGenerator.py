@@ -6,6 +6,7 @@ from Direction import Direction
 import Regions
 from AStarSearch import *
 from ConnectedComponents import getConnectedComponents
+from CityNameGen import makeMarketName
 
 # desired see for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
@@ -170,22 +171,6 @@ def getNearestMarkets(coord, marketModel, worldModel, roadModel):
         useful = (targ,(cost,path))
         actualTargets.append(useful)
     return actualTargets
-
-# this is v1
-# one day there will be a version which has a different name gen scheme
-# for each of several regions defined on the map
-def makeMarketName():
-    numSoundPairs = random.randint(2,6)
-    vowels = ["a","e","i","o","u"]
-    cons = ["b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","z"]
-    result = []
-    # starting consonant is made uppercase
-    result.append(str.upper(random.choice(cons)))
-    while numSoundPairs > 0:
-        result.append(random.choice(vowels))
-        result.append(random.choice(cons))
-        numSoundPairs -= 1
-    return "".join(result)
 
 # TODO: write my own noise generator (see AmitP noise page)
 def initialize():
@@ -530,17 +515,19 @@ def initialize():
 
     # now, before making markets, we assign a region to each land hex
     # SET THE RANDOM SEED
-#    random.seed(mySeed)
-#    regionAssignments = Regions.getRegionCoords(worldModel)
-#    for r,vals in regionAssignments.items():
-#        for v in vals:
-#            data = worldModel[v]
-#            if data.isLand == False:
-#                data.region = 0
-#            else:
-#                data.region = r
+    random.seed(mySeed)
+    regionAssignments = Regions.getRegionCoords(worldModel)
+    for r,vals in regionAssignments.items():
+        for v in vals:
+            data = worldModel[v]
+            if data.isLand == False:
+                data.region = 0
+            else:
+                data.region = r
                 
-    # creating cities in some, but not all, hexes, and giving hex resources to them
+    # creating cities in some, but not all, cities;
+    # assigning the hex's resources to a city;
+    # and naming the cities based on their region.
     # SET THE RANDOM SEED
     random.seed(mySeed)
     marketModel = {}
@@ -552,12 +539,13 @@ def initialize():
         chanceOfMarket = sum(list(data.resources.values())) * 5
         x = random.randint(1,100)
         if x <= chanceOfMarket:
-            n = makeMarketName() # todo: change this to be region-specific
+            region = data.region
+            n = makeMarketName(region)
             # this while loop prevents duplication of names
             # it gets slower as you add more cities since they all have to be checked
             while n in marketModel:
                 print(n,"is already used.")
-                n = makeMarketName()
+                n = makeMarketName(region)
                 print("now it's:",n)
             marketModel[coord] = n
         else:
@@ -688,6 +676,7 @@ def main():
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
 
+    print(roadModelEconReady)
     
 
 if __name__ == "__main__":
