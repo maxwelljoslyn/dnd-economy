@@ -543,7 +543,7 @@ def initialize():
             n = makeMarketName(region)
             # this while loop prevents duplication of names
             # it gets slower as you add more cities since they all have to be checked
-            while n in marketModel:
+            while n in marketModel.values():
                 print(n,"is already used.")
                 n = makeMarketName(region)
                 print("now it's:",n)
@@ -676,8 +676,6 @@ def main():
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
 
-    print(roadModelEconReady)
-    
 
 if __name__ == "__main__":
     main()
