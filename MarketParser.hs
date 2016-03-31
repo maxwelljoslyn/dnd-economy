@@ -8,7 +8,7 @@ data MarketData = MarketData { name :: String } deriving (Show, Read)
 
 parseName :: Parsec String () String
 parseName = do
-  n <- many letter
+  n <- many anyChar
   return n
 
 parseMarketData :: Parsec String () (Coord,MarketData)
