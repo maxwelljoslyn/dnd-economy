@@ -52,4 +52,4 @@ In my opinion Alexis is the world's most important D&D blogger. If you want to k
 
 #### Licensing
 
-All my original code for this project is licensed under the GPL v3. Libraries and such may have other licenses.
+All my original code for this project is licensed under the GPL v3.
