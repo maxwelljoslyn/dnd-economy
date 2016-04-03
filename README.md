@@ -50,6 +50,6 @@ I'd read his earlier work on his system some time before setting out to work on 
 
 In my opinion Alexis is the world's most important D&D blogger. If you want to know why, just read his blog. Other DMs don't research. Other DMs complain about working on their games. Other DMs use storebought rulesets that don't even halfway describe any kind of gameable world. By contrast, Alexis *works*, and he writes about his work, and his craftmanship shows through in every new table or page or post he puts up.
 
-#### Copyright
+#### Licensing
 
-Unless otherwise stated (such as for the included priodict library), all code here is copyright 2016 Maxwell Joslyn.
+All my original code for this project is licensed under the GPL v3. Libraries and such may have other licenses.
