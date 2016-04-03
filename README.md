@@ -28,7 +28,7 @@ One day I might figure out how to save the noise lib for you locally, so you don
 
 ### For Haskell
 
-The parsers use the [Parsec](https://hackage.haskell.org/package/parsec) library, and the renderer uses the [Diagrams](http://projects.haskell.org/diagrams/) library. You can get both of these from your favorite Haskell package manager. I am using Diagrams 1.3 and Parsec 3.1.5.
+The parsers use the [Parsec](https://hackage.haskell.org/package/parsec) library, and the renderer uses the [Diagrams](http://projects.haskell.org/diagrams/) library. You can get both of these through ```cabal```, as usual. I am using Diagrams 1.3 and Parsec 3.1.5.
 
 Eventually I will update the Haskell portion of the codebase to support Stack, like a real project; then you won't have to manually install these libraries, nor worry about versions.
 
