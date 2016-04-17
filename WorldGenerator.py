@@ -111,6 +111,23 @@ def tempAtCoord(coord):
     adjustment = Decimal(distanceFromCenter) * stepSize
     return(minTemp + adjustment)
 
+def getMarketsWithinLinearDist(coord, dist, marketModel, worldModel, roadModel):
+    """Returns all, if any, coords within linear dist of dist from coord,
+    which are market-having coords."""
+    targets = []
+    hs = nearbyHexes(coord, dist)
+        marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
+        for m in marketHavers:
+            if m in roadModel:
+                if coord in roadModel[m]:
+                    # coord in m dict
+                    marketHavers.remove(m)
+            elif coord in roadModel:
+                if m in roadModel[coord]:
+                    # m in coord dict
+                    marketHavers.remove(m)
+    return targets
+    
 def getNearestMarkets(coord, marketModel, worldModel, roadModel):
     """Returns a list of tuples. First element in tuple is a market's coord,
     second element is its distance from the argument coord. This distance value
@@ -144,19 +161,8 @@ def getNearestMarkets(coord, marketModel, worldModel, roadModel):
     # deviates from this ideal, even though it lessens the problem of
     # markets forming small pocket networks.
     while targets == []:
-        hs = nearbyHexes(coord, i)
-        marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
-        for m in marketHavers:
-            if m in roadModel:
-                if coord in roadModel[m]:
-                    # coord in m dict
-                    marketHavers.remove(m)
-            elif coord in roadModel:
-                if m in roadModel[coord]:
-                    # m in coord dict
-                    marketHavers.remove(m)
-            # obviously, since we're assuming coord indices,
-            # the roadModel passed into this function is roadModelRender
+        marketHavers = getMarketsWithinLinearDist(coord, i, marketModel, worldModel,
+                                                  roadModel)
         if marketHavers != []:
             break
         i+=1
@@ -170,6 +176,33 @@ def getNearestMarkets(coord, marketModel, worldModel, roadModel):
         useful = (targ,(cost,path))
         actualTargets.append(useful)
     return actualTargets
+        # to all such neighbors
+        for n in list(worldModel[c].neighbors.values()):
+            
+            
+    
+    #for n in worldModel[coord].neighbors
+        # how to get its neighbor coords?
+
+    return roadModelR
+    
+
+
+def insertCoordIntoRoadModel(begin,end,info):
+    """Puts two connections into the roadmodel, one from begin to end, one from end to begin.
+    Note that it does not handle removing entries from uncheckedCoords!
+    Note also that this fun manipulates global state by editing roadModelR.
+    Info is a tuple of distance and the path of that distance between begin and end."""
+    #membership test: has an entry for either coord
+    # already been created in the road model,
+    # because another market already connects to it?
+    if begin not in roadModelR:
+        roadModelR[begin] = {}
+    if end not in roadModelR:
+        roadModelR[end] = {}
+    roadModelR[begin][end] = info
+    roadModelR[end][begin] = info
+
 
 # this is v1
 # one day there will be a version which has a different name gen scheme
