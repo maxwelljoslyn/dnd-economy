@@ -25,30 +25,19 @@ main = do
         --whether resultOfParse is Left or Right.
 	--the only way to extract the data inside, which we need for parsing,
         --is a pattern match
-        marketInfo <- parseMarketFile
-        roadInfo <- parseRoadFile
-        case marketInfo of
-          Left err ->
-            mainWith (triangle 1 # fc pink # lw thick :: Diagram B)
-          Right ms -> 
-	    case worldInfo of
-              Left err ->
-                mainWith (circle 1 # fc pink # lw thick :: Diagram B)
-              Right hs ->
-                case roadInfo of
-                  Left err -> mainWith (square 1 # fc pink # lw thick :: Diagram B)
-                  Right rs ->
-                    mainWith $ drawFullWorld marketMap hs rs
-                    where
-                      marketMap = DM.fromList ms
+	case worldInfo of
+	    Left err ->
+		mainWith (circle 1 # fc pink # lw thick :: Diagram B)
+	    Right hs ->
+		mainWith $ drawFullWorld hs
 
-drawFullWorld :: Map Coord MarketData -> [Hex] -> [Road] -> Diagram B
-drawFullWorld ms hs rs =
-  drawMarketLayer pts ms hs
-  `atop`
-  drawRoadLayer rs
-  `atop`
-  drawHexLayer pts ms hs
+drawFullWorld :: [Hex] -> Diagram B
+drawFullWorld hs =
+  --drawMarketLayer pts ms hs
+  --`atop`
+  --drawRoadLayer rs
+  --`atop`
+  drawHexLayer pts hs
   where
     pts :: [P2 Double]
     pts = map (coordToPixel . coord) hs
@@ -63,8 +52,9 @@ drawRoad (Road cs) =
   where
     pts = fmap coordToPixel cs
 
-drawHexLayer :: [P2 Double] -> Map Coord MarketData -> [Hex] -> Diagram B
-drawHexLayer pts ms hs = atPoints pts $ map drawHex hs
+drawHexLayer :: [P2 Double] -> [Hex] -> Diagram B
+drawHexLayer pts hs = atPoints pts $ map drawHex hs
+
 
 drawHex :: Hex -> Diagram B
 drawHex h =
