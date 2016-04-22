@@ -83,7 +83,7 @@ drawMarket ms h = case hasMarket of
     hasMarket = DM.lookup (coord h) ms
 
 coordToPixel :: Coord -> P2 Double
-coordToPixel (Coord (q,r,s)) = p2 (x,y)
+coordToPixel (Coord q r s) = p2 (x,y)
 	where
 		q' = fromIntegral q
 		r' = fromIntegral r
