@@ -5,8 +5,13 @@ import Control.Monad (liftM)
 
 type Region = Int
 
-data Coord = Coord (Int, Int, Int)
+data Coord = Coord Int Int Int
 	deriving (Ord, Eq, Read, Show)
+
+cq, cr, cs :: Coord -> Int
+cq (Coord q _ _) = q
+cr (Coord _ r _) = r
+cs (Coord _ _ s) = s
 
 data Elevation = Elevation Double
 	deriving (Read, Show)
@@ -49,7 +54,7 @@ parseCoord = do
 	spaces
 	s <- coordShape
 	char ')'
-	return $ Coord (read q,read r,read s)
+	return $ Coord (read q) (read r) (read s)
 	where
 		coordShape = many (oneOf "-0123456789")
 
