@@ -111,99 +111,148 @@ def tempAtCoord(coord):
     adjustment = Decimal(distanceFromCenter) * stepSize
     return(minTemp + adjustment)
 
+# todo: figure out anything to make this darn thing FASTER
+def buildFinalRoadModel(roadModel, worldModel):
+    """Creates the completely-connected road model, which has no disconnected
+    subgraphs, out of the basic road model, which has them."""
+    # disconnected sub-graphs of roadModelEcon
+    subgraphs = getConnectedComponents(roadModel)
+    while len(subgraphs) > 1:
+        print("debug sez: " + str(len(subgraphs)))
+        startPoints = subgraphs[1]
+        otherPoints = []
+        for i in range(2,len(subgraphs)):
+            otherPoints = otherPoints + subgraphs[i]
+        possibleTargets = []
+        for start in startPoints:
+            possibles = []
+            i = 2
+            while possibles == []:
+                nearbys = nearbyCoords(start,i)
+                # filter to get ones which actually contain markets
+                possibles = [n for n in nearbys if n in otherPoints]
+                i+=1
+            # find distances between start and all of these
+            pinfos = []
+            for p in possibles:
+                path,cost = AStarSearch(worldModel,start,p)
+                tup = (cost,path,p,start)
+                pinfos.append(tup)
+            pinfos.sort()
+            # take the nearest of targets reachable from this start
+            possibleTargets.append(pinfos[0])
+        # take the nearest of all near targets
+        possibleTargets.sort()
+        target = possibleTargets[0]
+        targetSpecificStart = target[3]
+        targetCoord = target[2]
+        targetCost = target[0]
+        targetPath = target[1]
+        insertIntoRoadModel(targetSpecificStart,targetCoord,(targetCost,targetPath),roadModel)
+        # re-get the subgraphs
+        subgraphs = getConnectedComponents(roadModel)
+        print("debug: subgraphs going down!")
+        # thus a link is forged between two subgraphs,
+        # lowering the total number thereof by one.
+    return roadModel
+
+def insertIntoRoadModel(begin,end,info, roadModel):
+        """Puts two connections into the roadmodel:
+        one from begin to end, one from end to begin.
+        Note that it does not handle removing entries from uncheckedCoords!
+        Note also that this fun manipulates outer state by editing roadModelR.
+        Info is a tuple of distance and the path of that distance between begin and end."""
+        #membership test: has an entry for either coord
+        # already been created in the road model,
+        # because another market already connects to it?
+        if begin not in roadModel:
+            roadModel[begin] = {}
+        if end not in roadModel:
+            roadModel[end] = {}
+        roadModel[begin][end] = info
+        roadModel[end][begin] = info
+
+def buildBasicRoadModel(marketModel, worldModel):
+    """Build up the road model from the locations of markets and elevation/distance info
+    from the world model."""
+    roadModelR = {}
+    uncheckedCoords = list(marketModel.keys())
+    # first pass
+    # attach any markets with neighboring markets at LINEAR distance 1,
+    # to all such markets
+    print("debug entering THE ZONE")
+    print(uncheckedCoords)
+    for c in uncheckedCoords:
+        veryCloseMarkets = getMarketsWithinLinearDist(c, 1, marketModel,
+                                                   worldModel, roadModelR)
+        if veryCloseMarkets == []:
+            pass
+        else:
+            for v in veryCloseMarkets:
+                path,cost = AStarSearch(worldModel, c, v)
+                info = (cost,path)
+                insertIntoRoadModel(c,v,info,roadModelR)
+                # we don't remove v: it might yet have other connections to be made!
+                print("debug: removing " + str(c) + " from unchecked; first pass")
+            uncheckedCoords.remove(c)
+    # subsequent passes
+    # increase the acceptable linear distance from a market to a
+    # candidate target market.
+    dist = 2
+    while uncheckedCoords != []:
+        print("entering subsequent pass with distance " + str(dist))
+        print("remaining unchecked: " + str(len(uncheckedCoords)))
+        for c in uncheckedCoords:
+            kindaCloseMarkets = getMarketsWithinLinearDist(c, dist, marketModel,
+                                                   worldModel, roadModelR)
+            # IMPORTANT: each candidate market must already be part of the roadmodel:
+            # this is what creates a graph with no disconnected subgraphs.
+            # edit: this totally doesn't work, because there's no guarantee that a
+            # coord removed in the first pass will necessarily be linking up to others,
+            # meaning a later coord linking to that first-pass removal, will also
+            # not have any link to the greater system.
+            kindaCloseMarkets = [k for k in kindaCloseMarkets if k not in uncheckedCoords]
+            if kindaCloseMarkets == []:
+                pass
+            else:
+                # on each candidate run AStar
+                infoDict = {k:AStarSearch(worldModel, c, k) for k in kindaCloseMarkets}
+                # swap position of path and cost so they can easily be sorted by cost
+                for candidate,(path,cost) in infoDict.items():
+                    infoDict[candidate] = (cost,path)
+                # setting a "default" target which is expected to be beaten
+                target = list(infoDict)[0]
+                targetInfo = infoDict[candidate]
+                for candidate,(cost,path) in infoDict.items():
+                    if cost < targetInfo[0]:
+                        target = candidate
+                        targetInfo = (cost,path)
+                    else:
+                        pass
+                insertIntoRoadModel(c,target,targetInfo,roadModelR)
+                # then remove coord from unchecked
+                print("debug: removing " + str(c) + " from unchecked; sub pass " + str(dist))
+                uncheckedCoords.remove(c)
+        # increase acceptable linear distance at which to "fish" for markets, and go again
+        dist+=1
+    return roadModelR
+
 def getMarketsWithinLinearDist(coord, dist, marketModel, worldModel, roadModel):
     """Returns all, if any, coords within linear dist of dist from coord,
     which are market-having coords."""
-    targets = []
     hs = nearbyHexes(coord, dist)
-        marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
-        for m in marketHavers:
-            if m in roadModel:
-                if coord in roadModel[m]:
-                    # coord in m dict
-                    marketHavers.remove(m)
+    marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
+    for m in marketHavers:
+        if m in roadModel:
+            if coord in roadModel[m]:
+                # coord in m dict
+                marketHavers.remove(m)
             elif coord in roadModel:
-                if m in roadModel[coord]:
-                    # m in coord dict
-                    marketHavers.remove(m)
-    return targets
+              if m in roadModel[coord]:
+                # m in coord dict
+                marketHavers.remove(m)
+    return marketHavers
     
-def getNearestMarkets(coord, marketModel, worldModel, roadModel):
-    """Returns a list of tuples. First element in tuple is a market's coord,
-    second element is its distance from the argument coord. This distance value
-    takes elevation into account, as it should."""
-    targets = []
-    i = 1
-    # this first loop gets all the nearest markets according to linear distance,
-    # that is, distance purely by number of hexes, without taking elevation
-    # into account.
-    # this is just because it doesn't really matter WHICH markets are nearby,
-    # just that we have a way for picking them.
-    # howeve, we DO want to throw away markets which ALREADY link to this market,
-    # thereby avoiding the situation where two or three markets
-    # are all each other's ONLY nearby markets.
-    # by avoiding that, we avoid "pockets"
-    # (little communities of 3-5 markets which don't connect to the larger system),
-    # and therefore we force all the markets to connect together,
-    # arriving at the desired pricing behavior.
-    # this is why we pass a roadModel into this function:
-    # in order to avoid re-making connections which have already been made
-    # unfortunately this code doesn't work perfectly ...
-    # it lessens the pocket problem but doesn't completely get rid of it
-    # we can deal with it crudely by just increasing the size of i, above,
-    # which means each market will connect to more and more other markets
-    # theoretically getting this up to 3 or 4 will solve pockets entirely
-    # however this means a lot of super-connected markets, which isn't ideal --
-    # the ideal is for all markets to be connected into the system,
-    # but for some to still be very far away from most other markets,
-    # thus making most goods expensive.1
-    # lots of linking to other markets, as caused by increasing values of i,
-    # deviates from this ideal, even though it lessens the problem of
-    # markets forming small pocket networks.
-    while targets == []:
-        marketHavers = getMarketsWithinLinearDist(coord, i, marketModel, worldModel,
-                                                  roadModel)
-        if marketHavers != []:
-            break
-        i+=1
-    # now that we've figured out which other markets count as nearby,
-    # we can determine the actual, elevation-adjusted distance
-    # to get from the market at coord to these other markets.
-    # that's what we want, for elevation to have its effect on the economy.
-    actualTargets = []
-    for targ in marketHavers:
-        path,cost = AStarSearch(worldModel, coord, targ)
-        useful = (targ,(cost,path))
-        actualTargets.append(useful)
-    return actualTargets
-        # to all such neighbors
-        for n in list(worldModel[c].neighbors.values()):
-            
-            
-    
-    #for n in worldModel[coord].neighbors
-        # how to get its neighbor coords?
-
-    return roadModelR
-    
-
-
-def insertCoordIntoRoadModel(begin,end,info):
-    """Puts two connections into the roadmodel, one from begin to end, one from end to begin.
-    Note that it does not handle removing entries from uncheckedCoords!
-    Note also that this fun manipulates global state by editing roadModelR.
-    Info is a tuple of distance and the path of that distance between begin and end."""
-    #membership test: has an entry for either coord
-    # already been created in the road model,
-    # because another market already connects to it?
-    if begin not in roadModelR:
-        roadModelR[begin] = {}
-    if end not in roadModelR:
-        roadModelR[end] = {}
-    roadModelR[begin][end] = info
-    roadModelR[end][begin] = info
-
-
 # this is v1
 # one day there will be a version which has a different name gen scheme
 # for each of several regions defined on the map
@@ -600,32 +649,7 @@ def initialize():
     # keyed by COORD (used for the map renderer)
     # after building this, we'll build a version which is keyed by name,
     # in order to do shortest-path calculation for the economic system
-    roadModelRender = {}
-    # generate road network
-    for coord, name in marketModel.items():
-        #membership test: has an entry for this name
-        # already been created in the given roadmodel,
-        # because another market already connects to it?
-        #(see below for what makes this possible)
-        if coord not in list(roadModelRender.keys()):
-            roadModelRender[coord] = {}
-        # get the nearest markets
-        nearestMarkets = getNearestMarkets(coord, marketModel, worldModel, roadModelRender)
-        for nearMarketCoord,info in nearestMarkets:
-            # put entries into right place
-            roadModelRender[coord][nearMarketCoord] = info
-            
-            # membership test: do I need to create the paired dictionary?
-            if nearMarketCoord in list(roadModelRender.keys()):
-                roadModelRender[nearMarketCoord][coord] = info
-            else:
-                roadModelRender[nearMarketCoord] = {}
-                roadModelRender[nearMarketCoord][coord] = info
-
-    for r,connects in roadModelRender.items():
-        # remove instances of r connecting to itself
-        if r in connects:
-            del(connects[r])
+    roadModelRender = buildFinalRoadModel(buildBasicRoadModel(marketModel,worldModel), worldModel)
 
     # roadModelRender is:
     # dict (coord1 -> dict (coord2 -> (distance, path from coord2 to coord1, expressed in coords)))
@@ -645,35 +669,10 @@ def initialize():
 # creating and using the above definitions/functions
 worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = initialize()
 
-# disconnected sub-graphs of roadModelEcon
-# each will need its own run of calculation for all-pairs shortest-paths,
-# since they are not connected to each other
-# and therefore can't have paths to each other's nodes
-subgraphs = getConnectedComponents(roadModelEconReady)
-
-
-# need to get rid of the hex-list information in order to run
-# (all together now)
-# shortest path finding to get per-subgraph all-pairs shortest paths
-# for use in the 'import references' step of the econonomy simulator
-roadModelEcon2 = {}
-for src, targs in roadModelEconReady.items():
-    roadModelEcon2[src] = {}
-    for targ, info in targs.items():
-        roadModelEcon2[src][targ] = info[0]
-
-# NEXT:
-# put back the single-market Astar code
-# test its runtime on subgraphs[10]
-# do the same for dijkstra
-# if Astar is verified faster, great, try running it on subgraph[1]
-# and seeing what the runtime is like on ~700 markets
-# then go from there.
-# one way or another this guy's GOTTA get written out to disk
-# once these actual generation issues are straightened out...
-
+subgraphs = getConnectedComponents(roadModelRenderReady)
 
 def main():
+    print(subgraphs)
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModelReady.items():
