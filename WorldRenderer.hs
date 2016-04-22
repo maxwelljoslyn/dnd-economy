@@ -55,13 +55,15 @@ drawRoad (Road cs) =
 drawHexLayer :: [P2 Double] -> [Hex] -> Diagram B
 drawHexLayer pts hs = atPoints pts $ map drawHex hs
 
-
 drawHex :: Hex -> Diagram B
 drawHex h =
-  alignedText 0.5 0 (show $ region h) # fc black # scale 0.75
+  alignedText 0.5 0 qAndR # fc black # scale 0.5
+  `atop`
+  alignedText 0.5 0.75 (show . cs . coord $ h) # fc black # scale 0.5
   `atop`
   hexagon 1 # fc climateColor' # lc black # lw veryThin
   where
+    qAndR = (show . cq . coord $ h) ++ (',' : (show . cr . coord $ h))
     regionColor' = regionColor $ region h
     climateColor' = climateColor $ climate h
     moistColor' = moistColor $ moist h
