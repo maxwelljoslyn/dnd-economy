@@ -16,7 +16,7 @@ random.seed(mySeed)
 getcontext().prec = 6
 
 # number of rings on the world map, with 0 = just the center hex
-mapSize = 40
+mapSize = 80
 
 # equatorial diameter of the planet
 # remember, I'm only generating one hemisphere right now
@@ -93,7 +93,6 @@ class HexData:
         self.climate = ""
         self.resources = {}
         self.services = {}
-        self.region = 0
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
