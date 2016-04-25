@@ -502,7 +502,10 @@ def main():
     totalWorldCount = sorted([(x,y) for (y,x) in counter.items()])
     print(totalWorldCount)
 
-
+    with open("inputTownParser.txt", "w") as f:
+        for t,d in towns.items():
+            outputString = "Coord " + str(d.coord) + " Name " + t + "\n"
+            f.write(outputString)
 
     with open("inputRoadParser.txt", "w") as f:
         for coord, targets in roadModelByCoord.items():
