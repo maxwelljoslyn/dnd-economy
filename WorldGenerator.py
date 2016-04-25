@@ -1,9 +1,11 @@
 import noise
 from decimal import *
 from math import pi
+
 from HexResources import *
 from Direction import Direction
 from AStarSearch import *
+from TownInfo import towns, connections
 
 # desired seed for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
@@ -74,7 +76,6 @@ def nearbyCoords(startCoord, distance):
     # the returned hexes include the start hex, so we want to throw that out
     results.remove(startCoord)
     return results
-
 
 def nearbyHexes(startHex, distance):
     """Calls nearbyCoords but then filters for membership in possibleCoords."""
@@ -450,16 +451,32 @@ def initialize():
 
                 chanceResourceCount -= 1
 
-    return worldModel
+    # assign resources to towns
+    # build the coord-indexed road model (roads from town to town and their distances)
+    roadModel = {}
+    for t,d in towns.items():
+        print("debug ",t)
+        d.resources = worldModel[d.coord].resources
+        print("debug: resources at this town are: ",str(d.resources))
+        if t not in roadModel:
+            roadModel[t] = {}
+            for c in connections[t]:
+                print("debug: checking on ",c)
+                distance, path = AStarSearch(worldModel,d.coord,towns[c].coord)
+                roadModel[t][c] = distance,path
+                if c not in roadModel:
+                    roadModel[c] = {}
+                roadModel[c][t] = distance,path
 
-worldModelReady = initialize()
+    return worldModel, roadModel
+
+worldModelReady, roadModelReady = initialize()
 
 def main():
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModelReady.items():
             outputString = "Hex Coord " + str(c) + \
-              " Region " + str(d.region) + \
               " Elevation " + str(d.elevation) + \
               " Temperature " + str(d.temperature) + \
               " Land " + str(d.isLand) + \
