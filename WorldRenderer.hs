@@ -9,7 +9,7 @@ import Diagrams.CubicSpline
 import Diagrams.TwoD.Offset
 
 import WorldParser
-import MarketParser
+import TownParser
 import RoadParser
 
 import Text.Parsec
@@ -25,18 +25,29 @@ main = do
         --whether resultOfParse is Left or Right.
 	--the only way to extract the data inside, which we need for parsing,
         --is a pattern match
-	case worldInfo of
-	    Left err ->
-		mainWith (circle 1 # fc pink # lw thick :: Diagram B)
-	    Right hs ->
-		mainWith $ drawFullWorld hs
+        townInfo <- parseTownFile
+        roadInfo <- parseRoadFile
+        case townInfo of
+          Left err ->
+            mainWith (triangle 1 # fc pink # lw thick :: Diagram B)
+          Right ts -> 
+	    case worldInfo of
+              Left err ->
+                mainWith (circle 1 # fc pink # lw thick :: Diagram B)
+              Right hs ->
+                case roadInfo of
+                  Left err -> mainWith (square 1 # fc pink # lw thick :: Diagram B)
+                  Right rs ->
+                    mainWith $ drawFullWorld hs townMap rs
+                    where
+                      townMap = DM.fromList ts
 
-drawFullWorld :: [Hex] -> Diagram B
-drawFullWorld hs =
-  --drawMarketLayer pts ms hs
-  --`atop`
-  --drawRoadLayer rs
-  --`atop`
+drawFullWorld :: [Hex] -> Map Coord TownData -> [Road] -> Diagram B
+drawFullWorld hs ts rs =
+  drawTownLayer pts ts hs
+  `atop`
+  drawRoadLayer rs
+  `atop`
   drawHexLayer pts hs
   where
     pts :: [P2 Double]
@@ -74,15 +85,15 @@ drawHex h =
     --and some border colors overlap onto others,
     --creating weird "bites" taken out of some hexes.
 
-drawMarketLayer :: [P2 Double] -> Map Coord MarketData -> [Hex] -> Diagram B
-drawMarketLayer pts ms hs = atPoints pts $ map (drawMarket ms) hs
+drawTownLayer :: [P2 Double] -> Map Coord TownData -> [Hex] -> Diagram B
+drawTownLayer pts ts hs = atPoints pts $ map (drawTown ts) hs
 
-drawMarket :: Map Coord MarketData -> Hex -> Diagram B
-drawMarket ms h = case hasMarket of
+drawTown :: Map Coord TownData -> Hex -> Diagram B
+drawTown ts h = case hasTown of
   Nothing -> mempty
-  Just (MarketData n) -> baselineText n # fc white # scale 0.5
+  Just (TownData n) -> baselineText n # fc white # scale 0.5
   where
-    hasMarket = DM.lookup (coord h) ms
+    hasTown = DM.lookup (coord h) ts
 
 coordToPixel :: Coord -> P2 Double
 coordToPixel (Coord q r s) = p2 (x,y)
