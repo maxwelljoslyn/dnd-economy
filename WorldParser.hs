@@ -5,8 +5,13 @@ import Control.Monad (liftM)
 
 type Region = Int
 
-data Coord = Coord (Int, Int, Int)
+data Coord = Coord Int Int Int
 	deriving (Ord, Eq, Read, Show)
+
+cq, cr, cs :: Coord -> Int
+cq (Coord q _ _) = q
+cr (Coord _ r _) = r
+cs (Coord _ _ s) = s
 
 data Elevation = Elevation Double
 	deriving (Read, Show)
@@ -20,8 +25,7 @@ data Climate = Desert | Mediterranean | HotSummerContinental | WarmSummerContine
 
 --bringing all the above datatypes together
 data Hex = Hex
-	{ region :: Region
-        , coord :: Coord
+        { coord :: Coord
 	, elev	:: Elevation
 	, temp :: Temperature
 	, isLand :: Bool
@@ -49,7 +53,7 @@ parseCoord = do
 	spaces
 	s <- coordShape
 	char ')'
-	return $ Coord (read q,read r,read s)
+	return $ Coord (read q) (read r) (read s)
 	where
 		coordShape = many (oneOf "-0123456789")
 
@@ -131,8 +135,6 @@ parseHex = do
 	spaces
 	c <- parseCoord
 	spaces
-        r <- parseRegion
-        spaces
 	e <- parseElevation
 	spaces
 	t <- parseTemperature
@@ -142,7 +144,7 @@ parseHex = do
 	m <- parseMoisture
 	spaces
 	clim <- parseClimate
-	return $ Hex r c e t l m clim
+	return $ Hex c e t l m clim
 
 
 parseWorld = do

@@ -97,7 +97,7 @@ def AStarSearch(worldModel, start, goal):
                 frontier.put(next, priority)
                 came_from[next] = current
     # return only the relevant information
-    return reconstructPath(came_from,start,goal), cost_so_far[goal]
+    return cost_so_far[goal], reconstructPath(came_from,start,goal)
 
 def AStarSearch_Road(roadModel, start, goal):
     frontier = PriorityQueue()

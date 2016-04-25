@@ -1,14 +1,13 @@
 import noise
 from decimal import *
 from math import pi
+
 from HexResources import *
 from Direction import Direction
-import Regions
 from AStarSearch import *
-from ConnectedComponents import getConnectedComponents
-from CityNameGen import makeMarketName
+from TownInfo import towns, connections
 
-# desired see for the RNG
+# desired seed for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
 # SHOULD RESET THE RNG TO THIS SEED BEFORE PROCEEDING WITH GENERATION
 # THIS IS FOR REPLICABILITY
@@ -78,7 +77,6 @@ def nearbyCoords(startCoord, distance):
     results.remove(startCoord)
     return results
 
-
 def nearbyHexes(startHex, distance):
     """Calls nearbyCoords but then filters for membership in possibleCoords."""
     res = nearbyCoords(startHex, distance)
@@ -96,7 +94,6 @@ class HexData:
         self.climate = ""
         self.resources = {}
         self.services = {}
-        self.region = 0
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
@@ -111,66 +108,6 @@ def tempAtCoord(coord):
     stepSize = Decimal((abs(minTemp) + maxTemp) / mapSize)
     adjustment = Decimal(distanceFromCenter) * stepSize
     return(minTemp + adjustment)
-
-def getNearestMarkets(coord, marketModel, worldModel, roadModel):
-    """Returns a list of tuples. First element in tuple is a market's coord,
-    second element is its distance from the argument coord. This distance value
-    takes elevation into account, as it should."""
-    targets = []
-    i = 1
-    # this first loop gets all the nearest markets according to linear distance,
-    # that is, distance purely by number of hexes, without taking elevation
-    # into account.
-    # this is just because it doesn't really matter WHICH markets are nearby,
-    # just that we have a way for picking them.
-    # howeve, we DO want to throw away markets which ALREADY link to this market,
-    # thereby avoiding the situation where two or three markets
-    # are all each other's ONLY nearby markets.
-    # by avoiding that, we avoid "pockets"
-    # (little communities of 3-5 markets which don't connect to the larger system),
-    # and therefore we force all the markets to connect together,
-    # arriving at the desired pricing behavior.
-    # this is why we pass a roadModel into this function:
-    # in order to avoid re-making connections which have already been made
-    # unfortunately this code doesn't work perfectly ...
-    # it lessens the pocket problem but doesn't completely get rid of it
-    # we can deal with it crudely by just increasing the size of i, above,
-    # which means each market will connect to more and more other markets
-    # theoretically getting this up to 3 or 4 will solve pockets entirely
-    # however this means a lot of super-connected markets, which isn't ideal --
-    # the ideal is for all markets to be connected into the system,
-    # but for some to still be very far away from most other markets,
-    # thus making most goods expensive.1
-    # lots of linking to other markets, as caused by increasing values of i,
-    # deviates from this ideal, even though it lessens the problem of
-    # markets forming small pocket networks.
-    while targets == []:
-        hs = nearbyHexes(coord, i)
-        marketHavers = [m for m in list(marketModel.keys()) for h in hs if m == h]
-        for m in marketHavers:
-            if m in roadModel:
-                if coord in roadModel[m]:
-                    # coord in m dict
-                    marketHavers.remove(m)
-            elif coord in roadModel:
-                if m in roadModel[coord]:
-                    # m in coord dict
-                    marketHavers.remove(m)
-            # obviously, since we're assuming coord indices,
-            # the roadModel passed into this function is roadModelRender
-        if marketHavers != []:
-            break
-        i+=1
-    # now that we've figured out which other markets count as nearby,
-    # we can determine the actual, elevation-adjusted distance
-    # to get from the market at coord to these other markets.
-    # that's what we want, for elevation to have its effect on the economy.
-    actualTargets = []
-    for targ in marketHavers:
-        path,cost = AStarSearch(worldModel, coord, targ)
-        useful = (targ,(cost,path))
-        actualTargets.append(useful)
-    return actualTargets
 
 # TODO: write my own noise generator (see AmitP noise page)
 def initialize():
@@ -513,127 +450,43 @@ def initialize():
 
                 chanceResourceCount -= 1
 
-    # now, before making markets, we assign a region to each land hex
-    # SET THE RANDOM SEED
-    random.seed(mySeed)
-    regionAssignments = Regions.getRegionCoords(worldModel)
-    for r,vals in regionAssignments.items():
-        for v in vals:
-            data = worldModel[v]
-            if data.isLand == False:
-                data.region = 0
-            else:
-                data.region = r
-                
-    # creating cities in some, but not all, cities;
-    # assigning the hex's resources to a city;
-    # and naming the cities based on their region.
-    # SET THE RANDOM SEED
-    random.seed(mySeed)
-    marketModel = {}
-    for coord,data in worldModel.items():
-        resCount = sum(list(data.resources.values()))
-        # market chance:
-        # base chance of having a market is based on num of resources.
-        # a resource is counted multiple times if there are multiple abstract units of it
-        chanceOfMarket = sum(list(data.resources.values())) * 5
-        x = random.randint(1,100)
-        if x <= chanceOfMarket:
-            region = data.region
-            n = makeMarketName(region)
-            # this while loop prevents duplication of names
-            # it gets slower as you add more cities since they all have to be checked
-            while n in marketModel.values():
-                print(n,"is already used.")
-                n = makeMarketName(region)
-                print("now it's:",n)
-            marketModel[coord] = n
-        else:
-            pass
 
-    # holds the network of roads spanning the markets,
-    # keyed by COORD (used for the map renderer)
-    # after building this, we'll build a version which is keyed by name,
-    # in order to do shortest-path calculation for the economic system
-    roadModelRender = {}
-    # generate road network
-    for coord, name in marketModel.items():
-        #membership test: has an entry for this name
-        # already been created in the given roadmodel,
-        # because another market already connects to it?
-        #(see below for what makes this possible)
-        if coord not in list(roadModelRender.keys()):
-            roadModelRender[coord] = {}
-        # get the nearest markets
-        nearestMarkets = getNearestMarkets(coord, marketModel, worldModel, roadModelRender)
-        for nearMarketCoord,info in nearestMarkets:
-            # put entries into right place
-            roadModelRender[coord][nearMarketCoord] = info
+    # assign resources to towns
+    # build the name-indexed road model (roads from town to town and their distances)
+    roadModelByName = {}
+    for t,d in towns.items():
+        print("debug ",t)
+        d.resources = worldModel[d.coord].resources
+        print("debug: resources at this town are: ",str(d.resources))
+        if t not in roadModelByName:
+            roadModelByName[t] = {}
+            for c in connections[t]:
+                print("debug: checking on ",c)
+                distance, path = AStarSearch(worldModel,d.coord,towns[c].coord)
+                roadModelByName[t][c] = distance,path
+                if c not in roadModelByName:
+                    roadModelByName[c] = {}
+                roadModelByName[c][t] = distance,path
+
+    # build the coord-indexed road model (for map rendering) from the name-indexed one
+    roadModelByCoord = {}
+    for name,targets in roadModelByName.items():
+        coord = towns[name].coord
+        roadModelByCoord[coord] = {}
+        for targetName,data in targets.items():
+            targetCoord = towns[targetName].coord
+            roadModelByCoord[coord][targetCoord] = data
             
-            # membership test: do I need to create the paired dictionary?
-            if nearMarketCoord in list(roadModelRender.keys()):
-                roadModelRender[nearMarketCoord][coord] = info
-            else:
-                roadModelRender[nearMarketCoord] = {}
-                roadModelRender[nearMarketCoord][coord] = info
 
-    for r,connects in roadModelRender.items():
-        # remove instances of r connecting to itself
-        if r in connects:
-            del(connects[r])
+    return worldModel, roadModelByName, roadModelByCoord
 
-    # roadModelRender is:
-    # dict (coord1 -> dict (coord2 -> (distance, path from coord2 to coord1, expressed in coords)))
-    # we want to make a second version of roadModelRender, called roadModelEcon,
-    # in which coord1 and coord2 are changed to the market names at those coords.
-    # then this second version can be sent off to the econ-calculator programs.
-    roadModelEcon = {}
-    for c1,valdict in roadModelRender.items():
-        name1 = marketModel[c1]
-        roadModelEcon[name1] = {}
-        for c2,info in valdict.items():
-            name2 = marketModel[c2]
-            roadModelEcon[name1][name2] = info
-
-    return (worldModel, marketModel, roadModelEcon, roadModelRender)
-
-# creating and using the above definitions/functions
-worldModelReady, marketModelReady, roadModelEconReady, roadModelRenderReady = initialize()
-
-# disconnected sub-graphs of roadModelEcon
-# each will need its own run of calculation for all-pairs shortest-paths,
-# since they are not connected to each other
-# and therefore can't have paths to each other's nodes
-subgraphs = getConnectedComponents(roadModelEconReady)
-
-
-# need to get rid of the hex-list information in order to run
-# (all together now)
-# shortest path finding to get per-subgraph all-pairs shortest paths
-# for use in the 'import references' step of the econonomy simulator
-roadModelEcon2 = {}
-for src, targs in roadModelEconReady.items():
-    roadModelEcon2[src] = {}
-    for targ, info in targs.items():
-        roadModelEcon2[src][targ] = info[0]
-
-# NEXT:
-# put back the single-market Astar code
-# test its runtime on subgraphs[10]
-# do the same for dijkstra
-# if Astar is verified faster, great, try running it on subgraph[1]
-# and seeing what the runtime is like on ~700 markets
-# then go from there.
-# one way or another this guy's GOTTA get written out to disk
-# once these actual generation issues are straightened out...
-
+worldModel, roadModelByName, roadModelByCoord = initialize()
 
 def main():
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
-        for c,d in worldModelReady.items():
+        for c,d in worldModel.items():
             outputString = "Hex Coord " + str(c) + \
-              " Region " + str(d.region) + \
               " Elevation " + str(d.elevation) + \
               " Temperature " + str(d.temperature) + \
               " Land " + str(d.isLand) + \
@@ -649,33 +502,19 @@ def main():
     totalWorldCount = sorted([(x,y) for (y,x) in counter.items()])
     print(totalWorldCount)
 
-    print("\n\n\n")
-    # count up those resources which ARE available through a market
-    accumulator = {}
-    for c,n in marketModelReady.items():
-        reses = worldModelReady[c].resources
-        for r,count in reses.items():
-            if r in accumulator:
-                accumulator[r] += count
-            else:
-                accumulator[r] = 1
-    totalAccumulator = sorted([(x,y) for (y,x) in accumulator.items()])
-    print(totalAccumulator)
-
-    with open("inputMarketParser.txt", "w") as f:
-        for c,n in marketModelReady.items():
-            outputString = "Coord " + str(c) + " Name " + n + "\n"
+    with open("inputTownParser.txt", "w") as f:
+        for t,d in towns.items():
+            outputString = "Coord " + str(d.coord) + " Name " + t + "\n"
             f.write(outputString)
 
     with open("inputRoadParser.txt", "w") as f:
-        for coord, targets in roadModelRenderReady.items():
+        for coord, targets in roadModelByCoord.items():
             for target, data in targets.items():
                 distance = data[0]
                 path = data[1]
                 pathString = ",".join([("Coord " + str(x)) for x in path])
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
-
 
 if __name__ == "__main__":
     main()

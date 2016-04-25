@@ -9,7 +9,7 @@ import Diagrams.CubicSpline
 import Diagrams.TwoD.Offset
 
 import WorldParser
-import MarketParser
+import TownParser
 import RoadParser
 
 import Text.Parsec
@@ -25,12 +25,12 @@ main = do
         --whether resultOfParse is Left or Right.
 	--the only way to extract the data inside, which we need for parsing,
         --is a pattern match
-        marketInfo <- parseMarketFile
+        townInfo <- parseTownFile
         roadInfo <- parseRoadFile
-        case marketInfo of
+        case townInfo of
           Left err ->
             mainWith (triangle 1 # fc pink # lw thick :: Diagram B)
-          Right ms -> 
+          Right ts -> 
 	    case worldInfo of
               Left err ->
                 mainWith (circle 1 # fc pink # lw thick :: Diagram B)
@@ -38,17 +38,17 @@ main = do
                 case roadInfo of
                   Left err -> mainWith (square 1 # fc pink # lw thick :: Diagram B)
                   Right rs ->
-                    mainWith $ drawFullWorld marketMap hs rs
+                    mainWith $ drawFullWorld hs townMap rs
                     where
-                      marketMap = DM.fromList ms
+                      townMap = DM.fromList ts
 
-drawFullWorld :: Map Coord MarketData -> [Hex] -> [Road] -> Diagram B
-drawFullWorld ms hs rs =
-  drawMarketLayer pts ms hs
+drawFullWorld :: [Hex] -> Map Coord TownData -> [Road] -> Diagram B
+drawFullWorld hs ts rs =
+  drawTownLayer pts ts hs
   `atop`
   drawRoadLayer rs
   `atop`
-  drawHexLayer pts ms hs
+  drawHexLayer pts hs
   where
     pts :: [P2 Double]
     pts = map (coordToPixel . coord) hs
@@ -63,16 +63,18 @@ drawRoad (Road cs) =
   where
     pts = fmap coordToPixel cs
 
-drawHexLayer :: [P2 Double] -> Map Coord MarketData -> [Hex] -> Diagram B
-drawHexLayer pts ms hs = atPoints pts $ map drawHex hs
+drawHexLayer :: [P2 Double] -> [Hex] -> Diagram B
+drawHexLayer pts hs = atPoints pts $ map drawHex hs
 
 drawHex :: Hex -> Diagram B
 drawHex h =
-  alignedText 0.5 0 (show $ region h) # fc black # scale 0.75
+  alignedText 0.5 0 qAndR # fc black # scale 0.5
+  `atop`
+  alignedText 0.5 0.75 (show . cs . coord $ h) # fc black # scale 0.5
   `atop`
   hexagon 1 # fc climateColor' # lc black # lw veryThin
   where
-    regionColor' = regionColor $ region h
+    qAndR = (show . cq . coord $ h) ++ (',' : (show . cr . coord $ h))
     climateColor' = climateColor $ climate h
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)
@@ -82,18 +84,18 @@ drawHex h =
     --and some border colors overlap onto others,
     --creating weird "bites" taken out of some hexes.
 
-drawMarketLayer :: [P2 Double] -> Map Coord MarketData -> [Hex] -> Diagram B
-drawMarketLayer pts ms hs = atPoints pts $ map (drawMarket ms) hs
+drawTownLayer :: [P2 Double] -> Map Coord TownData -> [Hex] -> Diagram B
+drawTownLayer pts ts hs = atPoints pts $ map (drawTown ts) hs
 
-drawMarket :: Map Coord MarketData -> Hex -> Diagram B
-drawMarket ms h = case hasMarket of
+drawTown :: Map Coord TownData -> Hex -> Diagram B
+drawTown ts h = case hasTown of
   Nothing -> mempty
-  Just (MarketData n) -> baselineText n # fc white # scale 0.5
+  Just (TownData n) -> baselineText n # fc white # scale 0.5
   where
-    hasMarket = DM.lookup (coord h) ms
+    hasTown = DM.lookup (coord h) ts
 
 coordToPixel :: Coord -> P2 Double
-coordToPixel (Coord (q,r,s)) = p2 (x,y)
+coordToPixel (Coord q r s) = p2 (x,y)
 	where
 		q' = fromIntegral q
 		r' = fromIntegral r
