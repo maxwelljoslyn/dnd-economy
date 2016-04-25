@@ -3,11 +3,9 @@ from decimal import *
 from math import pi
 from HexResources import *
 from Direction import Direction
-import Regions
 from AStarSearch import *
-from ConnectedComponents import getConnectedComponents
 
-# desired see for the RNG
+# desired seed for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
 # SHOULD RESET THE RNG TO THIS SEED BEFORE PROCEEDING WITH GENERATION
 # THIS IS FOR REPLICABILITY
