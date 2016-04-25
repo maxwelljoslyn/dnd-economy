@@ -452,30 +452,40 @@ def initialize():
                 chanceResourceCount -= 1
 
     # assign resources to towns
-    # build the coord-indexed road model (roads from town to town and their distances)
-    roadModel = {}
+    # build the name-indexed road model (roads from town to town and their distances)
+    roadModelByName = {}
     for t,d in towns.items():
         print("debug ",t)
         d.resources = worldModel[d.coord].resources
         print("debug: resources at this town are: ",str(d.resources))
-        if t not in roadModel:
-            roadModel[t] = {}
+        if t not in roadModelByName:
+            roadModelByName[t] = {}
             for c in connections[t]:
                 print("debug: checking on ",c)
                 distance, path = AStarSearch(worldModel,d.coord,towns[c].coord)
-                roadModel[t][c] = distance,path
-                if c not in roadModel:
-                    roadModel[c] = {}
-                roadModel[c][t] = distance,path
+                roadModelByName[t][c] = distance,path
+                if c not in roadModelByName:
+                    roadModelByName[c] = {}
+                roadModelByName[c][t] = distance,path
 
-    return worldModel, roadModel
+    # build the coord-indexed road model (for map rendering) from the name-indexed one
+    roadModelByCoord = {}
+    for name,targets in roadModelByName.items():
+        coord = towns[name].coord
+        roadModelByCoord[coord] = {}
+        for targetName,data in targets.items():
+            targetCoord = towns[targetName].coord
+            roadModelByCoord[coord][targetCoord] = data
+            
 
-worldModelReady, roadModelReady = initialize()
+    return worldModel, roadModelByName, roadModelByCoord
+
+worldModel, roadModelByName, roadModelByCoord = initialize()
 
 def main():
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
-        for c,d in worldModelReady.items():
+        for c,d in worldModel.items():
             outputString = "Hex Coord " + str(c) + \
               " Elevation " + str(d.elevation) + \
               " Temperature " + str(d.temperature) + \
@@ -491,6 +501,10 @@ def main():
                     counter[x] = 1
     totalWorldCount = sorted([(x,y) for (y,x) in counter.items()])
     print(totalWorldCount)
+
+    print(roadModelByName)
+    print(roadModelByCoord)
+    
 
 if __name__ == "__main__":
     main()
