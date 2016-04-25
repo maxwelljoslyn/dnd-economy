@@ -75,7 +75,6 @@ drawHex h =
   hexagon 1 # fc climateColor' # lc black # lw veryThin
   where
     qAndR = (show . cq . coord $ h) ++ (',' : (show . cr . coord $ h))
-    regionColor' = regionColor $ region h
     climateColor' = climateColor $ climate h
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)

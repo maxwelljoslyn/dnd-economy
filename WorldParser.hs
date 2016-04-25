@@ -25,8 +25,7 @@ data Climate = Desert | Mediterranean | HotSummerContinental | WarmSummerContine
 
 --bringing all the above datatypes together
 data Hex = Hex
-	{ region :: Region
-        , coord :: Coord
+        { coord :: Coord
 	, elev	:: Elevation
 	, temp :: Temperature
 	, isLand :: Bool
@@ -136,8 +135,6 @@ parseHex = do
 	spaces
 	c <- parseCoord
 	spaces
-        r <- parseRegion
-        spaces
 	e <- parseElevation
 	spaces
 	t <- parseTemperature
@@ -147,7 +144,7 @@ parseHex = do
 	m <- parseMoisture
 	spaces
 	clim <- parseClimate
-	return $ Hex r c e t l m clim
+	return $ Hex c e t l m clim
 
 
 parseWorld = do
