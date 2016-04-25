@@ -8,7 +8,7 @@ data TownData = TownData { name :: String } deriving (Show, Read)
 
 parseName :: Parsec String () String
 parseName = do
-  n <- many letter
+  n <- many anyChar
   return n
 
 parseTownData :: Parsec String () (Coord,TownData)
