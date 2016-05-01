@@ -5,6 +5,7 @@ from math import pi
 from HexResources import *
 from Direction import Direction
 from AStarSearch import *
+from ShortestPaths import shortestPath
 from TownInfo import towns, connections
 
 # desired seed for the RNG
@@ -481,6 +482,11 @@ def initialize():
     return worldModel, roadModelByName, roadModelByCoord
 
 worldModel, roadModelByName, roadModelByCoord = initialize()
+
+# in order to run this implementation of shortest path (and therefore Dijkstra),
+# we have to strip the road information out of the roadModel,
+# leaving only the raw distance numbers.
+strippedRoadModel = {src:{dest:data[0] for dest,data in goesTo.items()} for src,goesTo in roadModelByName.items()}
 
 def main():
     counter = {}
