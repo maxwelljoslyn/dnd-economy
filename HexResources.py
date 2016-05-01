@@ -9,6 +9,93 @@ def weightedChoice(weightedlist):
     x = random.random() * cumulativeDist[-1]
     return choices[bisect.bisect(cumulativeDist,x)]
 
+def stripWeights(weightedList):
+    """Helper function to return only the names in a resource list, not its weights."""
+    return [member[0] for member in weightedList]
+
+def resourceToServices(res):
+    """Returns the appropriate service or services (always in a list, even if just one)
+    for a given resource."""
+    servs = []
+    if res == "honeybee":
+        servs.append("beekeeper")
+    if res == "silkworm":
+        servs.append("weaver")
+        servs.append("tailor")
+    if res in stripWeights(livestock):
+        servs.append("tanner")
+        servs.append("leatherworker")
+        servs.append("butcher")
+    if res in stripWeights(savannahOnlyBeasts + tropicalOrSavannahBeasts + coldClimateBeasts + desertBeasts + otherBeasts):
+        for x in ["hunter","tanner","leatherworker","butcher"]:
+            servs.append(x)
+    if res in stripWeights(waterBeasts):
+        servs.append("fishmonger")
+
+    if res in (stripWeights(metalOres) + stoneAndMinerals):
+        servs.append("smelter")
+        servs.append("blacksmith")
+        servs.append("assayer")
+    if res in stripWeights(stoneAndMinerals):
+        servs.append("stonecarver")
+        servs.append("mason")
+    if res in (stripWeights(preciousGems) + ornamentalGems):
+        servs.append("jeweler")
+    if res == "tin ore":
+        servs.append("tinsmith")
+    if res == "silver ore":
+        servs.append("silversmith")
+    if res == "gold ore":
+        servs.append("goldsmith")
+
+    if res in crops:
+        for x in ["miller","brewer","baker"]:
+            servs.append(x)
+    if res == "tobacco":
+        servs.append("tobacconist")
+    if res in stripWeights(alchemyPlants):
+        servs.append("alchemist")
+    if res == "olive":
+        servs.append("miller") #olives are pressed at a mill
+    if res == "grape":
+        servs.append("vintner")
+    if res == "timber":
+        servs.append("carpenter")
+
+    return servs
+
+# all of the above services are also listed here, for random distribution
+serviceList = ["beekeeper","weaver","tailor","tanner","leatherworker","butcher",
+               "hunter","fishmonger","smelter","assayer","tinsmith","goldsmith",
+               "stonecarver","mason","jeweler","silversmith","blacksmith",
+               "miller","brewer","baker","tobacconist","alchemist","vintner",
+               "carpenter"]
+
+def getServices(resourceDict):
+    """Given a dict mapping from resource names to counts of those resources,
+    return the appropriate services (occupational resources, like blacksmith and chandler)
+    which are appropriate for those resources."""
+    result = {}
+    for name,count in resourceDict.items():
+        print(name,str(count))
+        servs = resourceToServices(name)
+        print(servs)
+        for s in servs:
+            if s in result:
+                result[s] += count
+            else:
+                result[s] = count
+    # then, add some extra services from the list, for more variety
+    extraServs = random.randint(1,6)
+    while extraServs > 0:
+        e = random.choice(serviceList)
+        if e in result:
+            result[e] += 1
+        else:
+            result[e] = 1
+        extraServs = extraServs - 1
+    return result
+
 # these lists define various categories of resource
 # when resources are generated for a hex, these lists are consulted,
 # with the exact selection of lists determined by climate.
@@ -105,4 +192,6 @@ tropicalFruits = ["allspice","banana","coconut","dragonfruit","durian",
                   "grape","grapefruit","guava","kiwifruit","lemon",
                   "lime","mango","oil palm","olive","orange","papaya",
                   "pecan","pineapple","pistachio","watermelon"]
+
+allFruits = temperateFruits + subarcticFruits + mediterraneanFruits + subtropicalFruits + tropicalFruits
 
