@@ -487,6 +487,18 @@ worldModel, roadModelByName, roadModelByCoord = initialize()
 # we have to strip the road information out of the roadModel,
 # leaving only the raw distance numbers.
 strippedRoadModel = {src:{dest:data[0] for dest,data in goesTo.items()} for src,goesTo in roadModelByName.items()}
+# building the all-pairs shortest path matrix from the road model,
+# giving us distances from each town to each other town
+shortestPathMatrix = {}
+for source in strippedRoadModel:
+    shortestPathMatrix[source] = {}
+    for dest in strippedRoadModel:
+        if source == dest:
+            pass
+        else:
+            finalDists, path = shortestPath(strippedRoadModel, source, dest)
+            d = finalDists[dest]
+            shortestPathMatrix[source][dest] = d
 
 def main():
     counter = {}
