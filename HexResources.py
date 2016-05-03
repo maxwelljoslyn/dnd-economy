@@ -77,9 +77,7 @@ def getServices(resourceDict):
     which are appropriate for those resources."""
     result = {}
     for name,count in resourceDict.items():
-        print(name,str(count))
         servs = resourceToServices(name)
-        print(servs)
         for s in servs:
             if s in result:
                 result[s] += count
