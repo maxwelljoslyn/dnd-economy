@@ -1,6 +1,7 @@
 import random
 import itertools
 import bisect
+from decimal import Decimal
 
 # choose randomly from a population built from a list of choices with weights
 def weightedChoice(weightedlist):
@@ -80,17 +81,17 @@ def getServices(resourceDict):
         servs = resourceToServices(name)
         for s in servs:
             if s in result:
-                result[s] += count
+                result[s] += Decimal(count)
             else:
-                result[s] = count
+                result[s] = Decimal(count)
     # then, add some extra services from the list, for more variety
     extraServs = random.randint(1,6)
     while extraServs > 0:
         e = random.choice(serviceList)
         if e in result:
-            result[e] += 1
+            result[e] += Decimal(1)
         else:
-            result[e] = 1
+            result[e] = Decimal(1)
         extraServs = extraServs - 1
     return result
 

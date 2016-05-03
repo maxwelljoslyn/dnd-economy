@@ -444,9 +444,9 @@ def initialize():
                 else:
                     # increment value if there, otherwise start at 1
                     if choice in data.resources:
-                        data.resources[choice] += 1
+                        data.resources[choice] += Decimal(1)
                     else:
-                        data.resources[choice] = 1
+                        data.resources[choice] = Decimal(1)
 
                 chanceResourceCount -= 1
 
