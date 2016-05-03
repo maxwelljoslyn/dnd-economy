@@ -94,7 +94,6 @@ class HexData:
         self.moisture = Decimal(0)
         self.climate = ""
         self.resources = {}
-        self.services = {}
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
@@ -452,13 +451,13 @@ def initialize():
                 chanceResourceCount -= 1
 
 
-    # assign resources to towns
+    # assign resources and services to towns
     # build the name-indexed road model (roads from town to town and their distances)
     roadModelByName = {}
     for t,d in towns.items():
         print("debug ",t)
         d.resources = worldModel[d.coord].resources
-        print("debug: resources at this town are: ",str(d.resources))
+        d.services = getServices(d.resources)
         if t not in roadModelByName:
             roadModelByName[t] = {}
             for c in connections[t]:
