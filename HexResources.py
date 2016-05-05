@@ -95,6 +95,10 @@ def getServices(resourceDict):
         extraServs = extraServs - 1
     return result
 
+# this dictionary holds per-reference production figures, with both amounts and units thereof,
+# for each of the resources listed below.
+referenceProductionMatrix = {}
+
 # these lists define various categories of resource
 # when resources are generated for a hex, these lists are consulted,
 # with the exact selection of lists determined by climate.
@@ -106,7 +110,15 @@ livestock = [("cow",5),("chicken",5),("duck",5),("sheep",5),("pig",5),
              ("mule",5),("silkworm",3),("turkey",5),("rabbit",5),
              ("honeybee",5)]
 
+for l in livestock:
+    name = l[0]
+    referenceProductionMatrix[name] = (10000, "head")
+
 savannahOnlyBeasts = [("giraffe",5),("lion",5),("elephant",5),("zebra",5)]
+
+for s in savannahOnlyBeasts:
+    name = s[0]
+    referenceProductionMatrix[name] = (1000, "head")
 
 # can be found in the savannah or in any of:
 # rainforest, monsoon, humid subtropical
@@ -114,20 +126,40 @@ tropicalOrSavannahBeasts = [("tiger",5),("orangutan",5),("panther",5),
                             ("gorilla",5),("hippo",5),("alligator",5),
                             ("crocodile",5)]
 
+for t in tropicalOrSavannahBeasts:
+    name = t[0]
+    referenceProductionMatrix[name] = (1000, "head")
+                                   
 # only choices for: tundra, ice cap
 coldClimateBeasts = [("fish",5),("mammoth",3),("remorhaz",1)]
 
+referenceProductionMatrix["fish"] = (10000, "kg")
+referenceProductionMatrix["mammoth"] = (1000, "head")
+referenceProductionMatrix["remorhaz"] = (100, "head")
+                             
 # found in most places; some are rare.
 otherBeasts = [("fish",5),("deer",5),("snake",5),
                ("frog",5),("wolf",5),("bird",5),("bear",5),
                ("boar",5),("scorpion",5),("owlbear",3),("bulette",1),
                ("griffin",1),("ankheg",3),("roc",1),("pegasus",1)]
 
+for ob in otherBeasts:
+    name = ob[0]
+    referenceProductionMatrix[name] = (10000 * ob[1],"head")
+
 desertBeasts = [("scorpion",5),("camel",5),("ankheg",5),("snake",5)]
-        
+
+for db in desertBeasts:
+    name = db[0]
+    referenceProductionMatrix[name] = (10000,"head")
+
 # can found in any hex which has 1+ Water neighbors
 waterBeasts = [("crab",5),("eel",5),("lobster",5),("whale",3),
                ("dolphin",3),("squid",5),("octopus",5),("oyster",1)]
+
+for wb in waterBeasts:
+    name = wb[0]
+    referenceProductionMatrix[name] = (10000 * wb[1],"head")
 
 metalOres = [("iron ore",14),("manganese ore",13),("nickel ore",12),
              ("zinc ore",11),("copper ore",10),("cobalt ore",9),
@@ -136,18 +168,35 @@ metalOres = [("iron ore",14),("manganese ore",13),("nickel ore",12),
              ("mithril ore",2),("adamantine ore",1)]
 # cinnabar = ore from which mercury is refined
 
+for mo in metalOres:
+    name = mo[0]
+    referenceProductionMatrix[name] = (100000 * mo[1],"kg")
+
+
 # these are considered to have the same weight, so weights are elided;
 # they can be chosen among with the function random.choice
 stoneAndMinerals = ["chalk","coal","salt","talc","emery","granite",
                     "marble","slate","flint","obsidian","phosphorus",
                     "witherite","sulfur"] + (["limestone"] * 2)
 
+for sm in stoneAndMinerals:
+    referenceProductionMatrix[sm] = (100000,"kg")
+
+
 preciousGems = [("ruby",10),("emerald",10),("topaz",10),("sapphire",10),
                 ("diamond",3)]
+
+for pg in preciousGems:
+    name = pg[0]
+    referenceProductionMatrix[name] = (100 * pg[1], "kg")
 
 ornamentalGems = ["agate","azurite","cat's eye","hawk's eye","hematite",
                     "malachite","lapis lazuli","mother-of-pearl","quartz",
                     "tiger eye","turquoise"]
+
+for og in ornamentalGems:
+    referenceProductionMatrix[og] = (10000,"kg")
+
 
 # vegetables are mainly tropical vs. non-tropical
 # for vegetables, a "tropical" variable means monsoon, subtropical, or rainforest;
@@ -156,6 +205,7 @@ vegetables = ["carrot","lettuce","potato","bean","tomato","squash","cucumber",
               "onion","garlic","sweet pepper"]
 
 tropicalVegetables = vegetables + ["luffa"]
+
 
 crops = ["cereal","cavebloom","hops","flax","poppy"]
 
@@ -170,6 +220,7 @@ tropicalSpices = [("black pepper",7),("cacao",5),("vanilla",5),("saffron",1)]
 
 # I don't bother with a trop/non-trop distinction here
 alchemyPlants = [("nightshade",5),("wolfsbane",5),("black lotus",1),("hemlock",5)]
+
 
 # there are fewer fruit categories than climates since some climates share a category
 # fruit/climate pairings:
@@ -194,3 +245,9 @@ tropicalFruits = ["allspice","banana","coconut","dragonfruit","durian",
 
 allFruits = temperateFruits + subarcticFruits + mediterraneanFruits + subtropicalFruits + tropicalFruits
 
+for t in (tropicalVegetables + crops + tropicalCrops + tundraCrops + allFruits):
+    referenceProductionMatrix[t] = (100000, "kg")
+
+for other in (spices + tropicalSpices + alchemyPlants):
+    name = other[0]
+    referenceProductionMatrix[name] = (10000 * other[1], "kg")
