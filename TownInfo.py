@@ -29,5 +29,13 @@ def addConnection(town_a,town_b):
 towns["Veder Vek"] = Town((44,-62,18))
 towns["Ekodo"] = Town((44,-65,21))
 addConnection("Veder Vek","Ekodo")
-towns["Neev Ronu"] = Town((43,-66,23))
-addConnection("Ekodo","Neev Ronu")
+towns["Goot Ronu"] = Town((43,-66,23))
+addConnection("Ekodo","Goot Ronu")
+towns["Goot Torkada"] = Town((42,-67,25))
+addConnection("Goot Torkada", "Goot Ronu")
+
+towns["Serdabach"] = Town((45,-68,23))
+addConnection("Goot Ronu","Serdabach")
+
+towns["Otalo Vek"] = Town((43,-69,26))
+addConnection("Goot Torkada","Otalo Vek")
