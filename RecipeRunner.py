@@ -24,8 +24,8 @@ def findCost(city, recipe):
     finalCost = componentCost + serviceCost
     return finalCost
 
-def printCost(city, name):
-    """Print the price of a recipe 'name' at 'city'."""
+def showCost(city, name):
+    """Show the price of a recipe 'name' at 'city'."""
     arg = recipeStorage[name]
     price = findCost(city, arg)
     return (name + ": " + str(price) + " CP\nUnit: " + str(arg.unit[0]) + " " + arg.unit[1])
@@ -36,7 +36,7 @@ def main():
         if n in semiGoods:
             pass
         else:
-            print(printCost("A", n))
+            print(showCost("A", n))
             # currently just testing with City A
 
 if __name__ == "__main__":
