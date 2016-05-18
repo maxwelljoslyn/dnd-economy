@@ -84,9 +84,8 @@ oneOzGoldOreInGP = Decimal(8)
 oneOzInGrams = Decimal(28.35)
 # thus there are 28.35 grams to 8 gold pieces; thus a price of approx 282.19 gp/kg gold ore
 goldOreKGinGP = oneOzGoldOreInGP * 1000 / oneOzInGrams
-# 1 gold piece is equivalent to 100 copper pieces, thus we multiply by 100 and have our answer.
-goldOreKGinCP = Decimal(282190)
-oneRefGoldOzInCP = referenceProductionMatrix["gold ore"][0] * goldOreKGinCP
+# 1 gold piece is equivalent to 100 copper pieces
+goldOreKGinCP = goldOreKGinGP * 100
 # thus we arrive at the copper-piece value of one reference of gold ore,
 # which we also take as the CP value of one reference of ANY material resource.
 
@@ -100,9 +99,9 @@ pricesPerProductionUnit = {}
 for t,d in towns.items():
     pricesPerProductionUnit[t] = {}
     for rawMat,details in referenceProductionMatrix.items():
-        referenceSize = details[0]
+        referenceSize, unit = details
         singleUnitPrice = goldOreKGinCP / referenceSize
-        pricesPerProductionUnit[t][rawMat] = (singleUnitPrice, details[1])
+        pricesPerProductionUnit[t][rawMat] = (singleUnitPrice, unit)
 
 # and with that, we are ready to move into the final economy step: recipes!
 # in which we use these raw material prices together with services
