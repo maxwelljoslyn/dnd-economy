@@ -98,10 +98,15 @@ goldOreKGinCP = goldOreKGinGP * 100
 pricesPerProductionUnit = {}
 for t,d in towns.items():
     pricesPerProductionUnit[t] = {}
-    for rawMat,details in referenceProductionMatrix.items():
-        referenceSize, unit = details
-        singleUnitPrice = goldOreKGinCP / referenceSize
-        pricesPerProductionUnit[t][rawMat] = (singleUnitPrice, unit)
+    for rawMat in allResourceNames:
+        referenceSize, unit = referenceProductionMatrix[rawMat]
+        baseUnitPrice = goldOreKGinCP / referenceSize
+        # local references to resource, divided by world references, times unit price
+        localRefs = d.resources[rawMat]
+        worldRefs = originalWorldResourceCounts[rawMat]
+        ratio = localRefs / worldRefs
+        localUnitPrice = ratio * baseUnitPrice
+        pricesPerProductionUnit[t][rawMat] = (localUnitPrice, unit)
 
 # and with that, we are ready to move into the final economy step: recipes!
 # in which we use these raw material prices together with services
@@ -116,7 +121,9 @@ def main():
     print("\n")
     for t,vals in pricesPerProductionUnit.items():
         print(t,"\n")
+        print(vals)
         for name in allResourceNames:
             price, unit = vals[name]
             print(name,"costs",str(price),"CP per",unit)
+
 main()
