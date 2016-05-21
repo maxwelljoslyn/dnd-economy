@@ -113,11 +113,6 @@ for t,d in towns.items():
 # to arrive at prices for actual items which the players can buy
 
 def main():
-    for t,d in towns.items():
-        print(t)
-        print(originalTowns[t].resources)
-        print(d.resources)
-        print("\n")
     print("\n")
     for t,vals in pricesPerProductionUnit.items():
         print(t,"\n")
@@ -126,4 +121,5 @@ def main():
             price, unit = vals[name]
             print(name,"costs",str(price),"CP per",unit)
 
-main()
+if __name__ == "__main__":
+    main()
