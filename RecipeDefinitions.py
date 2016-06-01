@@ -25,11 +25,8 @@ recipeStorage = {}
 semiGoods = []
 
 
-recipeStorage["pig iron"] = Recipe("puddler",(1, "lb"))
-recipeStorage["pig iron"].subRaws = [("iron_ore",24),
-                                   ("coal",24)]
-# 24 oz of iron ore (50% more than the resulting pig iron),
-# plus the same amount of coal
-
+recipeStorage["pig iron"] = Recipe("smelter",(1, "kg"))
+recipeStorage["pig iron"].subRaws = [("iron ore",1),
+                                     ("coal",5),
+                                     ("limestone",0.1)]
 semiGoods.append("pig iron")
-# TODO: add limestone to resources, then to this recipe: perhaps half a pound?

@@ -1,6 +1,6 @@
 from decimal import *
-from ResourceCountCalculator import rawMatStorage, serviceStorage
 from RecipeDefinitions import *
+from ResourcePriceCalculator import towns
 
 #set up the Decimal environment
 getcontext().prec = 6
@@ -36,8 +36,9 @@ def main():
         if n in semiGoods:
             pass
         else:
-            print(showCost("A", n))
-            # currently just testing with City A
+            for t in towns:
+                print("At",t," price of",n,":",showCost(t,n))
+                
 
 if __name__ == "__main__":
     main()
