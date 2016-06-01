@@ -78,6 +78,7 @@ def shortestPath(G,start,end):
 	"""
 
 	D,P = Dijkstra(G,start,end)
+	print(D,"\n",P)
 	Path = []
 	while 1:
 		Path.append(end)
