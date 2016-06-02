@@ -26,9 +26,13 @@ def addConnection(town_a,town_b):
 # the computer will do that for me,
 # finding both the path of the road and the distance along it
     
-towns["Veder Vek"] = Town((44,-62,18),{},{})
-towns["Ekodo"] = Town((44,-65,21),{},{})
-towns["Goot Ronu"] = Town((43,-66,23),{},{})
+towns["Veder Vek"] = Town((44,-62,18),
+                          {"coal":1, "iron ore":1, "cereal":1},
+                          {"blacksmith":1, "miller":1})
+towns["Ekodo"] = Town((44,-65,21),
+                      {"hops":1,"cotton":1,"timber":2,"manganese ore":1,"nickel ore":1,"silver ore":1},
+                      {"smelter":1,"silversmith":1})
+towns["Goot Ronu"] = Town((43,-66,23),{"limestone":1},{})
 towns["Goot Torkada"] = Town((42,-67,25),{},{})
 towns["Serdabach"] = Town((45,-68,23),{},{})
 towns["Otalo Vek"] = Town((43,-69,26),{},{})
