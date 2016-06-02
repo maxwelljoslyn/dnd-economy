@@ -1,24 +1,29 @@
 from decimal import *
 from RecipeDefinitions import *
-from ResourcePriceCalculator import towns
+from ResourcePriceCalculator import towns, pricesPerProductionUnit
 
 #set up the Decimal environment
 getcontext().prec = 6
 
-def findCost(city, recipe):
+def findCost(city, name):
     rawMatSum = 0
-    for r,c in recipe.subRaws:
-        base = rawMatStorage[city][r][0]
-        multiplied = base * c
+    recipe = recipeStorage[name]
+    for r,count in recipe.subRaws:
+        base = pricesPerProductionUnit[city][r][0]
+        multiplied = base * Decimal(count)
         rawMatSum += multiplied
     subRecipeSum = 0
-    for r,c in recipe.subRecipes:
+    for r,count in recipe.subRecipes:
+        # recursion! this can eventually be made more efficient by memoization,
+        # i.e. by storing the result of each call to findCost in a dictionary,
+        # then wrapping findCost in a method which, when given a recipe name,
+        # first looks in that dictionary to see if the recipe cost has already been calculated
         base = findCost(city, r)
         # recursion
-        multiplied = base * c
+        multiplied = base * Decimal(count)
         subRecipeSum += multiplied
     componentCost = rawMatSum + subRecipeSum
-    serviceNum = serviceStorage[city][recipe.service]
+    serviceNum = towns[city].services[recipe.service]
     serviceModifier = (1 / serviceNum)
     serviceCost = componentCost * serviceModifier * recipe.difficulty
     finalCost = componentCost + serviceCost
@@ -26,8 +31,7 @@ def findCost(city, recipe):
 
 def showCost(city, name):
     """Show the price of a recipe 'name' at 'city'."""
-    arg = recipeStorage[name]
-    price = findCost(city, arg)
+    price = findCost(city, name)
     return (name + ": " + str(price) + " CP\nUnit: " + str(arg.unit[0]) + " " + arg.unit[1])
 
 # TODO: parameterize to cities named on the command line (any number of)
