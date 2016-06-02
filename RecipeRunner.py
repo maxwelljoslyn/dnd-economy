@@ -31,18 +31,19 @@ def findCost(city, name):
 
 def showCost(city, name):
     """Show the price of a recipe 'name' at 'city'."""
+    recipe = recipeStorage[name]
     price = findCost(city, name)
-    return (name + ": " + str(price) + " CP\nUnit: " + str(arg.unit[0]) + " " + arg.unit[1])
+    return (str(price) + " CP per " + str(recipe.unit[0]) + " " + recipe.unit[1])
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
-    for n in recipeStorage:
-        if n in semiGoods:
-            pass
-        else:
-            for t in towns:
-                print("At",t," price of",n,":",showCost(t,n))
-                
+    for t in towns:
+        for n in recipeStorage:
+            if n in semiGoods:
+                pass
+            else:
+                print("At",t + ":")
+                print(n + ":",showCost(t,n))
 
 if __name__ == "__main__":
     main()
