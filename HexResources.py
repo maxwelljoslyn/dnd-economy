@@ -98,6 +98,7 @@ def getServices(resourceDict):
 # this dictionary holds per-reference production figures, with both amounts and units thereof,
 # for each of the resources listed below.
 referenceProductionMatrix = {}
+referenceProductionMatrix["timber"] = (10000, "cubic meter")
 
 # these lists define various categories of resource
 # when resources are generated for a hex, these lists are consulted,
