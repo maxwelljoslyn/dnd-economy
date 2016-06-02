@@ -105,7 +105,7 @@ for t,d in towns.items():
         localRefs = d.resources[rawMat]
         worldRefs = originalWorldResourceCounts[rawMat]
         ratio = localRefs / worldRefs
-        localUnitPrice = ratio * baseUnitPrice
+        localUnitPrice = baseUnitPrice / ratio
         pricesPerProductionUnit[t][rawMat] = (localUnitPrice, unit)
 
 # and with that, we are ready to move into the final economy step: recipes!
@@ -115,8 +115,7 @@ for t,d in towns.items():
 def main():
     print("\n")
     for t,vals in pricesPerProductionUnit.items():
-        print(t,"\n")
-        print(vals)
+        print(t)
         for name in allResourceNames:
             price, unit = vals[name]
             print(name,"costs",str(price),"CP per",unit)
