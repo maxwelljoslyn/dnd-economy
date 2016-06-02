@@ -22,7 +22,7 @@ Ultimately I'd like for the entire system to be Haskell, and once I am satisfied
 
 ### For Python
 
-The priodict library, which is not currently being used, is included locally. You'll also need the noise library located [here](https://pypi.python.org/pypi/noise/).
+You'll need the noise library located [here](https://pypi.python.org/pypi/noise/).
 
 One day I might figure out how to save the noise lib for you locally, so you don't have to download it manually and install it system-wide, but I ran into complications doing that myself. Perhaps you'd like to show me how in a pull request?
 
@@ -46,6 +46,6 @@ The shell script `RenderWorld.sh` will compile the renderer, then run the result
 
 The economy system which I am working towards is based on the one described by [Alexis Smolensk](http://tao-dnd.blogspot.ca/).  Alexis's [wiki](http://tao-of-dnd.wikispaces.com/Trade+System) goes into detail about how to set up your own system of this kind.
 
-I'd read his earlier work on his system some time before setting out to work on my own project, but the fact remains that the fundamentals originate with him. My primary theoretical innovation, which prompted me to begin working, was to have one interconnected system where a single "backend" data generator powered the creation of both the world map *and* the output of trade tables for player-purchasable items. So that's my goal.
+I read his earlier work on his system some time before setting out to work on my own project, so most of the economy concepts originate with him. My primary theoretical innovation, which prompted me to begin working, was to have one interconnected system where a single "backend" data generator powered the creation of both the world map *and* the output of trade tables for player-purchasable items. So that's my goal.
 
 In my opinion Alexis is the world's most important D&D blogger. If you want to know why, just read his blog. Other DMs don't research. Other DMs complain about working on their games. Other DMs use storebought rulesets that don't even halfway describe any kind of gameable world. By contrast, Alexis *works*, and he writes about his work, and his craftmanship shows through in every new table or page or post he puts up.
