@@ -25,7 +25,7 @@ def findCost(city, name):
     componentCost = rawMatSum + subRecipeSum
     serviceNum = towns[city].services[recipe.service]
     serviceModifier = (1 / serviceNum)
-    serviceCost = componentCost * serviceModifier * recipe.difficulty
+    serviceCost = componentCost * serviceModifier * Decimal(recipe.difficulty)
     finalCost = componentCost + serviceCost
     return finalCost
 
@@ -37,13 +37,14 @@ def showCost(city, name):
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
-    for t in towns:
-        for n in recipeStorage:
-            if n in semiGoods:
-                pass
-            else:
-                print("At",t + ":")
-                print(n + ":",showCost(t,n))
+    # testing with town Veder Vek
+    t = "Veder Vek"
+    print("At",t + ":")
+    for n in recipeStorage:
+        if n in semiGoods:
+            pass
+        else:
+            print(n + ":",showCost(t,n))
 
 if __name__ == "__main__":
     main()
