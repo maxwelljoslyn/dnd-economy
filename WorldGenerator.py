@@ -5,7 +5,7 @@ from math import pi
 from HexResources import *
 from Direction import Direction
 from AStarSearch import *
-from ShortestPaths import shortestPath
+from ShortestPaths3 import shortestPath
 from TownInfo import towns, connections
 
 # desired seed for the RNG
@@ -249,6 +249,7 @@ def initialize():
                 if c not in roadModelByName:
                     roadModelByName[c] = {}
                 roadModelByName[c][t] = distance,path
+    print("debug: road model by name built")
 
     # build the coord-indexed road model (for map rendering) from the name-indexed one
     roadModelByCoord = {}
