@@ -25,10 +25,28 @@ recipeStorage = {}
 semiGoods = []
 
 recipeStorage["pig iron"] = Recipe("smelter",(1, "kg"),
-                                   [("iron ore",1),("coal",5),("limestone",0.1)])
+                                   [("iron ore",1),("coal",0.5),("limestone",0.25)])
 semiGoods.append("pig iron")
 
-recipeStorage["wrought iron"] = Recipe("smelter",(1, "kg"),
+recipeStorage["cast iron"] = Recipe("smelter",(1, "kg"),
+                                    # first the components which go into cast iron
                                        [("manganese ore",0.06),
-                                         ("nickel ore",0.01)],
+                                        ("nickel ore",0.01),
+                                    # then the components to do heating and thus smelting
+                                        ("coal",0.5),
+                                        ("limestone",0.25)],
                                        [("pig iron",0.93)])
+
+recipeStorage["wrought iron"] = Recipe("smelter",(1,"kg"),
+                                       [("coal",0.5),("limestone",0.25)],
+                                       [("pig iron",1)])
+
+recipeStorage["steel"] = Recipe("smelter",(1,"kg"),
+                                       [("coal",0.25),("limestone",0.25)],
+                                # steel requires half as much coal as other iron stuff
+                                # b/c howstuffworks says it only needs to get half as hot
+                                       [("pig iron",1)],
+                                difficulty = 1.25)
+
+# next: add the various pieces that come together to make a sword
+
