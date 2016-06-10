@@ -1,4 +1,5 @@
 from decimal import *
+from math import ceil
 from RecipeDefinitions import *
 from ResourcePriceCalculator import towns, pricesPerProductionUnit
 
@@ -26,14 +27,48 @@ def findCost(city, name):
     serviceNum = towns[city].services[recipe.service]
     serviceModifier = (1 / serviceNum)
     serviceCost = componentCost * serviceModifier * Decimal(recipe.difficulty)
-    finalCost = componentCost + serviceCost
+    finalCost = componentCost+ serviceCost
     return finalCost
+
+def getDisplayPrice(priceInCP):
+    """Given an exact price in decimal coppers, return the rounded price,
+    formatted for display in appropriate amounts of copper/silver/gold."""
+    # first, round up: the difference represents merchant and tradesman profit
+    rounded = ceil(priceInCP)
+    # now we break it into GP, SP, and CP
+    numGold = rounded // 100
+    remaining = rounded - (numGold * 100)
+    numSilv = remaining // 10
+    remaining = remaining - (numSilv * 10)
+    numCopp = remaining
+    # quick test
+    if (numGold * 100 + numSilv * 10 + numCopp != rounded):
+        raise ValueError("RecipeRunner: error with getDisplayPrice.")
+    else:
+        pass
+    # format result for returning
+    resultChunks = []
+    if numGold == 0:
+        pass
+    else:
+        resultChunks.append(str(numGold) + " GP")
+    if numSilv == 0:
+        pass
+    else:
+        resultChunks.append(str(numSilv) + " SP")
+    if numCopp == 0:
+        pass
+    else:
+        resultChunks.append(str(numCopp) + " CP")
+    result = ", ".join(resultChunks)
+    return result
 
 def showCost(city, name):
     """Show the price of a recipe 'name' at 'city'."""
     recipe = recipeStorage[name]
-    price = findCost(city, name)
-    return (str(price) + " CP per " + str(recipe.unit[0]) + " " + recipe.unit[1])
+    basePrice = findCost(city, name)
+    displayPrice = getDisplayPrice(basePrice)
+    return (displayPrice +  " per " + str(recipe.unit[0]) + " " + recipe.unit[1])
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
