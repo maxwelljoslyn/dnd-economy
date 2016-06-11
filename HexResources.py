@@ -98,7 +98,7 @@ def getServices(resourceDict):
 # this dictionary holds per-reference production figures, with both amounts and units thereof,
 # for each of the resources listed below.
 referenceProductionMatrix = {}
-referenceProductionMatrix["timber"] = (10000, "cubic meter")
+referenceProductionMatrix["timber"] = (10000, "cuft")
 
 # these lists define various categories of resource
 # when resources are generated for a hex, these lists are consulted,
@@ -134,7 +134,7 @@ for t in tropicalOrSavannahBeasts:
 # only choices for: tundra, ice cap
 coldClimateBeasts = [("fish",5),("mammoth",3),("remorhaz",1)]
 
-referenceProductionMatrix["fish"] = (10000, "kg")
+referenceProductionMatrix["fish"] = (10000, "lb")
 referenceProductionMatrix["mammoth"] = (1000, "head")
 referenceProductionMatrix["remorhaz"] = (100, "head")
                              
@@ -171,7 +171,7 @@ metalOres = [("iron ore",14),("manganese ore",13),("nickel ore",12),
 
 for mo in metalOres:
     name = mo[0]
-    referenceProductionMatrix[name] = (100000 * mo[1],"kg")
+    referenceProductionMatrix[name] = (100000 * mo[1],"lb")
 
 
 # these are considered to have the same weight, so weights are elided;
@@ -181,7 +181,7 @@ stoneAndMinerals = ["chalk","coal","salt","talc","emery","granite",
                     "witherite","sulfur"] + (["limestone"] * 2)
 
 for sm in stoneAndMinerals:
-    referenceProductionMatrix[sm] = (100000,"kg")
+    referenceProductionMatrix[sm] = (100000,"lb")
 
 
 preciousGems = [("ruby",10),("emerald",10),("topaz",10),("sapphire",10),
@@ -189,14 +189,14 @@ preciousGems = [("ruby",10),("emerald",10),("topaz",10),("sapphire",10),
 
 for pg in preciousGems:
     name = pg[0]
-    referenceProductionMatrix[name] = (100 * pg[1], "kg")
+    referenceProductionMatrix[name] = (100 * pg[1], "lb")
 
 ornamentalGems = ["agate","azurite","cat's eye","hawk's eye","hematite",
                     "malachite","lapis lazuli","mother-of-pearl","quartz",
                     "tiger eye","turquoise"]
 
 for og in ornamentalGems:
-    referenceProductionMatrix[og] = (10000,"kg")
+    referenceProductionMatrix[og] = (10000,"lb")
 
 
 # vegetables are mainly tropical vs. non-tropical
@@ -247,8 +247,8 @@ tropicalFruits = ["allspice","banana","coconut","dragonfruit","durian",
 allFruits = temperateFruits + subarcticFruits + mediterraneanFruits + subtropicalFruits + tropicalFruits
 
 for t in (tropicalVegetables + crops + tropicalCrops + tundraCrops + allFruits):
-    referenceProductionMatrix[t] = (100000, "kg")
+    referenceProductionMatrix[t] = (100000, "lb")
 
 for other in (spices + tropicalSpices + alchemyPlants):
     name = other[0]
-    referenceProductionMatrix[name] = (10000 * other[1], "kg")
+    referenceProductionMatrix[name] = (10000 * other[1], "lb")

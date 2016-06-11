@@ -24,11 +24,11 @@ recipeStorage = {}
 # if a key is stored in semiGoods, then it will not be printed by recipeRunner.main()
 semiGoods = []
 
-recipeStorage["pig iron"] = Recipe("smelter",(1, "kg"),
+recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
                                    [("iron ore",1),("coal",0.5),("limestone",0.25)])
 semiGoods.append("pig iron")
 
-recipeStorage["cast iron"] = Recipe("smelter",(1, "kg"),
+recipeStorage["cast iron"] = Recipe("smelter",(1, "lb"),
                                     # first the components which go into cast iron
                                        [("manganese ore",0.06),
                                         ("nickel ore",0.01),
@@ -37,11 +37,11 @@ recipeStorage["cast iron"] = Recipe("smelter",(1, "kg"),
                                         ("limestone",0.25)],
                                        [("pig iron",0.93)])
 
-recipeStorage["wrought iron"] = Recipe("smelter",(1,"kg"),
+recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
                                        [("coal",0.5),("limestone",0.25)],
                                        [("pig iron",1)])
 
-recipeStorage["steel"] = Recipe("smelter",(1,"kg"),
+recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
                                        [("coal",0.25),("limestone",0.25)],
                                 # steel requires half as much coal as other iron stuff
                                 # b/c howstuffworks says it only needs to get half as hot

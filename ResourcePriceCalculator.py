@@ -78,14 +78,14 @@ for source, sourceData in originalTowns.items():
 
 # now: finding the value of a gold-ore reference in copper pieces.
 # 1 oz gold ore equals 8 gold pieces
-oneOzGoldOreInGP = Decimal(8)
 # (it's not actually that much metal, that's just its official value)
-# we'll let 1 oz = 28.35 grams
-oneOzInGrams = Decimal(28.35)
-# thus there are 28.35 grams to 8 gold pieces; thus a price of approx 282.19 gp/kg gold ore
-goldOreKGinGP = oneOzGoldOreInGP * 1000 / oneOzInGrams
+oneOzGoldOreInGP = Decimal(8)
+
+# 16 oz to the lb
+goldOreLBinGP = oneOzGoldOreInGP * 16
+
 # 1 gold piece is equivalent to 100 copper pieces
-goldOreKGinCP = goldOreKGinGP * 100
+goldOreLBinCP = goldOreLBinGP * 100
 # thus we arrive at the copper-piece value of one reference of gold ore,
 # which we also take as the CP value of one reference of ANY material resource.
 
@@ -100,7 +100,7 @@ for t,d in towns.items():
     pricesPerProductionUnit[t] = {}
     for rawMat in allResourceNames:
         referenceSize, unit = referenceProductionMatrix[rawMat]
-        baseUnitPrice = goldOreKGinCP / referenceSize
+        baseUnitPrice = goldOreLBinCP / referenceSize
         # local references to resource, divided by world references, times unit price
         localRefs = d.resources[rawMat]
         worldRefs = originalWorldResourceCounts[rawMat]
