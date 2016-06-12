@@ -43,7 +43,7 @@ def getDisplayPrice(priceInCP):
     numCopp = remaining
     # quick test
     if (numGold * 100 + numSilv * 10 + numCopp != rounded):
-        raise ValueError("RecipeRunner: error with getDisplayPrice.")
+        raise ValueError("RecipeRunner: unequal calculation inside getDisplayPrice.")
     else:
         pass
     # format result for returning
@@ -63,12 +63,12 @@ def getDisplayPrice(priceInCP):
     result = ", ".join(resultChunks)
     return result
 
-def showCost(city, name):
+def display(city, name):
     """Show the price of a recipe 'name' at 'city'."""
     recipe = recipeStorage[name]
     basePrice = findCost(city, name)
     displayPrice = getDisplayPrice(basePrice)
-    return (displayPrice +  " per " + str(recipe.unit[0]) + " " + recipe.unit[1])
+    return "{0:12}: {1:>16}|{2:>6} {3:6}|{4}".format(name,displayPrice,str(recipe.unit[0]),recipe.unit[1],recipe.description)
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
@@ -79,7 +79,7 @@ def main():
         if n in semiGoods:
             pass
         else:
-            print(n + ":",showCost(t,n))
+            print(display(t,n))
 
 if __name__ == "__main__":
     main()
