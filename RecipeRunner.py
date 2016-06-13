@@ -68,7 +68,7 @@ def display(city, name):
     recipe = recipeStorage[name]
     basePrice = findCost(city, name)
     displayPrice = getDisplayPrice(basePrice)
-    return "{0:12}: {1:>16}|{2:>6} {3:6}|{4}".format(name,displayPrice,str(recipe.unit[0]),recipe.unit[1],recipe.description)
+    return "{0:20}: {1:>16}|{2:>6} {3:6}|{4}".format(name,displayPrice,str(recipe.unit[0]),recipe.unit[1],recipe.description)
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
