@@ -75,7 +75,9 @@ def main():
     # testing with town Veder Vek
     t = "Veder Vek"
     print("At",t + ":")
-    for n in recipeStorage:
+    names = list(recipeStorage.keys())
+    names.sort()
+    for n in names:
         if n in semiGoods:
             pass
         else:
