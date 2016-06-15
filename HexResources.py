@@ -14,57 +14,6 @@ def stripWeights(weightedList):
     """Helper function to return only the names in a resource list, not its weights."""
     return [member[0] for member in weightedList]
 
-def resourceToServices(res):
-    """Returns the appropriate service or services (always in a list, even if just one)
-    for a given resource."""
-    servs = []
-    if res == "honeybee":
-        servs.append("beekeeper")
-    if res == "silkworm":
-        servs.append("weaver")
-        servs.append("tailor")
-    if res in stripWeights(livestock):
-        servs.append("tanner")
-        servs.append("leatherworker")
-        servs.append("butcher")
-    if res in stripWeights(savannahOnlyBeasts + tropicalOrSavannahBeasts + coldClimateBeasts + desertBeasts + otherBeasts):
-        for x in ["hunter","tanner","leatherworker","butcher"]:
-            servs.append(x)
-    if res in stripWeights(waterBeasts):
-        servs.append("fishmonger")
-
-    if res in (stripWeights(metalOres) + stoneAndMinerals):
-        servs.append("smelter")
-        servs.append("blacksmith")
-        servs.append("assayer")
-    if res in stripWeights(stoneAndMinerals):
-        servs.append("stonecarver")
-        servs.append("mason")
-    if res in (stripWeights(preciousGems) + ornamentalGems):
-        servs.append("jeweler")
-    if res == "tin ore":
-        servs.append("tinsmith")
-    if res == "silver ore":
-        servs.append("silversmith")
-    if res == "gold ore":
-        servs.append("goldsmith")
-
-    if res in crops:
-        for x in ["miller","brewer","baker"]:
-            servs.append(x)
-    if res == "tobacco":
-        servs.append("tobacconist")
-    if res in stripWeights(alchemyPlants):
-        servs.append("alchemist")
-    if res == "olive":
-        servs.append("miller") #olives are pressed at a mill
-    if res == "grape":
-        servs.append("vintner")
-    if res == "timber":
-        servs.append("carpenter")
-
-    return servs
-
 # all of the above services are also listed here, for random distribution
 serviceList = ["beekeeper","weaver","tailor","tanner","leatherworker","butcher",
                "hunter","fishmonger","smelter","assayer","tinsmith","goldsmith",
@@ -99,6 +48,10 @@ def getServices(resourceDict):
 # for each of the resources listed below.
 referenceProductionMatrix = {}
 referenceProductionMatrix["timber"] = (10000, "cuft")
+referenceProductionMatrix["arable land"] = (110848, "acre")
+# source of figure:
+# double this area is the area of a 20-mile hex;
+# I've grossly assumed that 50% of it is available for farmland or arable land
 
 # these lists define various categories of resource
 # when resources are generated for a hex, these lists are consulted,
