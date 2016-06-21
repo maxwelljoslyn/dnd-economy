@@ -49,6 +49,7 @@ def getServices(resourceDict):
 referenceProductionMatrix = {}
 referenceProductionMatrix["timber"] = (10000, "cuft")
 referenceProductionMatrix["arable land"] = (110848, "acre")
+referenceProductionMatrix["clay"] = (100000, "lb")
 # source of figure:
 # double this area is the area of a 20-mile hex;
 # I've grossly assumed that 50% of it is available for farmland or arable land
