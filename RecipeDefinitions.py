@@ -113,10 +113,17 @@ recipeStorage["cattle feed"] = Recipe("miller",(1,"lb"),
                                 difficulty=1.2,
                                 description="Feed coarsely ground from cereals.")
 
-recipeStorage["cow, beef"] = Recipe("farmer",(1,"head"),
+recipeStorage["cow"] = Recipe("farmer",(1,"head"),
                               [("arable land",10.67)],
                               [("cattle feed",424)],
-                              description="suitable for slaughtering")
+                              description="two years old, suitable for slaughtering")
+
+# http://www.personal.utulsa.edu/~marc-carlson/history/cattle.html
+# this gives an average milk production of 3.5 gallons per day
+# weight of milk per gallon also given, at 8.6 lbs/gallon
+# from some research, cows can give milk 300/365 days of the year (so 5/6 of the year)
+# thus yearly milk production is 3.5 gallons * 300 days
+# figure out gallons per year, then divide cow price by that, to get price of milk per gallon
 
 
 recipeStorage["bread, coarse"] = Recipe("baker",(1,"lb"),
@@ -136,3 +143,50 @@ recipeStorage["bread, excellent"] = Recipe("baker",(1,"lb"),
                                      difficulty=4,
                                      description="small round loaf")
 
+recipeStorage["quicklime"] = Recipe("potter",(1,"lb"),
+                                    [("limestone",1),("coal",0.5)],
+                                    [],
+                                    description="used in tanning and to make mortar")
+
+recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
+                                 [("clay",0.75)],
+                                 [("quicklime",0.25)],
+                                 description="in powdered form")
+
+# I assume a cow for slaughter weights 1300 pounds
+# taking the carcass weight to be 2/3 of that and the useable meat, in turn, to be 2/3 of carcass weight,
+# the remaining meat is 577.7 lbs.
+# thus to get a price for 1 lb, we divide the price of the cow by 577.7.
+# this approach treats all beef as generic: in reality, a given cow produces different amounts
+# of each cut of beef. for now we'll treat them all as the same.
+recipeStorage["beef"] = Recipe("butcher",(1,"lb"),
+                               [],
+                               [("cow",(1/577.7))])
+
+# a raw cowhide is about 50 square feet
+# this includes the irregularly-shaped edge portions,
+# so a nice big single square piece would only be about 40 square feet at most.
+recipeStorage["raw cowhide"] = Recipe("butcher",(60,"lb"),
+                                      [],
+                                      [("cow",1)],
+                                      description="50 square feet")
+semiGoods.append("raw cowhide")
+
+recipeStorage["defleshed cowhide"] = Recipe("tanner",(15,"lb"),
+                                            [],
+                                            [("raw cowhide",1)],
+                                            difficulty=1.2,
+                                            description="cowhide cleaned of flesh and/or hair")
+semiGoods.append("defleshed cowhide")
+
+# density of quicklime is 209.1337 lb/cu ft.
+# this site:
+# http://boar.org.uk/aaiwxw3MusprattL6Preparation.htm
+# says that three to four cubic feet measure of "freshly burned fat lime" (aka quicklime)
+# is used for 100 average hides
+# taking 3.5 cubic feet as our measure, that means 731.96795 lbs of quicklime per 100 hides
+# AKA 0.732 lbs of quicklime per hide.
+recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
+                                         [],
+                                         [("quicklime",0.732),("defleshed cowhide",1)],
+                                         description="50 sq ft of cowhide, ready for leatherwork")
