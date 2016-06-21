@@ -104,6 +104,9 @@ for t,d in towns.items():
         # local references to resource, divided by world references, times unit price
         localRefs = d.resources[rawMat]
         worldRefs = originalWorldResourceCounts[rawMat]
+        # ratio is determined like this:
+        # the local refs are divided into number of refs at the hypothetical "average" city,
+        # which we take as being a percentage of the world's total (for now, 100%)
         ratio = localRefs / worldRefs
         localUnitPrice = baseUnitPrice / ratio
         pricesPerProductionUnit[t][rawMat] = (localUnitPrice, unit)
