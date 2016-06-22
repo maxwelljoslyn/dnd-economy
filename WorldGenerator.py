@@ -278,10 +278,10 @@ for source in strippedRoadModel:
         if source == dest:
             pass
         else:
-            print("debug: finding path from",source,"to",dest)
+#            print("debug: finding path from",source,"to",dest)
             finalDists, path = shortestPath(strippedRoadModel, source, dest)
             d = finalDists[dest]
-            print("Debug: distance is",str(d))
+#            print("Debug: distance is",str(d))
             shortestPathMatrix[source][dest] = d
 
 def main():
