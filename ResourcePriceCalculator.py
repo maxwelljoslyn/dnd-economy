@@ -1,10 +1,14 @@
 from decimal import *
 import copy
 from WorldGenerator import towns, shortestPathMatrix
-from HexResources import referenceProductionMatrix
+from HexResources import worldProductionMatrix
 
 #set up the Decimal environment
 getcontext().prec = 4
+
+# this is used to adjust prices in a blunt way
+# basically it's the percentage of the world's references (to a given resource) which an "average" city is assumed to have
+pseudoAverageRefPercent = Decimal(0.1)
 
 # get names of all resources available in the economy
 # get names of all services available in the economy
@@ -47,6 +51,17 @@ for ot,d in originalTowns.items():
         else:
             originalWorldResourceCounts[r] = val
 
+# next, we'll divvy up the world production of each resource
+# INTO the number of extant references of the resource
+# e.g. if world production of iron ore is 1000 lbs, and the world total refcount is 5,
+# the result will be 20 lbs per ref
+# these calculations are based on the ORIGINAL reference count, not the one adjusted for imports
+singleReferenceProduction = {}
+for n in allResourceNames:
+    production, unit = worldProductionMatrix[n]
+    perRef = Decimal(production) / originalWorldResourceCounts[n]
+    singleReferenceProduction[n] = (perRef, unit)
+            
 def quantityToImport(source, destination, sourceAmount):
     """
     Calculates the fraction of the sourceAmount which gets imported to destination.
@@ -79,37 +94,32 @@ for source, sourceData in originalTowns.items():
 # now: finding the value of a gold-ore reference in copper pieces.
 # 1 oz gold ore equals 8 gold pieces
 # (it's not actually that much metal, that's just its official value)
-oneOzGoldOreInGP = Decimal(8)
+# 16 oz in a lb (the unit for gold references)
+# then, multiply by the size of a gold reference
+# finally, multiply by 100, since one gold piece (GP) is worth 100 copper pieces (CP)
+goldRefPriceCP = Decimal(8) * Decimal(16) * singleReferenceProduction["gold ore"][0] * 100
+# thus we arrive at the copper-piece value of one refernence to gold ore,
+# which we also take as the CP value of one ref of ANY material resource.
+# what causes differenation is the SIZE and UNIT of other references:
+# it's the value that stays constant.
 
-# 16 oz to the lb
-goldOreLBinGP = oneOzGoldOreInGP * 16
-
-# 1 gold piece is equivalent to 100 copper pieces
-goldOreLBinCP = goldOreLBinGP * 100
-# thus we arrive at the copper-piece value of one reference of gold ore,
-# which we also take as the CP value of one reference of ANY material resource.
-
-# finally, we need a price per production UNIT
+# finally, we need a price per production UNIT of each raw resource
 # e.g. if the size of an iron reference is 1,000 tons, we want to find what 1 ton costs
-# Step 1
-# the baseline price per single unit is determined:
-# for each raw material resource, we divide oneRefGoldOzInCP by productionPerReference
-# this gets us the CP price for e.g. 1 ton of iron, not the whole 1,000 tons in a whole reference
 pricesPerProductionUnit = {}
+#debug
+print(goldRefPriceCP)
 for t,d in towns.items():
     pricesPerProductionUnit[t] = {}
     for rawMat in allResourceNames:
-        referenceSize, unit = referenceProductionMatrix[rawMat]
-        baseUnitPrice = goldOreLBinCP / referenceSize
-        # local references to resource, divided by world references, times unit price
-        localRefs = d.resources[rawMat]
-        worldRefs = originalWorldResourceCounts[rawMat]
-        # ratio is determined like this:
-        # the local refs are divided into number of refs at the hypothetical "average" city,
-        # which we take as being a percentage of the world's total (for now, 100%)
-        ratio = localRefs / worldRefs
-        localUnitPrice = baseUnitPrice / ratio
-        pricesPerProductionUnit[t][rawMat] = (localUnitPrice, unit)
+        print(rawMat)
+        # ratio of local references (post-import) to original world total (calculated pre-import)
+        localRefToWorldRefRatio = d.resources[rawMat] / (pseudoAverageRefPercent * originalWorldResourceCounts[rawMat])
+        # adjust base CP-per-reference of any good to reflect said ratio
+        adjustedBasePrice = goldRefPriceCP / localRefToWorldRefRatio
+        # divide adjusted base price by size of one reference to get price per unit
+        size, unit = singleReferenceProduction[rawMat]
+        pricePerUnit = adjustedBasePrice / size
+        pricesPerProductionUnit[t][rawMat] = (pricePerUnit, unit)
 
 # and with that, we are ready to move into the final economy step: recipes!
 # in which we use these raw material prices together with services

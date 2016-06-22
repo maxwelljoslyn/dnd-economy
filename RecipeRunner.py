@@ -1,7 +1,7 @@
 from decimal import *
 from math import ceil
 from RecipeDefinitions import *
-from ResourcePriceCalculator import towns, pricesPerProductionUnit
+from ResourcePriceCalculator import towns, pricesPerProductionUnit, pseudoAverageRefPercent
 
 #set up the Decimal environment
 getcontext().prec = 6
@@ -26,8 +26,8 @@ def findCost(city, name):
     componentCost = rawMatSum + subRecipeSum
     serviceNum = towns[city].services[recipe.service]
     serviceModifier = (1 / serviceNum)
-    serviceCost = componentCost * serviceModifier * Decimal(recipe.difficulty)
-    finalCost = componentCost+ serviceCost
+    serviceCost = (componentCost * serviceModifier * Decimal(recipe.difficulty)) * pseudoAverageRefPercent
+    finalCost = componentCost + serviceCost
     return finalCost
 
 def getDisplayPrice(priceInCP):
