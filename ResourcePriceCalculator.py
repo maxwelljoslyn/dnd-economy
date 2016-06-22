@@ -107,11 +107,9 @@ goldRefPriceCP = Decimal(8) * Decimal(16) * singleReferenceProduction["gold ore"
 # e.g. if the size of an iron reference is 1,000 tons, we want to find what 1 ton costs
 pricesPerProductionUnit = {}
 #debug
-print(goldRefPriceCP)
 for t,d in towns.items():
     pricesPerProductionUnit[t] = {}
     for rawMat in allResourceNames:
-        print(rawMat)
         # ratio of local references (post-import) to original world total (calculated pre-import)
         localRefToWorldRefRatio = d.resources[rawMat] / (pseudoAverageRefPercent * originalWorldResourceCounts[rawMat])
         # adjust base CP-per-reference of any good to reflect said ratio
