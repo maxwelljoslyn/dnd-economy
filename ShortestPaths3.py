@@ -34,13 +34,13 @@ def shortestPath(G,start,end):
     Output is list of vertices in order along the shortest path.
     """
     D,P = Dijkstra(G,start,end)
-    print("final distances",D,"\n","preds",P)
-    print("assembling path")
+#    print("final distances",D,"\n","preds",P)
+#    print("assembling path")
     path = []
-    print(path)
+#    print(path)
     while 1:
         path.append(end)
-        print(path)
+#        print(path)
         if end == start:
             break
         end = P[end]
