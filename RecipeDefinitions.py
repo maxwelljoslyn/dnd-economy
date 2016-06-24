@@ -104,14 +104,19 @@ semiGoods.append("husked cereal")
 recipeStorage["flour"] = Recipe("miller",(1,"lb"),
                                 [],
                                 [("husked cereal",1)],
-                                difficulty=1.4,
+                                difficulty=3,
                                 description="Flour ground from cereals.")
 
 recipeStorage["cattle feed"] = Recipe("miller",(1,"lb"),
                                 [],
                                 [("husked cereal",1)],
-                                difficulty=1.2,
-                                description="Feed coarsely ground from cereals.")
+                                description="coarsely ground from cereals")
+
+recipeStorage["horse feed"] = Recipe("miller",(1,"lb"),
+                                [],
+                                [("husked cereal",1)],
+                                difficulty=2,
+                                description="ground from cereals")
 
 recipeStorage["cow"] = Recipe("farmer",(1,"head"),
                               [("arable land",10.67)],
@@ -190,3 +195,21 @@ recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
                                          [],
                                          [("quicklime",0.732),("defleshed cowhide",1)],
                                          description="50 sq ft of cowhide, ready for leatherwork")
+
+recipeStorage["holy symbol, wooden, simple"] = Recipe("carpenter",(1,"lb"),
+                                                      [("timber",0.02)],
+                                                      [],
+                                                      difficulty=2)
+
+recipeStorage["holy symbol, iron, simple"] = Recipe("blacksmith",(1,"lb"),
+                                                      [],
+                                                      [("wrought iron",1/4.5)],
+                                                    difficulty=2)
+
+# note that value for the weight of the wrought iron
+# it's the weight of the final object divided by the weight of one ingot of wrought iron, 4.5 lbs
+
+recipeStorage["holy symbol, iron, ornate"] = Recipe("blacksmith",(1,"lb"),
+                                                      [],
+                                                      [("wrought iron",1/4.5)],
+                                                    difficulty=8)
