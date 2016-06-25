@@ -2,4 +2,4 @@
 ghc --make -O2 WorldRenderer.hs 
 
 # run executable
-./WorldRenderer -o WorldMap.svg -w 1000
+./WorldRenderer -o $1.svg -w 1000
