@@ -1,3 +1,12 @@
+from decimal import *
+from math import pi
+
+#set up the Decimal environment
+getcontext().prec = 4
+
+# TODO: write a wrapper for the quantize function to be applied to item weights,
+# so that regardless of the precision of the Decimal context I can always get two-decimal place weights for items for neat printing
+
 class Recipe:
     """This class holds the structure of a product's recipe, including which resources or other recipes are needed
     to make it, and how much of those amounts are needed, the service needed to create this recipe, and the difficulty
@@ -24,11 +33,16 @@ recipeStorage = {}
 # if a key is stored in semiGoods, then it will not be printed by recipeRunner.main()
 semiGoods = []
 
+densityCastIron = Decimal(454.8)
+densityWroughtIron = 483 # lb/cu. ft
+densitySteel = 489 # lbs/cu ft
+# giving a density for generic timber until diversified, neither too soft nor too hard
+densityTimber = 40 # lb/cu ft
+
 recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
                                    [("iron ore",1),("coal",0.5),("limestone",0.25)])
 semiGoods.append("pig iron")
 
-# cast iron: ~454.8 lb/cuft
 recipeStorage["cast iron"] = Recipe("smelter",(1, "lb"),
                                     # first the components which go into cast iron
                                        [("manganese ore",0.06),
@@ -39,13 +53,11 @@ recipeStorage["cast iron"] = Recipe("smelter",(1, "lb"),
                                        [("pig iron",0.93)],
                                     description="ingot, 1x1x3.8 in.")
 
-# wrought iron: ~483 lb/cu. ft
 recipeStorage["wrought iron"] = Recipe("smelter",(4.5,"lb"),
                                        [("coal",2.25),("limestone",1.125)],
                                        [("pig iron",1)],
                                        description="ingot, 2x2x4 in.")
 
-# steel: ~489 lb/cuft
 recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
                                        [("coal",0.25),("limestone",0.25)],
                                 # steel requires half as much coal as other iron stuff
@@ -54,8 +66,9 @@ recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
                                 difficulty = 1.1,
                                 description="ingot, 1x1x3.5 in.")
 
-# carved from ash, beech, or elm
-recipeStorage["blade hilt"] = Recipe("carpenter",(0.5,"lb"),
+hiltCuFt = ((Decimal(1) / Decimal(6)) ** 2) * (Decimal(5) / Decimal(12))
+hiltWeight = densityTimber * hiltCuFt
+recipeStorage["blade hilt"] = Recipe("carpenter",(hiltWeight,"lb"),
                                      [("timber",0.01)],
                                      description="wood tube, carved from 2x2x5 in. block")
 
@@ -67,15 +80,14 @@ recipeStorage["pommel"] = Recipe("blacksmith",(0.25,"lb"),
 # semiGoods.append("pommel")
 
 
+# a 1-foot (unit) blade is 2 inches wide, 1/6 inch thick, 1 foot long
+# thus, the unit blade is (2/12) * (1/6/12) * 1 = approx 0.002 cubic feet, thus weighing ~1.134 lb
+# let's round to 1.2 for ease
 recipeStorage["blade"] = Recipe("blacksmith",(1.2,"lb"),
                                 [],
                                 [("steel",1.2)],
                                 difficulty=1.5,
                                 description="price for a one-foot steel blade")
-# density of steel: 490 lbs/cubic foot
-# a 1-foot (unit) blade is 2 inches wide, 1/6 inch thick, 1 foot long
-# thus, the unit blade is (2/12) * (1/6/12) * 1 = approx 0.002 cubic feet, thus weighing ~1.134 lb
-# let's round to 1.2 for ease
 
 recipeStorage["dagger"] = Recipe("blacksmith",(1.95,"lb"),
                                  [],
@@ -166,7 +178,7 @@ recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
 # of each cut of beef. for now we'll treat them all as the same.
 recipeStorage["beef"] = Recipe("butcher",(1,"lb"),
                                [],
-                               [("cow",(1/577.7))])
+                               [("cow",(1/Decimal(577.7)))])
 
 # a raw cowhide is about 50 square feet
 # this includes the irregularly-shaped edge portions,
@@ -254,7 +266,6 @@ recipeStorage["roasted malt"] = Recipe("brewer",(1,"lb"),
 # I use cereal for oats
 # judging by how much ale is created, 2 gall (8 qts) of water is boiled off in the main batch;
 # that will be useful once I start accounting for water prices
-# I halved his recipe amounts to make this a 1-gallon recipe
 
 # here is the original:
 # 1 1/3 lbs., (Baird) Pale malt, roasted. 
@@ -265,11 +276,29 @@ recipeStorage["roasted malt"] = Recipe("brewer",(1,"lb"),
 # 6 to 8 qts., water (second runnings)
 # 1 pkt, Danstar brand Nottingham ale yeast
 # 1 pkt, Danstar brand Windsor ale yeast
-recipeStorage["ale"] = Recipe("brewer",(1,"barrel"),
-                                      [("cereal",45)],
-                                       [("malted grain",120),("roasted malt",19.95)],
-                                       description="30 gallons")
 
+def calculateABV(poundsCereal, poundsMalt, gallonsInBatch):
+    # for calculating ABV:
+    # the source at http://brewery.org/library/PeriodRen.html says:
+    # wheat (here, cereal) is 75% fermentable sugar,
+    # malt is 80%.
+    # specific gravity of sugar solution is (1 + 0.039 * sugar in grains) / water used) [or just final volume of the beverage]
+    cerealSugar = Decimal(0.75) * poundsCereal
+    maltSugar = Decimal(0.8) * poundsMalt
+    originalGravity = 1 + Decimal(0.039) * ((cerealSugar + maltSugar) / gallonsInBatch)
+    # then we use the formula given in the brewery.org source for ABV to find a theoretical maximum strength for this alcohol, and then we'll take 80% of that as our final number to represent realities of brewing creeping in
+    theoreticalMaxABV = (originalGravity - 1) * Decimal(135)
+    realABV = Decimal(0.8) * theoreticalMaxABV
+    return realABV
+
+aleCerealAmt = Decimal(45)
+aleMaltAmt = Decimal(120)
+aleRoastedMaltAmt = Decimal(19.95)
+aleBatchGallons = 30
+recipeStorage["ale"] = Recipe("brewer",(1,"barrel"),
+                                      [("cereal",aleCerealAmt)],
+                                       [("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
+                                       description="30-gallon barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + "% alcohol")
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
@@ -278,7 +307,74 @@ recipeStorage["ale"] = Recipe("brewer",(1,"barrel"),
 # thus we have 2560 lbs malt, 512 lbs + 512 lbs = 1024 lbs cereal, 40 lbs hops = 2160 gallons.
 # divide all amounts by 72 to arrive at a 30-gallon recipe for a 30-gallon barrel, same as ale above.
 # that's what we have here.
+# to be consistent, I'll do the ABV calc here myself, even though the source lists a number
+beerCereal = Decimal(14.22)
+beerMalt = Decimal(35.55)
+beerGallons = 30
 recipeStorage["beer"] = Recipe("brewer",(1,"barrel"),
                                [("cereal",14.22),("hops",0.55)],
                                [("malted grain",35.55)],
-                               description="30 gallons; 6.75% alcohol")
+                               description="30-gallon barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
+
+# for volume considerations,I've approximated a 30-gallon barrel as a cylinder with radius = 0.67 ft and height = 2 and 11/12 ft.
+# were it a right cylinder, this would give a volume of 4.12 cubic feet, or approx. 30.8 US gallons.
+# the actual barrel is not a perfect cyllinder, but has sloping sides,
+# thus it holds a bit less than 4.12 cubic feet, so I feel OK rounding off to 30 gallons.
+# then there's a few more considerations going into the design of the barrel:
+# the heads (top and bottom) of the barrel
+# the thickness of wood used for all the wood
+# and the wrought-iron hoops, of which I use 6 (two fat at the heads, four thin around the body)
+
+# let's say the actual radius of the top/bot of the barrel is 6.5 inches
+# and let's say the thickness of the heads is 2/3 inch and the staves are 1.125 inch
+# let's say the fat hoops are 1.25 inch wide, and the thin ones are 1 inch. hoop breadth is 0.065 inch (16 gauge).
+
+barrelWoodThickness = Decimal(2/3) / Decimal(12)
+
+barrelHeadRadius = Decimal(6.5)/Decimal(12)
+barrelHeadCircleArea = Decimal(pi) * (barrelHeadRadius ** 2)
+barrelCuFt = barrelHeadCircleArea * barrelWoodThickness
+barrelHeadWeight = densityTimber * barrelCuFt
+
+recipeStorage["barrel head"] = Recipe("cooper",(barrelHeadWeight,"lb"),
+                                      [("timber",barrelCuFt)],
+                                      [])
+
+barrelHeadCircumference = barrelHeadRadius * 2 * Decimal(pi)
+fatHoopCuFt = barrelHeadCircumference * (Decimal(1.25) / Decimal(12)) * (Decimal(0.065) / Decimal(12))
+fatHoopWeight = densityWroughtIron * fatHoopCuFt
+
+recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
+                                                         [],
+                                                         [("wrought iron",(fatHoopWeight / Decimal(4.5)))])
+
+# the thin hoops are actually 1/3 and 2/3 the distance to the middle of the barrel,
+# so with the sloping of the barrel, we'd use a measure less than the barrel's max circumference
+# to get their length.
+# but I'll just go ahead and approximate them as being the same as its radius. no need for total accuracy.
+barrelBodyCircumference = Decimal(2) / Decimal(3)
+thinHoopCuFt = barrelBodyCircumference * (Decimal(1) / Decimal(12)) * (Decimal(0.065) / Decimal(12))
+thinHoopWeight = densityWroughtIron * thinHoopCuFt
+
+recipeStorage["barrel hoop, thin"] = Recipe("blacksmith",(thinHoopWeight, "lb"),
+                                                         [],
+                                                         [("wrought iron",(thinHoopWeight / Decimal(4.5)))])
+
+# these are quite rough measurements. so it goes.
+numStaves = 12
+staveWidth = barrelBodyCircumference / Decimal(numStaves)
+staveHeight = (Decimal(1.125)/Decimal(12))
+staveCuFt = staveWidth * staveHeight * barrelWoodThickness
+staveWeight = staveCuFt * densityTimber
+recipeStorage["barrel stave"] = Recipe("cooper",(staveWeight,"lb"),
+                                       [("timber",staveCuFt)],
+                                       [])
+
+# bringing it all together
+barrelWeight = (numStaves * staveWeight) + (4 * thinHoopWeight) + (2 * fatHoopWeight) + (2 * barrelHeadWeight)
+recipeStorage["barrel"] = Recipe("cooper",(barrelWeight, "lb"),
+                                 [],
+                                 [("barrel stave",numStaves),("barrel hoop, fat",2),("barrel hoop, thin",4),
+                                  ("barrel head",2)],
+                                 difficulty=2,
+                                 description="30 gallon barrel")
