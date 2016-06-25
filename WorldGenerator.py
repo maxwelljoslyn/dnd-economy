@@ -239,17 +239,14 @@ def initialize():
     # build the name-indexed road model (roads from town to town and their distances)
     roadModelByName = {}
     for t,d in towns.items():
-        print("debug ",t)
         if t not in roadModelByName:
             roadModelByName[t] = {}
             for c in connections[t]:
-                print("debug: checking on ",c)
                 distance, path = AStarSearch(worldModel,d.coord,towns[c].coord)
                 roadModelByName[t][c] = distance,path
                 if c not in roadModelByName:
                     roadModelByName[c] = {}
                 roadModelByName[c][t] = distance,path
-    print("debug: road model by name built")
 
     # build the coord-indexed road model (for map rendering) from the name-indexed one
     roadModelByCoord = {}
