@@ -213,3 +213,72 @@ recipeStorage["holy symbol, iron, ornate"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
                                                       [("wrought iron",1/4.5)],
                                                     difficulty=8)
+
+# first step in making red and yellow (ochre) dyes
+# high difficulty because multiple steps in the process
+# here: https://en.wikipedia.org/wiki/Ochre#Modern_history
+# wiki says that clay would be about 90% junk and 10% ochre
+recipeStorage["separated ochre clay"] = Recipe("potter",(1,"lb"),
+                                       [("clay",10)],
+                                       [],
+                                       difficulty=3)
+semiGoods.append("separated ochre clay")
+
+# primary componenent of paints and of dyes
+recipeStorage["pigment, red/yellow"] = Recipe("dyer",(1,"lb"),
+                                              [],
+                                              [("separated ochre clay",1)])
+
+# component of blue dye
+recipeStorage["ground lapis lazuli"] = Recipe("potter",(1,"lb"),
+                                              [("lapis lazuli",1)])
+
+semiGoods.append("ground lapis lazuli")
+
+recipeStorage["pigment, ultramarine"] = Recipe("dyer",(1,"lb"),
+                                               [],
+                                               [("ground lapis lazuli",1)])
+
+recipeStorage["malted grain"] = Recipe("brewer",(1,"lb"),
+                               [("cereal",1)],
+                               description="germinated and dried; used in brewing")
+
+recipeStorage["roasted malt"] = Recipe("brewer",(1,"lb"),
+                                       [],
+                                       [("malted grain",1)])
+
+
+# based on the Clare household strong ale recipe from:
+# https://www.cs.cmu.edu/~pwp/tofi/medieval_english_ale.html
+# 8 lbs., Hugh Baird brand English Pale malt
+# I use cereal for oats
+# judging by how much ale is created, 2 gall (8 qts) of water is boiled off in the main batch;
+# that will be useful once I start accounting for water prices
+# I halved his recipe amounts to make this a 1-gallon recipe
+
+# here is the original:
+# 1 1/3 lbs., (Baird) Pale malt, roasted. 
+# For darker ale, roast to amber: 30 mins. at 225 F. followed by 30 mins. at 300 F. For lighter, roast an hour at 225 F.
+# around 3 lbs., oats (rolled)
+# 14 to 16 qts., water (main batch) 
+# 14 will produce 1 1/2 gallons of ale; 16 will produce 2 gallons
+# 6 to 8 qts., water (second runnings)
+# 1 pkt, Danstar brand Nottingham ale yeast
+# 1 pkt, Danstar brand Windsor ale yeast
+recipeStorage["ale"] = Recipe("brewer",(1,"barrel"),
+                                      [("cereal",45)],
+                                       [("malted grain",120),("roasted malt",19.95)],
+                                       description="30 gallons")
+
+
+# "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
+# this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
+# a "quarter" equals 256 lbs of grain (b/c it's 64 gallons of dry volume and 1 gallon of grain ~= 4 lbs)
+# a medieval barrel of beer was 36 gallons
+# thus we have 2560 lbs malt, 512 lbs + 512 lbs = 1024 lbs cereal, 40 lbs hops = 2160 gallons.
+# divide all amounts by 72 to arrive at a 30-gallon recipe for a 30-gallon barrel, same as ale above.
+# that's what we have here.
+recipeStorage["beer"] = Recipe("brewer",(1,"barrel"),
+                               [("cereal",14.22),("hops",0.55)],
+                               [("malted grain",35.55)],
+                               description="30 gallons; 6.75% alcohol")
