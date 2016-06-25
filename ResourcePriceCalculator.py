@@ -8,7 +8,7 @@ getcontext().prec = 4
 
 # this is used to adjust prices in a blunt way
 # basically it's the percentage of the world's references (to a given resource) which an "average" city is assumed to have
-pseudoAverageRefPercent = Decimal(0.1)
+pseudoAverageRefPercent = Decimal(0.05)
 
 # get names of all resources available in the economy
 # get names of all services available in the economy
