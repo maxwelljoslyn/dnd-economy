@@ -69,7 +69,7 @@ recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
 hiltCuFt = ((Decimal(1) / Decimal(6)) ** 2) * (Decimal(5) / Decimal(12))
 hiltWeight = densityTimber * hiltCuFt
 recipeStorage["blade hilt"] = Recipe("carpenter",(hiltWeight,"lb"),
-                                     [("timber",0.01)],
+                                     [("timber",hiltCuFt)],
                                      description="wood tube, carved from 2x2x5 in. block")
 
 recipeStorage["pommel"] = Recipe("blacksmith",(0.25,"lb"),
