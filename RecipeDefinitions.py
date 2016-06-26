@@ -139,11 +139,19 @@ recipeStorage["cow"] = Recipe("farmer",(1,"head"),
 
 # http://www.personal.utulsa.edu/~marc-carlson/history/cattle.html
 # this gives an average milk production of 3.5 gallons per day
-# weight of milk per gallon also given, at 8.6 lbs/gallon
+dailyMilkGallons = Decimal(3.5)
 # from some research, cows can give milk 300/365 days of the year (so 5/6 of the year)
-# thus yearly milk production is 3.5 gallons * 300 days
-# figure out gallons per year, then divide cow price by that, to get price of milk per gallon
+# on the other hand, the production tapers off as this period goes on
+# let's be ad-hoc and say that that the effective number of days of milk production is 250
+# thus yearly milk production is 3.5 gallons * 250 days
+avgMilkingDays = 250
+yearlyMilkGallons = dailyMilkGallons * avgMilkingDays
+# then divide cow price by that, to get price of milk per gallon
 
+recipeStorage["cow milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
+                                   [],
+                                   [("cow",Decimal(1/yearlyMilkGallons))],
+                                   description = "1 gallon")
 
 recipeStorage["bread, coarse"] = Recipe("baker",(1,"lb"),
                                        [("salt",0.05)],
