@@ -256,63 +256,6 @@ recipeStorage["roasted malt"] = Recipe("brewer",(1,"lb"),
                                        [],
                                        [("malted grain",1)])
 
-
-# based on the Clare household strong ale recipe from:
-# https://www.cs.cmu.edu/~pwp/tofi/medieval_english_ale.html
-# 8 lbs., Hugh Baird brand English Pale malt
-# I use cereal for oats
-# judging by how much ale is created, 2 gall (8 qts) of water is boiled off in the main batch;
-# that will be useful once I start accounting for water prices
-
-# here is the original:
-# 1 1/3 lbs., (Baird) Pale malt, roasted. 
-# For darker ale, roast to amber: 30 mins. at 225 F. followed by 30 mins. at 300 F. For lighter, roast an hour at 225 F.
-# around 3 lbs., oats (rolled)
-# 14 to 16 qts., water (main batch) 
-# 14 will produce 1 1/2 gallons of ale; 16 will produce 2 gallons
-# 6 to 8 qts., water (second runnings)
-# 1 pkt, Danstar brand Nottingham ale yeast
-# 1 pkt, Danstar brand Windsor ale yeast
-
-def calculateABV(poundsCereal, poundsMalt, gallonsInBatch):
-    # for calculating ABV:
-    # the source at http://brewery.org/library/PeriodRen.html says:
-    # wheat (here, cereal) is 75% fermentable sugar,
-    # malt is 80%.
-    # specific gravity of sugar solution is (1 + 0.039 * sugar in grains) / water used) [or just final volume of the beverage]
-    cerealSugar = Decimal(0.75) * poundsCereal
-    maltSugar = Decimal(0.8) * poundsMalt
-    originalGravity = 1 + Decimal(0.039) * ((cerealSugar + maltSugar) / gallonsInBatch)
-    # then we use the formula given in the brewery.org source for ABV to find a theoretical maximum strength for this alcohol, and then we'll take 80% of that as our final number to represent realities of brewing creeping in
-    theoreticalMaxABV = (originalGravity - 1) * Decimal(135)
-    realABV = Decimal(0.8) * theoreticalMaxABV
-    return realABV
-
-aleCerealAmt = Decimal(45)
-aleMaltAmt = Decimal(120)
-aleRoastedMaltAmt = Decimal(19.95)
-aleBatchGallons = 30
-recipeStorage["ale"] = Recipe("brewer",(1,"barrel"),
-                                      [("cereal",aleCerealAmt)],
-                                       [("barrel",1),("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
-                                       description="30-gallon barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + "% alcohol")
-
-# "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
-# this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
-# a "quarter" equals 256 lbs of grain (b/c it's 64 gallons of dry volume and 1 gallon of grain ~= 4 lbs)
-# a medieval barrel of beer was 36 gallons
-# thus we have 2560 lbs malt, 512 lbs + 512 lbs = 1024 lbs cereal, 40 lbs hops = 2160 gallons.
-# divide all amounts by 72 to arrive at a 30-gallon recipe for a 30-gallon barrel, same as ale above.
-# that's what we have here.
-# to be consistent, I'll do the ABV calc here myself, even though the source lists a number
-beerCereal = Decimal(14.22)
-beerMalt = Decimal(35.55)
-beerGallons = 30
-recipeStorage["beer"] = Recipe("brewer",(1,"barrel"),
-                               [("cereal",14.22),("hops",0.55)],
-                               [("barrel",1),("malted grain",35.55)],
-                               description="30-gallon barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
-
 # for volume considerations,I've approximated a 30-gallon barrel as a cylinder with radius = 0.67 ft and height = 2 and 11/12 ft.
 # were it a right cylinder, this would give a volume of 4.12 cubic feet, or approx. 30.8 US gallons.
 # the actual barrel is not a perfect cyllinder, but has sloping sides,
@@ -375,3 +318,64 @@ recipeStorage["barrel"] = Recipe("cooper",(barrelWeight, "lb"),
                                   ("barrel head",2)],
                                  difficulty=2,
                                  description="30-gallon barrel; 0.67-ft widest radius; 2 ft 11 in. tall")
+
+# based on the Clare household strong ale recipe from:
+# https://www.cs.cmu.edu/~pwp/tofi/medieval_english_ale.html
+# 8 lbs., Hugh Baird brand English Pale malt
+# I use cereal for oats
+# judging by how much ale is created, 2 gall (8 qts) of water is boiled off in the main batch;
+# that will be useful once I start accounting for water prices
+
+# here is the original:
+# 1 1/3 lbs., (Baird) Pale malt, roasted. 
+# For darker ale, roast to amber: 30 mins. at 225 F. followed by 30 mins. at 300 F. For lighter, roast an hour at 225 F.
+# around 3 lbs., oats (rolled)
+# 14 to 16 qts., water (main batch) 
+# 14 will produce 1 1/2 gallons of ale; 16 will produce 2 gallons
+# 6 to 8 qts., water (second runnings)
+# 1 pkt, Danstar brand Nottingham ale yeast
+# 1 pkt, Danstar brand Windsor ale yeast
+
+def calculateABV(poundsCereal, poundsMalt, gallonsInBatch):
+    # for calculating ABV:
+    # the source at http://brewery.org/library/PeriodRen.html says:
+    # wheat (here, cereal) is 75% fermentable sugar,
+    # malt is 80%.
+    # specific gravity of sugar solution is (1 + 0.039 * sugar in grains) / water used) [or just final volume of the beverage]
+    cerealSugar = Decimal(0.75) * poundsCereal
+    maltSugar = Decimal(0.8) * poundsMalt
+    originalGravity = 1 + Decimal(0.039) * ((cerealSugar + maltSugar) / gallonsInBatch)
+    # then we use the formula given in the brewery.org source for ABV to find a theoretical maximum strength for this alcohol, and then we'll take 80% of that as our final number to represent realities of brewing creeping in
+    theoreticalMaxABV = (originalGravity - 1) * Decimal(135)
+    realABV = Decimal(0.8) * theoreticalMaxABV
+    return realABV
+
+weightWater = Decimal(8.345404)
+
+aleCerealAmt = Decimal(45)
+aleMaltAmt = Decimal(120)
+aleRoastedMaltAmt = Decimal(19.95)
+aleBatchGallons = 30
+# I calculated an original gravity of 1.190
+# also, for both beer and ale I just use the weight of water to determine the weight. good enough for me.
+recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWater)+barrelWeight,"lb"),
+                                      [("cereal",aleCerealAmt)],
+                                       [("barrel",1),("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
+                                       description="30-gallon barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + "% alcohol")
+
+# "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
+# this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
+# a "quarter" equals 256 lbs of grain (b/c it's 64 gallons of dry volume and 1 gallon of grain ~= 4 lbs)
+# a medieval barrel of beer was 36 gallons
+# thus we have 2560 lbs malt, 512 lbs + 512 lbs = 1024 lbs cereal, 40 lbs hops = 2160 gallons.
+# divide all amounts by 72 to arrive at a 30-gallon recipe for a 30-gallon barrel, same as ale above.
+# that's what we have here.
+# to be consistent, I'll do the ABV calc here myself, even though the source lists a number
+beerCereal = Decimal(14.22)
+beerMalt = Decimal(35.55)
+beerGallons = 30
+recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWater)+barrelWeight,"lb"),
+                               [("cereal",14.22),("hops",0.55)],
+                               [("barrel",1),("malted grain",35.55)],
+                               description="30-gallon barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
+
