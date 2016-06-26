@@ -19,6 +19,8 @@ for t,d in towns.items():
     allServiceNames = allServiceNames + list(d.services.keys())
 allResourceNames = list(set(allResourceNames))
 allServiceNames = list(set(allServiceNames))
+allResourceNames.sort()
+allServiceNames.sort()
 
 # for each town, for each service and resource it doesn't have an entry for,
 # add one with a count of 0, so that stuff can be added to it in the import step
@@ -47,9 +49,9 @@ originalWorldResourceCounts = {}
 for ot,d in originalTowns.items():
     for r,val in d.resources.items():
         if r in originalWorldResourceCounts:
-            originalWorldResourceCounts[r] += val
+            originalWorldResourceCounts[r] += Decimal(val)
         else:
-            originalWorldResourceCounts[r] = val
+            originalWorldResourceCounts[r] = Decimal(val)
 
 # next, we'll divvy up the world production of each resource
 # INTO the number of extant references of the resource
@@ -59,9 +61,9 @@ for ot,d in originalTowns.items():
 singleReferenceProduction = {}
 for n in allResourceNames:
     production, unit = worldProductionMatrix[n]
-    perRef = Decimal(production) / originalWorldResourceCounts[n]
+    perRef = Decimal(production) / Decimal(originalWorldResourceCounts[n])
     singleReferenceProduction[n] = (perRef, unit)
-            
+
 def quantityToImport(source, destination, sourceAmount):
     """
     Calculates the fraction of the sourceAmount which gets imported to destination.
@@ -71,7 +73,7 @@ def quantityToImport(source, destination, sourceAmount):
     :return: the fraction of sourceAmount which will be added to the amount at destination
     """
     distance = shortestPathMatrix[source][destination]
-    quantity = Decimal(sourceAmount) / (distance + 1)
+    quantity = Decimal(sourceAmount) / Decimal((distance + 1))
     # 1 is added to distance so that when a destination is 1 away from its source, it does not receive exactly as much
     # as exists at the source
     return quantity
