@@ -52,7 +52,7 @@ towns["Yog"] = Town((45,-60,15),
                     {"farmer":1, "tanner":1, "brewer":1, "cooper":1, "leatherworker":1})
 towns["Dreot"] = Town((47,-67,20),
                       {"arable land":2, "timber":1, "cereal":1},
-                      {"miller":1, "carpenter":1, "cooper":1})
+                      {"miller":1, "carpenter":1, "cooper":1, "fuller":1})
 towns["Guroff"]=Town((47,-63,16),
                      {"clay":1, "gold ore":2, "silver ore":1, "nickel ore":1},
                      {"goldsmith":1, "silversmith":1, "smelter":1})
@@ -61,7 +61,7 @@ towns["Nender"] = Town((48,-66,18),
                        {"potter":1})
 towns["Pwodd"] = Town((49,-65,16),
                       {"arable land":1,"cereal":1, "hops":1},
-                      {"tailor":1, "baker":1})
+                      {"tailor":1, "baker":1, "fuller":1, "weaver":1})
 towns["Widder"] = Town((49,-63,14),
                        {"arable land":2},
                        {"tailor":1,"weaver":1,"butcher":1})
