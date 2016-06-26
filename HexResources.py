@@ -83,11 +83,11 @@ preciousGems = [("ruby",10),("emerald",10),("topaz",10),("sapphire",10),
 
 for pg in preciousGems:
     name = pg[0]
-    worldProductionMatrix[name] = (10000 * pg[1], "lb")
+    worldProductionMatrix[name] = (1000 * pg[1], "lb")
 
 ornamentalGems = ["agate","azurite","cat's eye","hawk's eye","hematite",
                     "malachite","lapis lazuli","mother-of-pearl","quartz",
                     "tiger eye","turquoise"]
 
 for og in ornamentalGems:
-    worldProductionMatrix[og] = (100000,"lb")
+    worldProductionMatrix[og] = (50000,"lb")
