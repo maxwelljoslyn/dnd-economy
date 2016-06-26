@@ -309,5 +309,4 @@ def main():
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
 
-if __name__ == "__main__":
-    main()
+main()
