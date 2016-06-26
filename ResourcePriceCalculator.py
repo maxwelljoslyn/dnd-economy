@@ -108,7 +108,6 @@ goldRefPriceCP = Decimal(8) * Decimal(16) * singleReferenceProduction["gold ore"
 # finally, we need a price per production UNIT of each raw resource
 # e.g. if the size of an iron reference is 1,000 tons, we want to find what 1 ton costs
 pricesPerProductionUnit = {}
-#debug
 for t,d in towns.items():
     pricesPerProductionUnit[t] = {}
     for rawMat in allResourceNames:
