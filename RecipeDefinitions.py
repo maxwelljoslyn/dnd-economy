@@ -407,3 +407,28 @@ sheepUseableMeat = 120 * Decimal(0.55) * Decimal(0.75)
 recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
                                      [],
                                      [("mutton sheep",Decimal(1/sheepUseableMeat))])
+
+# production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
+recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
+                                      [],
+                                      [("mature ewe",1)])
+
+semiGoods.append("greasy wool")
+
+recipeStorage["fuller's earth"] = Recipe("potter",(1,"lb"),
+                                         [("clay",3)],
+                                         [],
+                                         description = "certain clays used for scouring wool")
+semiGoods.append("fuller's earth")
+
+# again, I've decided that one 25-lb unit of greasy wool becomes 15 lbs of scoured
+# wool is cleaned by scouring (washing) and using clay
+recipeStorage["scoured wool"] = Recipe("fuller",(15,"lb"),
+                                       [],
+                                       [("fuller's earth",1),("greasy wool",1)])
+semiGoods.append("scoured wool")
+
+# final step in cleaning wool is pounding, which is done by mills
+recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
+                                     [],
+                                     [("scoured wool",Decimal(1/15))])
