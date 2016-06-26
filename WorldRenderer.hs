@@ -44,15 +44,23 @@ main = do
 
 drawFullWorld :: [Hex] -> Map Coord TownData -> [Road] -> Diagram B
 drawFullWorld hs ts rs =
-  drawTownLayer pts ts hs
+  drawTownLayer pts ts filtered
   `atop`
   drawRoadLayer rs
   `atop`
-  drawHexLayer pts hs
+  drawHexLayer pts filtered
   where
     pts :: [P2 Double]
-    pts = map (coordToPixel . coord) hs
+    pts = map (coordToPixel . coord) filtered
+    filtered = filterHexes wanted hs
     --coord positions of each hex
+
+wanted = [Coord q r (0-q-r) | q <- [38..50], r <-[(-70),(-69)..(-50)]]
+
+--remove a hex from hs if its coord isn't in cs
+filterHexes :: [Coord] -> [Hex] -> [Hex]
+filterHexes cs hs =
+  filter (\h -> (coord h) `elem` cs) hs
 
 drawRoadLayer :: [Road] -> Diagram B
 drawRoadLayer rs = foldr (atop) mempty $ fmap drawRoad rs
