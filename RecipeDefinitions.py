@@ -30,11 +30,16 @@ recipeStorage = {}
 # if a key is stored in semiGoods, then it will not be printed by recipeRunner.main()
 semiGoods = []
 
+# measurements of this and that kind
 densityCastIron = Decimal(454.8)
 densityWroughtIron = 483 # lb/cu. ft
 densitySteel = 489 # lbs/cu ft
 # giving a density for generic timber until diversified, neither too soft nor too hard
 densityTimber = 40 # lb/cu ft
+densityMilk = Decimal(64.48808) # 1033 kg/cu meter, converted to lb/cu ft
+cuFtPerGallonLiquid = 1 / Decimal(7.48052)
+milkGallonWeight = densityMilk * cuFtPerGallonLiquid
+
 
 recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
                                    [("iron ore",1),("coal",0.5),("limestone",0.25)])
@@ -60,7 +65,7 @@ recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
                                 # steel requires half as much coal as other iron stuff
                                 # b/c howstuffworks says it only needs to get half as hot
                                        [("pig iron",1)],
-                                difficulty = 1.1,
+                                difficulty = 1.5,
                                 description="ingot, 1x1x3.5 in.")
 
 hiltCuFt = ((Decimal(1) / Decimal(6)) ** 2) * (Decimal(5) / Decimal(12))
@@ -72,7 +77,7 @@ recipeStorage["blade hilt"] = Recipe("carpenter",(hiltWeight,"lb"),
 recipeStorage["pommel"] = Recipe("blacksmith",(0.25,"lb"),
                                  [],
                                  [("steel",0.25)],
-                                 difficulty=1.1,
+                                 difficulty=1.5,
                                  description="metal knob which holds hilt and blade together")
 # semiGoods.append("pommel")
 
@@ -189,7 +194,7 @@ semiGoods.append("raw cowhide")
 recipeStorage["defleshed cowhide"] = Recipe("tanner",(15,"lb"),
                                             [],
                                             [("raw cowhide",1)],
-                                            difficulty=1.2,
+                                            difficulty=2,
                                             description="cowhide cleaned of flesh and/or hair")
 semiGoods.append("defleshed cowhide")
 
@@ -379,3 +384,26 @@ recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWater)+barrelWeight,
                                [("barrel",1),("malted grain",35.55)],
                                description="30-gallon barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
 
+recipeStorage["mature ewe"] = Recipe("farmer",(1,"head"),
+                                    [("arable land",Decimal(0.394))],
+                                    [],
+                                    description="eight months old, suitable for milking or shearing")
+
+recipeStorage["mutton sheep"] = Recipe("farmer",(1,"head"),
+                                    [("arable land",Decimal(1.11375))],
+                                    [],
+                                    description="one year four months, suitable for slaughter")
+
+# one mature ewe produces ~ 200 lbs of milk, once a year during lambing
+# thus the division by 200
+recipeStorage["sheep milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
+                                     [],
+                                     [("mature ewe",Decimal(1/200))],
+                                     description = "1 gallon")
+# sheep for slaughter weighs 120 lbs
+# I take the dress percentage to be 55% of that, giving the hanging weight, and the useable meat to be 75% of the hanging weight
+sheepUseableMeat = 120 * Decimal(0.55) * Decimal(0.75)
+# we divide the cost of a mutton sheep by this number to get a price for 1 lb mutton
+recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
+                                     [],
+                                     [("mutton sheep",Decimal(1/sheepUseableMeat))])
