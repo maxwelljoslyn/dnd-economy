@@ -4,9 +4,6 @@ from math import pi
 #set up the Decimal environment
 getcontext().prec = 4
 
-# TODO: write a wrapper for the quantize function to be applied to item weights,
-# so that regardless of the precision of the Decimal context I can always get two-decimal place weights for items for neat printing
-
 class Recipe:
     """This class holds the structure of a product's recipe, including which resources or other recipes are needed
     to make it, and how much of those amounts are needed, the service needed to create this recipe, and the difficulty
@@ -16,7 +13,7 @@ class Recipe:
         self.difficulty = difficulty
         self.subRaws = subRaws
         self.subRecipes = subRecipes
-        self.unit = unit
+        self.unit = (Decimal(unit[0]),unit[1])
         self.description = description
         # description of item, including dimensions, weight, properties
         # there may be some subclasses of Recipe specific to particular item types, such as Weapon and Armor,
@@ -297,7 +294,7 @@ aleRoastedMaltAmt = Decimal(19.95)
 aleBatchGallons = 30
 recipeStorage["ale"] = Recipe("brewer",(1,"barrel"),
                                       [("cereal",aleCerealAmt)],
-                                       [("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
+                                       [("barrel",1),("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
                                        description="30-gallon barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + "% alcohol")
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
@@ -313,7 +310,7 @@ beerMalt = Decimal(35.55)
 beerGallons = 30
 recipeStorage["beer"] = Recipe("brewer",(1,"barrel"),
                                [("cereal",14.22),("hops",0.55)],
-                               [("malted grain",35.55)],
+                               [("barrel",1),("malted grain",35.55)],
                                description="30-gallon barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
 
 # for volume considerations,I've approximated a 30-gallon barrel as a cylinder with radius = 0.67 ft and height = 2 and 11/12 ft.
