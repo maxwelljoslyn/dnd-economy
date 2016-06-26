@@ -323,14 +323,13 @@ recipeStorage["beer"] = Recipe("brewer",(1,"barrel"),
 # and the wrought-iron hoops, of which I use 6 (two fat at the heads, four thin around the body)
 
 # let's say the actual radius of the top/bot of the barrel is 6.5 inches
-# and let's say the thickness of the heads is 2/3 inch and the staves are 1.125 inch
+# and let's say the thickness of the heads is 2/3 inch and the staves are 1.125 inch thick
 # let's say the fat hoops are 1.25 inch wide, and the thin ones are 1 inch. hoop breadth is 0.065 inch (16 gauge).
 
-barrelWoodThickness = Decimal(2/3) / Decimal(12)
-
+barrelHeadThickness = Decimal(2/3) / Decimal(12)
 barrelHeadRadius = Decimal(6.5)/Decimal(12)
 barrelHeadCircleArea = Decimal(pi) * (barrelHeadRadius ** 2)
-barrelCuFt = barrelHeadCircleArea * barrelWoodThickness
+barrelCuFt = barrelHeadCircleArea * barrelHeadThickness
 barrelHeadWeight = densityTimber * barrelCuFt
 
 recipeStorage["barrel head"] = Recipe("cooper",(barrelHeadWeight,"lb"),
@@ -360,8 +359,9 @@ recipeStorage["barrel hoop, thin"] = Recipe("blacksmith",(thinHoopWeight, "lb"),
 # these are quite rough measurements. so it goes.
 numStaves = 12
 staveWidth = barrelBodyCircumference / Decimal(numStaves)
-staveHeight = (Decimal(1.125)/Decimal(12))
-staveCuFt = staveWidth * staveHeight * barrelWoodThickness
+staveThickness = (Decimal(1.125)/Decimal(12))
+staveHeight = Decimal(35) / Decimal(12) # 2 and 11/12 feet high, i.e. 35 inches
+staveCuFt = staveWidth * staveHeight * staveThickness
 staveWeight = staveCuFt * densityTimber
 recipeStorage["barrel stave"] = Recipe("cooper",(staveWeight,"lb"),
                                        [("timber",staveCuFt)],
@@ -374,4 +374,4 @@ recipeStorage["barrel"] = Recipe("cooper",(barrelWeight, "lb"),
                                  [("barrel stave",numStaves),("barrel hoop, fat",2),("barrel hoop, thin",4),
                                   ("barrel head",2)],
                                  difficulty=2,
-                                 description="30 gallon barrel")
+                                 description="30-gallon barrel; 0.67-ft widest radius; 2 ft 11 in. tall")
