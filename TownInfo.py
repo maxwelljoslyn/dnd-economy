@@ -49,10 +49,10 @@ towns["Kededal"] = Town((43,-60,17),
                         {"vintner":1})
 towns["Yog"] = Town((45,-60,15),
                     {"arable land":1, "limestone":1},
-                    {"farmer":1, "tanner":1, "brewer":1, "leatherworker":1})
+                    {"farmer":1, "tanner":1, "brewer":1, "cooper":1, "leatherworker":1})
 towns["Dreot"] = Town((47,-67,20),
                       {"arable land":2, "timber":1, "cereal":1},
-                      {"miller":1, "carpenter":1})
+                      {"miller":1, "carpenter":1, "cooper":1})
 towns["Guroff"]=Town((47,-63,16),
                      {"clay":1, "gold ore":2, "silver ore":1, "nickel ore":1},
                      {"goldsmith":1, "silversmith":1, "smelter":1})
@@ -66,11 +66,11 @@ towns["Widder"] = Town((49,-63,14),
                        {"arable land":2},
                        {"tailor":1,"weaver":1,"butcher":1})
 
+addConnection("Yog","Guroff")
 addConnection("Pwodd","Widder")
 addConnection("Widder","Guroff")
 addConnection("Nender","Pwodd")
 addConnection("Dreot","Nender")
-addConnection("Yog","Guroff")
 addConnection("Dreot","Ekodo")
 addConnection("Yog","Kededal")
 addConnection("Kededal","Veder Vek")
