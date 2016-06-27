@@ -53,6 +53,7 @@ worldProductionMatrix["arable land"] = (1000000, "acre")
 worldProductionMatrix["clay"] = (10000000, "lb")
 worldProductionMatrix["cereal"] = (10000000, "lb")
 worldProductionMatrix["hops"] = (1000000, "lb")
+worldProductionMatrix["sugarcane"] = (100000, "lb")
 
 worldProductionMatrix["iron ore"] = (100000000,"lb")
 worldProductionMatrix["manganese ore"] = (80000000, "lb")

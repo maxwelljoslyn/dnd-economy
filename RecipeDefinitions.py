@@ -39,6 +39,8 @@ densityTimber = 40 # lb/cu ft
 densityMilk = Decimal(64.48808) # 1033 kg/cu meter, converted to lb/cu ft
 cuFtPerGallonLiquid = 1 / Decimal(7.48052)
 milkGallonWeight = densityMilk * cuFtPerGallonLiquid
+densityMolasses = Decimal(88.1233091)
+molassesGallonWeight = densityMolasses * cuFtPerGallonLiquid
 
 
 recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
@@ -440,3 +442,24 @@ semiGoods.append("scoured wool")
 recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
                                      [],
                                      [("scoured wool",Decimal(1/15))])
+
+# brown (or "raw") sugar, which still contains some molasses
+# cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
+# that means 10 lbs of sugarcane to get 1 lb of sugar
+# as for molasses, recipe is essentially the same as brown sugar, except for the ratio of inputs to product
+# the sugar in the sugarcane juice is 20% of the juice mass;
+# we can say the remaining 80% of the juice mass turns into molasses; thus 50% * 80% = 4 lbs of molasses per 10 lbs of sugarcane
+# its' more than 4 lbs of molasses per gallon -- its about 12. so we divide the molasses per-gallon weight by 4 lbs, to get the number we multiply that 10 lbs of sugarcane by, to get the sugarcane for 1 gallon of molasses
+sugarcaneForOneGallonMolasses = 10 * molassesGallonWeight / 4
+
+recipeStorage["sugar"] = Recipe("miller",(1,"lb"),
+                                      [("sugarcane",10)],
+                                      [],
+                                      difficulty=4,
+                                      description="brown sugar")
+
+recipeStorage["molasses"] = Recipe("miller",(molassesGallonWeight,"lb"),
+                                   [("sugarcane",sugarcaneForOneGallonMolasses)],
+                                   [],
+                                   difficulty=4,
+                                   description="1 gallon")

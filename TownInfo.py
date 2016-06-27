@@ -39,7 +39,7 @@ towns["Torkada"] = Town((42,-67,25),
                         {"arable land":1, "clay":1, "cereal":2},
                         {"butcher":1,"potter":1, "dyer":1, "miller":1})
 towns["Serdabach"] = Town((45,-68,23),
-                          {"salt":1, "arable land":1, "timber":2},
+                          {"salt":1, "arable land":1, "timber":1, "sugarcane":1},
                           {"smelter":1, "farmer":1, "carpenter":1, "brewer":1})
 towns["Berdorl"] = Town((43,-69,26),
                         {"salt":1,"coal":1, "iron ore":1, "limestone":1},
