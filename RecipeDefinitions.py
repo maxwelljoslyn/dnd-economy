@@ -463,3 +463,17 @@ recipeStorage["molasses"] = Recipe("miller",(molassesGallonWeight,"lb"),
                                    [],
                                    difficulty=4,
                                    description="1 gallon")
+
+# 6 month old pig for the slaughter, weighing 150 lbs
+recipeStorage["pig"] = Recipe("farmer",(1, "head"),
+                              [],
+                              [("cattle feed",630)],
+                              description="6 months old, 150 lbs, ready for slaughter")
+
+# going off the web, carcass weight is 75% of live weight, and dress weight is 75% of carcass weight
+pigDressPercentageOfLiveWeight = Decimal(0.75) * Decimal(0.75)
+# times weight of slaughtered pig
+pigDressWeight = pigDressPercentageOfLiveWeight * 150
+recipeStorage["pork"] = Recipe("butcher",(1,"lb"),
+                               [],
+                               [("pig",Decimal(1/pigDressWeight))])
