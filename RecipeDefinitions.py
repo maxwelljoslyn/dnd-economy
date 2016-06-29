@@ -452,11 +452,10 @@ recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
 # its' more than 4 lbs of molasses per gallon -- its about 12. so we divide the molasses per-gallon weight by 4 lbs, to get the number we multiply that 10 lbs of sugarcane by, to get the sugarcane for 1 gallon of molasses
 sugarcaneForOneGallonMolasses = 10 * molassesGallonWeight / 4
 
-recipeStorage["sugar"] = Recipe("miller",(1,"lb"),
+recipeStorage["brown sugar"] = Recipe("miller",(1,"lb"),
                                       [("sugarcane",10)],
                                       [],
-                                      difficulty=4,
-                                      description="brown sugar")
+                                      difficulty=4)
 
 recipeStorage["molasses"] = Recipe("miller",(molassesGallonWeight,"lb"),
                                    [("sugarcane",sugarcaneForOneGallonMolasses)],
@@ -477,3 +476,23 @@ pigDressWeight = pigDressPercentageOfLiveWeight * 150
 recipeStorage["pork"] = Recipe("butcher",(1,"lb"),
                                [],
                                [("pig",Decimal(1/pigDressWeight))])
+
+# working from a recipe in the London Art of Cookery, an early 1700s cookbook,
+# as shown here: https://savoringthepast.net/2013/01/08/salted-meat-for-a-journey-at-sea/
+# for each pound of meat, it works out to 4 oz salt + a mix of 1/3 lb salt and 1/6 lb brown sugar,
+# (for a total of 9.33 oz salt and 2.67 oz brown sugar)
+# numbers immediately below are calculated in lbs
+saltForSaltBeef = Decimal(1/4) + Decimal(1/3)
+brownSugarForSaltBeef = Decimal(1/6)
+recipeStorage["beef jerky"] = Recipe("butcher",(1,"lb"),
+                                    [("salt",saltForSaltBeef)],
+                                    [("brown sugar",brownSugarForSaltBeef)],
+                                    description="will keep for a year if seldom exposed to air")
+
+# salt pork, when compared to salt beef, is said to require more salt and less sugar (same source as salt beef)
+saltForSaltPork = Decimal(1/4) + Decimal(2.5/6)
+brownSugarForSaltPork = Decimal(0.5/6)
+recipeStorage["salt pork"] = Recipe("butcher",(1,"lb"),
+                                    [("salt",saltForSaltPork)],
+                                    [("brown sugar",brownSugarForSaltPork)],
+                                    description="will keep for a year if seldom exposed to air")
