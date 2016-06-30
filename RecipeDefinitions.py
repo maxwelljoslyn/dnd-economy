@@ -194,14 +194,15 @@ recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
                                  description="in powdered form")
 
 recipeStorage["mature ewe"] = Recipe("farmer",(1,"head"),
-                                    [("arable land",Decimal(0.394))],
+                                    [("arable land",Decimal(0.315))],
                                     [],
-                                    description="eight months old, suitable for milking or shearing")
+                                    description="eight months old, 90 lbs, suitable for milking or shearing")
 
+# a lamb which has been grain finished for slaughter
 recipeStorage["mutton sheep"] = Recipe("farmer",(1,"head"),
-                                    [("arable land",Decimal(1.11375))],
                                     [],
-                                    description="one year four months, suitable for slaughter")
+                                    [("mature ewe",1),("horse feed",345)],
+                                    description="one year old, 130 lbs, suitable for slaughter")
 
 # one mature ewe produces ~ 200 lbs of milk, once a year during lambing
 # thus the division by 200
