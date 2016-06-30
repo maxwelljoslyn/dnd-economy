@@ -604,3 +604,15 @@ recipeStorage["mace haft"] = Recipe("blacksmith",(maceHaftMetalWeight + maceHaft
                                     [("wrought iron",maceHaftMetalWeight)],
                                     difficulty=3,
                                     description="wood reinforced with metal bands")
+
+maceFlangeCuFt = triangularPrismCuFt(Decimal(1/12),Decimal(0.25),Decimal(0.1))
+maceFlangeWeight = maceFlangeCuFt * densityWroughtIron
+recipeStorage["mace flange"] = Recipe("blacksmith",(maceFlangeWeight,"lb"),
+                                      [],
+                                      [("wrought iron",maceFlangeWeight)],
+                                      difficulty=3)
+
+recipeStorage["mace"] = Recipe("blacksmith",(getUnitSize("mace haft") + (6 * maceFlangeWeight),"lb"),
+                               [],
+                               [("mace haft",1),("mace flange",6)],
+                               description="1d8 damage, one-handed, melee; haft is 2 ft.")
