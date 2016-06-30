@@ -108,7 +108,7 @@ daggerWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + getUnitSize("
 recipeStorage["dagger"] = Recipe("blacksmith",(daggerWeight,"lb"),
                                  [],
                                  [("blade",1),("pommel",1),("blade hilt",1)],
-                                 description="1d4 damage; 1-foot blade")
+                                 description="1d4 damage, melee or thrown 2/3/4; 1-foot blade")
 
 shortswordWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + (Decimal(2) * getUnitSize("blade"))
 recipeStorage["shortsword"] = Recipe("blacksmith",(shortswordWeight,"lb"),
@@ -582,4 +582,3 @@ recipeStorage["spear"] = Recipe("blacksmith",(spearWeight, "lb"),
                                 [],
                                 [("spearhead",1),("spear haft",1)],
                                 description="1d6 damage, one-handed, melee; haft 5 ft. long")
-
