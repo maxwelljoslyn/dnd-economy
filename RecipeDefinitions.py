@@ -384,7 +384,9 @@ recipeStorage["roasted malt"] = Recipe("brewer",(1,"lb"),
 
 # let's say the actual radius of the top/bot of the barrel is 6.5 inches
 # and let's say the thickness of the heads is 2/3 inch and the staves are 1.125 inch thick
-# let's say the fat hoops are 1.25 inch wide, and the thin ones are 1 inch. hoop breadth is 0.065 inch (16 gauge).
+# let's say the fat hoops are 1.25 inch wide, and the thin ones are 1 inch. hoop breadth is 16 gauge (1/16 of an inch)
+
+16gaugeWireThicknessInches = Decimal(0.05082)
 
 barrelHeadThickness = Decimal(2/3) / Decimal(12)
 barrelHeadRadius = Decimal(6.5)/Decimal(12)
@@ -397,7 +399,7 @@ recipeStorage["barrel head"] = Recipe("cooper",(barrelHeadWeight,"lb"),
                                       [])
 
 barrelHeadCircumference = barrelHeadRadius * 2 * Decimal(pi)
-fatHoopCuFt = barrelHeadCircumference * (Decimal(1.25) / Decimal(12)) * (Decimal(0.065) / Decimal(12))
+fatHoopCuFt = barrelHeadCircumference * (Decimal(1.25) / Decimal(12)) * (16gaugeWireThicknessInches / Decimal(12))
 fatHoopWeight = densityWroughtIron * fatHoopCuFt
 
 recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
@@ -409,7 +411,7 @@ recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
 # to get their length.
 # but I'll just go ahead and approximate them as being the same as its radius. no need for total accuracy.
 barrelBodyCircumference = Decimal(2) / Decimal(3)
-thinHoopCuFt = barrelBodyCircumference * (Decimal(1) / Decimal(12)) * (Decimal(0.065) / Decimal(12))
+thinHoopCuFt = barrelBodyCircumference * (Decimal(1) / Decimal(12)) * (16gaugeWireThicknessInches / Decimal(12))
 thinHoopWeight = densityWroughtIron * thinHoopCuFt
 
 recipeStorage["barrel hoop, thin"] = Recipe("blacksmith",(thinHoopWeight, "lb"),
@@ -617,3 +619,4 @@ recipeStorage["mace"] = Recipe("blacksmith",(getUnitSize("mace haft") + (6 * mac
                                [],
                                [("mace haft",1),("mace flange",6)],
                                description="1d8 damage, one-handed, melee; haft is 2 ft.")
+
