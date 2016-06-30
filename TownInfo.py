@@ -65,7 +65,11 @@ towns["Pwodd"] = Town((49,-65,16),
 towns["Widder"] = Town((49,-63,14),
                        {"arable land":2},
                        {"tailor":1,"weaver":1,"butcher":1})
+towns["Ror Kadda"] = Town((41,-62,21),
+                       {"timber":1, "fish":2},
+                       {"chandler":1,"carpenter":2})
 
+addConnection("Ror Kadda","Veder Vek")
 addConnection("Yog","Guroff")
 addConnection("Pwodd","Widder")
 addConnection("Widder","Guroff")
