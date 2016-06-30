@@ -53,6 +53,15 @@ def sphereCuFt(radius):
     val = Decimal(pi) * Decimal(4/3) * (Decimal(radius) ** 3)
     return val
 
+def triangularPrismCuFt(base,height,thickness):
+    """The volume of a prism having two triangular faces and three quadrilateral ones.
+    Like two 2D triangles with the area between them filled in."""
+    base = Decimal(base)
+    height = Decimal(height)
+    thickness = Decimal(thickness)
+    val = ((base * height) / 2) * thickness
+    return val
+
 def getUnitSize(name):
     """Convenience method to get size of unit -- mostly useful when calculating weights from components."""
     return recipeStorage[name].unit[0]
