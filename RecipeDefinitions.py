@@ -49,6 +49,10 @@ def cylinderCuFt(height,radius):
     val = Decimal(pi) * height * (radius ** 2)
     return val
 
+def getUnitSize(name):
+    """Convenience method to get size of unit -- mostly useful when calculating weights from components."""
+    return recipeStorage[name].unit[0]
+
 
 recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
                                    [("iron ore",1),("coal",0.5),("limestone",0.25)])
