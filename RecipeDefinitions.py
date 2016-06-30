@@ -41,6 +41,7 @@ cuFtPerGallonLiquid = 1 / Decimal(7.48052)
 milkGallonWeight = densityMilk * cuFtPerGallonLiquid
 densityMolasses = Decimal(88.1233091)
 molassesGallonWeight = densityMolasses * cuFtPerGallonLiquid
+densityTallow = Decimal(54.09)
 
 
 recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
@@ -229,6 +230,38 @@ recipeStorage["suet"] = Recipe("butcher",(1,"lb"),
                                [],
                                [("cow",(2/cowFatWeight))],
                                description="beef fat for cooking, or for manufacture of tallow")
+
+# using 2 lbs of the CARCASS weight, not just the fat weight, is b/c this is a rendering process;
+# it uses scraps of meat and fat (like bones etc)
+recipeStorage["tallow"] = Recipe("chandler",(1,"lb"),
+                                 [],
+                                 [("cow",2/cowCarcassWeight)],
+                                 difficulty=3)
+
+# made by leaching ashes in water; we'll use timber for ashes
+recipeStorage["lye"] = Recipe("chandler",(1,"lb"),
+                              [("timber",1)],
+                              [])
+
+# http://www.millennium-ark.net/News_Files/Soap/Lye_Fat_Table.html
+# (above page copyright AL Durtschi)
+# using the 5% excess fat column given here, the required lye content for soap is 0.133 times the tallow content
+lyeTallowRatio = Decimal(0.133)
+# finally, we add a little bit of salt to get hard soap instead of soft
+# http://www.motherearthnews.com/homesteading-and-livestock/how-to-make-soap-from-ashes-zmaz72jfzfre.aspx
+# this article suggests 2.5 pints (3.22 lb) salt for 5 gallons (36.16 lb) of tallow
+saltTallowRatio = Decimal(3.22) / Decimal(36.16)
+# let's put it all together:
+# to find the amount of tallow needed for 1 pound of soap, we solve for x in this equation: 1 = x + (x*lye-tallow ratio) + (x*salt-tallow ratio)
+tallowForOneLbSoap = 1 / (1 + saltTallowRatio + lyeTallowRatio)
+# finally, using the density of tallow as a proxy, we find the weight of a bar of soap
+barSoapInCuFt = Decimal(3/12) * Decimal(2/12) * Decimal(6/12)
+weightOneBarSoap = densityTallow * barSoapInCuFt
+recipeStorage["soap, hard"] = Recipe("chandler",(weightOneBarSoap,"lb"),
+                                    [("salt",saltTallowRatio * weightOneBarSoap)],
+                                    [("lye",lyeTallowRatio * weightOneBarSoap),("tallow",tallowForOneLbSoap * weightOneBarSoap)],
+                                    description="dimensions: 3x2x6 in.")
+
 
 # a raw cowhide is about 50 square feet
 # this includes the irregularly-shaped edge portions,
