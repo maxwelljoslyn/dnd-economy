@@ -551,3 +551,23 @@ recipeStorage["salt pork"] = Recipe("butcher",(1,"lb"),
                                     [("salt",saltForSaltPork)],
                                     [("brown sugar",brownSugarForSaltPork)],
                                     description="will keep for a year if seldom exposed to air")
+
+recipeStorage["spearhead"] = Recipe("blacksmith",(1.5,"lb"),
+                                    [],
+                                    [("wrought iron",Decimal(0.9)),("steel",Decimal(0.6))],
+                                    difficulty=3)
+semiGoods.append("spearhead")
+
+spearHaftCuFt = cylinderCuFt(5,Decimal(0.5/12))
+recipeStorage["spear haft"] = Recipe("carpenter",(spearHaftCuFt * densityTimber,"lb"),
+                                                  [("timber",spearHaftCuFt)],
+                                                  [],
+                                                  difficulty=3)
+semiGoods.append("spear haft")
+
+spearWeight = recipeStorage["spearhead"].unit[0] + recipeStorage["spear haft"].unit[0]
+recipeStorage["spear"] = Recipe("blacksmith",(spearWeight, "lb"),
+                                [],
+                                [("spearhead",1),("spear haft",1)],
+                                description="1d6 damage, one-handed, melee; haft 5 ft. long")
+
