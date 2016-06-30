@@ -386,7 +386,7 @@ recipeStorage["roasted malt"] = Recipe("brewer",(1,"lb"),
 # and let's say the thickness of the heads is 2/3 inch and the staves are 1.125 inch thick
 # let's say the fat hoops are 1.25 inch wide, and the thin ones are 1 inch. hoop breadth is 16 gauge (1/16 of an inch)
 
-16gaugeWireThicknessInches = Decimal(0.05082)
+gauge16WireThicknessInches = Decimal(0.05082)
 
 barrelHeadThickness = Decimal(2/3) / Decimal(12)
 barrelHeadRadius = Decimal(6.5)/Decimal(12)
@@ -399,7 +399,7 @@ recipeStorage["barrel head"] = Recipe("cooper",(barrelHeadWeight,"lb"),
                                       [])
 
 barrelHeadCircumference = barrelHeadRadius * 2 * Decimal(pi)
-fatHoopCuFt = barrelHeadCircumference * (Decimal(1.25) / Decimal(12)) * (16gaugeWireThicknessInches / Decimal(12))
+fatHoopCuFt = barrelHeadCircumference * (Decimal(1.25) / Decimal(12)) * (gauge16WireThicknessInches / Decimal(12))
 fatHoopWeight = densityWroughtIron * fatHoopCuFt
 
 recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
@@ -411,7 +411,7 @@ recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
 # to get their length.
 # but I'll just go ahead and approximate them as being the same as its radius. no need for total accuracy.
 barrelBodyCircumference = Decimal(2) / Decimal(3)
-thinHoopCuFt = barrelBodyCircumference * (Decimal(1) / Decimal(12)) * (16gaugeWireThicknessInches / Decimal(12))
+thinHoopCuFt = barrelBodyCircumference * (Decimal(1) / Decimal(12)) * (gauge16WireThicknessInches / Decimal(12))
 thinHoopWeight = densityWroughtIron * thinHoopCuFt
 
 recipeStorage["barrel hoop, thin"] = Recipe("blacksmith",(thinHoopWeight, "lb"),
@@ -620,3 +620,12 @@ recipeStorage["mace"] = Recipe("blacksmith",(getUnitSize("mace haft") + (6 * mac
                                [("mace haft",1),("mace flange",6)],
                                description="1d8 damage, one-handed, melee; haft is 2 ft.")
 
+wroughtIronIngotCuFt = Decimal(2/12) * Decimal(2/12) * Decimal(4/12)
+oneFootWireCuFt = cylinderCuFt(1,gauge16WireThicknessInches/2)
+feetOfWire = wroughtIronIngotCuFt / oneFootWireCuFt
+# can be used for fastening, or turned into rings for mail
+recipeStorage["wire"] = Recipe("blacksmith",(feetOfWire,"foot"),
+                               [],
+                               [("wrought iron",1)],
+                               difficulty=6, # lots of hammering and then lots and lots of pulling
+                               description="16 gauge, i.e. 0.05082 in. diameter")
