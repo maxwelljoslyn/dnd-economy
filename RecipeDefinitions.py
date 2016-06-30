@@ -101,7 +101,7 @@ unitBladeWeight = unitBladeCuFt * densitySteel
 recipeStorage["blade"] = Recipe("blacksmith",(unitBladeWeight,"lb"),
                                 [],
                                 [("steel",unitBladeWeight)],
-                                difficulty=4,
+                                difficulty=6,
                                 description="price for a one-foot steel blade")
 
 daggerWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + getUnitSize("blade")
