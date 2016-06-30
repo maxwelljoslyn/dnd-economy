@@ -78,7 +78,7 @@ recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
                                 # steel requires half as much coal as other iron stuff
                                 # b/c howstuffworks says it only needs to get half as hot
                                        [("pig iron",1)],
-                                difficulty = 1.5,
+                                difficulty = 3,
                                 description="ingot, 1x1x3.5 in.")
 
 hiltCuFt = ((Decimal(1) / Decimal(6)) ** 2) * (Decimal(5) / Decimal(12))
