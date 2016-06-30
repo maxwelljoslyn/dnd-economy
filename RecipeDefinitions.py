@@ -96,25 +96,28 @@ recipeStorage["pommel"] = Recipe("blacksmith",(0.25,"lb"),
 
 
 # a 1-foot (unit) blade is 2 inches wide, 1/6 inch thick, 1 foot long
-# thus, the unit blade is (2/12) * (1/6/12) * 1 = approx 0.002 cubic feet, thus weighing ~1.134 lb
-# let's round to 1.2 for ease
-recipeStorage["blade"] = Recipe("blacksmith",(1.2,"lb"),
+unitBladeCuFt = Decimal(2/12) * Decimal(Decimal(1/6)/12) * 1
+unitBladeWeight = unitBladeCuFt * densitySteel
+recipeStorage["blade"] = Recipe("blacksmith",(unitBladeWeight,"lb"),
                                 [],
-                                [("steel",1.2)],
+                                [("steel",unitBladeWeight)],
                                 difficulty=1.5,
                                 description="price for a one-foot steel blade")
 
-recipeStorage["dagger"] = Recipe("blacksmith",(1.95,"lb"),
+daggerWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + getUnitSize("blade")
+recipeStorage["dagger"] = Recipe("blacksmith",(daggerWeight,"lb"),
                                  [],
                                  [("blade",1),("pommel",1),("blade hilt",1)],
                                  description="1d4 damage; 1-foot blade")
 
-recipeStorage["shortsword"] = Recipe("blacksmith",(3.15,"lb"),
+shortswordWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + (Decimal(2) * getUnitSize("blade"))
+recipeStorage["shortsword"] = Recipe("blacksmith",(shortswordWeight,"lb"),
                                  [],
                                  [("blade",2),("pommel",1),("blade hilt",1)],
                                  description="1d6 damage; 2-foot blade")
 
-recipeStorage["longsword"] = Recipe("blacksmith",(4.95,"lb"),
+longswordWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + (Decimal(3.5) * getUnitSize("blade"))
+recipeStorage["longsword"] = Recipe("blacksmith",(longswordWeight,"lb"),
                                  [],
                                  [("blade",3.5),("pommel",1),("blade hilt",1)],
                                  description="1d8 damage; 3.5-foot blade")
