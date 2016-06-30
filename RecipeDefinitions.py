@@ -84,7 +84,7 @@ recipeStorage["cast iron"] = Recipe("smelter",(1, "lb"),
 recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
                                        [("coal",Decimal(2.25)*Decimal(2/9)),("limestone",Decimal(1.125)*Decimal(2/9))],
                                        [("pig iron",1)],
-                                       description="ingot, 2x2x4 in.")
+                                       description="ingot, 1x1x3.57 in.")
 
 recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
                                        [("coal",0.25),("limestone",0.25)],
@@ -620,12 +620,13 @@ recipeStorage["mace"] = Recipe("blacksmith",(getUnitSize("mace haft") + (6 * mac
                                [("mace haft",1),("mace flange",6)],
                                description="1d8 damage, one-handed, melee; haft is 2 ft.")
 
-wroughtIronIngotCuFt = Decimal(2/12) * Decimal(2/12) * Decimal(4/12)
+wroughtIronIngotCuFt = Decimal(1/12) * Decimal(1/12) * Decimal(3.57/12)
 oneFootWireCuFt = cylinderCuFt(1,gauge16WireThicknessInches/2)
 feetOfWire = wroughtIronIngotCuFt / oneFootWireCuFt
 # can be used for fastening, or turned into rings for mail
-recipeStorage["wire"] = Recipe("blacksmith",(feetOfWire,"foot"),
+# weight of wire is the same as the 1 lb ingot of wrought iron; it's just turned into a different shape
+recipeStorage["wire"] = Recipe("blacksmith",(feetOfWire,"feet"),
                                [],
                                [("wrought iron",1)],
                                difficulty=6, # lots of hammering and then lots and lots of pulling
-                               description="16 gauge, i.e. 0.05082 in. diameter")
+                               description="weight 1 lb; thickness 16 gauge, i.e. 0.05082 in. diameter")
