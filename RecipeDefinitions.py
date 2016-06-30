@@ -103,17 +103,17 @@ recipeStorage["blade"] = Recipe("blacksmith",(1.2,"lb"),
 recipeStorage["dagger"] = Recipe("blacksmith",(1.95,"lb"),
                                  [],
                                  [("blade",1),("pommel",1),("blade hilt",1)],
-                                 description="1d4 damage")
+                                 description="1d4 damage; 1-foot blade")
 
 recipeStorage["shortsword"] = Recipe("blacksmith",(3.15,"lb"),
                                  [],
                                  [("blade",2),("pommel",1),("blade hilt",1)],
-                                 description="1d6 damage")
+                                 description="1d6 damage; 2-foot blade")
 
 recipeStorage["longsword"] = Recipe("blacksmith",(4.95,"lb"),
                                  [],
                                  [("blade",3.5),("pommel",1),("blade hilt",1)],
-                                 description="1d8 damage")
+                                 description="1d8 damage; 3.5-foot blade")
 
 
 
