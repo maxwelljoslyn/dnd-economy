@@ -182,15 +182,20 @@ recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
                                  [("quicklime",0.25)],
                                  description="in powdered form")
 
-# I assume a cow for slaughter weights 1300 pounds
+# I assume a cow for slaughter weighs 1300 pounds
 # taking the carcass weight to be 2/3 of that and the useable meat, in turn, to be 2/3 of carcass weight,
 # the remaining meat is 577.7 lbs.
 # thus to get a price for 1 lb, we divide the price of the cow by 577.7.
 # this approach treats all beef as generic: in reality, a given cow produces different amounts
 # of each cut of beef. for now we'll treat them all as the same.
+cowSlaughterWeight = 1300
+cowCarcassWeight = Decimal(cowSlaughterWeight*2) / Decimal(3)
+cowMeatWeight = Decimal(cowCarcassWeight*2) / Decimal(3)
+print(cowMeatWeight)
 recipeStorage["beef"] = Recipe("butcher",(1,"lb"),
                                [],
-                               [("cow",(1/Decimal(577.7)))])
+                               [("cow",(1/cowMeatWeight))])
+
 
 # a raw cowhide is about 50 square feet
 # this includes the irregularly-shaped edge portions,
