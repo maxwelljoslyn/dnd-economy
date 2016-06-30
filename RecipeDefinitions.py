@@ -134,27 +134,6 @@ recipeStorage["horse feed"] = Recipe("miller",(1,"lb"),
                                 difficulty=2,
                                 description="ground from cereals")
 
-recipeStorage["cow"] = Recipe("farmer",(1,"head"),
-                              [("arable land",10.67)],
-                              [("cattle feed",424)],
-                              description="two years old, suitable for slaughtering")
-
-# http://www.personal.utulsa.edu/~marc-carlson/history/cattle.html
-# this gives an average milk production of 3.5 gallons per day
-dailyMilkGallons = Decimal(3.5)
-# from some research, cows can give milk 300/365 days of the year (so 5/6 of the year)
-# on the other hand, the production tapers off as this period goes on
-# let's be ad-hoc and say that that the effective number of days of milk production is 250
-# thus yearly milk production is 3.5 gallons * 250 days
-avgMilkingDays = 250
-yearlyMilkGallons = dailyMilkGallons * avgMilkingDays
-# then divide cow price by that, to get price of milk per gallon
-
-recipeStorage["cow milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
-                                   [],
-                                   [("cow",Decimal(1/yearlyMilkGallons))],
-                                   description = "1 gallon")
-
 recipeStorage["bread, coarse"] = Recipe("baker",(1,"lb"),
                                        [("salt",0.05)],
                                        [("flour",0.7)],
@@ -182,6 +161,52 @@ recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
                                  [("quicklime",0.25)],
                                  description="in powdered form")
 
+recipeStorage["mature ewe"] = Recipe("farmer",(1,"head"),
+                                    [("arable land",Decimal(0.394))],
+                                    [],
+                                    description="eight months old, suitable for milking or shearing")
+
+recipeStorage["mutton sheep"] = Recipe("farmer",(1,"head"),
+                                    [("arable land",Decimal(1.11375))],
+                                    [],
+                                    description="one year four months, suitable for slaughter")
+
+# one mature ewe produces ~ 200 lbs of milk, once a year during lambing
+# thus the division by 200
+recipeStorage["sheep milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
+                                     [],
+                                     [("mature ewe",Decimal(1/200))],
+                                     description = "1 gallon")
+# sheep for slaughter weighs 120 lbs
+# I take the dress percentage to be 55% of that, giving the hanging/carcass weight, and the useable meat to be 75% of the hanging weight
+sheepCarcassWeight = 120 * Decimal(0.55)
+sheepMeatWeight = sheepCarcassWeight * Decimal(0.75)
+# we divide the cost of a mutton sheep by this number to get a price for 1 lb mutton
+recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
+                                     [],
+                                     [("mutton sheep",Decimal(1/sheepMeatWeight))])
+
+recipeStorage["cow"] = Recipe("farmer",(1,"head"),
+                              [("arable land",10.67)],
+                              [("cattle feed",424)],
+                              description="two years old, suitable for slaughtering")
+
+# http://www.personal.utulsa.edu/~marc-carlson/history/cattle.html
+# this gives an average milk production of 3.5 gallons per day
+dailyMilkGallons = Decimal(3.5)
+# from some research, cows can give milk 300/365 days of the year (so 5/6 of the year)
+# on the other hand, the production tapers off as this period goes on
+# let's be ad-hoc and say that that the effective number of days of milk production is 250
+# thus yearly milk production is 3.5 gallons * 250 days
+avgMilkingDays = 250
+yearlyMilkGallons = dailyMilkGallons * avgMilkingDays
+# then divide cow price by that, to get price of milk per gallon
+
+recipeStorage["cow milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
+                                   [],
+                                   [("cow",Decimal(1/yearlyMilkGallons))],
+                                   description = "1 gallon")
+
 # I assume a cow for slaughter weighs 1300 pounds
 # taking the carcass weight to be 2/3 of that and the useable meat, in turn, to be 2/3 of carcass weight,
 # the remaining meat is 577.7 lbs.
@@ -191,7 +216,6 @@ recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
 cowSlaughterWeight = 1300
 cowCarcassWeight = Decimal(cowSlaughterWeight*2) / Decimal(3)
 cowMeatWeight = Decimal(cowCarcassWeight*2) / Decimal(3)
-print(cowMeatWeight)
 recipeStorage["beef"] = Recipe("butcher",(1,"lb"),
                                [],
                                [("cow",(1/cowMeatWeight))])
@@ -400,30 +424,6 @@ recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWater)+barrelWeight,
                                [("cereal",14.22),("hops",0.55)],
                                [("barrel",1),("malted grain",35.55)],
                                description="30-gallon barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
-
-recipeStorage["mature ewe"] = Recipe("farmer",(1,"head"),
-                                    [("arable land",Decimal(0.394))],
-                                    [],
-                                    description="eight months old, suitable for milking or shearing")
-
-recipeStorage["mutton sheep"] = Recipe("farmer",(1,"head"),
-                                    [("arable land",Decimal(1.11375))],
-                                    [],
-                                    description="one year four months, suitable for slaughter")
-
-# one mature ewe produces ~ 200 lbs of milk, once a year during lambing
-# thus the division by 200
-recipeStorage["sheep milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
-                                     [],
-                                     [("mature ewe",Decimal(1/200))],
-                                     description = "1 gallon")
-# sheep for slaughter weighs 120 lbs
-# I take the dress percentage to be 55% of that, giving the hanging weight, and the useable meat to be 75% of the hanging weight
-sheepUseableMeat = 120 * Decimal(0.55) * Decimal(0.75)
-# we divide the cost of a mutton sheep by this number to get a price for 1 lb mutton
-recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
-                                     [],
-                                     [("mutton sheep",Decimal(1/sheepUseableMeat))])
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
