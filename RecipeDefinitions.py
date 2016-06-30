@@ -220,6 +220,15 @@ recipeStorage["beef"] = Recipe("butcher",(1,"lb"),
                                [],
                                [("cow",(1/cowMeatWeight))])
 
+# above I said that 2/3 of the cow's carcass weight was meat
+# let's assume that 2/3 of the other 1/3 of the carcass weight (i.e. 2/9) is fat, and the other 1/9 is innards, bones, horn, hoof, etc
+cowFatWeight = Decimal(2/9) * cowCarcassWeight
+# furthermore, since we are working toward a price for suet, which is not ALL fat but just certain portions,
+# we'll divide the above weight in half below (or equivalently, treat it as requiring 2 lbs of cow per lb of suet)
+recipeStorage["suet"] = Recipe("butcher",(1,"lb"),
+                               [],
+                               [("cow",(2/cowFatWeight))],
+                               description="beef fat for cooking, or for manufacture of tallow")
 
 # a raw cowhide is about 50 square feet
 # this includes the irregularly-shaped edge portions,
