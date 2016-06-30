@@ -119,6 +119,11 @@ recipeStorage["longsword"] = Recipe("blacksmith",(4.95,"lb"),
                                  [("blade",3.5),("pommel",1),("blade hilt",1)],
                                  description="1d8 damage; 3.5-foot blade")
 
+greatswordWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + (Decimal(4.5) * getUnitSize("blade"))
+recipeStorage["greatsword"] = Recipe("blacksmith",(greatswordWeight,"lb"),
+                                 [],
+                                 [("blade",4.5),("pommel",1),("blade hilt",1)],
+                                 description="1d10 damage; 4.5-foot blade")
 
 
 # let's do some foods, plus cattle feed so we do cow prices and all the stuff coming from that
