@@ -583,3 +583,15 @@ recipeStorage["spear"] = Recipe("blacksmith",(spearWeight, "lb"),
                                 [],
                                 [("spearhead",1),("spear haft",1)],
                                 description="1d6 damage, one-handed, melee; haft 5 ft. long")
+
+maceShaftCrossSectionRadius = Decimal(0.5) # inches
+maceHaftCuFt = cylinderCuFt(2,maceShaftCrossSectionRadius/12)
+maceHaftMetalProportion = Decimal(0.25)
+maceHaftWoodProportion = 1 - maceHaftMetalProportion
+maceHaftMetalWeight = maceHaftMetalProportion * maceHaftCuFt * densityWroughtIron
+maceHaftWoodWeight = maceHaftWoodProportion * maceHaftCuFt * densityTimber
+recipeStorage["mace haft"] = Recipe("blacksmith",(maceHaftMetalWeight + maceHaftWoodWeight,"lb"),
+                                    [("timber",maceHaftWoodWeight)],
+                                    [("wrought iron",maceHaftMetalWeight)],
+                                    difficulty=3,
+                                    description="wood reinforced with metal bands")
