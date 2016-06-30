@@ -621,7 +621,7 @@ recipeStorage["mace"] = Recipe("blacksmith",(getUnitSize("mace haft") + (6 * mac
                                description="1d8 damage, one-handed, melee; haft is 2 ft.")
 
 wroughtIronIngotCuFt = Decimal(1/12) * Decimal(1/12) * Decimal(3.57/12)
-oneFootWireCuFt = cylinderCuFt(1,gauge16WireThicknessInches/2)
+oneFootWireCuFt = cylinderCuFt(1,(gauge16WireThicknessInches/2/12))
 feetOfWire = wroughtIronIngotCuFt / oneFootWireCuFt
 # can be used for fastening, or turned into rings for mail
 # weight of wire is the same as the 1 lb ingot of wrought iron; it's just turned into a different shape
