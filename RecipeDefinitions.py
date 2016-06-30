@@ -215,10 +215,12 @@ semiGoods.append("defleshed cowhide")
 # is used for 100 average hides
 # taking 3.5 cubic feet as our measure, that means 731.96795 lbs of quicklime per 100 hides
 # AKA 0.732 lbs of quicklime per hide.
+weightCowhideInOz = Decimal(15 * 16)
+cowhideDensityInOzPerSqFt = Decimal(weightCowhideInOz / 50)
 recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
                                          [],
                                          [("quicklime",0.732),("defleshed cowhide",1)],
-                                         description="50 sq ft of cowhide, ready for leatherwork")
+                                         description="50 sq ft of cowhide; " + str(cowhideDensityInOzPerSqFt) + " oz/sq. ft, thus a 1-ft square is " + str(Decimal(cowhideDensityInOzPerSqFt/64)) + " in. thick")
 
 recipeStorage["holy symbol, wooden, simple"] = Recipe("carpenter",(1,"lb"),
                                                       [("timber",0.02)],
