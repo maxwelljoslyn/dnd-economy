@@ -43,6 +43,12 @@ densityMolasses = Decimal(88.1233091)
 molassesGallonWeight = densityMolasses * cuFtPerGallonLiquid
 densityTallow = Decimal(54.09)
 
+def cylinderCuFt(height,radius):
+    height = Decimal(height)
+    radius = Decimal(radius)
+    val = Decimal(pi) * height * (radius ** 2)
+    return val
+
 
 recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
                                    [("iron ore",1),("coal",0.5),("limestone",0.25)])
