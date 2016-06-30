@@ -68,8 +68,8 @@ recipeStorage["cast iron"] = Recipe("smelter",(1, "lb"),
                                        [("pig iron",0.93)],
                                     description="ingot, 1x1x3.8 in.")
 
-recipeStorage["wrought iron"] = Recipe("smelter",(4.5,"lb"),
-                                       [("coal",2.25),("limestone",1.125)],
+recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
+                                       [("coal",Decimal(2.25)*Decimal(2/9)),("limestone",Decimal(1.125)*Decimal(2/9))],
                                        [("pig iron",1)],
                                        description="ingot, 2x2x4 in.")
 
@@ -318,15 +318,12 @@ recipeStorage["holy symbol, wooden, simple"] = Recipe("carpenter",(1,"lb"),
 
 recipeStorage["holy symbol, iron, simple"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
-                                                      [("wrought iron",1/4.5)],
+                                                      [("wrought iron",1)],
                                                     difficulty=2)
-
-# note that value for the weight of the wrought iron
-# it's the weight of the final object divided by the weight of one ingot of wrought iron, 4.5 lbs
 
 recipeStorage["holy symbol, iron, ornate"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
-                                                      [("wrought iron",1/4.5)],
+                                                      [("wrought iron",1)],
                                                     difficulty=8)
 
 # first step in making red and yellow (ochre) dyes
@@ -391,7 +388,7 @@ fatHoopWeight = densityWroughtIron * fatHoopCuFt
 
 recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
                                                          [],
-                                                         [("wrought iron",(fatHoopWeight / Decimal(4.5)))])
+                                                         [("wrought iron",fatHoopWeight)])
 
 # the thin hoops are actually 1/3 and 2/3 the distance to the middle of the barrel,
 # so with the sloping of the barrel, we'd use a measure less than the barrel's max circumference
@@ -403,7 +400,7 @@ thinHoopWeight = densityWroughtIron * thinHoopCuFt
 
 recipeStorage["barrel hoop, thin"] = Recipe("blacksmith",(thinHoopWeight, "lb"),
                                                          [],
-                                                         [("wrought iron",(thinHoopWeight / Decimal(4.5)))])
+                                                         [("wrought iron",thinHoopWeight)])
 
 # these are quite rough measurements. so it goes.
 numStaves = 12
