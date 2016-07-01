@@ -54,16 +54,15 @@ def display(city, name):
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
-    # testing with town Veder Vek
-    t = "Veder Vek"
-    print("At",t + ":")
+    town = "Veder Vek"
+    print("At",town + ":")
     names = list(recipeStorage.keys())
     names.sort()
     for n in names:
         if n in semiGoods:
             pass
         else:
-            print(display(t,n))
+            print(display(town,n))
 
 if __name__ == "__main__":
     main()
