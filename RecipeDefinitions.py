@@ -99,13 +99,14 @@ hiltWeight = densityTimber * hiltCuFt
 recipeStorage["blade hilt"] = Recipe("carpenter",(hiltWeight,"lb"),
                                      [("timber",hiltCuFt)],
                                      description="wood tube, carved from 2x2x5 in. block")
+semiGoods.append("blade hilt")
 
 recipeStorage["pommel"] = Recipe("blacksmith",(0.25,"lb"),
                                  [],
                                  [("steel",0.25)],
                                  difficulty=1.5,
                                  description="metal knob which holds hilt and blade together")
-# semiGoods.append("pommel")
+semiGoods.append("pommel")
 
 
 # a 1-foot (unit) blade is 2 inches wide, 1/6 inch thick, 1 foot long
@@ -116,6 +117,7 @@ recipeStorage["blade"] = Recipe("blacksmith",(unitBladeWeight,"lb"),
                                 [("steel",unitBladeWeight)],
                                 difficulty=6,
                                 description="price for a one-foot steel blade")
+semiGoods.append("blade")
 
 daggerWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + getUnitSize("blade")
 recipeStorage["dagger"] = Recipe("blacksmith",(daggerWeight,"lb"),
@@ -327,8 +329,7 @@ recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
 
 recipeStorage["holy symbol, wooden, simple"] = Recipe("carpenter",(1,"lb"),
                                                       [("timber",0.02)],
-                                                      [],
-                                                      difficulty=2)
+                                                      [])
 
 recipeStorage["holy symbol, iron, simple"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
@@ -338,7 +339,7 @@ recipeStorage["holy symbol, iron, simple"] = Recipe("blacksmith",(1,"lb"),
 recipeStorage["holy symbol, iron, ornate"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
                                                       [("wrought iron",1)],
-                                                    difficulty=8)
+                                                    difficulty=4)
 
 # first step in making red and yellow (ochre) dyes
 # high difficulty because multiple steps in the process
@@ -354,16 +355,18 @@ semiGoods.append("separated ochre clay")
 recipeStorage["pigment, red/yellow"] = Recipe("dyer",(1,"lb"),
                                               [],
                                               [("separated ochre clay",1)])
+semiGoods.append("pigment, red/yellow")
 
 # component of blue dye
 recipeStorage["ground lapis lazuli"] = Recipe("potter",(1,"lb"),
                                               [("lapis lazuli",1)])
-
 semiGoods.append("ground lapis lazuli")
+
 
 recipeStorage["pigment, ultramarine"] = Recipe("dyer",(1,"lb"),
                                                [],
                                                [("ground lapis lazuli",1)])
+semiGoods.append("pigment, ultramarine")
 
 recipeStorage["malted grain"] = Recipe("brewer",(1,"lb"),
                                [("cereal",1)],
@@ -397,6 +400,7 @@ barrelHeadWeight = densityTimber * barrelCuFt
 recipeStorage["barrel head"] = Recipe("cooper",(barrelHeadWeight,"lb"),
                                       [("timber",barrelCuFt)],
                                       [])
+semiGoods.append("barrel head")
 
 barrelHeadCircumference = barrelHeadRadius * 2 * Decimal(pi)
 fatHoopCuFt = barrelHeadCircumference * (Decimal(1.25) / Decimal(12)) * (gauge16WireThicknessInches / Decimal(12))
@@ -405,6 +409,7 @@ fatHoopWeight = densityWroughtIron * fatHoopCuFt
 recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
                                                          [],
                                                          [("wrought iron",fatHoopWeight)])
+semiGoods.append("barrel hoop, fat")
 
 # the thin hoops are actually 1/3 and 2/3 the distance to the middle of the barrel,
 # so with the sloping of the barrel, we'd use a measure less than the barrel's max circumference
@@ -417,6 +422,7 @@ thinHoopWeight = densityWroughtIron * thinHoopCuFt
 recipeStorage["barrel hoop, thin"] = Recipe("blacksmith",(thinHoopWeight, "lb"),
                                                          [],
                                                          [("wrought iron",thinHoopWeight)])
+semiGoods.append("barrel hoop, thin")
 
 # these are quite rough measurements. so it goes.
 numStaves = 12
@@ -428,6 +434,7 @@ staveWeight = staveCuFt * densityTimber
 recipeStorage["barrel stave"] = Recipe("cooper",(staveWeight,"lb"),
                                        [("timber",staveCuFt)],
                                        [])
+semiGoods.append("barrel stave")
 
 # bringing it all together
 barrelWeight = (numStaves * staveWeight) + (4 * thinHoopWeight) + (2 * fatHoopWeight) + (2 * barrelHeadWeight)
@@ -502,8 +509,8 @@ recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWater)+barrelWeight,
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
                                       [],
                                       [("mature ewe",1)])
-
 semiGoods.append("greasy wool")
+
 
 recipeStorage["fuller's earth"] = Recipe("potter",(1,"lb"),
                                          [("clay",3)],
@@ -607,6 +614,7 @@ recipeStorage["mace haft"] = Recipe("blacksmith",(maceHaftMetalWeight + maceHaft
                                     [("wrought iron",maceHaftMetalWeight)],
                                     difficulty=3,
                                     description="wood reinforced with metal bands")
+semiGoods.append("mace haft")
 
 maceFlangeCuFt = triangularPrismCuFt(Decimal(1/12),Decimal(0.25),Decimal(0.1))
 maceFlangeWeight = maceFlangeCuFt * densityWroughtIron
@@ -614,6 +622,7 @@ recipeStorage["mace flange"] = Recipe("blacksmith",(maceFlangeWeight,"lb"),
                                       [],
                                       [("wrought iron",maceFlangeWeight)],
                                       difficulty=3)
+semiGoods.append("mace flange")
 
 recipeStorage["mace"] = Recipe("blacksmith",(getUnitSize("mace haft") + (6 * maceFlangeWeight),"lb"),
                                [],
