@@ -630,3 +630,31 @@ recipeStorage["wire"] = Recipe("blacksmith",(feetOfWire,"feet"),
                                [("wrought iron",1)],
                                difficulty=6, # lots of hammering and then lots and lots of pulling
                                description="weight 1 lb; thickness 16 gauge, i.e. 0.05082 in. diameter")
+
+# this is in feet b/c division by 12
+mailRingRadius = Decimal(0.1) / 12
+# this circumference is also the feet of wire needed for one ring
+mailRingCircumference = 2 * Decimal(pi) * mailRingRadius
+unitsWirePerRing = mailRingCircumference / getUnitSize("wire")
+recipeStorage["mail ring"] = Recipe("blacksmith",(unitsWirePerRing,"lb"),
+                                    [],
+                                    [("wire",unitsWirePerRing)],
+                                    difficulty=5)
+semiGoods.append("mail ring")
+
+# rings overlap, which would mean more per linear foot, but we'll ignore that since mail can stretch a little too
+ringsToReachOneFootLength = 1 / mailRingRadius
+ringsInSquareFootMail = ringsToReachOneFootLength ** 2
+recipeStorage["mail sqft"] = Recipe("blacksmith",(getUnitSize("mail ring") * ringsInSquareFootMail,"lb"),
+                                    [],
+                                    [("mail ring",ringsInSquareFootMail)],
+                                    difficulty=10,
+                                    description="1 square foot of mail")
+semiGoods.append("mail sqft")
+
+# this is very approximate
+hauberkSqFt = 6
+recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getUnitSize("mail sqft"),"lbs"),
+                                       [],
+                                       [("mail sqft",hauberkSqFt)],
+                                       description="has full sleeves; covers torso to the knees")
