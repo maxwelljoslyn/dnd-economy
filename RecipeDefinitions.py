@@ -716,3 +716,13 @@ recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide 
                                                  ("tanned cowhide",beltpouchPortionOfCowhide),
                                                  ("yarn",Decimal(1) / getUnitSize("yarn"))],
                                                 description="with string clasp; holds 0.15 cubic foot")
+
+# let's say a belt is 3 feet long and 1 inch wide, and you cut to the appropriate length -- but the leatherworker is gonna charge you for the whole thing.
+# you also need maybe 12 feet of thread to make the edges tough
+beltSqFt = Decimal(1/12) * 3
+beltPortionOfCowhide = Decimal(beltSqFt/50)
+recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getUnitSize("tanned cowhide"),"lb"),
+                                                [],
+                                                [("thread",Decimal(12) / getUnitSize("thread")),
+                                                 ("tanned cowhide",beltPortionOfCowhide)],
+                                                description="leather; can attach up to 3 pouches, scabbards, etc.")
