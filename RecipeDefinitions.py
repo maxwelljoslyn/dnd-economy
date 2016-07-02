@@ -776,3 +776,25 @@ recipeStorage["rope"] = Recipe("ropewalker",(getUnitSize("yarn")/16,"feet"),
                                [("yarn",1)],
                                difficulty=2,
                                description="weighs 16 lbs")
+
+# warning: mostly-bullshit calculations ahead. I just need a figure here.
+# if yarn is 1/8 inch thick, then it requires 96 feet of yarn to make a foot square cloth.
+# let's round to 100.
+yarnFtPerWoolClothSqFt = 100
+# the weight calculation below works because the table lists 1 lb of yarn.
+recipeStorage["wool cloth"] = Recipe("weaver",(yarnFtPerWoolClothSqFt/getUnitSize("yarn"),"lb"),
+                                          [],
+                                          [("yarn",yarnFtPerWoolClothSqFt/getUnitSize("yarn"))],
+                                     description="1 square foot")
+semiGoods.append("wool cloth")
+
+# gambesons are quite thick, with lots of layers
+gambesonLayers = 10
+# we'll need  feet of thread per layer, to go around the edges of each layer twice, attaching them to the others into a big stack
+gambesonThread = gambesonLayers * 8
+gambesonSqFt = 12 * gambesonLayers
+recipeStorage["quilted gambeson"] = Recipe("weaver",(gambesonSqFt * getUnitSize("wool cloth"),"lb"),
+                                           [],
+                                           [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
+                                           difficulty=2,
+                                           description="AC 9; padded cloth armor")
