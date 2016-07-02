@@ -171,19 +171,19 @@ recipeStorage["horse feed"] = Recipe("miller",(1,"lb"),
 recipeStorage["bread, coarse"] = Recipe("baker",(1,"lb"),
                                        [("salt",0.05)],
                                        [("flour",0.7)],
-                                       description="small round loaf")
+                                       description="round loaf")
 
 recipeStorage["bread, good"] = Recipe("baker",(1,"lb"),
                                      [("salt",0.05)],
                                      [("flour",0.7)],
                                      difficulty=2,
-                                     description="small round loaf")
+                                     description="round loaf")
 
 recipeStorage["bread, excellent"] = Recipe("baker",(1,"lb"),
                                      [("salt",0.05)],
                                      [("flour",0.7)],
                                      difficulty=4,
-                                     description="small round loaf")
+                                     description="round loaf")
 
 recipeStorage["quicklime"] = Recipe("potter",(1,"lb"),
                                     [("limestone",1),("coal",0.5)],
@@ -667,3 +667,38 @@ recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getUnitSize("
                                        [],
                                        [("mail sqft",hauberkSqFt)],
                                        description="has full sleeves; covers torso to the knees")
+
+# The amount of feet of yarn per pound of wool which I give here is probably a vast under- or overshoot,
+# but it's a highly variable amount dependent on thickness of resultant yarn, type of sheep, and
+# other factors, so I'll just go ahead and soldier on. Can always fix it later.
+recipeStorage["thin yarn"] = Recipe("spinner",(1500,"feet"),
+                               [],
+                               [("clean wool",1)],
+			       description="weight 1 lb; must be spun into thread or yarn to be useful")
+semiGoods.append("thin yarn")
+
+recipeStorage["yarn"] = Recipe("spinner",(getUnitSize("thin yarn"),"feet"),
+                               [],
+                               [("thin yarn",1)],
+                               description="weight 1 lb; useable as string and in stitching, ropemaking, etc.")
+
+recipeStorage["thread"] = Recipe("spinner",(getUnitSize("thin yarn")*2,"feet"),
+                                 [],
+                                 [("thin yarn",1)],
+                                 description="weight 1 lb; useable for stitching cloth and textiles")
+
+# I approximate the pattern of a leather bag holding one cubic foot,
+# as the pattern which, when folded up, makes a cube missing one face, each side 1 foot long
+# thus the pattern requires 5 square feet of leather in the shape of a plus sign (square cross)
+# (and a tanned cowhide is 50 square feet.)
+
+# the leather pattern must be worked by a leatherworker with thread, to make the bag;
+# he sews the sides together, and adds the drawstring with its holes
+# 4 feet of thread are used to sew the sides of the bag together;
+# another 4 feet are used going around the top, folding the lip of the bag over to form a tube
+# for the drawstring.
+recipeStorage["leather pouch, small"] = Recipe("leatherworker",(Decimal(0.1) * getUnitSize("tanned cowhide"),"lb"),
+                                                [],
+                                                [("thread",Decimal(8) / getUnitSize("thread")),
+                                                 ("tanned cowhide",Decimal(0.1))],
+                                                description="with drawstring; holds 1 cubic foot")
