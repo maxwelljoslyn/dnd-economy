@@ -46,7 +46,7 @@ towns["Berdorl"] = Town((43,-69,26),
                         {"potter":1, "tanner":1, "blacksmith":1})
 towns["Kededal"] = Town((43,-60,17),
                         {"arable land":2, "hops":1},
-                        {"vintner":1})
+                        {"vintner":1, "spinner":2})
 towns["Yog"] = Town((45,-60,15),
                     {"arable land":1, "limestone":1},
                     {"farmer":1, "tanner":1, "brewer":1, "cooper":1, "leatherworker":1})
@@ -54,20 +54,20 @@ towns["Dreot"] = Town((47,-67,20),
                       {"arable land":2, "timber":1, "cereal":1},
                       {"miller":1, "carpenter":1, "cooper":1, "fuller":1})
 towns["Guroff"]=Town((47,-63,16),
-                     {"clay":1, "gold ore":2, "silver ore":1, "nickel ore":1},
+                     {"clay":1, "gold ore":1, "silver ore":1, "nickel ore":1},
                      {"goldsmith":1, "silversmith":1, "smelter":1})
 towns["Nender"] = Town((48,-66,18),
-                       {"lapis lazuli":1,"manganese ore":1},
-                       {"potter":1})
+                       {"lapis lazuli":1,"manganese ore":1, "tin ore":1},
+                       {"potter":1, "tinsmith":1})
 towns["Pwodd"] = Town((49,-65,16),
                       {"arable land":1,"cereal":1, "hops":1},
                       {"tailor":1, "baker":1, "fuller":1, "weaver":1})
 towns["Widder"] = Town((49,-63,14),
                        {"arable land":2},
-                       {"tailor":1,"weaver":1,"butcher":1})
+                       {"tailor":1,"weaver":1,"butcher":1, "carver":1})
 towns["Ror Kadda"] = Town((41,-62,21),
                        {"timber":1, "fish":2},
-                       {"chandler":1,"carpenter":2})
+                       {"chandler":1,"carpenter":1, "carver":1})
 
 addConnection("Ror Kadda","Veder Vek")
 addConnection("Yog","Guroff")

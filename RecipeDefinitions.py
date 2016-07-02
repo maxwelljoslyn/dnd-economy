@@ -726,3 +726,30 @@ recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getUnitSi
                                                 [("thread",Decimal(12) / getUnitSize("thread")),
                                                  ("tanned cowhide",beltPortionOfCowhide)],
                                                 description="leather; can attach up to 3 pouches, scabbards, etc.")
+
+# approximate
+whistleCuFt = cylinderCuFt(Decimal(0.25), Decimal(1.5/12)) 
+whistleWeight = whistleCuFt * densityTimber
+recipeStorage["whistle"] = Recipe("carver",(whistleWeight,"lb"),
+                                  [("timber",whistleWeight)],
+                                  [],
+                                  difficulty=2,
+                                  description="non-musical; 3 inches long")
+
+# structurally it's a little hollow block
+fippleCuFt = Decimal(1/12) * Decimal(1/12) * Decimal(2/12)
+fippleWeight = fippleCuFt * densityTimber
+recipeStorage["fipple"] = Recipe("carver",(fippleWeight,"lb"),
+                                 [("timber", fippleWeight * densityTimber)],
+                                 [],
+                                 difficulty=3,
+                                 description="whistle mouthpiece for certain instruments")
+semiGoods.append("fipple")
+
+recorderCuFt = cylinderCuFt(Decimal(1.25), Decimal(1.5/12))
+recorderWeight = recorderCuFt * densityTimber
+recipeStorage["recorder"] = Recipe("carver",(recorderWeight,"lb"),
+                                   [("timber",recorderWeight)],
+                                   [("fipple",1)],
+                                   difficulty=4,
+                                   description="type of wooden flute; 15 inches long")
