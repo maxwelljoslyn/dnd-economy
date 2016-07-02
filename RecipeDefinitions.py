@@ -687,18 +687,23 @@ recipeStorage["thread"] = Recipe("spinner",(getUnitSize("thin yarn")*2,"feet"),
                                  [("thin yarn",1)],
                                  description="weight 1 lb; useable for stitching cloth and textiles")
 
-# I approximate the pattern of a leather bag holding one cubic foot,
-# as the pattern which, when folded up, makes a cube missing one face, each side 1 foot long
-# thus the pattern requires 5 square feet of leather in the shape of a plus sign (square cross)
-# (and a tanned cowhide is 50 square feet.)
 
 # the leather pattern must be worked by a leatherworker with thread, to make the bag;
-# he sews the sides together, and adds the drawstring with its holes
+# he sews the sides together, and adds the string for tying closed, with its holes
 # 4 feet of thread are used to sew the sides of the bag together;
-# another 4 feet are used going around the top, folding the lip of the bag over to form a tube
-# for the drawstring.
-recipeStorage["leather pouch, small"] = Recipe("leatherworker",(Decimal(0.1) * getUnitSize("tanned cowhide"),"lb"),
+# another 4 feet are used to make the top flap extra secure
+
+# I approximate the pattern of a leather backpack holding one cubic foot
+# as the pattern which, when folded up, makes a cube, each side 1 foot long.
+# Thus the pattern requires 6 square feet of leather (roughly the shape of a Christian cross).
+# Then we add another 1 square foot of leather for the straps.
+# A tanned cowhide is 50 square feet, so we divide our total of 7 by 50.
+backpackPortionOfCowhide = Decimal(7 / 50)
+recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * getUnitSize("tanned cowhide"),"lb"),
                                                 [],
                                                 [("thread",Decimal(8) / getUnitSize("thread")),
-                                                 ("tanned cowhide",Decimal(0.1))],
-                                                description="with drawstring; holds 1 cubic foot")
+                                                 ("tanned cowhide",backpackPortionOfCowhide),
+                                                 ("yarn",Decimal(1) / getUnitSize("yarn"))],
+                                                description="with string clasp; holds 1 cubic foot")
+
+
