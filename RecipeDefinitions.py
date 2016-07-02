@@ -42,6 +42,8 @@ milkGallonWeight = densityMilk * cuFtPerGallonLiquid
 densityMolasses = Decimal(88.1233091)
 molassesGallonWeight = densityMolasses * cuFtPerGallonLiquid
 densityTallow = Decimal(54.09)
+densityTin = Decimal(456.3484)
+densityCopper = 559
 
 def cylinderCuFt(height,radius):
     height = Decimal(height)
@@ -80,6 +82,18 @@ recipeStorage["cast iron"] = Recipe("smelter",(1, "lb"),
                                         ("limestone",0.25)],
                                        [("pig iron",0.93)],
                                     description="ingot, 1x1x3.8 in.")
+pewterTinProportion = Decimal(0.85)
+pewterCopperProportion = Decimal(0.15)
+# this volume calculation works because we're making a 1 lb ingot, so the number of pounds = the proportion
+volumePewterIngot = (pewterTinProportion / densityTin) + (pewterCopperProportion / densityCopper)
+densityPewter = 1 / volumePewterIngot
+# comes out to 469.3 lbs/cubic ft
+# checked it for sanity and the density looks good for an alloy with this much copper.
+recipeStorage["pewter"] = Recipe("smelter",(1,"lb"),
+                                 [("tin ore",pewterTinProportion),("copper ore",pewterCopperProportion),
+                                  ("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
+                                 [],
+                                 description="ingot, 1x1x3.65 in.")
 
 recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
                                        [("coal",Decimal(2.25)*Decimal(2/9)),("limestone",Decimal(1.125)*Decimal(2/9))],
