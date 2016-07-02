@@ -706,4 +706,13 @@ recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * g
                                                  ("yarn",Decimal(1) / getUnitSize("yarn"))],
                                                 description="with string clasp; holds 1 cubic foot")
 
-
+# belt pouch holds very little;
+# the total square footage is (0.15^2)*6
+beltpouchSqFt = (Decimal(0.15) ** 2) * 6
+beltpouchPortionOfCowhide = Decimal(beltpouchSqFt / 50)
+recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide * getUnitSize("tanned cowhide"),"lb"),
+                                                [],
+                                                [("thread",Decimal(1.2) / getUnitSize("thread")),
+                                                 ("tanned cowhide",beltpouchPortionOfCowhide),
+                                                 ("yarn",Decimal(1) / getUnitSize("yarn"))],
+                                                description="with string clasp; holds 0.15 cubic foot")
