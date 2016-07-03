@@ -797,3 +797,8 @@ recipeStorage["quilted gambeson"] = Recipe("weaver",(gambesonSqFt * getUnitSize(
                                            [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
                                            difficulty=2,
                                            description="AC 9; padded cloth armor")
+
+recipeStorage["gemshorn"] = Recipe("carver",(2,"lb"),
+                                   [],
+                                   [("fipple",1),("cow",Decimal(0.5))],
+                                   description="ocarina-type instrument made from bull horn; 8 inches long")
