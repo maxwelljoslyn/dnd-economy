@@ -662,7 +662,7 @@ unitsWirePerRing = mailRingCircumference / getUnitSize("wire")
 recipeStorage["mail ring"] = Recipe("blacksmith",(unitsWirePerRing,"lb"),
                                     [],
                                     [("wire",unitsWirePerRing)],
-                                    difficulty=7)
+                                    difficulty=5)
 semiGoods.append("mail ring")
 
 # rings overlap, which would mean more per linear foot, but we'll ignore that since mail can stretch a little too
