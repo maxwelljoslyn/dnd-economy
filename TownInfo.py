@@ -25,50 +25,76 @@ def addConnection(town_a,town_b):
 # is not determined by hand!
 # the computer will do that for me,
 # finding both the path of the road and the distance along it
-    
-towns["Veder Vek"] = Town((44,-62,18),
-                          {"coal":2, "iron ore":3, "gold ore":1},
-                          {"blacksmith":2})
-towns["Ekodo"] = Town((44,-65,21),
-                      {"clay":1, "nickel ore":1,"silver ore":1, "gold ore":2},
-                      {"silversmith":1, "goldsmith":2})
-towns["Gootonu"] = Town((43,-66,23),
-                        {"limestone":1, "timber":1, "gold ore":1},
-                        {"smelter":2, "baker":1, "brewer":1, "tanner":1})
-towns["Torkada"] = Town((42,-67,25),
-                        {"arable land":1, "clay":1, "cereal":2},
-                        {"butcher":1,"potter":1, "dyer":1, "miller":1})
-towns["Serdabach"] = Town((45,-68,23),
-                          {"salt":1, "arable land":1, "timber":1, "sugarcane":1},
-                          {"smelter":1, "farmer":1, "carpenter":1, "brewer":1})
-towns["Berdorl"] = Town((43,-69,26),
-                        {"salt":1,"coal":1, "iron ore":1, "limestone":1},
-                        {"potter":1, "tanner":1, "blacksmith":1})
-towns["Kededal"] = Town((43,-60,17),
-                        {"arable land":2, "hops":1},
-                        {"vintner":1, "spinner":2})
-towns["Yog"] = Town((45,-60,15),
-                    {"arable land":1, "limestone":1},
-                    {"farmer":1, "tanner":1, "brewer":1, "cooper":1, "leatherworker":1})
-towns["Dreot"] = Town((47,-67,20),
-                      {"arable land":2, "timber":1, "cereal":1},
-                      {"miller":1, "carpenter":1, "cooper":1, "fuller":1})
-towns["Guroff"]=Town((47,-63,16),
-                     {"clay":1, "gold ore":1, "silver ore":1, "nickel ore":1},
-                     {"goldsmith":1, "silversmith":1, "smelter":1})
-towns["Nender"] = Town((48,-66,18),
-                       {"lapis lazuli":1,"manganese ore":1, "tin ore":1},
-                       {"potter":1, "tinsmith":1})
-towns["Pwodd"] = Town((49,-65,16),
-                      {"arable land":1,"cereal":1, "hops":1},
-                      {"tailor":1, "baker":1, "fuller":1, "weaver":1})
-towns["Widder"] = Town((49,-63,14),
-                       {"arable land":2},
-                       {"tailor":1,"weaver":1,"butcher":1, "carver":1})
-towns["Ror Kadda"] = Town((41,-62,21),
-                       {"timber":1, "fish":2},
-                       {"chandler":1,"carpenter":1, "carver":1})
 
+# hill and mountain areas
+# example industry: mining, clay, pottery, etc
+towns["Guroff"]=Town((47,-63,16),
+                     {"clay":1},
+                     {"potter":1})
+towns["Nender"] = Town((48,-66,18),
+                       {"coal":1, "tin ore":1},
+                       {"tinsmith":1})
+towns["Pwodd"] = Town((49,-65,16),
+                      {"gold ore":1, "silver ore":1},
+                      {"goldsmith":1})
+
+# Fulgarri has a mediterannean climate but is also a bit high in altitude
+# they have wineries but maybe not so much grape growing
+towns["Fulgarri"] = Town((47,-59,12),
+                         {"copper ore":1, "lead ore":1},
+                         {"coppersmith":1})
+towns["Widder"] = Town((49,-63,14),
+                       {"nickel ore":1, "manganese ore":2},
+                       {"blacksmith":2})
+towns["Yog"] = Town((45,-60,15),
+                    {"limestone":2, "iron ore":1},
+                    {"smelter":1, "blacksmith":2})
+
+# mostly plains and broad expanses
+# as you go more towards DR you get more woodsy (the direction of jungly Drode)
+# example industry: smelting, timber, carpentry, carving, farming, cereals; brewing, vineyards
+towns["Veder Vek"] = Town((44,-62,18),
+                          {"arable land":1, "hops":1},
+                          {"leatherworker":2, "baker":2, "farmer":2, "brewer":1})
+towns["Ekodo"] = Town((45,-65,20),
+                      {"cereal":1, "timber":2},
+                      {"cooper":1, "smelter":1, "carver":1, "miller":1, "butcher":1})
+towns["Kededal"] = Town((43,-60,17),
+                        {"timber":1},
+                        {"vintner":1, "spinner":2, "carpenter":1})
+towns["Gootonu"] = Town((43,-66,23),
+                        {"cereal":1},
+                        {"smelter":2, "miller":2, "baker":1, "tanner":1})
+# more southerly, warmer cities
+# example: shipping, salt, sugarcane, shipwright, tobacco, shells
+towns["Torkada"] = Town((42,-67,25),
+                        {"fish":1, "arable land":1},
+                        {"baker":1, "dyer":1, "weaver":2, "miller":1})
+towns["Serdabach"] = Town((45,-68,23),
+                          {"salt":1, "timber":1, "sugarcane":1},
+                          {"ropewalker":1, "shipwright":1, "smelter":1, "carpenter":2, "brewer":1})
+towns["Berdorl"] = Town((43,-69,26),
+                        {"sugarcane":1},
+                        {"ropewalker":1, "carpenter":1 ,"blacksmith":2})
+
+# more central, slightly colder-climate port
+# same as other ports, plus whales
+towns["Ror Kadda"] = Town((41,-62,21),
+                       {"timber":1, "fish":1},
+                       {"ropewalker":1, "chandler":1, "shipwright":1,"carver":1})
+
+# Drode is jungley, thought not as dense as true rainforest to the south
+# Dreot has a bit of mild jungle in its lowlands, with open hills and river valleys
+# thus Drode has timber, herbs, plants; Dreot has fish, coal, etc.
+towns["Dreot"] = Town((47,-67,20),
+                      {"timber":1},
+                      {"miller":1, "carpenter":1, "cooper":1, "fuller":1})
+towns["Drode"] = Town((48,-68,20),
+                      {"cereal":1},
+                      {"alchemist":1})
+
+addConnection("Dreot","Drode")
+addConnection("Yog","Fulgarri")
 addConnection("Ror Kadda","Veder Vek")
 addConnection("Yog","Guroff")
 addConnection("Pwodd","Widder")
