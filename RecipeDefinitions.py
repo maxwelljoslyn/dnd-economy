@@ -679,7 +679,7 @@ hauberkSqFt = 12
 recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getUnitSize("mail sqft"),"lbs"),
                                        [],
                                        [("mail sqft",hauberkSqFt)],
-                                       description="has full sleeves; covers torso to the knees")
+                                       description="AC 6; has full sleeves, and covers torso to the knees")
 
 # The amount of feet of yarn per pound of wool which I give here is probably a vast under- or overshoot,
 # but it's a highly variable amount dependent on thickness of resultant yarn, type of sheep, and
