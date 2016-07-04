@@ -738,7 +738,7 @@ recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getUnitSi
                                                 [],
                                                 [("thread",Decimal(12) / getUnitSize("thread")),
                                                  ("tanned cowhide",beltPortionOfCowhide)],
-                                                description="leather; can attach up to 3 pouches, scabbards, etc.")
+                                                description="leather; can attach up to 3 belt-attachable items: weapon scabbard/loop/hook, belt pouch, quiver")
 
 # approximate
 whistleCuFt = cylinderCuFt(Decimal(0.25), Decimal(0.75/12)) 
@@ -802,3 +802,8 @@ recipeStorage["gemshorn"] = Recipe("carver",(2,"lb"),
                                    [],
                                    [("fipple",1),("cow",Decimal(0.5))],
                                    description="ocarina-type instrument made from bull horn; 8 inches long")
+
+
+# shoulder belt
+# 4 feet
+# can hold 1 pouch in front and one scabbard (or weapon cord)
