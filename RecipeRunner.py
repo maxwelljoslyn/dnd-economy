@@ -63,6 +63,7 @@ def main():
             pass
         else:
             print(display(town,n))
+    print("Number of recipes:",len(names))
 
 if __name__ == "__main__":
     main()
