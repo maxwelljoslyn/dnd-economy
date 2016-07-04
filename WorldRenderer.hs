@@ -55,7 +55,7 @@ drawFullWorld hs ts rs =
     filtered = filterHexes wanted hs
     --coord positions of each hex
 
-wanted = [Coord q r (0-q-r) | q <- [38..50], r <-[(-70),(-69)..(-50)]]
+wanted = [Coord q r (0-q-r) | q <- [30..55], r <-[(-75),(-74)..(-55)]]
 
 --remove a hex from hs if its coord isn't in cs
 filterHexes :: [Coord] -> [Hex] -> [Hex]
