@@ -106,6 +106,17 @@ recipeStorage["bronze"] = Recipe("smelter",(1,"lb"),
                                  [],
                                  description="ingot, 1.125x1.675x1.675 in.")
 
+bellmetalCopperProportion = Decimal(0.78)
+bellmetalTinProportion = Decimal(0.22)
+volumeBellmetalIngot = (bellmetalTinProportion / densityTin) + (bellmetalCopperProportion / densityCopper)
+densityBellmetal = 1 / volumeBellmetalIngot
+# comes out to 532.8 lb/cuft, almost the same as bronze but not quite
+recipeStorage["bell metal"] = Recipe("smelter",(1,"lb"),
+                                 [("tin ore",bellmetalTinProportion),("copper ore",bellmetalCopperProportion),
+                                  ("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
+                                 [],
+                                 description="ingot, 1.2x1.35x2 in.")
+
 recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
                                        [("coal",Decimal(2.25)*Decimal(2/9)),("limestone",Decimal(1.125)*Decimal(2/9))],
                                        [("pig iron",1)],
