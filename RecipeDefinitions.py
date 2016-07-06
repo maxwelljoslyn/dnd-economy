@@ -807,3 +807,25 @@ recipeStorage["gemshorn"] = Recipe("carver",(2,"lb"),
 # shoulder belt
 # 4 feet
 # can hold 1 pouch in front and one scabbard (or weapon cord)
+
+# some of the weight of the original clay is water;
+# we account for that loss here so that we don't have to do it as part of calculation for weights of
+# pottery pieces
+recipeStorage["kneaded clay"] = Recipe("potter",(1,"lb"),
+                                       [("clay",Decimal(1.15))],
+                                       [])
+semiGoods.append("kneaded clay")
+
+
+# next we can do a salt-glazed pottery holder thingy, i.e. a stoneware I guess
+# some kind of large stoneware mug.
+# some considerations for volume...
+cubicFootInPints = Decimal(59.8442)
+# (hey that means there's just abou 4 cubic feet of beer in the 30-gallon barrel! woohoo, coincidence!)
+# we want this to be a two-pint mug, like the Bavarian mug called Mass
+# (a tankard could also be wooden or glass)
+# if modeled as a cylinder, with radius 1.25 inches and height 9 inches,
+# then the innner volume (amount of liquid contained) would be (44.18/1728)*cubicFootInPints, or 1.53 pints,
+# and the tapster just doesn't have to fill it all the way!
+# and the whole thing would be like a cylinder with one hollow side, larger than X by maybe 1/4 inch
+# this could easily be made of pewter -- no lets leave that a tankard.
