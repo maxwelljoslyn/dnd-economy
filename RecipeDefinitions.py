@@ -791,10 +791,17 @@ recipeStorage["recorder"] = Recipe("carver",(recorderBodyWeight + fippleWeight,"
 
 # four strands of yarn are twisted into a strand, turning one direction;
 # four strands are twisted into a rope, turning the other direction.
-# thus 16 feet of yarn makes 1 foot of rope, and a foot of rope weights 16 times as much as a foot of yarn
-recipeStorage["rope"] = Recipe("ropewalker",(getUnitSize("yarn")/16,"feet"),
+# thus 16 feet of yarn makes 1 foot of rope, and a foot of rope weighs 16 times as much as a foot of yarn
+recipeStorage["rope strand"] = Recipe("ropewalker",(getUnitSize("yarn")/4,"feet"),
                                [],
                                [("yarn",1)],
+                               difficulty=2,
+                               description="weighs 4 lbs")
+semiGoods.append("rope strand")
+
+recipeStorage["rope"] = Recipe("ropewalker",(getUnitSize("rope strand")/4,"feet"),
+                               [],
+                               [("rope strand",1)],
                                difficulty=2,
                                description="weighs 16 lbs")
 
