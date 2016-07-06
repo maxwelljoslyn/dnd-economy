@@ -86,7 +86,7 @@ pewterTinProportion = Decimal(0.85)
 pewterCopperProportion = Decimal(0.15)
 # this volume calculation works because we're making a 1 lb ingot, so the number of pounds = the proportion
 volumePewterIngot = (pewterTinProportion / densityTin) + (pewterCopperProportion / densityCopper)
-densityPewter = 1 / volumePewterIngot
+densityPewter = 1 / volumePewterIngot # because it's a 1 lb ingot over whatever the volume turned out to be
 # comes out to 469.3 lbs/cubic ft
 # checked it for sanity and the density looks good for an alloy with this much copper.
 recipeStorage["pewter"] = Recipe("smelter",(1,"lb"),
@@ -94,6 +94,17 @@ recipeStorage["pewter"] = Recipe("smelter",(1,"lb"),
                                   ("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
                                  [],
                                  description="ingot, 1x1x3.65 in.")
+
+bronzeCopperProportion = Decimal(0.88)
+bronzeTinProportion = Decimal(0.12)
+volumeBronzeIngot = (bronzeTinProportion / densityTin) + (bronzeCopperProportion / densityCopper)
+densityBronze = 1 / volumeBronzeIngot
+# comes out to 544.4 lb/cuft
+recipeStorage["bronze"] = Recipe("smelter",(1,"lb"),
+                                 [("tin ore",bronzeTinProportion),("copper ore",bronzeCopperProportion),
+                                  ("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
+                                 [],
+                                 description="ingot, 1.125x1.675x1.675 in.")
 
 recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
                                        [("coal",Decimal(2.25)*Decimal(2/9)),("limestone",Decimal(1.125)*Decimal(2/9))],
