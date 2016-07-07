@@ -350,7 +350,7 @@ recipeStorage["soap, hard"] = Recipe("chandler",(weightOneBarSoap,"lb"),
 recipeStorage["raw cowhide"] = Recipe("butcher",(60,"lb"),
                                       [],
                                       [("cow",1)],
-                                      unit=(50,"square feet"))
+                                      unit=(50,"sq ft"))
 semiGoods.append("raw cowhide")
 
 recipeStorage["defleshed cowhide"] = Recipe("tanner",(15,"lb"),
@@ -709,7 +709,7 @@ ringsInSquareFootMail = ringsToReachOneFootLength ** 2
 recipeStorage["mail sqft"] = Recipe("blacksmith",(getWeight("mail ring") * ringsInSquareFootMail,"lb"),
                                     [],
                                     [("mail ring",ringsInSquareFootMail)],
-                                    unit=(1,"square foot"))
+                                    unit=(1,"sq ft"))
 semiGoods.append("mail sqft")
 
 # this is an OK-ish estimate, way better than my first one
@@ -833,7 +833,7 @@ woolClothWeight = (yarnFtPerWoolClothSqFt/getUnitSize("yarn")) * getWeight("yarn
 recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
                                      [],
                                      [("yarn",yarnFtPerWoolClothSqFt/getUnitSize("yarn"))],
-                                     unit=(1,"square foot"))
+                                     unit=(1,"sq ft"))
 semiGoods.append("wool cloth")
 
 # gambesons are quite thick, with lots of layers
