@@ -846,6 +846,34 @@ recipeStorage["jaw harp"] = Recipe("blacksmith",(jawHarpWeight,"lb"),
                                    difficulty=2,
                                    description="6 inches long")
 
+handbellHandleSqFt = Decimal(0.5/12) * Decimal(4/12)
+handbellHandleLeatherProportion = handbellHandleSqFt / 50 # sqft of 1 cowhide
+handbellHandleWeight = handbellHandleLeatherProportion * getUnitSize("tanned cowhide")
+recipeStorage["handbell handle"] = Recipe("leatherworker",(handbellHandleWeight,"lb"),
+                                          [],
+                                          [("tanned cowhide",handbellHandleLeatherProportion)])
+semiGoods.append("handbell handle")
+
+# modeled as a tiny block of bell metal which is pounded into shape
+handbellClapperCuFt = Decimal(0.25/12) * Decimal(0.25/12) * Decimal(0.5/12)
+handbellClapperWeight = handbellClapperCuFt * densityBellmetal
+recipeStorage["handbell clapper"] = Recipe("blacksmith",(handbellClapperWeight,"lb"),
+                                           [],
+                                           [("bell metal",handbellClapperWeight)])
+semiGoods.append("handbell clapper")
+
+# a thin sheet of bell metal, pounded into shape
+handbellBodyCuFt = Decimal(0.1/12) * Decimal(1.5/12) * Decimal(3.5/12)
+handbellBodyWeight = handbellBodyCuFt * densityBellmetal
+recipeStorage["handbell body"] = Recipe("blacksmith",(handbellBodyWeight,"lb"),
+                                        [],
+                                        [("bell metal",handbellBodyWeight)])
+semiGoods.append("handbell body")
+
+recipeStorage["handbell"] = Recipe("blacksmith",(handbellHandleWeight + handbellClapperWeight + handbellBodyWeight,"lb"),
+                                   [],
+                                   [("handbell handle",1),("handbell body",1),("handbell clapper",1)],
+                                   description="has leather loop handle; body of bell ~1.5 inches tall") 
 
 # shoulder belt
 # 4 feet
