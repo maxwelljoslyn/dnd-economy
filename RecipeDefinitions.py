@@ -832,6 +832,20 @@ recipeStorage["gemshorn"] = Recipe("carver",(2,"lb"),
                                    [("fipple",1),("cow",Decimal(0.5))],
                                    description="ocarina-type instrument made from bull horn; 8 inches long")
 
+# this is really a small instrument, and it's not a solid block either, so these dimensions are about right
+# I approximate its dimensions as a thin cylinder, which would then be bent into shape,
+# i.e. curve into a sort of horseshoe shape,
+# and the reed and tongue would be added (small pieces of scrap metal)
+# the height (length) of the cylinder is given,
+# but because it's bent more or less in half, the instrument length is half that.
+jawHarpCuFt = cylinderCuFt(Decimal(1),Decimal(0.1/12))
+jawHarpWeight = jawHarpCuFt * densityWroughtIron
+recipeStorage["jaw harp"] = Recipe("blacksmith",(jawHarpWeight,"lb"),
+                                   [],
+                                   [("wrought iron",jawHarpWeight)],
+                                   difficulty=2,
+                                   description="6 inches long")
+
 
 # shoulder belt
 # 4 feet
