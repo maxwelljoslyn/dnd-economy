@@ -8,12 +8,16 @@ class Recipe:
     """This class holds the structure of a product's recipe, including which resources or other recipes are needed
     to make it, and how much of those amounts are needed, the service needed to create this recipe, and the difficulty
     of doing so."""
-    def __init__(self, service, unit, subRaws, subRecipes=[],difficulty=1, description=""):
+    def __init__(self, service, weight, subRaws, subRecipes=[], unit=None, difficulty=1, description=""):
         self.service = service
         self.difficulty = difficulty
         self.subRaws = subRaws
         self.subRecipes = subRecipes
-        self.unit = (Decimal(unit[0]),unit[1])
+        self.weight = (Decimal(weight[0]),weight[1])
+        if unit is None:
+            self.unit = self.weight
+        else:
+            self.unit = (Decimal(unit[0]),unit[1])
         self.description = description
         # description of item, including dimensions, weight, properties
         # there may be some subclasses of Recipe specific to particular item types, such as Weapon and Armor,
@@ -65,8 +69,12 @@ def triangularPrismCuFt(base,height,thickness):
     return val
 
 def getUnitSize(name):
-    """Convenience method to get size of unit -- mostly useful when calculating weights from components."""
+    """Convenience method to get size of unit."""
     return recipeStorage[name].unit[0]
+
+def getWeight(name):
+    """Convenience method to get weight in pounds."""
+    return recipeStorage[name].weight[0]
 
 
 recipeStorage["pig iron"] = Recipe("smelter",(1, "lb"),
@@ -155,25 +163,25 @@ recipeStorage["blade"] = Recipe("blacksmith",(unitBladeWeight,"lb"),
                                 description="price for a one-foot steel blade")
 semiGoods.append("blade")
 
-daggerWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + getUnitSize("blade")
+daggerWeight = getWeight("pommel") + getWeight("blade hilt") + getWeight("blade")
 recipeStorage["dagger"] = Recipe("blacksmith",(daggerWeight,"lb"),
                                  [],
                                  [("blade",1),("pommel",1),("blade hilt",1)],
                                  description="1d4 damage, melee or thrown 2/3/4; 1-foot blade")
 
-shortswordWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + (Decimal(2) * getUnitSize("blade"))
+shortswordWeight = getWeight("pommel") + getWeight("blade hilt") + (Decimal(2) * getWeight("blade"))
 recipeStorage["shortsword"] = Recipe("blacksmith",(shortswordWeight,"lb"),
                                  [],
                                  [("blade",2),("pommel",1),("blade hilt",1)],
                                  description="1d6 damage; 2-foot blade")
 
-longswordWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + (Decimal(3.5) * getUnitSize("blade"))
+longswordWeight = getWeight("pommel") + getWeight("blade hilt") + (Decimal(3.5) * getWeight("blade"))
 recipeStorage["longsword"] = Recipe("blacksmith",(longswordWeight,"lb"),
                                  [],
                                  [("blade",3.5),("pommel",1),("blade hilt",1)],
                                  description="1d8 damage; 3.5-foot blade")
 
-greatswordWeight = getUnitSize("pommel") + getUnitSize("blade hilt") + (Decimal(4.5) * getUnitSize("blade"))
+greatswordWeight = getWeight("pommel") + getWeight("blade hilt") + (Decimal(4.5) * getWeight("blade"))
 recipeStorage["greatsword"] = Recipe("blacksmith",(greatswordWeight,"lb"),
                                  [],
                                  [("blade",4.5),("pommel",1),("blade hilt",1)],
@@ -231,23 +239,25 @@ recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
                                  [("quicklime",0.25)],
                                  description="in powdered form")
 
-recipeStorage["mature ewe"] = Recipe("farmer",(1,"head"),
-                                    [("arable land",Decimal(0.315))],
-                                    [],
-                                    description="eight months old, 90 lbs, suitable for milking or shearing")
+recipeStorage["mature ewe"] = Recipe("farmer",(90,"lb"),
+                                     [("arable land",Decimal(0.315))],
+                                     [],
+                                     unit = (1,"head"),
+                                     description="eight months old, suitable for milking or shearing")
 
 # a lamb which has been grain finished for slaughter
-recipeStorage["mutton sheep"] = Recipe("farmer",(1,"head"),
+recipeStorage["mutton sheep"] = Recipe("farmer",(130,"lb"),
                                     [],
                                     [("mature ewe",1),("horse feed",345)],
-                                    description="one year old, 130 lbs, suitable for slaughter")
+                                    unit=(1,"head"),
+                                    description="one year old, suitable for slaughter")
 
 # one mature ewe produces ~ 200 lbs of milk, once a year during lambing
 # thus the division by 200
 recipeStorage["sheep milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
                                      [],
                                      [("mature ewe",Decimal(1/200))],
-                                     description = "1 gallon")
+                                     unit=(1,"gallon"))
 # sheep for slaughter weighs 120 lbs
 # I take the dress percentage to be 55% of that, giving the hanging/carcass weight, and the useable meat to be 75% of the hanging weight
 sheepCarcassWeight = 120 * Decimal(0.55)
@@ -257,9 +267,10 @@ recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
                                      [],
                                      [("mutton sheep",Decimal(1/sheepMeatWeight))])
 
-recipeStorage["cow"] = Recipe("farmer",(1,"head"),
+recipeStorage["cow"] = Recipe("farmer",(1300,"lb"),
                               [("arable land",10.5195)],
                               [("cattle feed",424)],
+                              unit=(1,"head"),
                               description="two years old, suitable for slaughtering")
 
 # http://www.personal.utulsa.edu/~marc-carlson/history/cattle.html
@@ -276,7 +287,7 @@ yearlyMilkGallons = dailyMilkGallons * avgMilkingDays
 recipeStorage["cow milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
                                    [],
                                    [("cow",Decimal(1/yearlyMilkGallons))],
-                                   description = "1 gallon")
+                                   unit=(1,"gallon"))
 
 # I assume a cow for slaughter weighs 1300 pounds
 # taking the carcass weight to be 2/3 of that and the useable meat, in turn, to be 2/3 of carcass weight,
@@ -339,13 +350,14 @@ recipeStorage["soap, hard"] = Recipe("chandler",(weightOneBarSoap,"lb"),
 recipeStorage["raw cowhide"] = Recipe("butcher",(60,"lb"),
                                       [],
                                       [("cow",1)],
-                                      description="50 square feet")
+                                      unit=(50,"square feet"))
 semiGoods.append("raw cowhide")
 
 recipeStorage["defleshed cowhide"] = Recipe("tanner",(15,"lb"),
                                             [],
                                             [("raw cowhide",1)],
                                             difficulty=2,
+                                            unit=recipeStorage["raw cowhide"].unit,
                                             description="cowhide cleaned of flesh and/or hair")
 semiGoods.append("defleshed cowhide")
 
@@ -361,7 +373,8 @@ cowhideDensityInOzPerSqFt = Decimal(weightCowhideInOz / 50)
 recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
                                          [],
                                          [("quicklime",0.732),("defleshed cowhide",1)],
-                                         description="50 sq ft of cowhide; " + str(cowhideDensityInOzPerSqFt) + " oz/sq. ft, thus a 1-ft square is " + str(Decimal(cowhideDensityInOzPerSqFt/64)) + " in. thick")
+                                         unit=recipeStorage["raw cowhide"].unit,
+                                         description= str(cowhideDensityInOzPerSqFt) + " oz/sq. ft, thus a 1-ft square is " + str(Decimal(cowhideDensityInOzPerSqFt/64)) + " in. thick")
 
 recipeStorage["holy symbol, wooden, simple"] = Recipe("carpenter",(1,"lb"),
                                                       [("timber",0.02)],
@@ -523,7 +536,8 @@ aleBatchGallons = 30
 recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWater)+barrelWeight,"lb"),
                                       [("cereal",aleCerealAmt)],
                                        [("barrel",1),("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
-                                       description="30-gallon barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + "% alcohol")
+                              unit=(30,"gallon"),
+                                       description="includes barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + "% alcohol")
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
@@ -539,7 +553,8 @@ beerGallons = 30
 recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWater)+barrelWeight,"lb"),
                                [("cereal",14.22),("hops",0.55)],
                                [("barrel",1),("malted grain",35.55)],
-                               description="30-gallon barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
+                               unit=(30,"gallon"),
+                               description="includes barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
@@ -564,7 +579,7 @@ semiGoods.append("scoured wool")
 # final step in cleaning wool is pounding, which is done by mills
 recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
                                      [],
-                                     [("scoured wool",Decimal(1/15))])
+                                     [("scoured wool",Decimal(1/getWeight("scoured wool")))])
 
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
@@ -584,13 +599,13 @@ recipeStorage["molasses"] = Recipe("miller",(molassesGallonWeight,"lb"),
                                    [("sugarcane",sugarcaneForOneGallonMolasses)],
                                    [],
                                    difficulty=4,
-                                   description="1 gallon")
+                                   unit=(1,"gallon"))
 
 # 6 month old pig for the slaughter, weighing 150 lbs
-recipeStorage["pig"] = Recipe("farmer",(1, "head"),
+recipeStorage["pig"] = Recipe("farmer",(150, "lb"),
                               [],
                               [("cattle feed",630)],
-                              description="6 months old, 150 lbs, ready for slaughter")
+                              description="6 months old, ready for slaughter")
 
 # going off the web, carcass weight is 75% of live weight, and dress weight is 75% of carcass weight
 pigDressPercentageOfLiveWeight = Decimal(0.75) * Decimal(0.75)
@@ -660,7 +675,7 @@ recipeStorage["mace flange"] = Recipe("blacksmith",(maceFlangeWeight,"lb"),
                                       difficulty=3)
 semiGoods.append("mace flange")
 
-recipeStorage["mace"] = Recipe("blacksmith",(getUnitSize("mace haft") + (6 * maceFlangeWeight),"lb"),
+recipeStorage["mace"] = Recipe("blacksmith",(getWeight("mace haft") + (6 * maceFlangeWeight),"lb"),
                                [],
                                [("mace haft",1),("mace flange",6)],
                                description="1d8 damage, one-handed, melee; haft is 2 ft.")
@@ -670,11 +685,12 @@ oneFootWireCuFt = cylinderCuFt(1,(gauge16WireThicknessInches/2/12))
 feetOfWire = wroughtIronIngotCuFt / oneFootWireCuFt
 # can be used for fastening, or turned into rings for mail
 # weight of wire is the same as the 1 lb ingot of wrought iron; it's just turned into a different shape
-recipeStorage["wire"] = Recipe("blacksmith",(feetOfWire,"feet"),
+recipeStorage["wire"] = Recipe("blacksmith",(1,"lb"),
                                [],
                                [("wrought iron",1)],
                                difficulty=6, # lots of hammering and then lots and lots of pulling
-                               description="weight 1 lb; thickness 16 gauge, i.e. 0.05082 in. diameter")
+                               unit=(feetOfWire,"feet"),
+                               description="thickness 16 gauge, i.e. 0.05082 in. diameter")
 
 # this is in feet b/c division by 12
 mailRingRadius = Decimal(0.2) / 12
@@ -690,15 +706,15 @@ semiGoods.append("mail ring")
 # rings overlap, which would mean more per linear foot, but we'll ignore that since mail can stretch a little too
 ringsToReachOneFootLength = 1 / mailRingRadius
 ringsInSquareFootMail = ringsToReachOneFootLength ** 2
-recipeStorage["mail sqft"] = Recipe("blacksmith",(getUnitSize("mail ring") * ringsInSquareFootMail,"lb"),
+recipeStorage["mail sqft"] = Recipe("blacksmith",(getWeight("mail ring") * ringsInSquareFootMail,"lb"),
                                     [],
                                     [("mail ring",ringsInSquareFootMail)],
-                                    description="1 square foot of mail")
+                                    unit=(1,"square foot"))
 semiGoods.append("mail sqft")
 
 # this is an OK-ish estimate, way better than my first one
 hauberkSqFt = 12
-recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getUnitSize("mail sqft"),"lbs"),
+recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getWeight("mail sqft"),"lb"),
                                        [],
                                        [("mail sqft",hauberkSqFt)],
                                        description="AC 6; has full sleeves, and covers torso to the knees")
@@ -706,21 +722,24 @@ recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getUnitSize("
 # The amount of feet of yarn per pound of wool which I give here is probably a vast under- or overshoot,
 # but it's a highly variable amount dependent on thickness of resultant yarn, type of sheep, and
 # other factors, so I'll just go ahead and soldier on. Can always fix it later.
-recipeStorage["thin yarn"] = Recipe("spinner",(1500,"feet"),
-                               [],
-                               [("clean wool",1)],
-			       description="weight 1 lb; must be spun into thread or yarn to be useful")
+recipeStorage["thin yarn"] = Recipe("spinner",(1,"lb"),
+                                    [],
+                                    [("clean wool",1)],
+                                    unit=(1500,"feet"),
+			       description="must be spun into thread or yarn to be useful")
 semiGoods.append("thin yarn")
 
-recipeStorage["yarn"] = Recipe("spinner",(getUnitSize("thin yarn"),"feet"),
+recipeStorage["yarn"] = Recipe("spinner",(1,"lb"),
                                [],
                                [("thin yarn",1)],
-                               description="weight 1 lb; useable as string and in stitching, ropemaking, etc.")
+                               unit=(getUnitSize("thin yarn"),"feet"),
+                               description="useable as string and in stitching, ropemaking, etc.")
 
-recipeStorage["thread"] = Recipe("spinner",(getUnitSize("thin yarn")*2,"feet"),
+recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
                                  [],
                                  [("thin yarn",1)],
-                                 description="weight 1 lb; useable for stitching cloth and textiles")
+                                 unit=(getUnitSize("thin yarn")*2,"feet"),
+                                 description="useable for stitching cloth and textiles")
 
 
 # the leather pattern must be worked by a leatherworker with thread, to make the bag;
@@ -734,7 +753,7 @@ recipeStorage["thread"] = Recipe("spinner",(getUnitSize("thin yarn")*2,"feet"),
 # Then we add another 1 square foot of leather for the straps.
 # A tanned cowhide is 50 square feet, so we divide our total of 7 by 50.
 backpackPortionOfCowhide = Decimal(7 / 50)
-recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * getUnitSize("tanned cowhide"),"lb"),
+recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
                                                 [],
                                                 [("thread",Decimal(8) / getUnitSize("thread")),
                                                  ("tanned cowhide",backpackPortionOfCowhide),
@@ -745,7 +764,7 @@ recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * g
 # the total square footage is (0.15^2)*6
 beltpouchSqFt = (Decimal(0.15) ** 2) * 6
 beltpouchPortionOfCowhide = Decimal(beltpouchSqFt / 50)
-recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide * getUnitSize("tanned cowhide"),"lb"),
+recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
                                                 [],
                                                 [("thread",Decimal(1.2) / getUnitSize("thread")),
                                                  ("tanned cowhide",beltpouchPortionOfCowhide),
@@ -756,7 +775,7 @@ recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide 
 # you also need maybe 12 feet of thread to make the edges tough
 beltSqFt = Decimal(1/12) * 3
 beltPortionOfCowhide = Decimal(beltSqFt/50)
-recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getUnitSize("tanned cowhide"),"lb"),
+recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
                                                 [],
                                                 [("thread",Decimal(12) / getUnitSize("thread")),
                                                  ("tanned cowhide",beltPortionOfCowhide)],
@@ -792,28 +811,29 @@ recipeStorage["recorder"] = Recipe("carver",(recorderBodyWeight + fippleWeight,"
 # four strands of yarn are twisted into a strand, turning one direction;
 # four strands are twisted into a rope, turning the other direction.
 # thus 16 feet of yarn makes 1 foot of rope, and a foot of rope weighs 16 times as much as a foot of yarn
-recipeStorage["rope strand"] = Recipe("ropewalker",(getUnitSize("yarn")/4,"feet"),
-                               [],
-                               [("yarn",1)],
-                               difficulty=2,
-                               description="weighs 4 lbs")
+recipeStorage["rope strand"] = Recipe("ropewalker",(4,"lb"),
+                                      [],
+                                      [("yarn",1)],
+                                      difficulty=2,
+                                      unit=(getUnitSize("yarn")/4,"feet"))
 semiGoods.append("rope strand")
 
-recipeStorage["rope"] = Recipe("ropewalker",(getUnitSize("rope strand")/4,"feet"),
+recipeStorage["rope"] = Recipe("ropewalker",(16,"lb"),
                                [],
                                [("rope strand",1)],
                                difficulty=2,
-                               description="weighs 16 lbs")
+                               unit=(getUnitSize("rope strand")/4,"feet"))
 
 # warning: mostly-bullshit calculations ahead. I just need a figure here.
 # if yarn is 1/8 inch thick, then it requires 96 feet of yarn to make a foot square cloth.
 # let's round to 100.
 yarnFtPerWoolClothSqFt = 100
 # the weight calculation below works because the table lists 1 lb of yarn.
-recipeStorage["wool cloth"] = Recipe("weaver",(yarnFtPerWoolClothSqFt/getUnitSize("yarn"),"lb"),
-                                          [],
-                                          [("yarn",yarnFtPerWoolClothSqFt/getUnitSize("yarn"))],
-                                     description="1 square foot")
+woolClothWeight = (yarnFtPerWoolClothSqFt/getUnitSize("yarn")) * getWeight("yarn")
+recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
+                                     [],
+                                     [("yarn",yarnFtPerWoolClothSqFt/getUnitSize("yarn"))],
+                                     unit=(1,"square foot"))
 semiGoods.append("wool cloth")
 
 # gambesons are quite thick, with lots of layers
@@ -821,7 +841,7 @@ gambesonLayers = 10
 # we'll need  feet of thread per layer, to go around the edges of each layer twice, attaching them to the others into a big stack
 gambesonThread = gambesonLayers * 8
 gambesonSqFt = 12 * gambesonLayers
-recipeStorage["quilted gambeson"] = Recipe("weaver",(gambesonSqFt * getUnitSize("wool cloth"),"lb"),
+recipeStorage["quilted gambeson"] = Recipe("weaver",(gambesonSqFt * getWeight("wool cloth"),"lb"),
                                            [],
                                            [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
                                            difficulty=2,
@@ -848,7 +868,7 @@ recipeStorage["jaw harp"] = Recipe("blacksmith",(jawHarpWeight,"lb"),
 
 handbellHandleSqFt = Decimal(0.5/12) * Decimal(4/12)
 handbellHandleLeatherProportion = handbellHandleSqFt / 50 # sqft of 1 cowhide
-handbellHandleWeight = handbellHandleLeatherProportion * getUnitSize("tanned cowhide")
+handbellHandleWeight = handbellHandleLeatherProportion * getWeight("tanned cowhide")
 recipeStorage["handbell handle"] = Recipe("leatherworker",(handbellHandleWeight,"lb"),
                                           [],
                                           [("tanned cowhide",handbellHandleLeatherProportion)])
