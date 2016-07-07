@@ -258,7 +258,7 @@ recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
                                      [("mutton sheep",Decimal(1/sheepMeatWeight))])
 
 recipeStorage["cow"] = Recipe("farmer",(1,"head"),
-                              [("arable land",10.67)],
+                              [("arable land",10.5195)],
                               [("cattle feed",424)],
                               description="two years old, suitable for slaughtering")
 
