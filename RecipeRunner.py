@@ -50,7 +50,14 @@ def display(city, name):
     recipe = recipeStorage[name]
     basePrice = findCost(city, name)
     displayPrice = getDisplayPrice(basePrice)
-    return "{0:30}: {1:>10}|{2:>8} {3:6}|{4}".format(name,displayPrice,str(Decimal(recipe.unit[0]).quantize(Decimal('0.01'))),recipe.unit[1],recipe.description)
+    displayWeight = str(Decimal(recipe.weight[0]).quantize(Decimal('0.01')))
+    displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
+    displayUnitName = recipe.unit[1]
+    if recipe.unit == recipe.weight:
+        displayUnitCount = "<--"
+        displayUnitName = ""
+    return "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{6}".format(name,displayPrice,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
+
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
@@ -58,6 +65,7 @@ def main():
     print("At",town + ":")
     names = list(recipeStorage.keys())
     names.sort()
+    print("{0:30}  {1:>10} {2:>8} {3:>2} {4:>8} {5:6} {6}".format("Name","Price","Weight","","Units","","Description"))
     for n in names:
         if n in semiGoods:
             pass
