@@ -922,3 +922,12 @@ cubicFootInPints = Decimal(59.8442)
 # and the tapster just doesn't have to fill it all the way!
 # and the whole thing would be like a cylinder with one hollow side, larger than X by maybe 1/4 inch
 # this could easily be made of pewter -- no lets leave that a tankard.
+
+# carved from a blocky piece of wood having the 1.5 inch radius at its widest
+clubCuFt = cylinderCuFt(2,2/12)
+clubWeight = clubCuFt * densityTimber
+recipeStorage["club"] = Recipe("carver",(clubWeight, "lb"),
+                               [("timber",clubCuFt)],
+                               [],
+                               difficulty=0.5,
+                               description="1d4+1 damage; melee one-handed; 2 feet long")
