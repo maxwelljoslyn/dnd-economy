@@ -320,8 +320,10 @@ recipeStorage["tallow"] = Recipe("chandler",(1,"lb"),
                                  difficulty=3)
 
 # made by leaching ashes in water; we'll use timber for ashes
+# I'll assume the ratio is 1 to 1 ... but it probably isn't.
+lyeCuFt = 1 / densityTimber
 recipeStorage["lye"] = Recipe("chandler",(1,"lb"),
-                              [("timber",1)],
+                              [("timber",lyeCuFt)],
                               [])
 
 # http://www.millennium-ark.net/News_Files/Soap/Lye_Fat_Table.html
@@ -661,7 +663,7 @@ maceHaftWoodProportion = 1 - maceHaftMetalProportion
 maceHaftMetalWeight = maceHaftMetalProportion * maceHaftCuFt * densityWroughtIron
 maceHaftWoodWeight = maceHaftWoodProportion * maceHaftCuFt * densityTimber
 recipeStorage["mace haft"] = Recipe("blacksmith",(maceHaftMetalWeight + maceHaftWoodWeight,"lb"),
-                                    [("timber",maceHaftWoodWeight)],
+                                    [("timber",maceHaftCuFt)],
                                     [("wrought iron",maceHaftMetalWeight)],
                                     difficulty=3,
                                     description="wood reinforced with metal bands")
@@ -785,7 +787,7 @@ recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getWeight
 whistleCuFt = cylinderCuFt(Decimal(0.25), Decimal(0.75/12)) 
 whistleWeight = whistleCuFt * densityTimber
 recipeStorage["whistle"] = Recipe("carver",(whistleWeight,"lb"),
-                                  [("timber",whistleWeight)],
+                                  [("timber",whistleCuFt)],
                                   [],
                                   difficulty=2,
                                   description="non-musical; 3 inches long")
@@ -794,7 +796,7 @@ recipeStorage["whistle"] = Recipe("carver",(whistleWeight,"lb"),
 fippleCuFt = Decimal(1/12) * Decimal(1/12) * Decimal(2/12)
 fippleWeight = fippleCuFt * densityTimber
 recipeStorage["fipple"] = Recipe("carver",(fippleWeight,"lb"),
-                                 [("timber", fippleWeight * densityTimber)],
+                                 [("timber", fippleCuFt)],
                                  [],
                                  difficulty=3,
                                  description="whistle mouthpiece for certain instruments")
@@ -803,7 +805,7 @@ semiGoods.append("fipple")
 recorderBodyCuFt = cylinderCuFt(Decimal(1.25), Decimal(0.75/12))
 recorderBodyWeight = recorderBodyCuFt * densityTimber
 recipeStorage["recorder"] = Recipe("carver",(recorderBodyWeight + fippleWeight,"lb"),
-                                   [("timber",recorderBodyWeight)],
+                                   [("timber",recorderBodyCuFt)],
                                    [("fipple",1)],
                                    difficulty=4,
                                    description="type of wooden flute; 15 inches long")
