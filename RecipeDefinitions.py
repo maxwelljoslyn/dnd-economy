@@ -319,12 +319,17 @@ recipeStorage["tallow"] = Recipe("chandler",(1,"lb"),
                                  [("cow",2/cowCarcassWeight)],
                                  difficulty=3)
 
-# made by leaching ashes in water; we'll use timber for ashes
-# I'll assume the ratio is 1 to 1 ... but it probably isn't.
-lyeCuFt = 1 / densityTimber
+# 1% yield, number given from some research
+poundsTimberPerPoundAshes = 100
+ashesRequiredTimberCuFt = poundsTimberPerPoundAshes / densityTimber
+recipeStorage["ashes"] = Recipe("chandler",(1,"lb"),
+                                [("timber",ashesRequiredTimberCuFt)],
+                                [])
+
+# made by leaching ashes in water
 recipeStorage["lye"] = Recipe("chandler",(1,"lb"),
-                              [("timber",lyeCuFt)],
-                              [])
+                              [],
+                              [("ashes",1)])
 
 # http://www.millennium-ark.net/News_Files/Soap/Lye_Fat_Table.html
 # (above page copyright AL Durtschi)
