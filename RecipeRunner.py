@@ -54,7 +54,7 @@ def display(city, name):
     displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
     displayUnitName = recipe.unit[1]
     if recipe.unit == recipe.weight:
-        displayUnitCount = "<--"
+        displayUnitCount = "--"
         displayUnitName = ""
     return "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{6}".format(name,displayPrice,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
 
