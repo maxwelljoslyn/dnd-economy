@@ -383,16 +383,16 @@ recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
                                          unit=recipeStorage["raw cowhide"].unit,
                                          description= str(cowhideDensityInOzPerSqFt) + " oz/sq. ft, thus a 1-ft square is " + str(Decimal(cowhideDensityInOzPerSqFt/64)) + " in. thick")
 
-recipeStorage["holy symbol, wooden, simple"] = Recipe("carpenter",(1,"lb"),
+recipeStorage["holy symbol, plain, wooden"] = Recipe("carpenter",(1,"lb"),
                                                       [("timber",0.02)],
                                                       [])
 
-recipeStorage["holy symbol, iron, simple"] = Recipe("blacksmith",(1,"lb"),
+recipeStorage["holy symbol, ordinary, iron"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
                                                       [("wrought iron",1)],
                                                     difficulty=2)
 
-recipeStorage["holy symbol, iron, ornate"] = Recipe("blacksmith",(1,"lb"),
+recipeStorage["holy symbol, ornate, iron"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
                                                       [("wrought iron",1)],
                                                     difficulty=4)
@@ -544,7 +544,7 @@ recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWater)+barrelWe
                                       [("cereal",aleCerealAmt)],
                                        [("barrel",1),("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
                               unit=(30,"gallon"),
-                                       description="includes barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + "% alcohol")
+                                       description="includes barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + " percent alcohol")
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
@@ -561,7 +561,7 @@ recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWater)+barrelWeight,
                                [("cereal",14.22),("hops",0.55)],
                                [("barrel",1),("malted grain",35.55)],
                                unit=(30,"gallon"),
-                               description="includes barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + "% alcohol")
+                               description="includes barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
