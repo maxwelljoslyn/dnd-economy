@@ -923,11 +923,30 @@ cubicFootInPints = Decimal(59.8442)
 # and the whole thing would be like a cylinder with one hollow side, larger than X by maybe 1/4 inch
 # this could easily be made of pewter -- no lets leave that a tankard.
 
-# carved from a blocky piece of wood having the 1.5 inch radius at its widest
-clubCuFt = cylinderCuFt(2,2/12)
+clubCuFt = cylinderCuFt(2,1.5/12)
 clubWeight = clubCuFt * densityTimber
 recipeStorage["club"] = Recipe("carver",(clubWeight, "lb"),
                                [("timber",clubCuFt)],
                                [],
                                difficulty=0.5,
                                description="1d4+1 damage; melee one-handed; 2 feet long")
+
+handaxeHaftCuFt = cylinderCuFt(2,0.25/12)
+handaxeHaftWeight = handaxeHaftCuFt * densityTimber
+recipeStorage["handaxe haft"] = Recipe("carver",(handaxeHaftWeight,"lb"),
+                                       [("timber",handaxeHaftCuFt)],
+                                       [])
+
+semiGoods.append("handaxe haft")
+
+# head made from  metal having approximately these dimensions
+handaxeHeadCuFt = Decimal(3/12) * Decimal(4/12) * Decimal(0.5/12)
+handaxeHeadWeight = handaxeHeadCuFt * densityWroughtIron
+# I use wrought iron because I know the nzappa zap, a similar weapon, can be made from iron
+# I'm envisioning this as basically a tomahawk, not a francisca;
+# thus it is both a melee and thrown weapon
+recipeStorage["handaxe"] = Recipe("blacksmith",(handaxeHeadWeight + handaxeHaftWeight,"lb"),
+                                  [],
+                                  [("wrought iron",handaxeHeadWeight),("handaxe haft",1)],
+                                  description="1d4+1 damage; melee/thrown; range 4/7/10")
+
