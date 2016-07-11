@@ -655,7 +655,7 @@ recipeStorage["spear haft"] = Recipe("carpenter",(spearHaftCuFt * densityTimber,
                                                   difficulty=3)
 semiGoods.append("spear haft")
 
-spearWeight = recipeStorage["spearhead"].unit[0] + recipeStorage["spear haft"].unit[0]
+spearWeight = recipeStorage["spearhead"].weight[0] + recipeStorage["spear haft"].weight[0]
 recipeStorage["spear"] = Recipe("blacksmith",(spearWeight, "lb"),
                                 [],
                                 [("spearhead",1),("spear haft",1)],
@@ -953,5 +953,4 @@ handaxeHeadWeight = handaxeHeadCuFt * densityWroughtIron
 recipeStorage["handaxe"] = Recipe("blacksmith",(handaxeHeadWeight + handaxeHaftWeight,"lb"),
                                   [],
                                   [("wrought iron",handaxeHeadWeight),("handaxe haft",1)],
-                                  description="1d4+1 damage; melee/thrown; range 4/7/10")
-
+                                  description="1d4+1 damage; melee/thrown; range 4/6/8")
