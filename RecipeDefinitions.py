@@ -954,3 +954,9 @@ recipeStorage["handaxe"] = Recipe("blacksmith",(handaxeHeadWeight + handaxeHaftW
                                   [],
                                   [("wrought iron",handaxeHeadWeight),("handaxe haft",1)],
                                   description="1d4+1 damage; melee/thrown; range 4/6/8")
+
+quarterstaffCuFt = cylinderCuFt(5,Decimal(0.5/12))
+recipeStorage["quarterstaff"] = Recipe("carver",(quarterstaffCuFt * densityTimber,"lb"),
+                                       [("timber",quarterstaffCuFt)],
+                                       [],
+                                       description="1d6 damage; melee two-handed; 5 ft long")
