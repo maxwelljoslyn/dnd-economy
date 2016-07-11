@@ -960,3 +960,10 @@ recipeStorage["quarterstaff"] = Recipe("carver",(quarterstaffCuFt * densityTimbe
                                        [("timber",quarterstaffCuFt)],
                                        [],
                                        description="1d6 damage; melee two-handed; 5 ft long")
+
+ratioJavelinWeightSpearWeight = Decimal(3.5/5)
+javelinWeight = recipeStorage["spearhead"].weight[0] + (recipeStorage["spear haft"].weight[0] * ratioJavelinWeightSpearWeight)
+recipeStorage["javelin"] = Recipe("blacksmith",(javelinWeight ,"lb"),
+                                  [],
+                                  [("spear haft", ratioJavelinWeightSpearWeight),("spearhead",1)],
+                                  description="1d6 damage; thrown 6/10/14; " + str(ratioJavelinWeightSpearWeight * 5) + " ft long")
