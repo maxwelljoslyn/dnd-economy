@@ -946,13 +946,12 @@ semiGoods.append("handaxe haft")
 
 # head made from  metal having approximately these dimensions
 handaxeHeadCuFt = Decimal(3/12) * Decimal(4/12) * Decimal(0.5/12)
-handaxeHeadWeight = handaxeHeadCuFt * densityWroughtIron
-# I use wrought iron because I know the nzappa zap, a similar weapon, can be made from iron
+handaxeHeadWeight = handaxeHeadCuFt * densitySteel
 # I'm envisioning this as basically a tomahawk, not a francisca;
 # thus it is both a melee and thrown weapon
 recipeStorage["handaxe"] = Recipe("blacksmith",(handaxeHeadWeight + handaxeHaftWeight,"lb"),
                                   [],
-                                  [("wrought iron",handaxeHeadWeight),("handaxe haft",1)],
+                                  [("steel",handaxeHeadWeight),("handaxe haft",1)],
                                   description="1d4+1 damage; melee/thrown; range 4/6/8")
 
 quarterstaffCuFt = cylinderCuFt(5,Decimal(0.5/12))
