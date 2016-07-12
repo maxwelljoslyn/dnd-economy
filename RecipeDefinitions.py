@@ -966,3 +966,19 @@ recipeStorage["javelin"] = Recipe("blacksmith",(javelinWeight ,"lb"),
                                   [],
                                   [("spear haft", ratioJavelinWeightSpearWeight),("spearhead",1)],
                                   description="1d6 damage; thrown 6/10/14; " + str(ratioJavelinWeightSpearWeight * 5) + " ft long")
+
+# string used for a sling is braided; thus 3 feet of yarn string make 1 foot of braid
+# in total a sling will require 4 feet of braid, thus 12 feet of yarn
+# the pocket for ammunition is a 2x2 in. leather square; the tab is 1x1 in.
+# the question I can't quite answer yet is WHO makes the sling?
+# for now I will just call it the leatherworker, although I think that's a pretty crappy choice.
+slingYarnFt = 12
+slingYarnUnitRatio = slingYarn / getUnitSize("yarn")
+slingYarnWeight = slingYarnUnitRatio * getWeight("yarn")
+slingLeatherSqFt = (Decimal(2/12) ** 2) + (Decimal(1/12) ** 2)
+slingLeatherUnitRatio = slingLeather / getUnitSize("tanned cowhide")
+slingLeatherWeight = slingLeatherUnitRatio * getWeight("tanned cowhide")
+recipeStorage["sling"] = Recipe("leatherworker",(slingLeatherWeight + slingYarnWeight,"lb"),
+                                [],
+                                [("yarn",slingYarnWeight),("tanned cowhide",slingLeatherWeight)],
+                                description="1d4 damage; missile; range 12/24/36")
