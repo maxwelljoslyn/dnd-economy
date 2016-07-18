@@ -56,6 +56,7 @@ drawFullWorld hs ts rs =
     --coord positions of each hex
 
 wanted = [Coord q r (0-q-r) | q <- [30..55], r <-[(-75),(-74)..(-55)]]
+wanted' = [Coord 55 (-60) 5, Coord 48 (-56) 8]
 
 --remove a hex from hs if its coord isn't in cs
 filterHexes :: [Coord] -> [Hex] -> [Hex]
@@ -80,7 +81,7 @@ drawHex h =
   `atop`
   alignedText 0.5 0.75 (show . cs . coord $ h) # fc black # scale 0.5
   `atop`
-  hexagon 1 # fc climateColor' # lc black # lw veryThin
+  triangleHexagon # fc climateColor' # lc black # lw veryThin # scale 1
   where
     qAndR = (show . cq . coord $ h) ++ (',' : (show . cr . coord $ h))
     climateColor' = climateColor $ climate h
@@ -92,6 +93,28 @@ drawHex h =
     --and some border colors overlap onto others,
     --creating weird "bites" taken out of some hexes.
 
+triangleHexagon :: Diagram B
+triangleHexagon =
+  atPoints (trailVertices $ hexagon 1 # rotate ((-30) @@ deg)) tris
+  where
+    t = triangle 1 # lw veryThin # lc black
+    makeTri n = t # rotateBy (n/6) --text (show n) # fc black # scale 0.35
+    tris = (makeTri 0 # translate (r2 (0.0, 0.4))) : (makeTri 1 # translate (r2 (negHor, posVert))) : (makeTri 2 # translate (r2 (negHor, negVert))) : (makeTri 3 # translate (r2 (0.0, (-0.4)))) : (makeTri 4 # translate (r2 (posHor, negVert))) : [(makeTri 5 # translate (r2 (posHor, posVert)))]
+    posVert = 0.21
+    negVert = (-1) * posVert
+    posHor = 0.38
+    negHor = (-1) * posHor
+  
+toRotation :: WorldParser.Direction -> Double
+toRotation d = case d of
+  DN -> 0
+  DR -> 60
+  UR -> 120
+  UP -> 180
+  UL -> 240
+  DL -> 300
+    
+    
 drawTownLayer :: [P2 Double] -> Map Coord TownData -> [Hex] -> Diagram B
 drawTownLayer pts ts hs = atPoints pts $ map (drawTown ts) hs
 

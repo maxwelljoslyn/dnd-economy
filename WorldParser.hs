@@ -2,6 +2,8 @@ module WorldParser where
 
 import Text.Parsec
 import Control.Monad (liftM)
+import Data.Map (Map)
+import qualified Data.Map as Map
 
 type Region = Int
 
@@ -22,6 +24,12 @@ data Temperature = Temperature Double
 data Climate = Desert | Mediterranean | HotSummerContinental | WarmSummerContinental | ColdContinental | WetContinental | Tundra | Savannah | Monsoon | Steppe | Oceanic | ColdOceanic | TropicalRainforest | HumidSubtropical | Taiga | IceCap | Water
 	deriving (Read, Show)
 
+data Direction = UP | UR | DR | DN | DL | UL
+                 deriving (Read, Show, Enum, Ord, Eq)
+
+type SubInfo = (Direction, Elevation)
+data Sub = Sub Elevation
+           deriving (Read, Show)
 
 --bringing all the above datatypes together
 data Hex = Hex
@@ -31,6 +39,7 @@ data Hex = Hex
 	, isLand :: Bool
 	, moist :: Double
 	, climate :: Climate
+        , subs :: Map Direction Sub
 	} deriving (Read, Show)
 
 parseRegion :: Parsec String () Region
@@ -39,6 +48,30 @@ parseRegion = do
   spaces
   r <- many $ digit
   return $ read r
+
+parseDirection :: Parsec String () Direction
+parseDirection = do
+  c1 <- anyChar
+  c2 <- anyChar
+  let stringified = c1:c2:""
+  return $ read stringified
+  
+parseSubInfo :: Parsec String () SubInfo 
+parseSubInfo = do
+  d <- parseDirection
+  spaces
+  e <- parseElevation
+  return (d, e)
+
+parseSubInfos :: Parsec String () [SubInfo]
+parseSubInfos = do
+  first <- parseSubInfo
+  rest <- remainingSubInfo
+  return (first : rest)
+  where
+    remainingSubInfo = do
+      (char ',' >> parseSubInfos) <|> (return [])
+ 
 
 parseCoord :: Parsec String () Coord
 parseCoord = do
@@ -144,7 +177,15 @@ parseHex = do
 	m <- parseMoisture
 	spaces
 	clim <- parseClimate
-	return $ Hex c e t l m clim
+        spaces
+        string "Subs"
+        spaces
+        char '['
+        subs <- parseSubInfos
+        char ']'
+        let f = \(x,y) -> (x, Sub y)
+            subs' = map f subs
+	return $ Hex c e t l m clim (Map.fromList subs')
 
 
 parseWorld = do

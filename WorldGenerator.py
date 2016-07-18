@@ -94,6 +94,7 @@ class HexData:
         self.moisture = Decimal(0)
         self.climate = ""
         self.resources = {}
+        self.subs = {}
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
@@ -141,6 +142,7 @@ def initialize():
     for coord, data in worldModel.items():
         normalizedElevation = (data.elevation - elevMin) / (elevMax - elevMin)
         data.elevation = normalizedElevation
+        data.subs = {x:normalizedElevation for x in Direction.__members__.keys()}
 
         # land/sea distinction
         if data.elevation >= seaLevel:
@@ -287,12 +289,15 @@ def main():
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModel.items():
+            subsList = ",".join([(str(x) + " Elevation " + str(y)) for x,y in d.subs.items()])
             outputString = "Hex Coord " + str(c) + \
               " Elevation " + str(d.elevation) + \
               " Temperature " + str(d.temperature) + \
               " Land " + str(d.isLand) + \
               " Moisture " + str(d.moisture) + \
-              " Climate " + d.climate + "\n"
+              " Climate " + d.climate + \
+              " Subs [" + subsList + "]" + "\n"
+            print(outputString)
             f.write(outputString)
 
     with open("inputTownParser.txt", "w") as f:
