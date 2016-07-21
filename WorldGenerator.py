@@ -150,7 +150,6 @@ def initialize():
         for sub,info in data.subs.items():
             info["Elevation"] = normalizedElevation
             info["Quality"] = subsConfiguration[sub]
-        print(data.subs)
 
         # land/sea distinction
         if data.elevation >= seaLevel:
@@ -305,7 +304,6 @@ def main():
               " Moisture " + str(d.moisture) + \
               " Climate " + d.climate + \
               " Subs [" + subsList + "]" + "\n"
-            print(outputString)
             f.write(outputString)
 
     with open("inputTownParser.txt", "w") as f:
