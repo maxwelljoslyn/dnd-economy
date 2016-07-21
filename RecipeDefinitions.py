@@ -973,10 +973,10 @@ recipeStorage["javelin"] = Recipe("blacksmith",(javelinWeight ,"lb"),
 # the question I can't quite answer yet is WHO makes the sling?
 # for now I will just call it the leatherworker, although I think that's a pretty crappy choice.
 slingYarnFt = 12
-slingYarnUnitRatio = slingYarn / getUnitSize("yarn")
+slingYarnUnitRatio = slingYarnFt / getUnitSize("yarn")
 slingYarnWeight = slingYarnUnitRatio * getWeight("yarn")
 slingLeatherSqFt = (Decimal(2/12) ** 2) + (Decimal(1/12) ** 2)
-slingLeatherUnitRatio = slingLeather / getUnitSize("tanned cowhide")
+slingLeatherUnitRatio = slingLeatherSqFt / getUnitSize("tanned cowhide")
 slingLeatherWeight = slingLeatherUnitRatio * getWeight("tanned cowhide")
 recipeStorage["sling"] = Recipe("leatherworker",(slingLeatherWeight + slingYarnWeight,"lb"),
                                 [],
