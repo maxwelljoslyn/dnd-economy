@@ -35,15 +35,8 @@ def getDisplayPrice(priceInCP):
     formatted for display in appropriate amounts of copper/silver/gold."""
     # first, round up: the difference represents merchant and tradesman profit
     rounded = ceil(priceInCP)
-    if rounded < 100:
-        # present in coppers
-        return (str(rounded) + " CP")
-    elif rounded < 1000:
-        # present in silvers
-        return (str(ceil(rounded / 10)) + " SP")
-    else:
-        # in gold
-        return (str(ceil(rounded / 100)) + " GP")
+    divided = rounded / 100
+    return (str(divided) + " GP")
 
 def display(city, name):
     """Show the price of a recipe 'name' at 'city'."""
