@@ -27,8 +27,11 @@ data Climate = Desert | Mediterranean | HotSummerContinental | WarmSummerContine
 data Direction = UP | UR | DR | DN | DL | UL
                  deriving (Read, Show, Enum, Ord, Eq)
 
-type SubInfo = (Direction, Elevation)
-data Sub = Sub Elevation
+data Quality = Civilized | Wild
+               deriving (Read, Show, Eq)
+
+type SubInfo = (Direction, Elevation, Quality)
+data Sub = Sub Elevation Quality
            deriving (Read, Show)
 
 --bringing all the above datatypes together
@@ -41,6 +44,14 @@ data Hex = Hex
 	, climate :: Climate
         , subs :: Map Direction Sub
 	} deriving (Read, Show)
+
+parseQuality :: Parsec String () Quality
+parseQuality = do
+  string "Quality"
+  spaces
+  q <- try (string "Civilized" <|> string "Wild")
+  return $ read q
+  
 
 parseRegion :: Parsec String () Region
 parseRegion = do
@@ -61,7 +72,9 @@ parseSubInfo = do
   d <- parseDirection
   spaces
   e <- parseElevation
-  return (d, e)
+  spaces
+  q <- parseQuality
+  return (d, e, q)
 
 parseSubInfos :: Parsec String () [SubInfo]
 parseSubInfos = do
@@ -183,7 +196,7 @@ parseHex = do
         char '['
         subs <- parseSubInfos
         char ']'
-        let f = \(x,y) -> (x, Sub y)
+        let f = \(dir,elev,qual) -> (dir, Sub elev qual)
             subs' = map f subs
 	return $ Hex c e t l m clim (Map.fromList subs')
 

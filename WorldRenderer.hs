@@ -81,7 +81,7 @@ drawHex h =
   `atop`
   alignedText 0.5 0.75 (show . cs . coord $ h) # fc black # scale 0.5
   `atop`
-  triangleHexagon # fc climateColor' # lc black # lw veryThin # scale 1
+  triangleHexagon (isLand h) (subs h) # fc climateColor' # lc black # lw veryThin # scale 1
   where
     qAndR = (show . cq . coord $ h) ++ (',' : (show . cr . coord $ h))
     climateColor' = climateColor $ climate h
@@ -93,27 +93,45 @@ drawHex h =
     --and some border colors overlap onto others,
     --creating weird "bites" taken out of some hexes.
 
-triangleHexagon :: Diagram B
-triangleHexagon =
+triangleHexagon :: Bool -> Map WorldParser.Direction Sub -> Diagram B
+triangleHexagon isLand subs =
   atPoints (trailVertices $ hexagon 1 # rotate ((-30) @@ deg)) tris
   where
     t = triangle 1 # lw veryThin # lc black
-    makeTri n = t # rotateBy (n/6) --text (show n) # fc black # scale 0.35
-    tris = (makeTri 0 # translate (r2 (0.0, 0.4))) : (makeTri 1 # translate (r2 (negHor, posVert))) : (makeTri 2 # translate (r2 (negHor, negVert))) : (makeTri 3 # translate (r2 (0.0, (-0.4)))) : (makeTri 4 # translate (r2 (posHor, negVert))) : [(makeTri 5 # translate (r2 (posHor, posVert)))]
+    makeTri :: Int -> WorldParser.Direction -> Diagram B
+    makeTri n dir = t # rotateBy (dirToRot dir) # fc (if (isLand == False) then blue else (subDirQualityToColor dir subs))
+    --not sure yet whether water should be specified for wild/civ, but I'm leaning toward "no"
+    --for now we can just not color it
+    triDN = makeTri 0 DN # translate (r2 (0.0, 0.4))
+    triDR = makeTri 1 DR # translate (r2 (negHor, posVert))
+    triUR = makeTri 2 UR # translate (r2 (negHor, negVert))
+    triUP = makeTri 3 UP # translate (r2 (0.0, (-0.4)))
+    triUL = makeTri 4 UL # translate (r2 (posHor, negVert))
+    triDL = makeTri 5 DL # translate (r2 (posHor, posVert))
+    tris = [triDN, triDR, triUR, triUP, triUL, triDL]
+    --tris MUST be in that order. Don't know how to encode this just yet.
     posVert = 0.21
     negVert = (-1) * posVert
     posHor = 0.38
     negHor = (-1) * posHor
   
-toRotation :: WorldParser.Direction -> Double
-toRotation d = case d of
-  DN -> 0
-  DR -> 60
-  UR -> 120
-  UP -> 180
-  UL -> 240
-  DL -> 300
-    
+dirToRot d = case d of
+  DN -> (0/6)
+  DR -> (1/6)
+  UR -> (2/6)
+  UP -> (3/6)
+  UL -> (4/6)
+  DL -> (5/6)
+
+qualityColor Civilized = pink
+qualityColor Wild = green
+
+subDirQualityToColor dir subs =
+  case theSub of
+    Just (Sub _ q) -> qualityColor q
+    Nothing -> black
+  where
+    theSub = DM.lookup dir subs
     
 drawTownLayer :: [P2 Double] -> Map Coord TownData -> [Hex] -> Diagram B
 drawTownLayer pts ts hs = atPoints pts $ map (drawTown ts) hs

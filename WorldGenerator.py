@@ -7,6 +7,7 @@ from Direction import Direction
 from AStarSearch import *
 from ShortestPaths3 import shortestPath
 from TownInfo import towns, connections
+from Triangles import getHexTypeAndConfiguration
 
 # desired seed for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
@@ -94,6 +95,7 @@ class HexData:
         self.moisture = Decimal(0)
         self.climate = ""
         self.resources = {}
+        self.subConfigurationType = 0 # an invalid setting, on purpose
         self.subs = {}
 
 def tempAtCoord(coord):
@@ -142,7 +144,13 @@ def initialize():
     for coord, data in worldModel.items():
         normalizedElevation = (data.elevation - elevMin) / (elevMax - elevMin)
         data.elevation = normalizedElevation
-        data.subs = {x:normalizedElevation for x in Direction.__members__.keys()}
+        data.subs = {x:{} for x in Direction.__members__.keys()}
+        subsType, subsConfiguration = getHexTypeAndConfiguration()
+        data.subConfigurationType = subsType
+        for sub,info in data.subs.items():
+            info["Elevation"] = normalizedElevation
+            info["Quality"] = subsConfiguration[sub]
+        print(data.subs)
 
         # land/sea distinction
         if data.elevation >= seaLevel:
@@ -289,7 +297,7 @@ def main():
     counter = {}
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModel.items():
-            subsList = ",".join([(str(x) + " Elevation " + str(y)) for x,y in d.subs.items()])
+            subsList = ",".join([str(sub) + " Elevation " + str(info["Elevation"]) + " Quality " + info["Quality"] for sub,info in d.subs.items()])
             outputString = "Hex Coord " + str(c) + \
               " Elevation " + str(d.elevation) + \
               " Temperature " + str(d.temperature) + \
