@@ -982,3 +982,12 @@ recipeStorage["sling"] = Recipe("leatherworker",(slingLeatherWeight + slingYarnW
                                 [],
                                 [("yarn",slingYarnWeight),("tanned cowhide",slingLeatherWeight)],
                                 description="1d4 damage; missile; range 12/24/36")
+
+musicalBoneCuFt = Decimal(1/12) * Decimal(1/8/12) * Decimal(6/12)
+# musical bones come in pairs
+musicalBonePairCuFt = musicalBoneCuFt * 2
+recipeStorage["musical bones"] = Recipe("carver",(musicalBonePairCuFt * densityTimber,"lb"),
+                                        [("timber",musicalBonePairCuFt)],
+                                        [],
+                                        description="pair of 6-inch curved wooden slats; wrist is rotated to create percussive music")
+
