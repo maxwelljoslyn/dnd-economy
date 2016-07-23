@@ -294,7 +294,6 @@ def initialize():
                 info["Quality"] = "Wild " + str(len(wildNeighbors) + 1)
                 # wilderness rating: 4 (wildest) if three neighs are wild;
                 # 3 if two, 2 if one, 1 (tamest) if zero
-                print(sub,info)
 
     # build the name-indexed road model (roads from town to town and their distances)
     roadModelByName = {}
