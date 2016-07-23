@@ -63,6 +63,30 @@ def getNeighbor(coord, direction):
     else:
         return None
 
+def getTriangleNeighbors(dir, hex, worldModel):
+    """Return the hexes and directions indicating triangle neighbors of the triangle at direction dir,
+    which is in hex. Returns either two or three tuples of (parent hex,triangle dir)."""
+    dirs = list(Direction.__members__.keys())
+    index = dirs.index(dir)
+    # no need for modulo, thanks to Python's negative indexing
+    forwardNeighborDir = dirs[index-1]
+    forwardNeighbor = (hex, forwardNeighborDir)
+    # modulo is necessary to avoid overshooting length of dirs
+    backwardNeighborDir = dirs[(index+1)%len(dirs)]
+    backwardNeighbor = (hex, backwardNeighborDir)
+    # if the parent hex has a neighbor in the direction of dir,
+    # then this triangle also has a neighbor there.
+    # otherwise it only has two neighbors.
+    result = [forwardNeighbor, backwardNeighbor]
+    neighboringHex = worldModel[hex].neighbors[dir]
+    if neighboringHex:
+        oppositeNeighbor = (neighboringHex, oppositeDirection(dir))
+        result.append(oppositeNeighbor)
+    else:
+        pass
+    return result 
+
+
 # http://www.redblobgames.com/grids/hexagons/#range
 def nearbyCoords(startCoord, distance):
     """Return all hexes which are distance or fewer hexes away from starting point.
