@@ -164,18 +164,10 @@ def initialize():
     seaLevel = 0.46
     # this value gives most aesthetically-pleasing shapes for landmasses, islands
 
-    # first for loop: assign elevation, land/sea
+    # assign elevation, land/sea
     for coord, data in worldModel.items():
         normalizedElevation = (data.elevation - elevMin) / (elevMax - elevMin)
         data.elevation = normalizedElevation
-        data.subs = {x:{} for x in Direction.__members__.keys()}
-        subsType, subsConfiguration = getHexTypeAndConfiguration()
-        data.subConfigurationType = subsType
-        for sub,info in data.subs.items():
-            info["Elevation"] = normalizedElevation
-            info["Quality"] = subsConfiguration[sub]
-            info["Neighbors"] = getTriangleNeighbors(sub,coord,worldModel)
-
         # land/sea distinction
         if data.elevation >= seaLevel:
             data.isLand = True
@@ -270,6 +262,17 @@ def initialize():
         else:
             data.climate = "IceCap"
 
+    # instantiate subtriangles and assign data to them
+    for coord, data in worldModel.items():
+        data.subs = {x:{} for x in Direction.__members__.keys()}
+        subsType, subsConfiguration = getHexTypeAndConfiguration()
+        data.subConfigurationType = subsType
+        for sub,info in data.subs.items():
+            info["Elevation"] = normalizedElevation
+            info["Quality"] = subsConfiguration[sub]
+            info["Neighbors"] = getTriangleNeighbors(sub,coord,worldModel)
+
+            
     # build the name-indexed road model (roads from town to town and their distances)
     roadModelByName = {}
     for t,d in towns.items():
