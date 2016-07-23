@@ -7,7 +7,7 @@ from Direction import *
 from AStarSearch import *
 from ShortestPaths3 import shortestPath
 from TownInfo import towns, connections
-from Triangles import getHexTypeAndConfiguration
+from Triangles import getHexTypeAndConfiguration, getConfiguration
 
 # desired seed for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
@@ -265,8 +265,16 @@ def initialize():
     # instantiate subtriangles and assign starting data to them
     for coord, data in worldModel.items():
         data.subs = {x:{} for x in Direction.__members__.keys()}
-        subsType, subsConfiguration = getHexTypeAndConfiguration()
-        data.subConfigurationType = subsType
+        subsType = None
+        subsConfiguration = None
+        if data.isLand:
+            # all random
+            data.subConfigurationType, subsConfiguration = getHexTypeAndConfiguration()
+        else:
+            # water hexes are considered to be type 1 (ALL wild), always;
+            # we let degrees of wilderness handle just how wild each bit of water is
+            data.subConfigurationType = 1
+            subsConfiguration = getConfiguration(1)
         for sub,info in data.subs.items():
             info["Elevation"] = normalizedElevation
             info["Quality"] = subsConfiguration[sub]
