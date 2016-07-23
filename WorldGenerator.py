@@ -3,7 +3,7 @@ from decimal import *
 from math import pi
 
 from HexResources import *
-from Direction import Direction
+from Direction import *
 from AStarSearch import *
 from ShortestPaths3 import shortestPath
 from TownInfo import towns, connections
