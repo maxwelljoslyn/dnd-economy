@@ -174,6 +174,7 @@ def initialize():
         for sub,info in data.subs.items():
             info["Elevation"] = normalizedElevation
             info["Quality"] = subsConfiguration[sub]
+            info["Neighbors"] = getTriangleNeighbors(sub,coord,worldModel)
 
         # land/sea distinction
         if data.elevation >= seaLevel:
