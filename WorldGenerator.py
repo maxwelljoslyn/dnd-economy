@@ -262,7 +262,7 @@ def initialize():
         else:
             data.climate = "IceCap"
 
-    # instantiate subtriangles and assign data to them
+    # instantiate subtriangles and assign starting data to them
     for coord, data in worldModel.items():
         data.subs = {x:{} for x in Direction.__members__.keys()}
         subsType, subsConfiguration = getHexTypeAndConfiguration()
@@ -272,7 +272,22 @@ def initialize():
             info["Quality"] = subsConfiguration[sub]
             info["Neighbors"] = getTriangleNeighbors(sub,coord,worldModel)
 
-            
+    # define degree of wilderness for wild subtriangles
+    # has to be its own loop: if we tried doing it during the instantation loop,
+    # not all triangles would have their data filled in yet,
+    # leading to errors when trying to access their data from their neighbors
+    for coord, data in worldModel.items():
+        # assign degree of wilderness
+        for sub,info in data.subs.items():
+            if info["Quality"] == "Wild":
+                neighborQualities = [worldModel[hex].subs[tri]["Quality"] for (hex,tri) in info["Neighbors"]]
+                wildNeighbors = [q for q in neighborQualities if "Wild" in q] 
+                # not `if q == "Wild"` b/c neighbor's quality string might already have been mutated, by its own trip through this loop, to contain a number
+                info["Quality"] = "Wild " + str(len(wildNeighbors) + 1)
+                # wilderness rating: 4 (wildest) if three neighs are wild;
+                # 3 if two, 2 if one, 1 (tamest) if zero
+                print(sub,info)
+
     # build the name-indexed road model (roads from town to town and their distances)
     roadModelByName = {}
     for t,d in towns.items():
