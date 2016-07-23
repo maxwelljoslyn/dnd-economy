@@ -104,9 +104,11 @@ def getConfigurationType(roll):
 
 configurationTypeMapping = {1:[type1],2:type2s,3:type3s,4:type4s,5:type5s,6:type6s,7:[type7]}
 
-def getHexTypeAndConfiguration():
+def getConfiguration(type):
+    return choice(configurationTypeMapping[type])
+
+def getHexTypeAndConfiguration(roll=randint(1,12)):
     """Return the type of the configuration, and the configuration itself."""
-    roll = randint(1,12)
     configType = getConfigurationType(roll)
-    configuration = choice(configurationTypeMapping[configType])
+    configuration = getConfiguration(configType)
     return configType, configuration
