@@ -27,7 +27,7 @@ data Climate = Desert | Mediterranean | HotSummerContinental | WarmSummerContine
 data Direction = UP | UR | DR | DN | DL | UL
                  deriving (Read, Show, Enum, Ord, Eq)
 
-data Quality = Civilized | Wild
+data Quality = Civilized | Wild Int
                deriving (Read, Show, Eq)
 
 type SubInfo = (Direction, Elevation, Quality)
@@ -49,10 +49,22 @@ parseQuality :: Parsec String () Quality
 parseQuality = do
   string "Quality"
   spaces
-  q <- try (string "Civilized" <|> string "Wild")
-  return $ read q
-  
+  q <- parseCivilized <|> parseWild
+  return q
 
+parseWild :: Parsec String () Quality
+parseWild = do
+  string "Wild"
+  spaces
+  i <- digit
+  let i' = read (i : "")
+  return $ Wild i'
+
+parseCivilized :: Parsec String () Quality
+parseCivilized = do
+  string "Civilized"
+  return Civilized
+  
 parseRegion :: Parsec String () Region
 parseRegion = do
   string "Region"

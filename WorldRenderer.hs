@@ -124,7 +124,10 @@ dirToRot d = case d of
   DL -> (5/6)
 
 qualityColor Civilized = pink
-qualityColor Wild = green
+qualityColor (Wild 1) = sRGB 0 0.8 0
+qualityColor (Wild 2) = sRGB 0 0.6 0
+qualityColor (Wild 3) = sRGB 0 0.4 0
+qualityColor (Wild 4) = sRGB 0 0.2 0
 
 subDirQualityToColor dir subs =
   case theSub of
