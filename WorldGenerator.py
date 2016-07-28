@@ -295,6 +295,24 @@ def initialize():
                 # wilderness rating: 4 (wildest) if three neighs are wild;
                 # 3 if two, 2 if one, 1 (tamest) if zero
 
+    # infrastructure, part 1: assign base infrastructure values
+    
+
+    # infrastructure, part 2: much like moisture, above,
+    # we want to spread infrastructure values hex-to-hex
+    # one thing to be careful of:
+    # we want to spread the values out based on the original numbers,
+    # which means we don't want to touch (i.e. destructively update)
+    # the *original* values for infrastructure by the above loop,
+    # UNTIL we are done calcuating the propagation of infra values.
+    # i.e. we want to store results from the propagation algo in a separate dictionary,
+    # then, having accumuluated the results, add them in to their respective coords' infra values
+    # within the worldModel.
+    # this is similar to importing phenomenon in the ResourcePriceCalculator:
+    # there, we use each town's original count for each resource,
+    # and spread those out to other towns,
+    # only at the end accumulating the results into each town's post-import totals for each resource.
+    
     # build the name-indexed road model (roads from town to town and their distances)
     roadModelByName = {}
     for t,d in towns.items():
