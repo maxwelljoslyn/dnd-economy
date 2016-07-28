@@ -81,13 +81,15 @@ drawHex h =
   `atop`
   alignedText 0.5 0.75 (show . cs . coord $ h) # fc black # scale 0.5
   `atop`
-  triangleHexagon (isLand h) (subs h) # fc climateColor' # lc black # lw veryThin # scale 1
+  hexagon 1 # fc infraColor # lc black # lw veryThin # scale 1
   where
+    subdivided = triangleHexagon (isLand h) (subs h)
     qAndR = (show . cq . coord $ h) ++ (',' : (show . cr . coord $ h))
     climateColor' = climateColor $ climate h
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)
     onlyColorLandBorder = if (isLand h) == True then black else elevColor'
+    infraColor = infrastructureColor (infra h)
     --onlyColorLandBorder creates weird image,
     --b/c hexes render in strange order,
     --and some border colors overlap onto others,
@@ -135,6 +137,10 @@ subDirQualityToColor dir subs =
     Nothing -> black
   where
     theSub = DM.lookup dir subs
+
+infrastructureColor (Infrastructure a) = sRGB a' 0 0
+  where
+    a' = a / 200.0
     
 drawTownLayer :: [P2 Double] -> Map Coord TownData -> [Hex] -> Diagram B
 drawTownLayer pts ts hs = atPoints pts $ map (drawTown ts) hs

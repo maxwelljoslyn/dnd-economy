@@ -432,6 +432,7 @@ def main():
               " Land " + str(d.isLand) + \
               " Moisture " + str(d.moisture) + \
               " Climate " + d.climate + \
+              " Infrastructure " + str(d.infrastructure) + \
               " Subs [" + subsList + "]" + "\n"
             f.write(outputString)
 

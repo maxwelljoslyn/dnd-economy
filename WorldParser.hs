@@ -34,6 +34,9 @@ type SubInfo = (Direction, Elevation, Quality)
 data Sub = Sub Elevation Quality
            deriving (Read, Show)
 
+data Infrastructure = Infrastructure Double
+                      deriving (Read, Show)
+
 --bringing all the above datatypes together
 data Hex = Hex
         { coord :: Coord
@@ -42,9 +45,18 @@ data Hex = Hex
 	, isLand :: Bool
 	, moist :: Double
 	, climate :: Climate
+        , infra :: Infrastructure
         , subs :: Map Direction Sub
 	} deriving (Read, Show)
 
+parseInfrastructure :: Parsec String () Infrastructure
+parseInfrastructure = do
+  string "Infrastructure"
+  spaces
+  i <- many $ oneOf "-.0123456789"
+  let i' = read i
+  return $ Infrastructure i'
+        
 parseQuality :: Parsec String () Quality
 parseQuality = do
   string "Quality"
@@ -203,6 +215,8 @@ parseHex = do
 	spaces
 	clim <- parseClimate
         spaces
+        infra <- parseInfrastructure
+        spaces
         string "Subs"
         spaces
         char '['
@@ -210,7 +224,7 @@ parseHex = do
         char ']'
         let f = \(dir,elev,qual) -> (dir, Sub elev qual)
             subs' = map f subs
-	return $ Hex c e t l m clim (Map.fromList subs')
+	return $ Hex c e t l m clim infra (Map.fromList subs')
 
 
 parseWorld = do
