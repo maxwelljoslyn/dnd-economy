@@ -316,6 +316,64 @@ def initialize():
     # and spread those out to other towns,
     # only at the end accumulating the results into each town's post-import totals for each resource.
     
+    infrastructureAdjustmentAccumulator = {}
+    # this dictionary will be keyed by hex coords;
+    # each time an amount of infrastructure X should be added to a hex H, we'll increase the value at H by X
+    # when the loop below is done pushing infrastructure around,
+    # we'll go through infrastructureAdjustmentAccumulator and add its values back to the original values in worldModel
+    def infraLine(aCoord, aDir):
+        """Move infrastructure from one hex to another.
+        The overall idea is lifted from moistureLine, but since they have very different details,
+        it's not worth it to try and lift the bit of shared logic out into a function.
+        (for example: moistureLine cares about land-sea, while infraLine doesn't;
+        infraLine puts values into an intermediate dict, while moistureLine destructively updates worldModel data)."""
+        currentCoord = aCoord
+        currentData = worldModel[aCoord]
+        currentInfra = currentData.infrastructure
+        while currentInfra > 1:
+            neighborLocation = currentData.neighbors[aDir]
+            if neighborLocation is None:
+                break
+            neighborData = worldModel[neighborLocation]
+            # first: let's get the distance between the two hexes
+            hexDistance = elevAwareDistance(currentCoord,neighborLocation,worldModel)
+            # then sum wilds in the current hex
+            wildSubs = [q for q in data.subs if "Wild" in q]
+            wildernessLevelSum = 0
+            for w in wildSubs:
+                if w == "Wild 1":
+                    wildernessLevelSum += 1
+                elif w == "Wild 2":
+                    wildernessLevelSum += 2
+                elif w == "Wild 3":
+                    wildernessLevelSum += 3
+                else:
+                    wildernessLevelSum += 4
+            infraToTransfer = Decimal(currentInfra / (hexDistance + wildernessLevelSum))
+            # then -- key point! -- we add this value into infrastructureAdjustmentAccumulator,
+            # and NOT into the worldModel. yes I am repeating this, it's important!
+            if neighborLocation in infrastructureAdjustmentAccumulator:
+                # update the value at key neighborLocation
+                infrastructureAdjustmentAccumulator[neighborLocation] += infraToTransfer
+            else:
+                # create a value at key neighborLocation
+                infrastructureAdjustmentAccumulator[neighborLocation] = infraToTransfer
+            # finally, update to continue the loop
+            currentCoord = neighborLocation
+            currentData = neighborData
+            currentInfra = neighborData.infrastructure
+    
+    # now let's actually use the above function
+    for coord,data in worldModel.items():
+        if data.infrastructure == 0:
+            pass
+        else:
+            for name, member in Direction.__members__.items():
+                infraLine(coord, name)
+
+    for coord,additionToInfrastructure in infrastructureAdjustmentAccumulator.items():
+        worldModel[coord].infrastructure += additionToInfrastructure
+
     # build the name-indexed road model (roads from town to town and their distances)
     roadModelByName = {}
     for t,d in towns.items():
