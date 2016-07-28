@@ -121,6 +121,7 @@ class HexData:
         self.resources = {}
         self.subConfigurationType = 0 # an invalid setting, on purpose
         self.subs = {}
+        self.infrastructure = 0
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
@@ -296,7 +297,9 @@ def initialize():
                 # 3 if two, 2 if one, 1 (tamest) if zero
 
     # infrastructure, part 1: assign base infrastructure values
-    
+    for coord,data in worldModel.items():
+        numCivilizedSubs = len([x for x in data.subs if data.subs[x]["Quality"] == "Civilized"])
+        data.infrastructure = numCivilizedSubs
 
     # infrastructure, part 2: much like moisture, above,
     # we want to spread infrastructure values hex-to-hex
