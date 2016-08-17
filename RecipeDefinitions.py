@@ -791,7 +791,7 @@ recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getWeight
 # approximate
 whistleCuFt = cylinderCuFt(Decimal(0.25), Decimal(0.75/12)) 
 whistleWeight = whistleCuFt * densityTimber
-recipeStorage["whistle"] = Recipe("carver",(whistleWeight,"lb"),
+recipeStorage["whistle"] = Recipe("carpenter",(whistleWeight,"lb"),
                                   [("timber",whistleCuFt)],
                                   [],
                                   difficulty=2,
@@ -800,7 +800,7 @@ recipeStorage["whistle"] = Recipe("carver",(whistleWeight,"lb"),
 # structurally it's a little hollow block
 fippleCuFt = Decimal(1/12) * Decimal(1/12) * Decimal(2/12)
 fippleWeight = fippleCuFt * densityTimber
-recipeStorage["fipple"] = Recipe("carver",(fippleWeight,"lb"),
+recipeStorage["fipple"] = Recipe("carpenter",(fippleWeight,"lb"),
                                  [("timber", fippleCuFt)],
                                  [],
                                  difficulty=3,
@@ -809,7 +809,7 @@ semiGoods.append("fipple")
 
 recorderBodyCuFt = cylinderCuFt(Decimal(1.25), Decimal(0.75/12))
 recorderBodyWeight = recorderBodyCuFt * densityTimber
-recipeStorage["recorder"] = Recipe("carver",(recorderBodyWeight + fippleWeight,"lb"),
+recipeStorage["recorder"] = Recipe("carpenter",(recorderBodyWeight + fippleWeight,"lb"),
                                    [("timber",recorderBodyCuFt)],
                                    [("fipple",1)],
                                    difficulty=4,
@@ -854,7 +854,7 @@ recipeStorage["quilted gambeson"] = Recipe("weaver",(gambesonSqFt * getWeight("w
                                            difficulty=2,
                                            description="AC 9; padded cloth armor")
 
-recipeStorage["gemshorn"] = Recipe("carver",(2,"lb"),
+recipeStorage["gemshorn"] = Recipe("carpenter",(2,"lb"),
                                    [],
                                    [("fipple",1),("cow",Decimal(0.5))],
                                    description="ocarina-type instrument made from bull horn; 8 inches long")
@@ -930,7 +930,7 @@ cubicFootInPints = Decimal(59.8442)
 
 clubCuFt = cylinderCuFt(2,1.5/12)
 clubWeight = clubCuFt * densityTimber
-recipeStorage["club"] = Recipe("carver",(clubWeight, "lb"),
+recipeStorage["club"] = Recipe("carpenter",(clubWeight, "lb"),
                                [("timber",clubCuFt)],
                                [],
                                difficulty=0.5,
@@ -938,7 +938,7 @@ recipeStorage["club"] = Recipe("carver",(clubWeight, "lb"),
 
 handaxeHaftCuFt = cylinderCuFt(2,0.25/12)
 handaxeHaftWeight = handaxeHaftCuFt * densityTimber
-recipeStorage["handaxe haft"] = Recipe("carver",(handaxeHaftWeight,"lb"),
+recipeStorage["handaxe haft"] = Recipe("carpenter",(handaxeHaftWeight,"lb"),
                                        [("timber",handaxeHaftCuFt)],
                                        [])
 
@@ -955,7 +955,7 @@ recipeStorage["handaxe"] = Recipe("blacksmith",(handaxeHeadWeight + handaxeHaftW
                                   description="1d4+1 damage; melee/thrown; range 4/6/8")
 
 quarterstaffCuFt = cylinderCuFt(5,Decimal(0.5/12))
-recipeStorage["quarterstaff"] = Recipe("carver",(quarterstaffCuFt * densityTimber,"lb"),
+recipeStorage["quarterstaff"] = Recipe("carpenter",(quarterstaffCuFt * densityTimber,"lb"),
                                        [("timber",quarterstaffCuFt)],
                                        [],
                                        description="1d6 damage; melee two-handed; 5 ft long")
@@ -986,7 +986,7 @@ recipeStorage["sling"] = Recipe("leatherworker",(slingLeatherWeight + slingYarnW
 musicalBoneCuFt = Decimal(1/12) * Decimal(1/8/12) * Decimal(6/12)
 # musical bones come in pairs
 musicalBonePairCuFt = musicalBoneCuFt * 2
-recipeStorage["musical bones"] = Recipe("carver",(musicalBonePairCuFt * densityTimber,"lb"),
+recipeStorage["musical bones"] = Recipe("carpenter",(musicalBonePairCuFt * densityTimber,"lb"),
                                         [("timber",musicalBonePairCuFt)],
                                         [],
                                         description="pair of 6-inch curved wooden slats; wrist is rotated to create percussive music")
