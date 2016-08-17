@@ -991,3 +991,16 @@ recipeStorage["musical bones"] = Recipe("carpenter",(musicalBonePairCuFt * densi
                                         [],
                                         description="pair of 6-inch curved wooden slats; wrist is rotated to create percussive music")
 
+# lamella: a rectangle-like piece of material laced together to form armor
+# these will form the basis of leather armor
+# height is 2 inches, width is 4 inches, thus there are 3 * 6 = 18 of them to the square foot
+leatherLamellaWidth = Decimal(4/12)
+leatherLamellaHeight = Decimal(2/12)
+leatherLamellaSqFt = leatherLamellaHeight * leatherLamellaWidth
+leatherLamellaUnitRatio = leatherLamellaSqFt / getUnitSize("tanned cowhide")
+leatherLamellaWeight = leatherLamellaUnitRatio * getWeight("tanned cowhide")
+recipeStorage["leather lamella"] = Recipe("leatherworker", (leatherLamellaWeight, "lb"),
+                                          [],
+                                          [("tanned cowhide", leatherLamellaWeight)],
+                                          description="2x4 inches; punched with holes for lacing")
+semiGoods.append("leather lamella")
