@@ -993,7 +993,6 @@ recipeStorage["musical bones"] = Recipe("carpenter",(musicalBonePairCuFt * densi
 
 # lamella: a rectangle-like piece of material laced together to form armor
 # these will form the basis of leather armor
-# height is 2 inches, width is 4 inches, thus there are 3 * 6 = 18 of them to the square foot
 leatherLamellaWidth = Decimal(4/12)
 leatherLamellaHeight = Decimal(2/12)
 leatherLamellaSqFt = leatherLamellaHeight * leatherLamellaWidth
@@ -1003,4 +1002,19 @@ recipeStorage["leather lamella"] = Recipe("leatherworker", (leatherLamellaWeight
                                           [],
                                           [("tanned cowhide", leatherLamellaWeight)],
                                           description="2x4 inches; punched with holes for lacing")
-semiGoods.append("leather lamella")
+#semiGoods.append("leather lamella")
+
+# I'm assuming this is enough square feet for good coverage, including arms, down to the waist
+# that's probably a bit small, especially since I made the gambeson 12 square feet of material
+# oh well
+leatherArmorSqFt = 8
+numberOfLeatherLamella = leatherArmorSqFt / leatherLamellaSqFt
+yarnFtPerLamella = 2
+leatherArmorTotalYarn = numberOfLeatherLamella * yarnFtPerLamella
+leatherArmorYarnUnitRatio = leatherArmorTotalYarn / getUnitSize("yarn")
+leatherArmorYarnWeight = leatherArmorYarnUnitRatio * getWeight("yarn")
+leatherArmorWeight = (numberOfLeatherLamella * leatherLamellaWeight) + leatherArmorYarnWeight
+recipeStorage["leather armor"] = Recipe("leatherworker", (leatherArmorWeight,"lb"),
+                                        [],
+                                        [("leather lamella",numberOfLeatherLamella),("yarn", leatherArmorYarnWeight)],
+                                        description="AC 8; lamellar construction; covers torso down to waist, plus arms")
