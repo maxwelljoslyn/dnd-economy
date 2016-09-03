@@ -36,33 +36,35 @@ def getDisplayPrice(priceInCP):
     # first, round up: the difference represents merchant and tradesman profit
     rounded = ceil(priceInCP)
     divided = rounded / 100
-    return (str(divided) + " GP")
+    return divided
 
 def display(city, name):
     """Show the price of a recipe 'name' at 'city'."""
     recipe = recipeStorage[name]
     basePrice = findCost(city, name)
-    displayPrice = getDisplayPrice(basePrice)
+    price = getDisplayPrice(basePrice)
+    priceString = str(price) + " GP"
     displayWeight = str(Decimal(recipe.weight[0]).quantize(Decimal('0.01')))
     displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
     displayUnitName = recipe.unit[1]
     if recipe.unit == recipe.weight:
         displayUnitCount = "--"
         displayUnitName = ""
-    return "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{6}".format(name,displayPrice,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
+    return "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{6}".format(name,priceString,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
 
 def latexDisplay(city, name):
     """Show the price of a recipe 'name' at 'city'."""
     recipe = recipeStorage[name]
     basePrice = findCost(city, name)
-    displayPrice = getDisplayPrice(basePrice)
+    price = getDisplayPrice(basePrice)
+    priceString = str(price) + " GP"
     displayWeight = str(Decimal(recipe.weight[0]).quantize(Decimal('0.01')))
     displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
     displayUnitName = recipe.unit[1]
     if recipe.unit == recipe.weight:
         displayUnitCount = "--"
         displayUnitName = "--"
-    return "{0} & {1} & {2} & {3} & {4} & {5} & {6}".format(name,displayPrice,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
+    return "{0} & {1} & {2} & {3} & {4} & {5} & {6}".format(name,priceString,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
