@@ -6,10 +6,6 @@ from HexResources import worldProductionMatrix
 #set up the Decimal environment
 getcontext().prec = 4
 
-# this is used to adjust prices in a blunt way
-# basically it's the percentage of the world's references (to a given resource) which an "average" city is assumed to have
-pseudoAverageRefPercent = Decimal(0.05)
-
 # get names of all resources available in the economy
 # get names of all services available in the economy
 allResourceNames = []
@@ -52,6 +48,12 @@ for ot,d in originalTowns.items():
             originalWorldResourceCounts[r] += Decimal(val)
         else:
             originalWorldResourceCounts[r] = Decimal(val)
+
+# let's find, for each resource, the average references to it, per town
+# it's simple: divide the total pre-import references T to a resource R by the size of the town list
+averageReferences = {}
+for name in allResourceNames:
+    averageReferences[name] = originalWorldResourceCounts[name] / Decimal(len(list(originalTowns.keys())))
 
 # next, we'll divvy up the world production of each resource
 # INTO the number of extant references of the resource
@@ -112,7 +114,7 @@ for t,d in towns.items():
     pricesPerProductionUnit[t] = {}
     for rawMat in allResourceNames:
         # ratio of local references (post-import) to original world total (calculated pre-import)
-        localRefToWorldRefRatio = d.resources[rawMat] / (pseudoAverageRefPercent * originalWorldResourceCounts[rawMat])
+        localRefToWorldRefRatio = d.resources[rawMat] / (averageReferences[rawMat] * originalWorldResourceCounts[rawMat])
         # adjust base CP-per-reference of any good to reflect said ratio
         adjustedBasePrice = goldRefPriceCP / localRefToWorldRefRatio
         # divide adjusted base price by size of one reference to get price per unit
