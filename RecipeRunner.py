@@ -73,9 +73,8 @@ def baseNumberAvailable(price):
     else:
         return 0
 
-def randomNumberAvailable(price):
+def randomNumberAvailable(price, baseNum):
     random.seed()
-    baseNum = baseNumberAvailable(price)
     if baseNum == 0:
         # slight chance that it actually WILL be available
         # basic chance is 1 in 20
@@ -119,12 +118,12 @@ def display(city, name):
     displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
     displayUnitName = recipe.unit[1]
     #---
-    #numAvail = randomNumberAvailable(baseNumberAvailable(price))
+    numAvail = randomNumberAvailable(price, baseNumberAvailable(price))
     #---
     if recipe.unit == recipe.weight:
         displayUnitCount = "--"
         displayUnitName = ""
-    return "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{6}".format(name,priceString,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
+    return "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{7:>4} {6}".format(name,priceString,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description, "(" + str(numAvail) + ")")
 
 def latexDisplay(city, name):
     """Show the price of a recipe 'name' at 'city'."""
@@ -146,7 +145,7 @@ def main():
     print("At",town + ":")
     names = list(recipeStorage.keys())
     names.sort()
-    print("{0:30}  {1:>10} {2:>8} {3:>2} {4:>8} {5:6} {6}".format("Name","Price","Weight","","Units","","Description"))
+    print("{0:30}  {1:>10} {2:>8} {3:>2} {4:>8} {5:6} {6}".format("Name","Price","Weight","","Units",""," (#) Description"))
     for n in names:
         if n in semiGoods:
             pass
