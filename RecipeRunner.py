@@ -2,6 +2,7 @@ from decimal import *
 from math import ceil
 from RecipeDefinitions import *
 from ResourcePriceCalculator import towns, pricesPerProductionUnit, averageServiceReferences, pseudoAverageRefPercent
+import random
 
 #set up the Decimal environment
 getcontext().prec = 6
@@ -38,6 +39,76 @@ def getDisplayPrice(priceInCP):
     divided = rounded / 100
     return divided
 
+def baseNumberAvailable(price):
+    """Given the price of an object, find the number of units which are available.
+    The number returned will not be random, but in practice we'll want to add some randomization."""
+    if price < 1:
+        return 20
+    if price < 5:
+        return 17
+    if price < 10:
+        return 14
+    if price < 50:
+        return 11
+    if price < 100:
+        return 10
+    if price < 200:
+        return 9
+    if price < 300:
+        return 8
+    if price < 400:
+        return 7
+    if price < 500:
+        return 6
+    if price < 600:
+        return 5
+    if price < 700:
+        return 4
+    if price < 800:
+        return 3
+    if price < 900:
+        return 2
+    if price < 1000:
+        return 1
+    else:
+        return 0
+
+def randomNumberAvailable(price):
+    random.seed()
+    baseNum = baseNumberAvailable(price)
+    if baseNum == 0:
+        # slight chance that it actually WILL be available
+        # basic chance is 1 in 20
+        denominator = 20
+        # for every 100 GP increase in price, we increase the denominator, lowering the chance that the item will be available
+        portionAboveOneThousand = price - 1000
+        numberOfHundreds = int(portionAboveOneThousand / 100)
+        denominator += numberOfHundreds
+        # roll randomly to see if even a single unit is available
+        roll = random.randint(1,denominator)
+        if roll == 1:
+            return 1
+        else:
+            return 0
+    elif baseNum < 10:
+        roll = random.randint(1,6)
+    else:
+        # swingier for stuff with higher base availability
+        roll = random.randint(1,6) + random.randint(1,6)
+    # having initialized roll, let's determine whether it's getting added or subtracted
+    adjustmentIsPositive = random.choice([True, False])
+    if adjustmentIsPositive:
+        return baseNum + roll
+    else:
+        temp = baseNum - roll
+        # don't want a negative number available
+        if temp <= 0:
+            return 0
+        else:
+            return temp
+
+
+
 def display(city, name):
     """Show the price of a recipe 'name' at 'city'."""
     recipe = recipeStorage[name]
@@ -47,6 +118,9 @@ def display(city, name):
     displayWeight = str(Decimal(recipe.weight[0]).quantize(Decimal('0.01')))
     displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
     displayUnitName = recipe.unit[1]
+    #---
+    #numAvail = randomNumberAvailable(baseNumberAvailable(price))
+    #---
     if recipe.unit == recipe.weight:
         displayUnitCount = "--"
         displayUnitName = ""
