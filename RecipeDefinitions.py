@@ -135,7 +135,6 @@ recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
                                 # steel requires half as much coal as other iron stuff
                                 # b/c howstuffworks says it only needs to get half as hot
                                        [("pig iron",1)],
-                                difficulty = 3,
                                 description="ingot, 1x1x3.5 in.")
 
 hiltCuFt = ((Decimal(1) / Decimal(6)) ** 2) * (Decimal(5) / Decimal(12))
@@ -148,7 +147,6 @@ semiGoods.append("blade hilt")
 recipeStorage["pommel"] = Recipe("blacksmith",(0.25,"lb"),
                                  [],
                                  [("steel",0.25)],
-                                 difficulty=1.5,
                                  description="metal knob which holds hilt and blade together")
 semiGoods.append("pommel")
 
@@ -159,7 +157,6 @@ unitBladeWeight = unitBladeCuFt * densitySteel
 recipeStorage["blade"] = Recipe("blacksmith",(unitBladeWeight,"lb"),
                                 [],
                                 [("steel",unitBladeWeight)],
-                                difficulty=6,
                                 description="price for a one-foot steel blade")
 semiGoods.append("blade")
 
@@ -198,7 +195,6 @@ semiGoods.append("husked cereal")
 recipeStorage["flour"] = Recipe("miller",(1,"lb"),
                                 [],
                                 [("husked cereal",1)],
-                                difficulty=3,
                                 description="Flour ground from cereals.")
 
 recipeStorage["cattle feed"] = Recipe("miller",(1,"lb"),
@@ -209,7 +205,6 @@ recipeStorage["cattle feed"] = Recipe("miller",(1,"lb"),
 recipeStorage["horse feed"] = Recipe("miller",(1,"lb"),
                                 [],
                                 [("husked cereal",1)],
-                                difficulty=2,
                                 description="ground from cereals")
 
 recipeStorage["bread, coarse"] = Recipe("baker",(1,"lb"),
@@ -316,8 +311,7 @@ recipeStorage["suet"] = Recipe("butcher",(1,"lb"),
 # it uses scraps of meat and fat (like bones etc)
 recipeStorage["tallow"] = Recipe("chandler",(1,"lb"),
                                  [],
-                                 [("cow",2/cowCarcassWeight)],
-                                 difficulty=3)
+                                 [("cow",2/cowCarcassWeight)])
 
 # 1% yield, number given from some research
 poundsTimberPerPoundAshes = 100
@@ -363,7 +357,6 @@ semiGoods.append("raw cowhide")
 recipeStorage["defleshed cowhide"] = Recipe("tanner",(15,"lb"),
                                             [],
                                             [("raw cowhide",1)],
-                                            difficulty=2,
                                             unit=recipeStorage["raw cowhide"].unit,
                                             description="cowhide cleaned of flesh and/or hair")
 semiGoods.append("defleshed cowhide")
@@ -403,8 +396,7 @@ recipeStorage["holy symbol, ornate, iron"] = Recipe("blacksmith",(1,"lb"),
 # wiki says that clay would be about 90% junk and 10% ochre
 recipeStorage["separated ochre clay"] = Recipe("potter",(1,"lb"),
                                        [("clay",10)],
-                                       [],
-                                       difficulty=3)
+                                       [])
 semiGoods.append("separated ochre clay")
 
 # primary componenent of paints and of dyes
@@ -498,7 +490,6 @@ recipeStorage["barrel"] = Recipe("cooper",(barrelWeight, "lb"),
                                  [],
                                  [("barrel stave",numStaves),("barrel hoop, fat",2),("barrel hoop, thin",4),
                                   ("barrel head",2)],
-                                 difficulty=2,
                                  description="30-gallon barrel; 0.67-ft widest radius; 2 ft 11 in. tall")
 
 # based on the Clare household strong ale recipe from:
@@ -600,12 +591,11 @@ sugarcaneForOneGallonMolasses = 10 * molassesGallonWeight / 4
 recipeStorage["brown sugar"] = Recipe("miller",(1,"lb"),
                                       [("sugarcane",10)],
                                       [],
-                                      difficulty=4)
+                                      difficulty=2)
 
 recipeStorage["molasses"] = Recipe("miller",(molassesGallonWeight,"lb"),
                                    [("sugarcane",sugarcaneForOneGallonMolasses)],
                                    [],
-                                   difficulty=4,
                                    unit=(1,"gallon"))
 
 # 6 month old pig for the slaughter, weighing 150 lbs
@@ -644,15 +634,13 @@ recipeStorage["salt pork"] = Recipe("butcher",(1,"lb"),
 
 recipeStorage["spearhead"] = Recipe("blacksmith",(1.5,"lb"),
                                     [],
-                                    [("wrought iron",Decimal(0.9)),("steel",Decimal(0.6))],
-                                    difficulty=3)
+                                    [("wrought iron",Decimal(0.9)),("steel",Decimal(0.6))])
 semiGoods.append("spearhead")
 
 spearHaftCuFt = cylinderCuFt(5,Decimal(0.5/12))
 recipeStorage["spear haft"] = Recipe("carpenter",(spearHaftCuFt * densityTimber,"lb"),
                                                   [("timber",spearHaftCuFt)],
-                                                  [],
-                                                  difficulty=3)
+                                                  [])
 semiGoods.append("spear haft")
 
 spearWeight = recipeStorage["spearhead"].weight[0] + recipeStorage["spear haft"].weight[0]
@@ -670,7 +658,6 @@ maceHaftWoodWeight = maceHaftWoodProportion * maceHaftCuFt * densityTimber
 recipeStorage["mace haft"] = Recipe("blacksmith",(maceHaftMetalWeight + maceHaftWoodWeight,"lb"),
                                     [("timber",maceHaftCuFt)],
                                     [("wrought iron",maceHaftMetalWeight)],
-                                    difficulty=3,
                                     description="wood reinforced with metal bands")
 semiGoods.append("mace haft")
 
@@ -678,8 +665,7 @@ maceFlangeCuFt = triangularPrismCuFt(Decimal(1/12),Decimal(0.25),Decimal(0.1))
 maceFlangeWeight = maceFlangeCuFt * densityWroughtIron
 recipeStorage["mace flange"] = Recipe("blacksmith",(maceFlangeWeight,"lb"),
                                       [],
-                                      [("wrought iron",maceFlangeWeight)],
-                                      difficulty=3)
+                                      [("wrought iron",maceFlangeWeight)])
 semiGoods.append("mace flange")
 
 recipeStorage["mace"] = Recipe("blacksmith",(getWeight("mace haft") + (6 * maceFlangeWeight),"lb"),
@@ -695,7 +681,7 @@ feetOfWire = wroughtIronIngotCuFt / oneFootWireCuFt
 recipeStorage["wire"] = Recipe("blacksmith",(1,"lb"),
                                [],
                                [("wrought iron",1)],
-                               difficulty=6, # lots of hammering and then lots and lots of pulling
+                               difficulty=3, # lots of hammering and then lots and lots of pulling
                                unit=(feetOfWire,"feet"),
                                description="thickness 16 gauge, i.e. 0.05082 in. diameter")
 
@@ -706,8 +692,7 @@ mailRingCircumference = 2 * Decimal(pi) * mailRingRadius
 unitsWirePerRing = mailRingCircumference / getUnitSize("wire")
 recipeStorage["mail ring"] = Recipe("blacksmith",(unitsWirePerRing,"lb"),
                                     [],
-                                    [("wire",unitsWirePerRing)],
-                                    difficulty=5)
+                                    [("wire",unitsWirePerRing)])
 semiGoods.append("mail ring")
 
 # rings overlap, which would mean more per linear foot, but we'll ignore that since mail can stretch a little too
@@ -794,7 +779,6 @@ whistleWeight = whistleCuFt * densityTimber
 recipeStorage["whistle"] = Recipe("carpenter",(whistleWeight,"lb"),
                                   [("timber",whistleCuFt)],
                                   [],
-                                  difficulty=2,
                                   description="non-musical; 3 inches long")
 
 # structurally it's a little hollow block
@@ -803,7 +787,6 @@ fippleWeight = fippleCuFt * densityTimber
 recipeStorage["fipple"] = Recipe("carpenter",(fippleWeight,"lb"),
                                  [("timber", fippleCuFt)],
                                  [],
-                                 difficulty=3,
                                  description="whistle mouthpiece for certain instruments")
 semiGoods.append("fipple")
 
@@ -812,7 +795,6 @@ recorderBodyWeight = recorderBodyCuFt * densityTimber
 recipeStorage["recorder"] = Recipe("carpenter",(recorderBodyWeight + fippleWeight,"lb"),
                                    [("timber",recorderBodyCuFt)],
                                    [("fipple",1)],
-                                   difficulty=4,
                                    description="type of wooden flute; 15 inches long")
 
 # four strands of yarn are twisted into a strand, turning one direction;
@@ -821,14 +803,12 @@ recipeStorage["recorder"] = Recipe("carpenter",(recorderBodyWeight + fippleWeigh
 recipeStorage["rope strand"] = Recipe("ropewalker",(4,"lb"),
                                       [],
                                       [("yarn",1)],
-                                      difficulty=2,
                                       unit=(getUnitSize("yarn")/4,"feet"))
 semiGoods.append("rope strand")
 
 recipeStorage["rope"] = Recipe("ropewalker",(16,"lb"),
                                [],
                                [("rope strand",1)],
-                               difficulty=2,
                                unit=(getUnitSize("rope strand")/4,"feet"))
 
 # warning: mostly-bullshit calculations ahead. I just need a figure here.
@@ -851,7 +831,6 @@ gambesonSqFt = 12 * gambesonLayers
 recipeStorage["quilted gambeson"] = Recipe("weaver",(gambesonSqFt * getWeight("wool cloth"),"lb"),
                                            [],
                                            [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
-                                           difficulty=2,
                                            description="AC 9; padded cloth armor")
 
 recipeStorage["gemshorn"] = Recipe("carpenter",(2,"lb"),
@@ -870,7 +849,6 @@ jawHarpWeight = jawHarpCuFt * densityWroughtIron
 recipeStorage["jaw harp"] = Recipe("blacksmith",(jawHarpWeight,"lb"),
                                    [],
                                    [("wrought iron",jawHarpWeight)],
-                                   difficulty=2,
                                    description="6 inches long")
 
 handbellHandleSqFt = Decimal(0.5/12) * Decimal(4/12)
@@ -933,7 +911,6 @@ clubWeight = clubCuFt * densityTimber
 recipeStorage["club"] = Recipe("carpenter",(clubWeight, "lb"),
                                [("timber",clubCuFt)],
                                [],
-                               difficulty=0.5,
                                description="1d4+1 damage; melee one-handed; 2 feet long")
 
 handaxeHaftCuFt = cylinderCuFt(2,0.25/12)
