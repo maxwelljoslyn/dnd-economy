@@ -995,3 +995,33 @@ recipeStorage["leather armor"] = Recipe("leatherworker", (leatherArmorWeight,"lb
                                         [],
                                         [("leather lamella",numberOfLeatherLamella),("yarn", leatherArmorYarnWeight)],
                                         description="AC 8; lamellar construction; covers torso down to waist, plus arms")
+
+shieldWoodThickness = Decimal(0.5)/Decimal(12)
+
+# timber for a round wooden shield, a foot in radius
+shieldRadius = Decimal(1) # feet
+shieldArea = shieldRadius * Decimal(3.14)
+shieldPerimeter = 2 * shieldArea # circumference
+
+shieldTimberCuFt = shieldArea * shieldWoodThickness
+shieldTimberWeight = shieldTimberCuFt * densityTimber
+
+# a strip of leather reinforces the edge of the shield
+# currently LEFT OUT OF THE RECIPE, to do for when leather prices are more stable
+shieldEdgingSqFt = shieldPerimeter * shieldWoodThickness
+shieldEdgingUnitRatio = shieldEdgingSqFt / getUnitSize("defleshed cowhide")
+shieldEdgingWeight = shieldEdgingUnitRatio * getWeight("defleshed cowhide")
+
+# two of these ropes act as straps to provide protection against dropping if Dex check failed when hit by crit, at cost of taking time to secure them beforehand
+shieldRopeStrapLength = Decimal(0.5) # 6 inches long
+shieldRopeStrapUnitRatio = shieldRopeStrapLength / getUnitSize("rope")
+shieldRopeStrapWeight = shieldRopeStrapUnitRatio * getWeight("rope")
+
+# handle, a u-shaped cylinder of wood attached to the shield's back
+shieldHandleCuFt = cylinderCuFt(Decimal(6)/Decimal(12),Decimal(0.25)/Decimal(12))
+shieldHandleWeight = shieldHandleCuFt * densityTimber
+
+recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight + (shieldRopeStrapWeight * 2) + shieldHandleWeight,"lb"),
+                                               [("timber",shieldTimberCuFt + shieldHandleCuFt)],
+                                               [("rope",shieldRopeStrapWeight * 2)],
+                                               description="improves AC by -1; wooden shield 2 feet across, with ropes for securing")
