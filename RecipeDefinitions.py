@@ -523,7 +523,7 @@ def calculateABV(poundsCereal, poundsMalt, gallonsInBatch):
     realABV = Decimal(0.8) * theoreticalMaxABV
     return realABV
 
-weightWater = Decimal(8.345404)
+weightWaterOneGal = Decimal(8.345404)
 
 aleCerealAmt = Decimal(45)
 aleMaltAmt = Decimal(120)
@@ -531,7 +531,7 @@ aleRoastedMaltAmt = Decimal(19.95)
 aleBatchGallons = 30
 # I calculated an original gravity of 1.190
 # also, for both beer and ale I just use the weight of water to determine the weight. good enough for me.
-recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWater)+barrelWeight,"lb"),
+recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWaterOneGal)+barrelWeight,"lb"),
                                       [("cereal",aleCerealAmt)],
                                        [("barrel",1),("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
                               unit=(30,"gallon"),
@@ -548,11 +548,21 @@ recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWater)+barrelWe
 beerCereal = Decimal(14.22)
 beerMalt = Decimal(35.55)
 beerGallons = 30
-recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWater)+barrelWeight,"lb"),
+recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWaterOneGal)+barrelWeight,"lb"),
                                [("cereal",14.22),("hops",0.55)],
                                [("barrel",1),("malted grain",35.55)],
                                unit=(30,"gallon"),
                                description="includes barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
+
+beerCerealOnePint = beerCereal/240 # 8 pints per gallon; 30 gallons in the above batch
+beerMaltOnePint = beerMalt/240
+beerGallonsOnePint = Decimal(1)/Decimal(8)
+waterWeightOnePint = weightWaterOneGal/8
+recipeStorage["beer, one pint"] = Recipe("brewer",((beerGallonsOnePint*waterWeightOnePint),"lb"),
+                               [("cereal",beerCerealOnePint),("hops",0.55)],
+                               [("malted grain",beerMaltOnePint)],
+                               unit=(1,"pint"),
+                               description= str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
