@@ -403,6 +403,7 @@ semiGoods.append("separated ochre clay")
 recipeStorage["pigment, red/yellow"] = Recipe("dyer",(1,"lb"),
                                               [],
                                               [("separated ochre clay",1)])
+semiGoods.append("pigment, red/yellow")
 
 # component of blue dye
 recipeStorage["ground lapis lazuli"] = Recipe("potter",(1,"lb"),
@@ -562,6 +563,7 @@ recipeStorage["beer, one pint"] = Recipe("brewer",((beerGallonsOnePint*waterWeig
                                [("malted grain",beerMaltOnePint)],
                                unit=(1,"pint"),
                                description= str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
+
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
@@ -1039,3 +1041,16 @@ recipeStorage["rent equipment, blacksmith"] = Recipe("blacksmith",(0,"--"),
                                                     [],
                                                     unit=(1,"week"),
                                                     description="includes access to tools, fuel, workspace, but no obligation of smith himself.")
+
+
+
+# 2 ounces, or 1/8 lb, of pigment for a gallon of paint
+poundsOfPigmentPerGallonPaint = Decimal(1)/Decimal(8)
+# but we are doing only 1 quart of paint, so we divide by 4
+poundsPigmentQuartPaint = poundsOfPigmentPerGallonPaint / 4
+
+recipeStorage["paint, red/yellow"] = Recipe("potter",(poundsPigmentQuartPaint + milkGallonWeight/Decimal(4),"lb"),
+                                                      [],
+                                                      [("cow milk",0.25),("pigment, red/yellow",poundsPigmentQuartPaint)],
+                                                      unit=(1,"quart"),
+                                                      description="milk paint powder sufficient for 1 quart paint. Will keep for 6 months or until opened, at which point must be mixed and used w/in 4 days.")
