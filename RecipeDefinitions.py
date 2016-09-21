@@ -403,7 +403,6 @@ semiGoods.append("separated ochre clay")
 recipeStorage["pigment, red/yellow"] = Recipe("dyer",(1,"lb"),
                                               [],
                                               [("separated ochre clay",1)])
-semiGoods.append("pigment, red/yellow")
 
 # component of blue dye
 recipeStorage["ground lapis lazuli"] = Recipe("potter",(1,"lb"),
@@ -831,7 +830,6 @@ recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
                                      [],
                                      [("yarn",yarnFtPerWoolClothSqFt/getUnitSize("yarn"))],
                                      unit=(1,"sq ft"))
-semiGoods.append("wool cloth")
 
 # gambesons are quite thick, with lots of layers
 gambesonLayers = 10
@@ -1035,3 +1033,9 @@ recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight +
                                                [("timber",shieldTimberCuFt + shieldHandleCuFt)],
                                                [("rope",shieldRopeStrapWeight * 2)],
                                                description="improves AC by -1; wooden shield 2 feet across, with ropes for securing")
+
+recipeStorage["rent equipment, blacksmith"] = Recipe("blacksmith",(0,"--"),
+                                                    [("coal",14)],
+                                                    [],
+                                                    unit=(1,"week"),
+                                                    description="includes access to tools, fuel, workspace, but no obligation of smith himself.")
