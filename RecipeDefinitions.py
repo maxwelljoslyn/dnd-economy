@@ -595,7 +595,7 @@ recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
 
 # similar to the processes for cleaning wool, but for cotton instead
 # no need to scour it, just to clean it (carding, picking, combing, etc)
-# the 1:2 ratio of raw cotton to clean cotton is b/c approx 60% of the weight of raw cotton is in the boll,
+# the ratio of raw cotton to clean cotton is b/c approx 60% of the weight of raw cotton is in the boll,
 # which is discarded
 recipeStorage["clean cotton"] = Recipe("miller",(1,"lb"),
                                          [("cotton",2.5)],
@@ -855,8 +855,18 @@ yarnFtPerWoolClothSqFt = 384
 woolClothWeight = (yarnFtPerWoolClothSqFt/getUnitSize("yarn, wool")) * getWeight("yarn, wool")
 recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
                                      [],
-                                     [("yarn, wool",yarnFtPerWoolClothSqFt/getUnitSize("yarn, wool"))],
+                                     [("yarn, wool",yarnFtPerWoolClothSqFt / getUnitSize("yarn, wool"))],
                                      unit=(1,"sq ft"))
+
+# felt is produced by squishing layers of clean wool together and addig lye
+# 1/8 of an inch thick
+feltThicknessRelativeToWoolCloth = 3
+poundsCleanWoolPerSqFtFelt = feltThicknessRelativeToWoolCloth * woolClothWeight
+recipeStorage["felt"] = Recipe("fuller",(poundsCleanWoolPerSqFtFelt,"lb"),
+                               [],
+                               [("lye",Decimal(0.1)),("clean wool",poundsCleanWoolPerSqFtFelt)],
+                               unit=(1,"sq ft"),
+                               description="soft and thick wool textile")
 
 # gambesons are quite thick, with lots of layers
 gambesonLayers = 10
