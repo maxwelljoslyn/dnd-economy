@@ -848,9 +848,9 @@ recipeStorage["rope"] = Recipe("ropewalker",(16,"lb"),
                                unit=(getUnitSize("rope strand")/4,"feet"))
 
 # warning: mostly-bullshit calculations ahead. I just need a figure here.
-# if yarn is 1/8 inch thick, then it requires 96 feet of yarn to make a foot square cloth.
-# let's round to 100.
-yarnFtPerWoolClothSqFt = 100
+# if yarn is 1/16 inch thick, then it requires 16*12=192 feet of yarn to cover a square foot;
+# if we need two such layers to produce an actual square of cloth, then yarn per square foot is 384 feet
+yarnFtPerWoolClothSqFt = 384
 # the weight calculation below works because the table lists 1 lb of yarn.
 woolClothWeight = (yarnFtPerWoolClothSqFt/getUnitSize("yarn, wool")) * getWeight("yarn, wool")
 recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
