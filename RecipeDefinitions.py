@@ -593,6 +593,27 @@ recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
                                      [("scoured wool",Decimal(1/getWeight("scoured wool")))],
                                      description="either brownish or whitish in color")
 
+# similar to the processes for cleaning wool, but for cotton instead
+# no need to scour it, just to clean it (carding, picking, combing, etc)
+# the 1:2 ratio of raw cotton to clean cotton is b/c approx 60% of the weight of raw cotton is in the boll,
+# which is discarded
+recipeStorage["clean cotton"] = Recipe("miller",(1,"lb"),
+                                         [("cotton",2.5)],
+                                         [])
+
+recipeStorage["thin yarn, cotton"] = Recipe("spinner",(1,"lb"),
+                                            [],
+                                            [("clean cotton",1)],
+                                            unit=(1500,"feet"),
+			                    description="must be spun to be useful")
+semiGoods.append("thin yarn, cotton")
+
+recipeStorage["yarn, cotton"] = Recipe("spinner",(1,"lb"),
+                                       [],
+                                       [("thin yarn, cotton",1)],
+                                       unit=(getUnitSize("thin yarn, cotton"),"feet"),
+                                       description="useable as string and in stitching, ropemaking, etc.")
+
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 # that means 10 lbs of sugarcane to get 1 lb of sugar
@@ -740,6 +761,7 @@ recipeStorage["yarn, wool"] = Recipe("spinner",(1,"lb"),
                                [("thin yarn, wool",1)],
                                unit=(getUnitSize("thin yarn, wool"),"feet"),
                                description="useable as string and in stitching, ropemaking, etc.")
+
 
 recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
                                  [],
