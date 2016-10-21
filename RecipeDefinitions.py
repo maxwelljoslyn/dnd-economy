@@ -48,6 +48,7 @@ molassesGallonWeight = densityMolasses * cuFtPerGallonLiquid
 densityTallow = Decimal(54.09)
 densityTin = Decimal(456.3484)
 densityCopper = 559
+densityClay = 100
 
 def cylinderCuFt(height,radius):
     height = Decimal(height)
@@ -1056,3 +1057,13 @@ recipeStorage["paint, red/yellow"] = Recipe("potter",(poundsPigmentQuartPaint + 
                                                       [("cow milk",0.25),("pigment, red/yellow",poundsPigmentQuartPaint)],
                                                       unit=(1,"quart"),
                                                       description="milk paint powder sufficient for 1 quart paint. Will keep for 6 months or until opened, at which point must be mixed and used w/in 4 days.")
+
+
+# sling bullet is a 1-inch sphere, pressed into almondish shape
+slingBulletCuFt = sphereCuFt(Decimal(1)/Decimal(12))
+slingBulletWeight = slingBulletCuFt * densityClay
+recipeStorage["sling bullet"] = Recipe("potter",(slingBulletWeight,"lb"),
+                                       [("clay",slingBulletWeight)],
+                                       [],
+                                       unit=(1,"bullet"),
+                                       description="made of clay, with almond-like shape")
