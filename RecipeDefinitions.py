@@ -1067,3 +1067,10 @@ recipeStorage["sling bullet"] = Recipe("potter",(slingBulletWeight,"lb"),
                                        [],
                                        unit=(1,"bullet"),
                                        description="made of clay, with almond-like shape")
+
+recipeStorage["sling bullet, inscribed"] = Recipe("potter",(slingBulletWeight,"lb"),
+                                                  [("clay",slingBulletWeight)],
+                                                  [],
+                                                  difficulty=4,
+                                                  unit=(1,"bullet"),
+                                                  description="inscribed with symbol, or word up to 5 chars")
