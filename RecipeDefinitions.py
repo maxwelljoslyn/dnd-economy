@@ -586,9 +586,11 @@ recipeStorage["scoured wool"] = Recipe("fuller",(15,"lb"),
 semiGoods.append("scoured wool")
 
 # final step in cleaning wool is pounding, which is done by mills
+# ranges in color from brownish to whitish
 recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
                                      [],
-                                     [("scoured wool",Decimal(1/getWeight("scoured wool")))])
+                                     [("scoured wool",Decimal(1/getWeight("scoured wool")))],
+                                     description="either brownish or whitish in color")
 
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
