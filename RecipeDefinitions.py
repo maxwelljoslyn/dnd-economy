@@ -728,23 +728,23 @@ recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getWeight("ma
 # The amount of feet of yarn per pound of wool which I give here is probably a vast under- or overshoot,
 # but it's a highly variable amount dependent on thickness of resultant yarn, type of sheep, and
 # other factors, so I'll just go ahead and soldier on. Can always fix it later.
-recipeStorage["thin yarn"] = Recipe("spinner",(1,"lb"),
+recipeStorage["thin yarn, wool"] = Recipe("spinner",(1,"lb"),
                                     [],
                                     [("clean wool",1)],
                                     unit=(1500,"feet"),
 			       description="must be spun into thread or yarn to be useful")
-semiGoods.append("thin yarn")
+semiGoods.append("thin yarn, wool")
 
-recipeStorage["yarn"] = Recipe("spinner",(1,"lb"),
+recipeStorage["yarn, wool"] = Recipe("spinner",(1,"lb"),
                                [],
-                               [("thin yarn",1)],
-                               unit=(getUnitSize("thin yarn"),"feet"),
+                               [("thin yarn, wool",1)],
+                               unit=(getUnitSize("thin yarn, wool"),"feet"),
                                description="useable as string and in stitching, ropemaking, etc.")
 
 recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
                                  [],
-                                 [("thin yarn",1)],
-                                 unit=(getUnitSize("thin yarn")*2,"feet"),
+                                 [("thin yarn, wool",1)],
+                                 unit=(getUnitSize("thin yarn, wool")*2,"feet"),
                                  description="useable for stitching cloth and textiles")
 
 
@@ -763,7 +763,7 @@ recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * g
                                                 [],
                                                 [("thread",Decimal(8) / getUnitSize("thread")),
                                                  ("tanned cowhide",backpackPortionOfCowhide),
-                                                 ("yarn",Decimal(1) / getUnitSize("yarn"))],
+                                                 ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
                                                 description="with string clasp; holds 1 cubic foot")
 
 # belt pouch holds very little;
@@ -774,7 +774,7 @@ recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide 
                                                 [],
                                                 [("thread",Decimal(1.2) / getUnitSize("thread")),
                                                  ("tanned cowhide",beltpouchPortionOfCowhide),
-                                                 ("yarn",Decimal(1) / getUnitSize("yarn"))],
+                                                 ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
                                                 description="with string clasp; holds 0.15 cubic foot")
 
 # let's say a belt is 3 feet long and 1 inch wide, and you cut to the appropriate length -- but the leatherworker is gonna charge you for the whole thing.
@@ -816,8 +816,8 @@ recipeStorage["recorder"] = Recipe("carpenter",(recorderBodyWeight + fippleWeigh
 # thus 16 feet of yarn makes 1 foot of rope, and a foot of rope weighs 16 times as much as a foot of yarn
 recipeStorage["rope strand"] = Recipe("ropewalker",(4,"lb"),
                                       [],
-                                      [("yarn",1)],
-                                      unit=(getUnitSize("yarn")/4,"feet"))
+                                      [("yarn, wool",1)],
+                                      unit=(getUnitSize("yarn, wool")/4,"feet"))
 semiGoods.append("rope strand")
 
 recipeStorage["rope"] = Recipe("ropewalker",(16,"lb"),
@@ -830,10 +830,10 @@ recipeStorage["rope"] = Recipe("ropewalker",(16,"lb"),
 # let's round to 100.
 yarnFtPerWoolClothSqFt = 100
 # the weight calculation below works because the table lists 1 lb of yarn.
-woolClothWeight = (yarnFtPerWoolClothSqFt/getUnitSize("yarn")) * getWeight("yarn")
+woolClothWeight = (yarnFtPerWoolClothSqFt/getUnitSize("yarn, wool")) * getWeight("yarn, wool")
 recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
                                      [],
-                                     [("yarn",yarnFtPerWoolClothSqFt/getUnitSize("yarn"))],
+                                     [("yarn, wool",yarnFtPerWoolClothSqFt/getUnitSize("yarn, wool"))],
                                      unit=(1,"sq ft"))
 
 # gambesons are quite thick, with lots of layers
@@ -963,14 +963,14 @@ recipeStorage["javelin"] = Recipe("blacksmith",(javelinWeight ,"lb"),
 # the question I can't quite answer yet is WHO makes the sling?
 # for now I will just call it the leatherworker, although I think that's a pretty crappy choice.
 slingYarnFt = 12
-slingYarnUnitRatio = slingYarnFt / getUnitSize("yarn")
-slingYarnWeight = slingYarnUnitRatio * getWeight("yarn")
+slingYarnUnitRatio = slingYarnFt / getUnitSize("yarn, wool")
+slingYarnWeight = slingYarnUnitRatio * getWeight("yarn, wool")
 slingLeatherSqFt = (Decimal(2/12) ** 2) + (Decimal(1/12) ** 2)
 slingLeatherUnitRatio = slingLeatherSqFt / getUnitSize("tanned cowhide")
 slingLeatherWeight = slingLeatherUnitRatio * getWeight("tanned cowhide")
 recipeStorage["sling"] = Recipe("leatherworker",(slingLeatherWeight + slingYarnWeight,"lb"),
                                 [],
-                                [("yarn",slingYarnWeight),("tanned cowhide",slingLeatherWeight)],
+                                [("yarn, wool",slingYarnWeight),("tanned cowhide",slingLeatherWeight)],
                                 description="1d4 damage; missile; range 12/24/36")
 
 musicalBoneCuFt = Decimal(1/12) * Decimal(1/8/12) * Decimal(6/12)
@@ -1001,12 +1001,12 @@ leatherArmorSqFt = 8
 numberOfLeatherLamella = leatherArmorSqFt / leatherLamellaSqFt
 yarnFtPerLamella = 2
 leatherArmorTotalYarn = numberOfLeatherLamella * yarnFtPerLamella
-leatherArmorYarnUnitRatio = leatherArmorTotalYarn / getUnitSize("yarn")
-leatherArmorYarnWeight = leatherArmorYarnUnitRatio * getWeight("yarn")
+leatherArmorYarnUnitRatio = leatherArmorTotalYarn / getUnitSize("yarn, wool")
+leatherArmorYarnWeight = leatherArmorYarnUnitRatio * getWeight("yarn, wool")
 leatherArmorWeight = (numberOfLeatherLamella * leatherLamellaWeight) + leatherArmorYarnWeight
 recipeStorage["leather armor"] = Recipe("leatherworker", (leatherArmorWeight,"lb"),
                                         [],
-                                        [("leather lamella",numberOfLeatherLamella),("yarn", leatherArmorYarnWeight)],
+                                        [("leather lamella",numberOfLeatherLamella),("yarn, wool", leatherArmorYarnWeight)],
                                         description="AC 8; lamellar construction; covers torso down to waist, plus arms")
 
 shieldWoodThickness = Decimal(0.5)/Decimal(12)
