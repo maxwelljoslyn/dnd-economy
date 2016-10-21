@@ -604,7 +604,7 @@ recipeStorage["clean cotton"] = Recipe("miller",(1,"lb"),
 recipeStorage["thin yarn, cotton"] = Recipe("spinner",(1,"lb"),
                                             [],
                                             [("clean cotton",1)],
-                                            unit=(1500,"feet"),
+                                            unit=(2500,"feet"),
 			                    description="must be spun to be useful")
 semiGoods.append("thin yarn, cotton")
 
@@ -752,7 +752,7 @@ recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getWeight("ma
 recipeStorage["thin yarn, wool"] = Recipe("spinner",(1,"lb"),
                                     [],
                                     [("clean wool",1)],
-                                    unit=(1500,"feet"),
+                                    unit=(2500,"feet"),
 			       description="must be spun into thread or yarn to be useful")
 semiGoods.append("thin yarn, wool")
 
