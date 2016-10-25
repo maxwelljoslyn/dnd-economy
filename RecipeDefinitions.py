@@ -1106,3 +1106,15 @@ recipeStorage["sling bullet, inscribed"] = Recipe("potter",(slingBulletWeight,"l
                                                   difficulty=4,
                                                   unit=(1,"bullet"),
                                                   description="inscribed with symbol, or word up to 5 chars")
+
+# http://www.maritime.org/conf/conf-kaye-tar.htm
+# this source gives 4,000 lbs of "light wood" per 40-60 gallons of pitch
+# I'll go ahead and say it's 50 gallons per 4000 lbs
+# thus, for 1 gallon, it's 4000/50 or 80 lbs of wood
+lbsTimberPerGallonPitch = 80
+timberCuFtPerGallonPitch = lbsTimberPerGallonPitch / densityTimber
+recipeStorage["pitch"] = Recipe("potter",(weightWaterOneGal,"lb"),
+                                [("timber",timberCuFtPerGallonPitch)],
+                                [],
+                                unit=(1,"gallon"),
+                                description="viscous fluid derived from trees")
