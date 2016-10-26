@@ -592,6 +592,7 @@ recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
                                      [],
                                      [("scoured wool",Decimal(1/getWeight("scoured wool")))],
                                      description="either brownish or whitish in color")
+semiGoods.append("clean wool")
 
 # similar to the processes for cleaning wool, but for cotton instead
 # no need to scour it, just to clean it (carding, picking, combing, etc)
@@ -600,6 +601,7 @@ recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
 recipeStorage["clean cotton"] = Recipe("miller",(1,"lb"),
                                          [("cotton",2.5)],
                                          [])
+semiGoods.append("clean cotton")
 
 recipeStorage["thin yarn, cotton"] = Recipe("spinner",(1,"lb"),
                                             [],
@@ -1035,7 +1037,7 @@ recipeStorage["leather lamella"] = Recipe("leatherworker", (leatherLamellaWeight
                                           [],
                                           [("tanned cowhide", leatherLamellaWeight)],
                                           description="2x4 inches; punched with holes for lacing")
-#semiGoods.append("leather lamella")
+semiGoods.append("leather lamella")
 
 # I'm assuming this is enough square feet for good coverage, including arms, down to the waist
 # that's probably a bit small, especially since I made the gambeson 12 square feet of material
