@@ -614,6 +614,17 @@ recipeStorage["yarn, cotton"] = Recipe("spinner",(1,"lb"),
                                        unit=(getUnitSize("thin yarn, cotton"),"feet"),
                                        description="useable as string and in stitching, ropemaking, etc.")
 
+# warning: mostly-bullshit calculations ahead. I just need a figure here.
+# if yarn is 1/16 inch thick, then it requires 16*12=192 feet of yarn to cover a square foot;
+# if we need two such layers (i.e. two threads) to produce an actual square of cloth, then yarn per square foot is 384 feet
+yarnFtPerCottonClothSqFt = 384
+# the weight calculation below works because the table lists 1 lb of yarn.
+cottonClothWeight = (yarnFtPerCottonClothSqFt/getUnitSize("yarn, cotton")) * getWeight("yarn, cotton")
+recipeStorage["cotton cloth"] = Recipe("weaver",(cottonClothWeight,"lb"),
+                                     [],
+                                     [("yarn, cotton",yarnFtPerCottonClothSqFt / getUnitSize("yarn, cotton"))],
+                                     unit=(1,"sq ft"))
+
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 # that means 10 lbs of sugarcane to get 1 lb of sugar
@@ -1118,3 +1129,8 @@ recipeStorage["pitch"] = Recipe("potter",(weightWaterOneGal,"lb"),
                                 [],
                                 unit=(1,"gallon"),
                                 description="viscous fluid derived from trees")
+
+
+
+
+
