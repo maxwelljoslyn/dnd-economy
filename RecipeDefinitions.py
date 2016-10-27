@@ -1144,3 +1144,10 @@ recipeStorage["shirt"] = Recipe("tailor",(shirtTotalWeight, "lb"),
                                         [],
                                         [("wool cloth",shirtWoolSqFt),("cotton cloth", shirtCottonSqFt),("yarn, wool",shirtWoolYarnWeight)],
                                         description="underwear for both sexes; full sleeves, reaches knees")
+
+bicorneFeltSqFt = Decimal(1.75)
+bicorneWeight = bicorneFeltSqFt * getWeight("felt")
+recipeStorage["hat, bicorne"] = Recipe("hatter",(bicorneWeight,"lb"),
+                                       [],
+                                       [("felt",bicorneWeight)],
+                                       description="hat with both sides of brim turned up")
