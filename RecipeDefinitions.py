@@ -526,17 +526,21 @@ def calculateABV(poundsCereal, poundsMalt, gallonsInBatch):
 
 weightWaterOneGal = Decimal(8.345404)
 
+gallonsPerPint = Decimal(1)/Decimal(8)
+waterWeightOnePint = weightWaterOneGal * gallonsPerPint
+
 aleCerealAmt = Decimal(45)
 aleMaltAmt = Decimal(120)
 aleRoastedMaltAmt = Decimal(19.95)
 aleBatchGallons = 30
 # I calculated an original gravity of 1.190
 # also, for both beer and ale I just use the weight of water to determine the weight. good enough for me.
-recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWaterOneGal)+barrelWeight,"lb"),
-                                      [("cereal",aleCerealAmt)],
-                                       [("barrel",1),("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
+recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWaterOneGal),"lb"),
+                              [("cereal",aleCerealAmt)],
+                              [("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
                               unit=(30,"gallon"),
-                                       description="includes barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + " percent alcohol")
+                              description="buyer supplies barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + " percent alcohol")
+
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
@@ -549,21 +553,19 @@ recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWaterOneGal)+ba
 beerCereal = Decimal(14.22)
 beerMalt = Decimal(35.55)
 beerGallons = 30
-recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWaterOneGal)+barrelWeight,"lb"),
-                               [("cereal",14.22),("hops",0.55)],
-                               [("barrel",1),("malted grain",35.55)],
+recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWaterOneGal),"lb"),
+                               [("cereal",beerCereal),("hops",0.55)],
+                               [("malted grain",beerMalt)],
                                unit=(30,"gallon"),
-                               description="includes barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
+                               description="buyer supplies barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
 
 beerCerealOnePint = beerCereal/240 # 8 pints per gallon; 30 gallons in the above batch
 beerMaltOnePint = beerMalt/240
-beerGallonsOnePint = Decimal(1)/Decimal(8)
-waterWeightOnePint = weightWaterOneGal/8
-recipeStorage["beer, one pint"] = Recipe("brewer",((beerGallonsOnePint*waterWeightOnePint),"lb"),
-                               [("cereal",beerCerealOnePint),("hops",0.55)],
-                               [("malted grain",beerMaltOnePint)],
-                               unit=(1,"pint"),
-                               description= str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
+recipeStorage["beer, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
+                                         [("cereal",beerCerealOnePint),("hops",0.55)],
+                                         [("malted grain",beerMaltOnePint)],
+                                         unit=(1,"pint"),
+                                         description= str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
 
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
