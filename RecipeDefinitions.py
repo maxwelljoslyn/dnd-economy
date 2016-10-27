@@ -541,6 +541,15 @@ recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWaterOneGal),"l
                               unit=(30,"gallon"),
                               description="buyer supplies barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + " percent alcohol")
 
+aleCerealOnePint = aleCerealAmt/240 # 8 pints per gallon; 30 gallons in the above batch
+aleMaltOnePint = aleMaltAmt/240
+aleRoastedMaltOnePint = aleRoastedMaltAmt/240
+recipeStorage["ale, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
+                                         [("cereal",aleCerealOnePint)],
+                                         [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint)],
+                                         unit=(1,"pint"),
+                                         description = str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + " percent alcohol")
+
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
 # a "quarter" equals 256 lbs of grain (b/c it's 64 gallons of dry volume and 1 gallon of grain ~= 4 lbs)
