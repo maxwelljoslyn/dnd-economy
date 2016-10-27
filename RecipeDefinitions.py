@@ -1182,3 +1182,12 @@ recipeStorage["cup, earthenware"] = Recipe("potter",(cupClayWeight,"lb"),
                                            [("clay",cupClayWeight)],
                                            [],
                                            description="4 in. high, 2 in. diameter; no handle")
+
+# using clay in place of sand
+# 80/20 mix of sand to quicklime
+cupGlassWeightClay = cupClayWeight * Decimal(0.8)
+cupGlassWeightQl = cupClayWeight - cupGlassWeightClay
+recipeStorage["cup, glass, clear"] = Recipe("glassblower",(cupClayWeight,"lb"),
+                                     [("clay",cupGlassWeightClay)],
+                                     [("quicklime",cupGlassWeightQl)],
+                                     description="4 in. high, 2 in. diameter; no handle")
