@@ -1151,3 +1151,10 @@ recipeStorage["hat, bicorne"] = Recipe("hatter",(bicorneWeight,"lb"),
                                        [],
                                        [("felt",bicorneWeight)],
                                        description="hat with both sides of brim turned up")
+
+tricorneFeltSqFt = Decimal(2.25)
+tricorneWeight = tricorneFeltSqFt * getWeight("felt")
+recipeStorage["hat, tricorne"] = Recipe("hatter",(tricorneWeight,"lb"),
+                                       [],
+                                       [("felt",tricorneWeight)],
+                                       description="hat with brim folded up in a triangular shape")
