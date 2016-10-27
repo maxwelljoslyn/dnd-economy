@@ -1170,3 +1170,15 @@ recipeStorage["hat, tricorne"] = Recipe("hatter",(tricorneWeight,"lb"),
                                        [],
                                        [("felt",tricorneWeight)],
                                        description="hat with brim folded up in a triangular shape")
+
+# model the amount of clay needed for a cup,
+# as the volume of a cylinder 4 inches high and 1 inch radius, minus the inner volume,
+# a cylinder 3.5 inches high and 0.875 in radius
+cupOuterVolume = cylinderCuFt(Decimal(4)/Decimal(12),Decimal(1)/Decimal(12))
+cupInnerVolume = cylinderCuFt(Decimal(3.5)/Decimal(12),Decimal(0.875)/Decimal(12))
+cupCuFt = cupOuterVolume - cupInnerVolume
+cupClayWeight = cupCuFt * densityClay
+recipeStorage["cup, earthenware"] = Recipe("potter",(cupClayWeight,"lb"),
+                                           [("clay",cupClayWeight)],
+                                           [],
+                                           description="4 in. high, 2 in. diameter; no handle")
