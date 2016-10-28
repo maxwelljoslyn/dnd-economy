@@ -1252,3 +1252,10 @@ recipeStorage["knit cap"] = Recipe("tailor",(knitCapWeightWool,"lb"),
                                     [],
                                     [("wool cloth",knitCapSqFtWool)],
                                     description="woolen cap, like a tuque")
+
+stockingSqFtWool = Decimal(0.75)
+stockingWeightWool = stockingSqFtWool * getWeight("wool cloth")
+recipeStorage["stocking"] = Recipe("tailor",(stockingWeightWool,"lb"),
+                                    [],
+                                    [("wool cloth",stockingSqFtWool)],
+                                    description="analogue to modern sock; for men and women alike")
