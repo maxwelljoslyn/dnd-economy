@@ -1215,3 +1215,13 @@ recipeStorage["waistcoat"] = Recipe("tailor",(waistcoatWeightWool + waistcoatThr
                                     [],
                                     [("wool cloth",waistcoatSqFtWool), ("yarn, wool",waistcoatThreadWeight),("button, ceramic",0.5)],
                                     description="men's torso garment, with 12 buttons; worn by all levels of society")
+
+dressSqFtWool = 10
+dressThread = 4 * dressSqFtWool
+dressThreadUnitRatio = dressThread / getUnitSize("yarn, wool")
+dressThreadWeight = dressThreadUnitRatio * getWeight("yarn, wool")
+dressWeightWool = dressSqFtWool * getWeight("wool cloth")
+recipeStorage["dress"] = Recipe("tailor",(dressWeightWool + dressThreadWeight,"lb"),
+                                    [],
+                                    [("wool cloth",dressSqFtWool), ("yarn, wool",dressThreadWeight)],
+                                    description="women's garment")
