@@ -1147,14 +1147,13 @@ recipeStorage["pitch"] = Recipe("potter",(weightWaterOneGal,"lb"),
 
 # the shirt, which was the sole underwear for most people, had full sleeves and fell to the knees
 # let's call it 10 square feet
-shirtWoolSqFt = 5
-shirtCottonSqFt = 5
-shirtNeededWoolYarnProportion = ((shirtWoolSqFt + shirtCottonSqFt) * 2) / getUnitSize("yarn, wool")
+shirtWoolSqFt = 10
+shirtNeededWoolYarnProportion = (shirtWoolSqFt * 2) / getUnitSize("yarn, wool")
 shirtWoolYarnWeight = shirtNeededWoolYarnProportion * getWeight("yarn, wool")
-shirtTotalWeight = (shirtCottonSqFt * getWeight("cotton cloth")) + shirtWoolYarnWeight + (shirtWoolSqFt * getWeight("wool cloth"))
+shirtTotalWeight = shirtWoolYarnWeight + (shirtWoolSqFt * getWeight("wool cloth"))
 recipeStorage["shirt"] = Recipe("tailor",(shirtTotalWeight, "lb"),
                                         [],
-                                        [("wool cloth",shirtWoolSqFt),("cotton cloth", shirtCottonSqFt),("yarn, wool",shirtWoolYarnWeight)],
+                                        [("wool cloth",shirtWoolSqFt),("yarn, wool",shirtWoolYarnWeight)],
                                         description="underwear for both sexes; full sleeves, reaches knees")
 
 bicorneFeltSqFt = Decimal(1.75)
@@ -1191,3 +1190,4 @@ recipeStorage["cup, glass, clear"] = Recipe("glassblower",(cupClayWeight,"lb"),
                                      [("clay",cupGlassWeightClay)],
                                      [("quicklime",cupGlassWeightQl)],
                                      description="4 in. high, 2 in. diameter; no handle")
+
