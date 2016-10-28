@@ -1225,3 +1225,13 @@ recipeStorage["dress"] = Recipe("tailor",(dressWeightWool + dressThreadWeight,"l
                                     [],
                                     [("wool cloth",dressSqFtWool), ("yarn, wool",dressThreadWeight)],
                                     description="women's garment")
+
+skirtSqFtWool = 6
+skirtThread = 4 * skirtSqFtWool
+skirtThreadUnitRatio = skirtThread / getUnitSize("yarn, wool")
+skirtThreadWeight = skirtThreadUnitRatio * getWeight("yarn, wool")
+skirtWeightWool = skirtSqFtWool * getWeight("wool cloth")
+recipeStorage["skirt"] = Recipe("tailor",(skirtWeightWool + skirtThreadWeight,"lb"),
+                                    [],
+                                    [("wool cloth",skirtSqFtWool), ("yarn, wool",skirtThreadWeight)],
+                                    description="women's garment, worn with bodice or under dress")
