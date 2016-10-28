@@ -1259,3 +1259,13 @@ recipeStorage["stocking"] = Recipe("tailor",(stockingWeightWool,"lb"),
                                     [],
                                     [("wool cloth",stockingSqFtWool)],
                                     description="analogue to modern sock, rising to the knee; for men and women alike")
+
+shoeHeelTimberCuFt = (Decimal(1)/Decimal(12) ** 2) * (Decimal(0.5)/Decimal(12))
+shoeHeelTimberWeight = shoeHeelTimberCuFt * densityTimber
+shoeLeatherSqFt = 1
+shoeLeatherUnitRatio = shoeLeatherSqFt / getUnitSize("tanned cowhide")
+shoeLeatherWeight = shoeLeatherUnitRatio * getWeight("tanned cowhide")
+recipeStorage["shoe"] = Recipe("cobbler",(shoeLeatherWeight + shoeHeelTimberWeight,"lb"),
+                               [("timber",shoeHeelTimberCuFt)],
+                               [("tanned cowhide",shoeLeatherUnitRatio)], # NOT the weight of the leather: for cowhide you need to use the square footage for recipe components
+                               description="leather and wood construction")
