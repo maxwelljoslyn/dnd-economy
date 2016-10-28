@@ -1191,3 +1191,16 @@ recipeStorage["cup, glass, clear"] = Recipe("glassblower",(cupClayWeight,"lb"),
                                      [("quicklime",cupGlassWeightQl)],
                                      description="4 in. high, 2 in. diameter; no handle")
 
+# in feet, as always
+# one sixteenth of an inch
+buttonHeight = (Decimal(1)/Decimal(16))/Decimal(12)
+buttonRadius = (Decimal(1)/Decimal(4))/Decimal(12)
+buttonCuFt = cylinderCuFt(buttonHeight, buttonRadius)
+# the above can apply to all buttons unless otherwise desired
+
+buttonClayWeight = buttonCuFt * densityClay
+recipeStorage["button, ceramic"] = Recipe("potter",(buttonClayWeight,"lb"),
+                                          [("clay",buttonClayWeight*24)],
+                                          [],
+                                          unit=(24,"ct"),
+                                          description="two dozen buttons")
