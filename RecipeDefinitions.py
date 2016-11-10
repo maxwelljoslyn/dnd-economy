@@ -1326,3 +1326,17 @@ recipeStorage["gong, small"] = Recipe("blacksmith",(gongSmallWeight,"lb"),
                                       [],
                                       [("bronze",gongSmallWeight)],
                                       description="bronze button gong; " + str(2*gongSmallRadius) + " feet across; with 2 holes for hanging")
+
+# gong frame for small gong
+# made from 6 chunks of wood, all being 1x1 inches wide and high
+# the 4 longer pieces form a square frame around the gong,
+# the 2 shorter pieces are attached perpendicular to the frame, forming the base
+gongSmallFrameCommonElement = Decimal(1)/Decimal(12) ** 2
+gongSmallFrameLongPiece = gongSmallFrameCommonElement * Decimal(1.5 * (2 * gongSmallRadius))
+gongSmallFrameShortPiece = gongSmallFrameCommonElement * gongSmallRadius
+gongSmallFrameTotalCuFt = (4 * gongSmallFrameLongPiece) + (2 * gongSmallFrameShortPiece)
+gongSmallFrameWeight = gongSmallFrameTotalCuFt * densityTimber
+recipeStorage["gong frame, small, plain"] = Recipe("carpenter",(gongSmallFrameWeight,"lb"),
+                                                   [("timber",gongSmallFrameTotalCuFt)],
+                                                   [],
+                                                   description="square wooden frame to hold gong; requires 2 6-inch ropes")
