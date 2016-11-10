@@ -1269,3 +1269,10 @@ recipeStorage["shoe"] = Recipe("cobbler",(shoeLeatherWeight + shoeHeelTimberWeig
                                [("timber",shoeHeelTimberCuFt)],
                                [("tanned cowhide",shoeLeatherUnitRatio)], # NOT the weight of the leather: for cowhide you need to use the square footage for recipe components
                                description="leather and wood construction")
+
+recipeStorage["mace, masterwork"] = Recipe("blacksmith",(getWeight("mace haft") + (6 * maceFlangeWeight),"lb"),
+                                           [],
+                                           [("mace haft",1),("mace flange",6)],
+                                           difficulty=8,
+                                           description="1d8 damage, one-handed, melee; haft is 2 ft.")
+
