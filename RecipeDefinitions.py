@@ -870,7 +870,8 @@ semiGoods.append("rope strand")
 recipeStorage["rope"] = Recipe("ropewalker",(16,"lb"),
                                [],
                                [("rope strand",1)],
-                               unit=(getUnitSize("rope strand")/4,"feet"))
+                               unit=(getUnitSize("rope strand")/4,"feet"),
+                               description="1 inch thick; can suspend up to 1000 lbs")
 
 # warning: mostly-bullshit calculations ahead. I just need a figure here.
 # if yarn is 1/16 inch thick, then it requires 16*12=192 feet of yarn to cover a square foot;
