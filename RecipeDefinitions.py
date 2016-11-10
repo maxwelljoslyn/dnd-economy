@@ -1282,3 +1282,11 @@ recipeStorage["hood"] = Recipe("tailor",(hoodWeightWool,"lb"),
                                     [],
                                     [("wool cloth",hoodSqFtWool)],
                                     description="separate article of clothing")
+# chicken takes ~6 months to reach maturity, and then produces eggs
+# alternatively can be slaughtered (in reality it only takes about 4 months until it's slaughterable)
+# 6 months of food, 4 weeks per month, and let's say 2 lbs of feed per week -- it's hard to judge
+chickenFeedLbs = 6 * 4 * 2
+recipeStorage["chicken, mature"] = Recipe("farmer",(5,"lb"),
+                                          [], # we say the cost of land for chickens is negligible
+                                          [("cattle feed",chickenFeedLbs)],
+                                          description="can be slaughtered or kept to lay eggs")
