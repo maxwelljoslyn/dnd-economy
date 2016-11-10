@@ -374,11 +374,6 @@ recipeStorage["holy symbol, plain, iron"] = Recipe("blacksmith",(1,"lb"),
                                                       [("wrought iron",1)],
                                                     difficulty=2)
 
-recipeStorage["holy symbol, ornate, iron"] = Recipe("blacksmith",(1,"lb"),
-                                                      [],
-                                                      [("wrought iron",1)],
-                                                    difficulty=4)
-
 # first step in making red and yellow (ochre) dyes
 # high difficulty because multiple steps in the process
 # here: https://en.wikipedia.org/wiki/Ochre#Modern_history
