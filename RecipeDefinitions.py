@@ -1309,3 +1309,13 @@ recipeStorage["statuette, wooden, generic"] = Recipe("carver",(statuetteWoodWeig
                                             [("timber",statuetteCuFt)],
                                             [],
                                             description="6x2x2 in.")
+
+# life size, thus starting from a block of wood six feet tall, and 1 foot on a side
+statueCuFt = 6 * 1 * 1
+# let's assume 1/4 of the material is carved away
+statueWoodWeight = Decimal(0.75) * (statueCuFt * densityTimber)
+recipeStorage["statue, wooden, life-size"] = Recipe("carver",(statueWoodWeight,"lb"),
+                                                    [("timber",statueCuFt)],
+                                                    [],
+                                                    difficulty=4,
+                                                    description="purchaser must wait one week before completion; subject of statue must pose for 3 days of that time")
