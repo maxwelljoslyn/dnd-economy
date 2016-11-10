@@ -1244,6 +1244,18 @@ recipeStorage["stocking"] = Recipe("tailor",(stockingWeightWool,"lb"),
                                     [("wool cloth",stockingSqFtWool)],
                                     description="analogue to modern sock, rising to the knee; for men and women alike")
 
+breechesWoolSqFt = Decimal(5)
+breechesWoolWeight = breechesWoolSqFt * getWeight("wool cloth")
+breechesThreadFeet = Decimal(20)
+breechesThreadUnitRatio = breechesThreadFeet / getUnitSize("yarn, wool")
+breechesThreadWeight = breechesThreadUnitRatio * getWeight("yarn, wool")
+breechesTotalWeight = breechesWoolWeight + breechesThreadWeight
+recipeStorage["breeches"] = Recipe("tailor",(breechesWoolWeight,"lb"),
+                                   [],
+                                   [("wool cloth",breechesWoolSqFt),("yarn, wool",breechesThreadWeight),("button, ceramic",0.75)], #uses 18 buttons
+                                   description="tight knee-length pants with no pockets; worn by all social levels")
+
+
 shoeHeelTimberCuFt = (Decimal(1)/Decimal(12) ** 2) * (Decimal(0.5)/Decimal(12))
 shoeHeelTimberWeight = shoeHeelTimberCuFt * densityTimber
 shoeLeatherSqFt = 1
