@@ -208,22 +208,10 @@ recipeStorage["horse feed"] = Recipe("miller",(1,"lb"),
                                 [("husked cereal",1)],
                                 description="ground from cereals")
 
-recipeStorage["bread, coarse"] = Recipe("baker",(1,"lb"),
+recipeStorage["bread"] = Recipe("baker",(1,"lb"),
                                        [("salt",0.05)],
                                        [("flour",0.7)],
                                        description="round loaf")
-
-recipeStorage["bread, good"] = Recipe("baker",(1,"lb"),
-                                     [("salt",0.05)],
-                                     [("flour",0.7)],
-                                     difficulty=2,
-                                     description="round loaf")
-
-recipeStorage["bread, excellent"] = Recipe("baker",(1,"lb"),
-                                     [("salt",0.05)],
-                                     [("flour",0.7)],
-                                     difficulty=4,
-                                     description="round loaf")
 
 recipeStorage["quicklime"] = Recipe("potter",(1,"lb"),
                                     [("limestone",1),("coal",0.5)],
