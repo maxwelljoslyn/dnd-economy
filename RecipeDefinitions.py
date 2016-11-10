@@ -369,7 +369,7 @@ recipeStorage["holy symbol, plain, wooden"] = Recipe("carpenter",(1,"lb"),
                                                       [("timber",0.02)],
                                                       [])
 
-recipeStorage["holy symbol, ordinary, iron"] = Recipe("blacksmith",(1,"lb"),
+recipeStorage["holy symbol, plain, iron"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
                                                       [("wrought iron",1)],
                                                     difficulty=2)
