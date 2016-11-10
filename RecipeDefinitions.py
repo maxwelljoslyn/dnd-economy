@@ -811,7 +811,7 @@ recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * g
                                                 [("thread",Decimal(8) / getUnitSize("thread")),
                                                  ("tanned cowhide",backpackPortionOfCowhide),
                                                  ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
-                                                description="with string clasp; holds 1 cubic foot")
+                                                description="with string clasp; holds 30 lbs")
 
 # belt pouch holds very little;
 # the total square footage is (0.15^2)*6
@@ -822,7 +822,7 @@ recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide 
                                                 [("thread",Decimal(1.2) / getUnitSize("thread")),
                                                  ("tanned cowhide",beltpouchPortionOfCowhide),
                                                  ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
-                                                description="with string clasp; holds 0.15 cubic foot")
+                                                description="with string clasp; holds 4.5 lbs")
 
 # let's say a belt is 3 feet long and 1 inch wide, and you cut to the appropriate length -- but the leatherworker is gonna charge you for the whole thing.
 # you also need maybe 12 feet of thread to make the edges tough
