@@ -1303,3 +1303,26 @@ recipeStorage["statue, wooden, life-size"] = Recipe("carver",(statueWoodWeight,"
                                                     [],
                                                     difficulty=4,
                                                     description="purchaser must wait one week before completion; subject of statue must pose for 3 days of that time")
+
+gongSmallRadius = 1
+gongSmallThickness = Decimal(0.5)/12
+gongSmallBodyCuFt = cylinderCuFt(gongSmallRadius,gongSmallThickness)
+# the 'button' in the middle of the gong, modeled as a sphere's worth of metal,
+# with one half on each side of the gong
+gongSmallButtonRadius = 1/12
+gongSmallButtonCuFt = sphereCuFt(gongSmallButtonRadius)
+# the total cubic feet is the body, plus the button,
+# MINUS the chunk of the middle where the body and button volumes would intersect
+# (if they were actually separate pieces, although they're not)
+# that intersection volume is a cylinder as wide as the button,
+# and as high as the body.
+# in addition, we must also subtract away the volumes of two 1 inch holes,
+# through which ropes are passed to hold the gong in its frame
+gongSmallIntersectionCuFt = cylinderCuFt(gongSmallButtonRadius, gongSmallThickness)
+gongHoleCuFt = cylinderCuFt(0.5/12, gongSmallThickness)
+gongSmallTotalCuFt = gongSmallBodyCuFt + gongSmallButtonCuFt - gongSmallIntersectionCuFt - (2*gongHoleCuFt)
+gongSmallWeight = gongSmallTotalCuFt * densityBronze
+recipeStorage["gong, small"] = Recipe("blacksmith",(gongSmallWeight,"lb"),
+                                      [],
+                                      [("bronze",gongSmallWeight)],
+                                      description="bronze button gong; " + str(2*gongSmallRadius) + " feet across; with 2 holes for hanging")
