@@ -40,38 +40,44 @@ def getDisplayPrice(priceInCP):
     return divided
 
 def baseNumberAvailable(price):
-    """Given the price of an object, find the number of units which are available.
+    """Given the price of an object, return a minimum and maximum number of units available for purchase.
     The number returned will not be random, but in practice we'll want to add some randomization."""
+    if price < 0.1:
+        return (10,50)
+    if price < 0.5:
+        return (10,40)
     if price < 1:
-        return 20
+        return (10,30)
+    if price < 3:
+        return (10,25)
     if price < 5:
-        return 17
+        return (8,25)
     if price < 10:
-        return 14
+        return (6,20)
+    if price < 20:
+        return (4,10)
     if price < 50:
-        return 11
+        return (3,10)
+    if price < 75:
+        return (2,10)
     if price < 100:
-        return 10
-    if price < 200:
-        return 9
-    if price < 300:
-        return 8
-    if price < 400:
-        return 7
+        return (1,19)
+    if price < 150:
+        return (0,10)
     if price < 500:
-        return 6
+        return (0,8)
     if price < 600:
-        return 5
+        return (0,6)
     if price < 700:
-        return 4
+        return (0,5)
     if price < 800:
-        return 3
+        return (0,4)
     if price < 900:
-        return 2
+        return (0,3)
     if price < 1000:
-        return 1
+        return (0,2)
     else:
-        return 0
+        return (0,1)
 
 def randomNumberAvailable(price, baseNum):
     random.seed()
