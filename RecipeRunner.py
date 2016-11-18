@@ -55,29 +55,29 @@ def baseNumberAvailable(price):
     if price < 10:
         return (6,20)
     if price < 20:
-        return (4,10)
+        return (5,10)
     if price < 50:
-        return (3,10)
+        return (4,10)
     if price < 75:
-        return (2,10)
+        return (3,10)
     if price < 100:
-        return (1,19)
+        return (2,10)
     if price < 150:
-        return (0,10)
+        return (1,10)
     if price < 500:
-        return (0,8)
+        return (1,8)
     if price < 600:
-        return (0,6)
+        return (1,6)
     if price < 700:
-        return (0,5)
+        return (1,5)
     if price < 800:
-        return (0,4)
+        return (1,4)
     if price < 900:
-        return (0,3)
+        return (1,3)
     if price < 1000:
-        return (0,2)
+        return (1,2)
     else:
-        return (0,1)
+        return (1,1)
 
 def randomNumberAvailable(price, baseRange):
     random.seed()
