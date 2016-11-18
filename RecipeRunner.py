@@ -91,12 +91,12 @@ def randomNumberAvailable(price, baseRange):
             return 0
     else:
         rolls = []
-        rolls.append(random.randint(1,6))
+        rolls.append(random.randint(1,4))
         # exploding availability die: if you get a 6 the amount to add or subtract gets bigger by another die
         # thus there will occasionally be ordinary products which are completely unavailable,
         # or ones with low availability which one can suddenly purchase several of
-        while rolls[-1] == 6:
-            rolls.append(random.randint(1,6))
+        while rolls[-1] == 4:
+            rolls.append(random.randint(1,4))
         roll = sum(rolls)
         adjustmentIsPositive = random.choice([True, False])
         if adjustmentIsPositive:
