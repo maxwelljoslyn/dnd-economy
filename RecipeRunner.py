@@ -79,38 +79,35 @@ def baseNumberAvailable(price):
     else:
         return (0,1)
 
-def randomNumberAvailable(price, baseNum):
+def randomNumberAvailable(price, baseRange):
     random.seed()
-    if baseNum == 0:
+    baseAvail = random.randint(baseRange[0],baseRange[1])
+    if baseAvail == 0:
         # slight chance that it actually WILL be available
-        # basic chance is 1 in 20
-        denominator = 20
-        # for every 100 GP increase in price, we increase the denominator, lowering the chance that the item will be available
-        portionAboveOneThousand = price - 1000
-        numberOfHundreds = int(portionAboveOneThousand / 100)
-        denominator += numberOfHundreds
-        # roll randomly to see if even a single unit is available
-        roll = random.randint(1,denominator)
+        roll = random.randint(1,20)
         if roll == 1:
             return 1
         else:
             return 0
-    elif baseNum < 10:
-        roll = random.randint(1,6)
     else:
-        # swingier for stuff with higher base availability
-        roll = random.randint(1,6) + random.randint(1,6)
-    # having initialized roll, let's determine whether it's getting added or subtracted
-    adjustmentIsPositive = random.choice([True, False])
-    if adjustmentIsPositive:
-        return baseNum + roll
-    else:
-        temp = baseNum - roll
-        # don't want a negative number available
-        if temp <= 0:
-            return 0
+        rolls = []
+        rolls.append(random.randint(1,6))
+        # exploding availability die: if you get a 6 the amount to add or subtract gets bigger by another die
+        # thus there will occasionally be ordinary products which are completely unavailable,
+        # or ones with low availability which one can suddenly purchase several of
+        while rolls[-1] == 6:
+            rolls.append(random.randint(1,6))
+        roll = sum(rolls)
+        adjustmentIsPositive = random.choice([True, False])
+        if adjustmentIsPositive:
+            return baseAvail + roll
         else:
-            return temp
+            temp = baseAvail - roll
+            # don't want a negative number available
+            if temp <= 0:
+                return 0
+            else:
+                return temp
 
 
 
