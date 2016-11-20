@@ -1189,6 +1189,18 @@ recipeStorage["cup, glass, clear"] = Recipe("glassblower",(cupClayWeight,"lb"),
                                      [("quicklime",cupGlassWeightQl)],
                                      description="4 in. high, 2 in. diameter; no handle")
 
+# shape is roughly a square pyramid
+# 3-inch edge, 5-inches heigh
+flaskInnerVolume = squarePyramidCuFt(Decimal(3)/Decimal(12),Decimal(5)/Decimal(12))
+flaskOuterVolume = squarePyramidCuFt(Decimal(3.25)/Decimal(12),Decimal(5.25)/Decimal(12))
+flaskCuFt = flaskOuterVolume - flaskInnerVolume
+flaskClayWeight = flaskCuFt * densityClay
+flaskStopperCuFt = cylinderCuFt(Decimal(0.75)/Decimal(12),Decimal(0.125)/Decimal(12))
+recipeStorage["flask, earthenware"] = Recipe("potter",(flaskClayWeight,"lb"),
+                                             [("timber",flaskStopperCuFt),("clay",flaskClayWeight)],
+                                             [],
+                                             description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
+
 # in feet, as always
 # one sixteenth of an inch
 buttonHeight = (Decimal(1)/Decimal(16))/Decimal(12)
