@@ -1415,3 +1415,12 @@ recipeStorage["torch stake"] = Recipe("carver",(torchStakeWeight,"lb"),
                                       [("timber",torchStakeCuFt)],
                                       [],
                                       description="reusable; " + str(torchStakeLength) + " feet long")
+
+# 4 inches by 2 feet
+torchFuelWoolSqFt = 2 * Decimal(4)/Decimal(12)
+torchFuelWoolWeight = torchFuelWoolSqFt * getWeight("wool cloth")
+recipeStorage["torch fuel"] = Recipe("carver",(torchFuelWoolWeight + pitchInFlaskWeightPitch,"lb"),
+                                     [],
+                                     [("wool cloth",torchFuelWoolSqFt),("pitch",1)],
+                                     description="illuminates 5-hex radius for 30 minutes. Wool, soaked in pitch")
+
