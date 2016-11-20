@@ -335,10 +335,14 @@ tallowForOneLbSoap = 1 / (1 + saltTallowRatio + lyeTallowRatio)
 # finally, using the density of tallow as a proxy, we find the weight of a bar of soap
 barSoapInCuFt = Decimal(3/12) * Decimal(2/12) * Decimal(6/12)
 weightOneBarSoap = densityTallow * barSoapInCuFt
+# my calculation for how many times it will wash one person:
+# one bar of my soap is ~9 cubic inches and lasts about a month i.e. 30 washes
+# the soap here is 36 cubic inches, thus it should last about 4 months or 120 washes
+# but I'm going to cut that in half because adventurers get much dirtier than I ever would
 recipeStorage["soap, hard"] = Recipe("chandler",(weightOneBarSoap,"lb"),
                                     [("salt",saltTallowRatio * weightOneBarSoap)],
                                     [("lye",lyeTallowRatio * weightOneBarSoap),("tallow",tallowForOneLbSoap * weightOneBarSoap)],
-                                    description="dimensions: 3x2x6 in.")
+                                    description="will wash 1 person 60 times; 3x2x6 in.")
 
 
 # a raw cowhide is about 50 square feet
