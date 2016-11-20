@@ -1217,6 +1217,18 @@ recipeStorage["jar, earthenware"] = Recipe("potter",(jarClayWeight,"lb"),
                                            [],
                                            description="holds 12 and 1/8 pints; with lid")
 
+
+# bulk pitch is sold by the gallon
+# we want to divide its price (or its weight) by 128 to get the per-oz price,
+# then multiply that by 8 since pitch comes in an 8-fl-oz container
+pitchConversionFactor = (Decimal(1)/Decimal(128)) * 8
+pitchInFlaskWeightPitch = getWeight("pitch, bulk") * pitchConversionFactor
+recipeStorage["pitch"] = Recipe("potter",(pitchInFlaskWeightPitch + getWeight("flask, earthenware"),"lb"),
+                                [],
+                                [("pitch, bulk",pitchConversionFactor),("flask, earthenware",1)],
+                                unit=(8,"fl oz"),
+                                description="contained in earthenware flask")
+
 # in feet, as always
 # one sixteenth of an inch
 buttonHeight = (Decimal(1)/Decimal(16))/Decimal(12)
