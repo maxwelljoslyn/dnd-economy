@@ -330,7 +330,7 @@ lyeTallowRatio = Decimal(0.133)
 # this article suggests 2.5 pints (3.22 lb) salt for 5 gallons (36.16 lb) of tallow
 saltTallowRatio = Decimal(3.22) / Decimal(36.16)
 # let's put it all together:
-# to find the amount of tallow needed for 1 pound of soap, we solve for x in this equation: 1 = x + (x*lye-tallow ratio) + (x*salt-tallow ratio)
+# to find the amount of tallow needed for 1 pound of soap, we solve for x in this equation: 1 = x + (x*lye-to-tallow ratio) + (x*salt-to-tallow ratio)
 tallowForOneLbSoap = 1 / (1 + saltTallowRatio + lyeTallowRatio)
 # finally, using the density of tallow as a proxy, we find the weight of a bar of soap
 barSoapInCuFt = Decimal(3/12) * Decimal(2/12) * Decimal(6/12)
