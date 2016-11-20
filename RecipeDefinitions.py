@@ -1406,3 +1406,12 @@ recipeStorage["gong frame, small, plain"] = Recipe("carpenter",(gongSmallFrameWe
                                                    [("timber",gongSmallFrameTotalCuFt)],
                                                    [],
                                                    description="square wooden frame to hold gong; requires 2 6-inch ropes")
+
+torchStakeRadius = Decimal(0.5)/Decimal(12)
+torchStakeLength = 3 # feet
+torchStakeCuFt = cylinderCuFt(torchStakeLength, torchStakeRadius)
+torchStakeWeight = torchStakeCuFt * densityTimber
+recipeStorage["torch stake"] = Recipe("carver",(torchStakeWeight,"lb"),
+                                      [("timber",torchStakeCuFt)],
+                                      [],
+                                      description="reusable; " + str(torchStakeLength) + " feet long")
