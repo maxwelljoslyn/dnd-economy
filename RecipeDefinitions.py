@@ -1133,12 +1133,15 @@ recipeStorage["sling bullet, inscribed"] = Recipe("potter",(slingBulletWeight,"l
 # thus, for 1 gallon, it's 4000/50 or 80 lbs of wood
 lbsTimberPerGallonPitch = 80
 timberCuFtPerGallonPitch = lbsTimberPerGallonPitch / densityTimber
-recipeStorage["pitch"] = Recipe("potter",(weightWaterOneGal,"lb"),
+recipeStorage["pitch, bulk"] = Recipe("potter",(weightWaterOneGal,"lb"),
                                 [("timber",timberCuFtPerGallonPitch)],
                                 [],
                                 unit=(1,"gallon"),
-                                description="viscous fluid derived from trees")
+                                description="viscous fluid derived from trees; customer supplies container")
 
+semiGoods.append("pitch, bulk")
+# temporarily renamed and made a semigood until I've sorted out a container for it,
+# i.e. done programming to do accurate pricing for container + components scenarios
 
 # the shirt, which was the sole underwear for most people, had full sleeves and fell to the knees
 # let's call it 10 square feet
