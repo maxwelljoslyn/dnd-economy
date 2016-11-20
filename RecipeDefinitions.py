@@ -60,6 +60,10 @@ def sphereCuFt(radius):
     val = Decimal(pi) * Decimal(4/3) * (Decimal(radius) ** 3)
     return val
 
+def coneCuFt(height, radius):
+    """Volume of a cone."""
+    return Decimal(pi) * (radius ** 2) * (height / Decimal(3.0))
+
 def squarePyramidCuFt(edge,height):
     """Volume of a right square pyramid."""
     return ((Decimal(edge) ** 2) * (height)) / Decimal(3)
