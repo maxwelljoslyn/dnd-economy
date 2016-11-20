@@ -1368,7 +1368,7 @@ recipeStorage["statue, wooden, life-size"] = Recipe("carver",(statueWoodWeight,"
                                                     [("timber",statueCuFt)],
                                                     [],
                                                     difficulty=4,
-                                                    description="purchaser must wait one week before completion; subject of statue must pose for 3 days of that time")
+                                                    description="purchaser must wait 1d4 weeks before completion (ask DM about waiting dice); subject of statue must pose for 3 days of that time")
 
 gongSmallRadius = 1
 gongSmallThickness = Decimal(0.5)/12
