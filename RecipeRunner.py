@@ -111,49 +111,48 @@ def randomNumberAvailable(price, baseRange):
 
 
 
-def display(city, name):
-    """Show the price of a recipe 'name' at 'city'."""
+def evalRecipe(city, name):
     recipe = recipeStorage[name]
     basePrice = findCost(city, name)
     price = getDisplayPrice(basePrice)
-    priceString = str(price) + " GP"
-    displayWeight = str(Decimal(recipe.weight[0]).quantize(Decimal('0.01')))
-    displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
-    displayUnitName = recipe.unit[1]
-    #---
     numAvail = randomNumberAvailable(price, baseNumberAvailable(price))
-    #---
-    if recipe.unit == recipe.weight:
+    return (recipe, price, numAvail)
+
+def display(name, skeleton, info):
+    """Formats a recipe's name and its already-calculated info, based on a given template skeleton."""
+    recipeData = info[0]
+    price = info[1]
+    numAvail = info[2]
+    priceString = str(price) + " GP"
+    displayWeight = str(Decimal(recipeData.weight[0]).quantize(Decimal('0.01')))
+    displayUnitCount = str(Decimal(recipeData.unit[0]).quantize(Decimal('0.01')))
+    displayUnitName = recipeData.unit[1]
+    if recipeData.unit == recipeData.weight:
         displayUnitCount = "--"
         displayUnitName = ""
-    return "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{7:>4} {6}".format(name,priceString,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description, "(" + str(numAvail) + ")")
-
-def latexDisplay(city, name):
-    """Show the price of a recipe 'name' at 'city'."""
-    recipe = recipeStorage[name]
-    basePrice = findCost(city, name)
-    price = getDisplayPrice(basePrice)
-    priceString = str(price) + " GP"
-    displayWeight = str(Decimal(recipe.weight[0]).quantize(Decimal('0.01')))
-    displayUnitCount = str(Decimal(recipe.unit[0]).quantize(Decimal('0.01')))
-    displayUnitName = recipe.unit[1]
-    if recipe.unit == recipe.weight:
-        displayUnitCount = "--"
-        displayUnitName = "--"
-    return "{0} & {1} & {2} & {3} & {4} & {5} & {6}".format(name,priceString,displayWeight,recipe.weight[1],displayUnitCount,displayUnitName,recipe.description)
+    return skeleton.format(name,priceString,displayWeight,recipeData.weight[1],displayUnitCount,displayUnitName,recipeData.description, "(" + str(numAvail) + ")")
 
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
     town = "Veder Vek"
+    terminalOutputSkeleton = "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{7:>4} {6}"
+    latexOutputSkeleton = "{0} & {1} & {2} & {3} & {4} & {5} & {7} & {6}"
     print("At",town + ":")
     names = list(recipeStorage.keys())
     names.sort()
+    # part of evaluating a recipe is determining its availability, based on its price
+    # if we want the terminal-printed and latex-PDF availabilities (or any other future random value) to be the same,
+    # we only want to call evaluate once,
+    # then store the results of those calls to send as the info parameter whenever we make a call to display
+    evaluatedRecipes = {}
     print("{0:30}  {1:>10} {2:>8} {3:>2} {4:>8} {5:6} {6}".format("Name","Price","Weight","","Units",""," (#) Description"))
     for n in names:
         if n in semiGoods:
             pass
         else:
-            print(display(town,n))
+            info = evalRecipe(town,n)
+            evaluatedRecipes[n] = info
+            print(display(n,terminalOutputSkeleton,info))
     print("Number of recipes:",len(names))
     with open("RecipePrinter.tex","w") as f:
         f.write(r"\documentclass{article}" + "\n" + r"\usepackage{booktabs}\usepackage{longtable}\usepackage[a4paper,margin=0.6in,landscape]{geometry}\title{Price Table: " + town + r"}" + "\n" + r"\renewcommand{\tabcolsep}{3pt}\begin{document}\maketitle")
@@ -167,7 +166,7 @@ def main():
             if n in semiGoods:
                 pass
             else:
-                f.write(latexDisplay(town,n))
+                f.write(display(n,latexOutputSkeleton,evaluatedRecipes[n]))
                 f.write(r"\\")
                 f.write("\n")
                 if names.index(n) == len(names) - 1:
