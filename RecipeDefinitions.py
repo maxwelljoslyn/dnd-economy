@@ -1201,6 +1201,22 @@ recipeStorage["flask, earthenware"] = Recipe("potter",(flaskClayWeight,"lb"),
                                              [],
                                              description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
 
+# inches
+jarHeight = Decimal(28)
+jarRadius = Decimal(2)
+jarInnerVolume = cylinderCuFt(jarHeight/Decimal(12),jarRadius/Decimal(12))
+jarOuterHeight = jarHeight + Decimal(0.25)
+jarOuterRadius = jarRadius + Decimal(0.125)
+jarOuterVolume = cylinderCuFt(jarOuterHeight/Decimal(12), jarOuterRadius/Decimal(12))
+# sphere part of lid is a little knob for lifting it out
+jarLidCuFt = cylinderCuFt(Decimal(0.5)/Decimal(12),jarOuterRadius/Decimal(12)) + sphereCuFt(Decimal(0.125)/Decimal(12))
+jarCuFt = jarOuterVolume - jarInnerVolume + jarLidCuFt
+jarClayWeight = jarCuFt * densityClay
+recipeStorage["jar, earthenware"] = Recipe("potter",(jarClayWeight,"lb"),
+                                           [("clay",jarClayWeight)],
+                                           [],
+                                           description="holds 12 and 1/8 pints; with lid")
+
 # in feet, as always
 # one sixteenth of an inch
 buttonHeight = (Decimal(1)/Decimal(16))/Decimal(12)
