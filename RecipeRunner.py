@@ -158,10 +158,9 @@ def main():
     with open("RecipePrinter.tex","w") as f:
         f.write(r"\documentclass{article}" + "\n" + r"\usepackage{booktabs}\usepackage{longtable}\usepackage[a4paper,margin=0.6in,landscape]{geometry}\title{Price Table: " + town + r"}" + "\n" + r"\renewcommand{\tabcolsep}{3pt}\begin{document}\maketitle")
         f.write('\n')
-        numColumns = 7 # name price weight lbs unit measurement  description
-        f.write(r"\hskip-2.0cm\begin{longtable}" + r"{lrrlrll}")
+        f.write(r"\hskip-2.0cm\begin{longtable}" + r"{lrrlrlll}")
         f.write('\n')
-        f.write(r"\multicolumn{1}{l}{\em{Item}} & \multicolumn{1}{c}{\em{Price}} & \multicolumn{1}{c}{\em{Weight}} & & \multicolumn{1}{c}{\em{Units}} & & \multicolumn{1}{l}{\em{Description}}\endhead")
+        f.write(r"\multicolumn{1}{l}{\em{Item}} & \multicolumn{1}{c}{\em{Price}} & \multicolumn{1}{c}{\em{Weight}} & & \multicolumn{1}{c}{\em{Units}} & & \multicolumn{1}{c}{\em{Avail.}} & \multicolumn{1}{l}{\em{Description}}\endhead")
         f.write(r"\toprule")
         f.write('\n')
         for n in names:
