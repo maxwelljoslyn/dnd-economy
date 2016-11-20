@@ -60,6 +60,9 @@ def sphereCuFt(radius):
     val = Decimal(pi) * Decimal(4/3) * (Decimal(radius) ** 3)
     return val
 
+def squarePyramidCuFt(edge,height):
+    """Volume of a right square pyramid."""
+    return ((Decimal(edge) ** 2) * (height)) / Decimal(3)
 def triangularPrismCuFt(base,height,thickness):
     """The volume of a prism having two triangular faces and three quadrilateral ones.
     Like two 2D triangles with the area between them filled in."""
