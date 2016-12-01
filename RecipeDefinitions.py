@@ -49,6 +49,7 @@ densityTallow = Decimal(54.09)
 densityTin = Decimal(456.3484)
 densityCopper = 559
 densityClay = 100
+densitySilver = Decimal(655.4934)
 
 def cylinderCuFt(height,radius):
     height = Decimal(height)
