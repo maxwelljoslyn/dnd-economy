@@ -1357,6 +1357,13 @@ recipeStorage["hood"] = Recipe("tailor",(hoodWeightWool,"lb"),
                                     [],
                                     [("wool cloth",hoodSqFtWool)],
                                     description="separate article of clothing")
+
+recipeStorage["aqua fortis"] = Recipe("alchemist",(8,"oz"),
+                                      [("copper ore",3)],
+                                      [],
+                                      difficulty=4, # for cleaning and separating the ore and doing the lab work
+                                      description="acid of moderate strength")
+
 # chicken takes ~6 months to reach maturity, and then produces eggs
 # alternatively can be slaughtered (in reality it only takes about 4 months until it's slaughterable)
 # 6 months of food, 4 weeks per month, and let's say 2 lbs of feed per week -- it's hard to judge
