@@ -401,14 +401,18 @@ recipeStorage["pigment, red/yellow"] = Recipe("dyer",(1,"lb"),
 semiGoods.append("pigment, red/yellow")
 
 # component of blue dye
-recipeStorage["ground lapis lazuli"] = Recipe("potter",(1,"lb"),
+recipeStorage["lapis lazuli, ground"] = Recipe("potter",(1,"lb"),
                                               [("lapis lazuli",1)])
-semiGoods.append("ground lapis lazuli")
+semiGoods.append("lapis lazuli, ground")
 
+recipeStorage["lapis lazuli, cleaned"] = Recipe("potter",(1,"lb"),
+                                               [],
+                                               [("lapis lazuli, ground",1),("ashes",0.2),("tallow",0.2)])
+semiGoods.append("lapis lazuli, cleaned")
 
 recipeStorage["pigment, ultramarine"] = Recipe("dyer",(1,"lb"),
                                                [],
-                                               [("ground lapis lazuli",1)])
+                                               [("lapis lazuli, cleaned",1)])
 semiGoods.append("pigment, ultramarine")
 
 recipeStorage["malted grain"] = Recipe("brewer",(1,"lb"),
