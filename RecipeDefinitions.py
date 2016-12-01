@@ -383,8 +383,7 @@ recipeStorage["holy symbol, plain, wooden"] = Recipe("carpenter",(1,"lb"),
 
 recipeStorage["holy symbol, plain, iron"] = Recipe("blacksmith",(1,"lb"),
                                                       [],
-                                                      [("wrought iron",1)],
-                                                    difficulty=2)
+                                                      [("wrought iron",1)])
 
 # first step in making red and yellow (ochre) dyes
 # high difficulty because multiple steps in the process
