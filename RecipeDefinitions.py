@@ -50,6 +50,7 @@ densityTin = Decimal(456.3484)
 densityCopper = 559
 densityClay = 100
 densitySilver = Decimal(655.4934)
+percentageClayInGlass = Decimal(0.8)
 
 def cylinderCuFt(height,radius):
     height = Decimal(height)
@@ -1191,7 +1192,7 @@ recipeStorage["cup, earthenware"] = Recipe("potter",(cupClayWeight,"lb"),
 
 # using clay in place of sand
 # 80/20 mix of sand to quicklime
-cupGlassWeightClay = cupClayWeight * Decimal(0.8)
+cupGlassWeightClay = cupClayWeight * percentageClayInGlass
 cupGlassWeightQl = cupClayWeight - cupGlassWeightClay
 recipeStorage["cup, glass, clear"] = Recipe("glassblower",(cupClayWeight,"lb"),
                                      [("clay",cupGlassWeightClay)],
@@ -1210,7 +1211,7 @@ recipeStorage["flask, earthenware"] = Recipe("potter",(flaskClayWeight,"lb"),
                                              [],
                                              description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
 
-flaskGlassWeightClay = flaskClayWeight * Decimal(0.8)
+flaskGlassWeightClay = flaskClayWeight * percentageClayInGlass
 flaskGlassWeightQl = flaskClayWeight - flaskGlassWeightClay
 recipeStorage["flask, glass"] = Recipe("glassblower",(flaskClayWeight,"lb"),
                                              [("timber",flaskStopperCuFt),("clay",flaskGlassWeightClay)],
