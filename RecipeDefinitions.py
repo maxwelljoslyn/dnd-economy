@@ -1114,6 +1114,11 @@ recipeStorage["paint, red/yellow"] = Recipe("potter",(poundsPigmentQuartPaint + 
                                                       unit=(1,"quart"),
                                                       description="in powder form; covers 75 sq ft. Keeps for 6 mo. sealed or 4 days once once opened")
 
+recipeStorage["paint, ultramarine blue"] = Recipe("potter",(poundsPigmentQuartPaint + milkGallonWeight/Decimal(4),"lb"),
+                                                      [],
+                                                      [("cow milk",0.25),("pigment, ultramarine",poundsPigmentQuartPaint)],
+                                                      unit=(1,"quart"),
+                                                      description=recipeStorage["paint, red/yellow"].description)
 
 # sling bullet is a 1-inch sphere, pressed into almondish shape
 slingBulletCuFt = sphereCuFt(Decimal(1)/Decimal(12))
