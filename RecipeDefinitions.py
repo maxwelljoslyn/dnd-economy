@@ -1212,7 +1212,7 @@ recipeStorage["flask, earthenware"] = Recipe("potter",(flaskClayWeight,"lb"),
 
 flaskGlassWeightClay = flaskClayWeight * Decimal(0.8)
 flaskGlassWeightQl = flaskClayWeight - flaskGlassWeightClay
-recipeStorage["flask, glass"] = Recipe("potter",(flaskClayWeight,"lb"),
+recipeStorage["flask, glass"] = Recipe("glassblower",(flaskClayWeight,"lb"),
                                              [("timber",flaskStopperCuFt),("clay",flaskGlassWeightClay)],
                                              [("quicklime",flaskGlassWeightQl)],
                                              description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
