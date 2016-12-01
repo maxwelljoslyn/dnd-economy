@@ -1112,7 +1112,7 @@ recipeStorage["paint, red/yellow"] = Recipe("potter",(poundsPigmentQuartPaint + 
                                                       [],
                                                       [("cow milk",0.25),("pigment, red/yellow",poundsPigmentQuartPaint)],
                                                       unit=(1,"quart"),
-                                                      description="powder for 1 quart paint; covers 75 sq ft. Will keep for 6 months or until opened, at which point must be mixed and used w/in 4 days.")
+                                                      description="in powder form; covers 75 sq ft. Keeps for 6 mo. sealed or 4 days once once opened")
 
 
 # sling bullet is a 1-inch sphere, pressed into almondish shape
