@@ -1102,13 +1102,6 @@ recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight +
                                                [("rope",shieldRopeStrapWeight * 2)],
                                                description="improves AC by -1; wooden shield 2 feet across, with ropes for securing")
 
-recipeStorage["rent equipment, blacksmith"] = Recipe("blacksmith",(0,"--"),
-                                                    [("coal",14)],
-                                                    [],
-                                                    unit=(1,"week"),
-                                                    description="includes access to tools, fuel, workspace, but no obligation of smith himself.")
-
-
 
 # 2 ounces, or 1/8 lb, of pigment for a gallon of paint
 poundsOfPigmentPerGallonPaint = Decimal(1)/Decimal(8)
