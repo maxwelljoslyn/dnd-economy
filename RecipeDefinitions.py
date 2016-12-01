@@ -1260,6 +1260,14 @@ recipeStorage["button, ceramic"] = Recipe("potter",(buttonClayWeight,"lb"),
                                           unit=(24,"ct"),
                                           description="two dozen buttons")
 
+buttonGlassWeightClay = buttonClayWeight * percentageClayInGlass
+buttonGlassWeightQl = buttonClayWeight - buttonGlassWeightClay
+recipeStorage["button, glass"] = Recipe("glassblower",(buttonClayWeight,"lb"),
+                                          [("clay",buttonGlassWeightClay*24)],
+                                          [("quicklime",buttonGlassWeightQl*24)],
+                                          unit=(24,"ct"),
+                                          description="two dozen buttons")
+
 waistcoatSqFtWool = 4
 waistcoatNumButtons = 12
 waistcoatThread = 4 * waistcoatSqFtWool
