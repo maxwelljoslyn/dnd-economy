@@ -1476,7 +1476,7 @@ recipeStorage["spike"] = Recipe("blacksmith",(spikeWeight,"lb"),
 cakeSpongeNumEggs = 3
 cakeSpongeWeightEggs = cakeSpongeNumEggs * getWeight("egg, chicken")
 # the recipe I found said to use the same weight of sugar, flour, and fat (suet) as the eggs
-recipeStorage["cake, sponge"] = Recipe("baker",(cakeSpongeWeightEggs*4,("lb")),
+recipeStorage["cake, sponge"] = Recipe("baker",(cakeSpongeWeightEggs*4,"lb"),
                                        [],
                                        [("egg, chicken",3),("brown sugar",cakeSpongeWeightEggs),("flour",cakeSpongeWeightEggs),("suet",cakeSpongeWeightEggs)],
                                        description="light and fluffy cake")
