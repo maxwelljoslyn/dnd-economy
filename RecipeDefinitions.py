@@ -1509,3 +1509,15 @@ recipeStorage["chalice"] = Recipe("tinsmith",(leadChaliceWeight,"lb"),
                                   [("lead ore",leadChaliceWeight)],
                                   [],
                                   description="lead; " + str(chaliceTotalHeight * 12) + " inches tall; holds " + str(chaliceBowlInnerVolumePints) + " pints")
+
+# goblet: a chalice with a tall stem
+gobletStemHeight = Decimal(4)/Decimal(12)
+gobletStemCuFt = cylinderCuFt(gobletStemHeight, chaliceStemRadius)
+gobletTotalHeight = chaliceBowlRadius + gobletStemHeight + chaliceBaseHeight
+gobletTotalCuFt = chaliceBowlCuFt + gobletStemCuFt + chaliceBaseCuFt
+
+leadGobletWeight = gobletTotalCuFt * densityLead
+recipeStorage["goblet"] = Recipe("tinsmith",(leadGobletWeight,"lb"),
+                                  [("lead ore",leadGobletWeight)],
+                                  [],
+                                  description="long-stemmed chalice; " + str(gobletTotalHeight * 12) + " inches tall")
