@@ -79,6 +79,9 @@ def triangularPrismCuFt(base,height,thickness):
     val = ((base * height) / 2) * thickness
     return val
 
+def truncatedConeCuFt(bigRadius, smallRadius, height):
+    return Decimal(1)/Decimal(3) * Decimal(pi) * height * ((bigRadius ** 2) + (bigRadius * smallRadius) + (smallRadius ** 2))
+
 def getUnitSize(name):
     """Convenience method to get size of unit."""
     return recipeStorage[name].unit[0]
