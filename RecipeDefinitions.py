@@ -50,6 +50,7 @@ densityTin = Decimal(456.3484)
 densityCopper = 559
 densityClay = 100
 densitySilver = Decimal(655.4934)
+densityLead = 709
 percentageClayInGlass = Decimal(0.8)
 
 def cylinderCuFt(height,radius):
