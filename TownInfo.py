@@ -29,14 +29,14 @@ def addConnection(town_a,town_b):
 # hill and mountain areas
 # example industry: mining, clay, pottery, etc
 towns["Guroff"]=Town((47,-63,16),
-                     {"clay":1},
+                     {"clay":1, "iron ore":2},
                      {"potter":1})
 towns["Nender"] = Town((48,-66,18),
-                       {"coal":1, "tin ore":1},
+                       {"coal":1, "tin ore":1, "iron ore":1},
                        {"tinsmith":1})
 towns["Pwodd"] = Town((49,-65,16),
                       {"gold ore":1, "silver ore":1},
-                      {"goldsmith":1})
+                      {"goldsmith":1, "silversmith":1})
 
 # Fulgarri has a mediterannean climate but is also a bit high in altitude
 towns["Fulgarri"] = Town((47,-59,12),
@@ -47,34 +47,34 @@ towns["Widder"] = Town((49,-63,14),
                        {"blacksmith":2})
 towns["Yog"] = Town((45,-60,15),
                     {"limestone":2, "iron ore":1},
-                    {"smelter":1, "blacksmith":2})
+                    {"smelter":1, "blacksmith":2, "tailor":1})
 
 # mostly plains and broad expanses
 # as you go more towards DR you get more woodsy (the direction of jungly Drode)
 # example industry: smelting, timber, carpentry, carving, farming, cereals; brewing, vineyards
 towns["Veder Vek"] = Town((44,-62,18),
                           {"arable land":1, "hops":1},
-                          {"leatherworker":2, "baker":2, "farmer":2, "brewer":1, "tanner":1})
-towns["Ekodo"] = Town((45,-65,20),
-                      {"cereal":1, "timber":2},
+                          {"hatter":1, "leatherworker":2, "baker":2, "farmer":2, "brewer":1, "tanner":1})
+towns["Ekodo"] = Town((44,-64,20),
+                      {"fish":1,"cereal":1, "timber":2},
                       {"cooper":1, "smelter":1, "carver":2, "miller":1, "farmer":1, "butcher":1})
 towns["Kededal"] = Town((43,-60,17),
                         {"timber":1},
                         {"vintner":1, "spinner":2, "carpenter":1, "farmer":1})
 towns["Gootonu"] = Town((43,-66,23),
-                        {"cereal":1},
-                        {"smelter":2, "miller":2, "baker":1, "tanner":2})
+                        {"cereal":1, "iron ore":1},
+                        {"tailor":1, "smelter":2, "miller":2, "baker":1, "tanner":2})
 # more southerly, warmer cities
 # example: shipping, salt, sugarcane, shipwright, tobacco, shells
 towns["Torkada"] = Town((42,-67,25),
                         {"fish":1, "arable land":1},
                         {"baker":1, "dyer":1, "weaver":2, "farmer":1, "miller":1})
 towns["Serdabach"] = Town((45,-68,23),
-                          {"salt":1, "timber":1, "sugarcane":1},
-                          {"ropewalker":1, "shipwright":1, "carver":1,"smelter":1, "carpenter":2, "brewer":1})
+                          {"salt":1, "timber":1, "sugarcane":1, "cotton":1},
+                          {"ropewalker":1, "shipwright":1, "tailor":1, "carver":1,"smelter":1, "carpenter":2, "brewer":1})
 towns["Berdorl"] = Town((43,-69,26),
-                        {"sugarcane":1},
-                        {"ropewalker":1, "carpenter":1 ,"blacksmith":2})
+                        {"sugarcane":1, "cotton":1},
+                        {"hatter":1, "ropewalker":1, "carpenter":1 ,"blacksmith":2})
 
 # more central, slightly colder-climate port
 # same as other ports, plus whales
@@ -87,14 +87,16 @@ towns["Ror Kadda"] = Town((41,-62,21),
 # thus Drode has timber, herbs, plants; Dreot has fish, coal, etc.
 towns["Dreot"] = Town((47,-67,20),
                       {"timber":1},
-                      {"miller":1, "carpenter":1, "cooper":1, "fuller":1})
+                      {"tailor":1, "miller":1, "carpenter":1, "cooper":1, "fuller":1})
 towns["Drode"] = Town((48,-68,20),
-                      {"cereal":1},
-                      {"alchemist":1})
+                      {"cereal":1, "timber":1},
+                      {"cobbler":1,"alchemist":1, "glassblower":1})
 
 # moving west
 # this town should be very powerful since it has access to the sea AND the small inland sea
-# 
+towns["Nam Gong"] = Town((40,-67,27),
+                         {"fish":2, "tobacco":1},
+                         {"shipwright":1,"fishmonger":1,"tobacconist":1})
 
 addConnection("Dreot","Drode")
 addConnection("Yog","Fulgarri")
