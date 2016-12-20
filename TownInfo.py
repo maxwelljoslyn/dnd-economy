@@ -98,6 +98,26 @@ towns["Nam Gong"] = Town((40,-67,27),
                          {"fish":2, "tobacco":1},
                          {"shipwright":1,"fishmonger":1,"tobacconist":1})
 
+towns["Gungoya"] = Town((41,-70,29),
+                       {"timber":2, "lead ore":1},
+                       {"cobbler":1, "hatter":1, "smelter":1})
+
+towns["Chelong"] = Town((40,-71,31),
+                          {"lead ore":1},
+                          {"glassblower":2})
+
+towns["Xin Qia"] = Town((38,-72,34),
+                        {"lapis lazuli":1},
+                        {})
+
+towns["Jiu Qia"] = Town((38,-70,32),
+                        {},{})
+
+addConnection("Gungoya","Chelong")
+addConnection("Chelong","Xin Qia")
+addConnection("Xin Qia","Jiu Qia")
+addConnection("Gungoya", "Berdorl")
+addConnection("Nam Gong","Torkada")
 addConnection("Dreot","Drode")
 addConnection("Yog","Fulgarri")
 addConnection("Ror Kadda","Veder Vek")
