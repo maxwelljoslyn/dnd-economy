@@ -319,11 +319,9 @@ recipeStorage["suet"] = Recipe("butcher",(1,"lb"),
                                [("cow",(2/cowFatWeight))],
                                description="beef fat for cooking, or for manufacture of tallow")
 
-# using 2 lbs of the CARCASS weight, not just the fat weight, is b/c this is a rendering process;
-# it uses scraps of meat and fat (like bones etc)
 recipeStorage["tallow"] = Recipe("chandler",(1,"lb"),
                                  [],
-                                 [("cow",2/cowCarcassWeight)])
+                                 [("suet",1)])
 
 # 1% yield, number given from some research
 poundsTimberPerPoundAshes = 100
