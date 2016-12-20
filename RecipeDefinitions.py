@@ -114,6 +114,12 @@ recipeStorage["pewter"] = Recipe("smelter",(1,"lb"),
                                  [],
                                  description="ingot, 1x1x3.65 in.")
 
+recipeStorage["lead"] = Recipe("smelter",(1,"lb"),
+                               [("lead ore",1),("coal",Decimal(0.5)), ("limestone",0.25)],
+                                [],
+                                description="ingot, 1.084x1.5x1.5 in.")
+
+
 
 recipeStorage["silver"] = Recipe("smelter",(1,"lb"),
                                  [("silver ore",1),("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
