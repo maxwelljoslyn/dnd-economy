@@ -1481,3 +1481,31 @@ recipeStorage["cake, sponge"] = Recipe("baker",(cakeSpongeWeightEggs*4,"lb"),
                                        [("egg, chicken",3),("brown sugar",cakeSpongeWeightEggs),("flour",cakeSpongeWeightEggs),("suet",cakeSpongeWeightEggs)],
                                        description="light and fluffy cake")
 
+# chalice is composed of three parts:
+# bowl, stem, base
+# bowl is a half-sphere, minus an interior half sphere slightly smaller
+chaliceBowlRadius = Decimal(2/12)
+chaliceBowlThickness = Decimal(1/8)/Decimal(12)
+chaliceBowlOuterVolume = sphereCuFt(chaliceBowlRadius)/2
+chaliceBowlInnerVolume = sphereCuFt(chaliceBowlRadius-chaliceBowlThickness)/2
+chaliceBowlCuFt = chaliceBowlOuterVolume - chaliceBowlInnerVolume
+# let's find the amount we can hold inside the chalice
+chaliceBowlInnerVolumePints = chaliceBowlInnerVolume * cubicFootInPints
+# stem
+chaliceStemRadius = Decimal(0.5)/Decimal(12)
+chaliceStemHeight = Decimal(1)/Decimal(12)
+chaliceStemCuFt = cylinderCuFt(chaliceStemHeight, chaliceStemRadius)
+# base
+# a truncated cone, with the area of the smaller circular face being the same width as the stem height b/c that's where the stem's volume attaches
+chaliceBaseBigRadius = Decimal(2)/Decimal(12)
+chaliceBaseSmallRadius = chaliceStemRadius
+chaliceBaseHeight = Decimal(1)/Decimal(12)
+chaliceBaseCuFt = truncatedConeCuFt(chaliceBaseBigRadius, chaliceBaseSmallRadius, chaliceBaseHeight)
+chaliceTotalHeight = chaliceBowlRadius + chaliceStemHeight + chaliceBaseHeight
+chaliceTotalCuFt = chaliceBowlCuFt + chaliceStemCuFt + chaliceBaseCuFt
+
+leadChaliceWeight = chaliceTotalCuFt * densityLead
+recipeStorage["chalice"] = Recipe("tinsmith",(leadChaliceWeight,"lb"),
+                                  [("lead ore",leadChaliceWeight)],
+                                  [],
+                                  description="lead; " + str(chaliceTotalHeight * 12) + " inches tall; holds " + str(chaliceBowlInnerVolumePints) + " pints")
