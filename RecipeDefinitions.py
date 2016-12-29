@@ -1231,7 +1231,7 @@ jarHeight = Decimal(28)
 jarRadius = Decimal(2)
 jarInnerVolume = cylinderCuFt(jarHeight/Decimal(12),jarRadius/Decimal(12))
 jarOuterHeight = jarHeight + Decimal(0.25)
-jarOuterRadius = jarRadius + Decimal(0.125)
+jarOuterRadius = jarRadius + Decimal(0.25)
 jarOuterVolume = cylinderCuFt(jarOuterHeight/Decimal(12), jarOuterRadius/Decimal(12))
 # sphere part of lid is a little knob for lifting it out
 jarLidCuFt = cylinderCuFt(Decimal(0.5)/Decimal(12),jarOuterRadius/Decimal(12)) + sphereCuFt(Decimal(0.125)/Decimal(12))
@@ -1240,7 +1240,7 @@ jarClayWeight = jarCuFt * densityClay
 recipeStorage["jar, earthenware"] = Recipe("potter",(jarClayWeight,"lb"),
                                            [("clay",jarClayWeight)],
                                            [],
-                                           description="lidded; holds 12 and 1/8 pints; approx 28\" tall, 4\" diameter")
+                                           description="lidded; holds 12 and 1/8 pints; approx 28\" tall, 4.5\" diameter")
 
 # bulk pitch is sold by the gallon
 # we want to divide its price (or its weight) by 128 to get the per-oz price,
