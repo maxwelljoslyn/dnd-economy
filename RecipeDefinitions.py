@@ -1520,3 +1520,9 @@ recipeStorage["goblet"] = Recipe("tinsmith",(leadGobletWeight,"lb"),
                                   [("lead ore",leadGobletWeight)],
                                   [],
                                   description="long-stemmed chalice; " + str(gobletTotalHeight * 12) + " inches tall")
+brickSqFt = Decimal(4)/Decimal(12) * Decimal(8)/Decimal(12) * Decimal(2)/Decimal(12)
+brickWeight = brickSqFt * densityClay
+recipeStorage["brick, unfired"] = Recipe("potter",(brickWeight,"lb"),
+                                [("clay",brickWeight)],
+                                [])
+semiGoods.append("brick, unfired")
