@@ -1526,3 +1526,32 @@ recipeStorage["brick, unfired"] = Recipe("potter",(brickWeight,"lb"),
                                 [("clay",brickWeight)],
                                 [])
 semiGoods.append("brick, unfired")
+spiritMashBrownSugarLbs = 6
+spiritMashWaterGal = 1
+spiritMashWeight = spiritMashBrownSugarLbs + (weightWaterOneGal * spiritMashWaterGal)
+# specific gravity, with respect to water, is the relative density of some solution and water
+# the original gravity is the specific gravity of the mash
+# here since we are dissolving our sugar in 1 gallon of water, and comparing the density of that to the density of 1 gallon of water. because the volumes are the same, we can ignore the volume component of density, and just make a ratio of the weights (no need to convert to kg to use mass, we'd just have to convert back anyway)
+spiritOriginalGravity = Decimal(spiritMashWeight) / Decimal(weightWaterOneGal)
+# then we boil off the alcohol to collect it: this is distillation
+# note that this distilled spirit is NOT pure alcohol!
+# it would be ~ 20%, but I've left off 1% to represent the non-usable "head" of the spirit
+spiritDistilledVolumeGal = Decimal(0.19) * spiritMashWaterGal
+# the final gravity is the specific density of the distilled spirit
+# this value is an average one
+spiritFinalGravity = Decimal(0.99)
+spiritBaseABV = (spiritOriginalGravity - spiritFinalGravity) * 129
+# we want to arrive at 0.5 gal of diluted spirit, so we add water to reach that amount
+desiredVolumeSpiritGal = Decimal(0.5)
+spiritDilutedABV = spiritBaseABV * (spiritDistilledVolumeGal / desiredVolumeSpiritGal)
+
+
+# the actual selling unit is the half-pint
+spiritVolumeInPints = desiredVolumeSpiritGal * 8
+ratioHalfpintToSpiritVolume = Decimal(0.5) / spiritVolumeInPints
+rumTotalWeight = Decimal(0.5) * waterWeightOnePint + getWeight("flask, glass")
+recipeStorage["rum"] = Recipe("brewer",(rumTotalWeight,"lb"),
+                              [],
+                              [("brown sugar",spiritMashBrownSugarLbs * ratioHalfpintToSpiritVolume), ("flask, glass",1)],
+                              description="light rum; in half-pint glass flask; " + str(spiritDilutedABV) + "% alcohol")
+
