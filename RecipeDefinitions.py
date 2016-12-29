@@ -1240,8 +1240,7 @@ jarClayWeight = jarCuFt * densityClay
 recipeStorage["jar, earthenware"] = Recipe("potter",(jarClayWeight,"lb"),
                                            [("clay",jarClayWeight)],
                                            [],
-                                           description="holds 12 and 1/8 pints; with lid")
-
+                                           description="lidded; holds 12 and 1/8 pints; approx 28\" tall, 4\" diameter")
 
 # bulk pitch is sold by the gallon
 # we want to divide its price (or its weight) by 128 to get the per-oz price,
