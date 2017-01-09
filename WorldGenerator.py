@@ -263,6 +263,29 @@ def initialize():
         else:
             data.climate = "IceCap"
 
+    # build the name-indexed road model (roads from town to town and their distances)
+    roadModelByName = {}
+    for t,d in towns.items():
+        if t in roadModelByName:
+            pass
+        else:
+            roadModelByName[t] = {}
+        for c in connections[t]:
+            distance, path = AStarSearch(worldModel,d.coord,towns[c].coord)
+            roadModelByName[t][c] = distance,path
+            if c not in roadModelByName:
+                roadModelByName[c] = {}
+            roadModelByName[c][t] = distance,path
+
+    # build the coord-indexed road model (for map rendering) from the name-indexed one
+    roadModelByCoord = {}
+    for name,targets in roadModelByName.items():
+        coord = towns[name].coord
+        roadModelByCoord[coord] = {}
+        for targetName,data in targets.items():
+            targetCoord = towns[targetName].coord
+            roadModelByCoord[coord][targetCoord] = data
+    
     # instantiate subtriangles and assign starting data to them
     for coord, data in worldModel.items():
         data.subs = {x:{} for x in Direction.__members__.keys()}
@@ -374,28 +397,6 @@ def initialize():
     for coord,additionToInfrastructure in infrastructureAdjustmentAccumulator.items():
         worldModel[coord].infrastructure += additionToInfrastructure
 
-    # build the name-indexed road model (roads from town to town and their distances)
-    roadModelByName = {}
-    for t,d in towns.items():
-        if t in roadModelByName:
-            pass
-        else:
-            roadModelByName[t] = {}
-        for c in connections[t]:
-            distance, path = AStarSearch(worldModel,d.coord,towns[c].coord)
-            roadModelByName[t][c] = distance,path
-            if c not in roadModelByName:
-                roadModelByName[c] = {}
-            roadModelByName[c][t] = distance,path
-
-    # build the coord-indexed road model (for map rendering) from the name-indexed one
-    roadModelByCoord = {}
-    for name,targets in roadModelByName.items():
-        coord = towns[name].coord
-        roadModelByCoord[coord] = {}
-        for targetName,data in targets.items():
-            targetCoord = towns[targetName].coord
-            roadModelByCoord[coord][targetCoord] = data
             
 
     return worldModel, roadModelByName, roadModelByCoord
