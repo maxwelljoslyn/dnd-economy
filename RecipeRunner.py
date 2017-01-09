@@ -43,41 +43,35 @@ def baseNumberAvailable(price):
     """Given the price of an object, return a minimum and maximum number of units available for purchase.
     The number returned will not be random, but in practice we'll want to add some randomization."""
     if price < 0.1:
-        return (10,50)
+        return (15,25)
     if price < 0.5:
-        return (10,40)
+        return (10,20)
     if price < 1:
-        return (10,30)
+        return (5,15)
     if price < 3:
-        return (10,25)
+        return (5,12)
     if price < 5:
-        return (8,25)
-    if price < 10:
-        return (6,20)
-    if price < 20:
         return (5,10)
-    if price < 50:
-        return (4,10)
-    if price < 75:
+    if price < 10:
         return (3,10)
+    if price < 20:
+        return (3,9)
+    if price < 50:
+        return (3,8)
+    if price < 75:
+        return (3,7)
     if price < 100:
-        return (2,10)
-    if price < 150:
-        return (1,10)
-    if price < 500:
-        return (1,8)
-    if price < 600:
-        return (1,6)
-    if price < 700:
-        return (1,5)
-    if price < 800:
+        return (3,6)
+    if price < 250:
+        return (2,5)
+    if price < 400:
         return (1,4)
-    if price < 900:
-        return (1,3)
-    if price < 1000:
-        return (1,2)
+    if price < 650:
+        return (0,3)
+    if price < 800:
+        return (0,2)
     else:
-        return (1,1)
+        return (0,1)
 
 def randomNumberAvailable(price, baseRange):
     random.seed()
