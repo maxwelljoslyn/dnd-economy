@@ -304,20 +304,10 @@ def initialize():
             info["Quality"] = subsConfiguration[sub]
             info["Neighbors"] = getTriangleNeighbors(sub,coord,worldModel)
 
-    # define degree of wilderness for wild subtriangles
-    # has to be its own loop: if we tried doing it during the instantation loop,
-    # not all triangles would have their data filled in yet,
-    # leading to errors when trying to access their data from their neighbors
-    for coord, data in worldModel.items():
-        # assign degree of wilderness
-        for sub,info in data.subs.items():
-            if info["Quality"] == "Wild":
-                neighborQualities = [worldModel[hex].subs[tri]["Quality"] for (hex,tri) in info["Neighbors"]]
-                wildNeighbors = [q for q in neighborQualities if "Wild" in q] 
-                # not `if q == "Wild"` b/c neighbor's quality string might already have been mutated, by its own trip through this loop, to contain a number
-                info["Quality"] = "Wild " + str(len(wildNeighbors) + 1)
-                # wilderness rating: 4 (wildest) if three neighs are wild;
-                # 3 if two, 2 if one, 1 (tamest) if zero
+    # the wild/civ divide and the exact nature thereof should be calculated based on infra
+    # ie. the loop above where triangles are assigned wild/civ arrangements ought to
+    # come after infrastructure assignemnt, and take those infra values into account.
+    # TODO
 
     # infrastructure, part 1: assign base infrastructure values
     for coord,data in worldModel.items():
@@ -364,19 +354,8 @@ def initialize():
             neighborData = worldModel[neighborLocation]
             # first: let's get the distance between the two hexes
             hexDistance = elevAwareDistance(currentCoord,neighborLocation,worldModel)
-            # then sum wilds in the current hex
-            wildSubs = [q for q in data.subs if "Wild" in q]
-            wildernessLevelSum = 0
-            for w in wildSubs:
-                if w == "Wild 1":
-                    wildernessLevelSum += 1
-                elif w == "Wild 2":
-                    wildernessLevelSum += 2
-                elif w == "Wild 3":
-                    wildernessLevelSum += 3
-                else:
-                    wildernessLevelSum += 4
-            infraToTransfer = Decimal(currentInfra / (hexDistance + wildernessLevelSum))
+
+            infraToTransfer = Decimal(currentInfra / (1 + hexDistance ))
             # then -- key point! -- we add this value into infrastructureAdjustmentAccumulator,
             # and NOT into the worldModel. yes I am repeating this, it's important!
             if neighborLocation in infrastructureAdjustmentAccumulator:
@@ -388,8 +367,7 @@ def initialize():
             # finally, update to continue the loop
             currentCoord = neighborLocation
             currentData = neighborData
-            currentInfra = neighborData.infrastructure
-    
+            currentInfra = infraToTransfer # can't be neighbor's infra cause it may not have any until after the spreading
     # now let's actually use the above function
     for coord,data in worldModel.items():
         if data.infrastructure == 0:
