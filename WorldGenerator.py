@@ -332,51 +332,34 @@ def initialize():
     # there, we use each town's original count for each resource,
     # and spread those out to other towns,
     # only at the end accumulating the results into each town's post-import totals for each resource.
-    
-    infrastructureAdjustmentAccumulator = {}
-    # this dictionary will be keyed by hex coords;
-    # each time an amount of infrastructure X should be added to a hex H, we'll increase the value at H by X
-    # when the loop below is done pushing infrastructure around,
-    # we'll go through infrastructureAdjustmentAccumulator and add its values back to the original values in worldModel
-    def infraLine(aCoord, aDir):
-        """Move infrastructure from one hex to another.
-        The overall idea is lifted from moistureLine, but since they have very different details,
-        it's not worth it to try and lift the bit of shared logic out into a function.
-        (for example: moistureLine cares about land-sea, while infraLine doesn't;
-        infraLine puts values into an intermediate dict, while moistureLine destructively updates worldModel data)."""
-        currentCoord = aCoord
-        currentData = worldModel[aCoord]
-        currentInfra = currentData.infrastructure
-        while currentInfra > 1:
-            neighborLocation = currentData.neighbors[aDir]
-            if neighborLocation is None:
-                break
-            neighborData = worldModel[neighborLocation]
-            # first: let's get the distance between the two hexes
-            hexDistance = elevAwareDistance(currentCoord,neighborLocation,worldModel)
-
-            infraToTransfer = Decimal(currentInfra / (1 + hexDistance ))
-            # then -- key point! -- we add this value into infrastructureAdjustmentAccumulator,
-            # and NOT into the worldModel. yes I am repeating this, it's important!
-            if neighborLocation in infrastructureAdjustmentAccumulator:
-                # update the value at key neighborLocation
-                infrastructureAdjustmentAccumulator[neighborLocation] += infraToTransfer
+    accumulatedInfrastructureAdjustments = {}
+    def findInfraToSpread(startCoord):
+        """Add infrastructure points to nearby hexes.
+        The points at aCoord are not depleted when this happens."""
+        startData = worldModel[startCoord]
+        possibleReachableHexes = nearbyHexes(startCoord, 10)
+        # 10 is a magic constant for now, I'm still tweaking it and haven't figured out anything on which I could base a limit to spreading
+        for p in possibleReachableHexes:
+            cost, path = AStarSearch(worldModel, startCoord, p)
+            potentialInfrastructure = Decimal(startData.infrastructure / Decimal(cost + 1))
+            if potentialInfrastructure < 1:
+                pass
             else:
-                # create a value at key neighborLocation
-                infrastructureAdjustmentAccumulator[neighborLocation] = infraToTransfer
-            # finally, update to continue the loop
-            currentCoord = neighborLocation
-            currentData = neighborData
-            currentInfra = infraToTransfer # can't be neighbor's infra cause it may not have any until after the spreading
+                if p in accumulatedInfrastructureAdjustments:
+                    # update value at that key
+                    accumulatedInfrastructureAdjustments[p] += potentialInfrastructure
+                else:
+                    # create initial value at that key
+                    accumulatedInfrastructureAdjustments[p] = potentialInfrastructure
+
+
     # now let's actually use the above function
     for coord,data in worldModel.items():
         if data.infrastructure == 0:
             pass
         else:
-            for name, member in Direction.__members__.items():
-                infraLine(coord, name)
-
-    for coord,additionToInfrastructure in infrastructureAdjustmentAccumulator.items():
+            findInfraToSpread(coord)
+    for coord, additionToInfrastructure in accumulatedInfrastructureAdjustments.items():
         worldModel[coord].infrastructure += additionToInfrastructure
 
             
