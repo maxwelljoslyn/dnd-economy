@@ -301,7 +301,8 @@ def initialize():
             subsConfiguration = getConfiguration(1)
         for sub,info in data.subs.items():
             info["Elevation"] = normalizedElevation
-            info["Quality"] = subsConfiguration[sub]
+            info["Quality"] = "Civilized"
+            # just setting all of these to "Civilized" until I can establish a rating based on infrastructure numbers
             info["Neighbors"] = getTriangleNeighbors(sub,coord,worldModel)
 
     # the wild/civ divide and the exact nature thereof should be calculated based on infra
