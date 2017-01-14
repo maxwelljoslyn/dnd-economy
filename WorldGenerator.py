@@ -108,6 +108,16 @@ def diffOfLists(a,b):
     b = set(b)
     return [item for item in a if item not in b]
 
+def nthRingCoords(startCoord, ringNumber):
+    """Returns all coords which are in the nth ring away from the starting coord.
+    As with nearbyCoords, to get the hexes, call nearbyHexes on the result of this function."""
+    if ringNumber < 1:
+        raise ValueError("ringNumber argument to nthRingCoords must be an integer 1 or greater")
+    coordsAtDistanceN = nearbyCoords(startCoord, ringNumber)
+    coordsLessThanDistanceN = nearbyCoords(startCoord, ringNumber - 1)
+    coordsInRingN = diffOfLists(coordsAtDistanceN,coordsLessThanDistanceN)
+    return coordsInRingN
+
 def nearbyHexes(startHex, distance):
     """Calls nearbyCoords but then filters for membership in possibleCoords."""
     res = nearbyCoords(startHex, distance)
