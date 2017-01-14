@@ -360,7 +360,7 @@ def initialize():
         # 10 is a magic constant for now, I'm still tweaking it and haven't figured out anything on which I could base a limit to spreading
         for p in possibleReachableHexes:
             cost, path = AStarSearch(worldModel, startCoord, p)
-            potentialInfrastructure = Decimal(startData.infrastructure / Decimal(cost + 1))
+            potentialInfrastructure = Decimal(startData.infrastructure / (2 ** cost))
             if potentialInfrastructure < 1:
                 pass
             else:
