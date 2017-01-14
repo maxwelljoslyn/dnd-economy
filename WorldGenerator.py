@@ -321,8 +321,12 @@ def initialize():
 
     # infrastructure, part 1: assign base infrastructure values
     for coord,data in worldModel.items():
-        numCivilizedSubs = len([x for x in data.subs if data.subs[x]["Quality"] == "Civilized"])
-        data.infrastructure = numCivilizedSubs
+        data.infrastructure = 0
+        # if it has a town, give it points
+        townCoords = [towns[t].coord for t in towns]
+        if coord in townCoords:
+            data.infrastructure += 25
+        # no points for being in roadModel, since that's based on townInfo
 
     # infrastructure, part 2: much like moisture, above,
     # we want to spread infrastructure values hex-to-hex
