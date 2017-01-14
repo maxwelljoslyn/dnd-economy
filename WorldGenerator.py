@@ -103,6 +103,11 @@ def nearbyCoords(startCoord, distance):
     results.remove(startCoord)
     return results
 
+def diffOfLists(a,b):
+    """Return elements in a which are not in b."""
+    b = set(b)
+    return [item for item in a if item not in b]
+
 def nearbyHexes(startHex, distance):
     """Calls nearbyCoords but then filters for membership in possibleCoords."""
     res = nearbyCoords(startHex, distance)
