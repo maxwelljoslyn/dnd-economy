@@ -1581,3 +1581,10 @@ recipeStorage["pipe tobacco"] = Recipe("tobacconist",(pipeTobaccoWeight + clothT
                                        [("tobacco, cured",pipeTobaccoWeight),("wool cloth",clothTwistSqFt)],
                                        description=str(pipeTobaccoInOz) + " oz, wrapped in cloth twist")
 
+
+pipeSmokingWeight = Decimal(0.33)
+recipeStorage["pipe, smoking"] = Recipe("potter",(pipeSmokingWeight,"lb"),
+                                        [("clay",pipeSmokingWeight)],
+                                        [],
+                                        description="ordinary smoking pipe")
+
