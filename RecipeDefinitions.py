@@ -1572,3 +1572,12 @@ recipeStorage["tobacco, cured"] = Recipe("farmer",(1,"lb"),
                                          [("tobacco, uncured",5)])
 semiGoods.append("tobacco, cured")
 
+pipeTobaccoInOz = 2
+pipeTobaccoWeight = Decimal(pipeTobaccoInOz)/Decimal(16)
+clothTwistSqFt = Decimal(4)/Decimal(12) ** 2
+clothTwistWoolWeight = clothTwistSqFt * getWeight("wool cloth")
+recipeStorage["pipe tobacco"] = Recipe("tobacconist",(pipeTobaccoWeight + clothTwistSqFt,"lb"),
+                                       [],
+                                       [("tobacco, cured",pipeTobaccoWeight),("wool cloth",clothTwistSqFt)],
+                                       description=str(pipeTobaccoInOz) + " oz, wrapped in cloth twist")
+
