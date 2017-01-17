@@ -105,7 +105,7 @@ towns["Dreot"] = Town((47,-67,20),
                       {"tailor":1, "miller":1, "carpenter":1, "cooper":1, "fuller":1})
 towns["Drode"] = Town((48,-68,20),
                       1500,
-                      {"cereal":1, "timber":1},
+                      {"cereal":1, "timber":1, "tobacco":1},
                       {"cobbler":1,"alchemist":1, "glassblower":1})
 
 # moving west
