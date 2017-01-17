@@ -1561,3 +1561,8 @@ recipeStorage["rum"] = Recipe("brewer",(rumTotalWeight,"lb"),
                               [("brown sugar",spiritMashBrownSugarLbs * ratioHalfpintToSpiritVolume), ("flask, glass",1)],
                               description="light rum; in half-pint glass flask; " + str(spiritDilutedABV) + "% alcohol")
 
+
+recipeStorage["tobacco, uncured"] = Recipe("farmer",(1,"lb"),
+                                           [("tobacco",1)],
+                                           [])
+semiGoods.append("tobacco, uncured")
