@@ -1566,3 +1566,9 @@ recipeStorage["tobacco, uncured"] = Recipe("farmer",(1,"lb"),
                                            [("tobacco",1)],
                                            [])
 semiGoods.append("tobacco, uncured")
+
+recipeStorage["tobacco, cured"] = Recipe("farmer",(1,"lb"),
+                                         [],
+                                         [("tobacco, uncured",5)])
+semiGoods.append("tobacco, cured")
+
