@@ -1559,6 +1559,7 @@ rumTotalWeight = Decimal(0.5) * waterWeightOnePint + getWeight("flask, glass")
 recipeStorage["rum"] = Recipe("brewer",(rumTotalWeight,"lb"),
                               [],
                               [("brown sugar",spiritMashBrownSugarLbs * ratioHalfpintToSpiritVolume), ("flask, glass",1)],
+                              unit=(8,"fl oz"),
                               description="light rum; in half-pint glass flask; " + str(spiritDilutedABV) + "% alcohol")
 
 
