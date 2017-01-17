@@ -780,7 +780,7 @@ semiGoods.append("mail sqft")
 
 # this is an OK-ish estimate, way better than my first one
 hauberkSqFt = 12
-recipeStorage["mail hauberk"] = Recipe("blacksmith",(hauberkSqFt * getWeight("mail sqft"),"lb"),
+recipeStorage["hauberk, mail"] = Recipe("blacksmith",(hauberkSqFt * getWeight("mail sqft"),"lb"),
                                        [],
                                        [("mail sqft",hauberkSqFt)],
                                        description="AC 5; has full sleeves, and covers torso to the knees")
