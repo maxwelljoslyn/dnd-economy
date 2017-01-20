@@ -679,7 +679,7 @@ recipeStorage["pork"] = Recipe("butcher",(1,"lb"),
 
 # working from a recipe in the London Art of Cookery, an early 1700s cookbook,
 # as shown here: https://savoringthepast.net/2013/01/08/salted-meat-for-a-journey-at-sea/
-# for each pound of meat, it works out to 4 oz salt + a mix of 1/3 lb salt and 1/6 lb brown sugar,
+# for each pound of meat, it works out to 4 oz (1/4 lb) salt + a mix of 1/3 lb salt and 1/6 lb brown sugar,
 # (for a total of 9.33 oz salt and 2.67 oz brown sugar)
 # numbers immediately below are calculated in lbs
 saltForSaltBeef = Decimal(1/4) + Decimal(1/3)
