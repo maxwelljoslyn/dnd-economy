@@ -1574,3 +1574,8 @@ recipeStorage["pipe, smoking"] = Recipe("potter",(pipeSmokingWeight,"lb"),
                                         [],
                                         description="ordinary smoking pipe")
 
+recipeStorage["herring, fresh"] = Recipe("fishmonger",(1,"lb"),
+                                         [("herring",1)],
+                                         [])
+semiGoods.append("herring, fresh")
+
