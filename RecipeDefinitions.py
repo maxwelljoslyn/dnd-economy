@@ -909,11 +909,11 @@ recipeStorage["felt"] = Recipe("fuller",(poundsCleanWoolPerSqFtFelt,"lb"),
 gambesonLayers = 10
 # we'll need  feet of thread per layer, to go around the edges of each layer twice, attaching them to the others into a big stack
 gambesonThread = gambesonLayers * 8
-gambesonSqFt = 12 * gambesonLayers
+gambesonSqFt = 8 * gambesonLayers
 recipeStorage["gambeson, quilted"] = Recipe("weaver",(gambesonSqFt * getWeight("wool cloth"),"lb"),
-                                           [],
-                                           [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
-                                           description="AC 9; padded cloth armor")
+                                            [],
+                                            [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
+                                            description="AC 9; padded cloth armor; full sleeves, and covers torso to the waist")
 
 recipeStorage["gemshorn"] = Recipe("carpenter",(2,"lb"),
                                    [],
