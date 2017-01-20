@@ -1026,7 +1026,7 @@ javelinWeight = recipeStorage["spearhead"].weight[0] + (recipeStorage["spear haf
 recipeStorage["javelin"] = Recipe("blacksmith",(javelinWeight ,"lb"),
                                   [],
                                   [("spear haft", ratioJavelinWeightSpearWeight),("spearhead",1)],
-                                  description="1d6 damage; thrown 6/10/14; " + str(ratioJavelinWeightSpearWeight * 5) + " ft long")
+                                  description="1d4+1 damage; melee or thrown 6/9/12; " + str(ratioJavelinWeightSpearWeight * 5) + " ft long")
 
 # string used for a sling is braided; thus 3 feet of yarn string make 1 foot of braid
 # in total a sling will require 4 feet of braid, thus 12 feet of yarn
