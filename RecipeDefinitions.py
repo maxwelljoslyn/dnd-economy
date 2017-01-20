@@ -507,74 +507,80 @@ recipeStorage["barrel"] = Recipe("cooper",(barrelWeight, "lb"),
                                   ("barrel head",2)],
                                  description="30-gallon barrel; 0.67-ft widest radius; 2 ft 11 in. tall")
 
-def calculateABV(poundsCereal, poundsMalt, gallonsInBatch):
-    # for calculating ABV:
-    # the source at http://brewery.org/library/PeriodRen.html says:
-    # wheat (here, cereal) is 75% fermentable sugar,
-    # malt is 80%.
-    # specific gravity of sugar solution is (1 + 0.039 * sugar in grains) / water used) [or just final volume of the beverage]
-    cerealSugar = Decimal(0.75) * poundsCereal
-    maltSugar = Decimal(0.8) * poundsMalt
-    originalGravity = 1 + Decimal(0.039) * ((cerealSugar + maltSugar) / gallonsInBatch)
-    # then we use the formula given in the brewery.org source for ABV to find a theoretical maximum strength for this alcohol, and then we'll take 80% of that as our final number to represent realities of brewing creeping in
-    theoreticalMaxABV = (originalGravity - 1) * Decimal(135)
-    realABV = Decimal(0.8) * theoreticalMaxABV
-    return realABV
-
 weightWaterOneGal = Decimal(8.345404)
 
 gallonsPerPint = Decimal(1)/Decimal(8)
 waterWeightOnePint = weightWaterOneGal * gallonsPerPint
 
-aleCerealAmt = Decimal(45)
-aleMaltAmt = Decimal(120)
-aleRoastedMaltAmt = Decimal(19.95)
-aleBatchGallons = 30
-# I calculated an original gravity of 1.190
-# also, for both beer and ale I just use the weight of water to determine the weight. good enough for me.
-recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWaterOneGal),"lb"),
-                              [("cereal",aleCerealAmt)],
-                              [("malted grain",aleMaltAmt),("roasted malt",aleRoastedMaltAmt)],
-                              unit=(30,"gallon"),
-                              description="buyer supplies barrel; " + str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + " percent alcohol")
+def calculateABV(sugarPounds, cerealPounds, maltPounds, waterGals, desiredVolumeGals):
+    sugarOfCereal = sugarPounds * Decimal(0.75)
+    sugarOfMalt = maltPounds * Decimal(0.8)
+    totalSugar = sugarPounds + sugarOfCereal + sugarOfMalt
+    waterWeight = waterGals * weightWaterOneGal
+    mashWeight = totalSugar + waterWeight
+    # specific gravity, with respect to water, is the relative density of some solution and water
+    # the original gravity is the specific gravity of the mash
+    # we are dissolving our sugar in waterGals gallons of water, and comparing the density of that to the density of waterGals gallons of water. because those two volumes are the same, we can ignore the volume component of density, and just make a ratio of the weights
+    originalGravity = mashWeight / waterWeight
+    # then we boil off the alcohol to collect it: this is distillation
+    # note that this distilled spirit is NOT pure alcohol!
+    # it would be ~ 20%, but I've left off 1% to represent the non-usable "head" of the spirit
+    distilledVolumeGals = Decimal(0.19) * waterGals
+    # final gravity: the specific density of the spirit
+    # this value, 0.99, is an average one
+    finalGravity = Decimal(0.99)
+    baseABV = (originalGravity - finalGravity) * 129
+    # now we dilute the distilled spirit with water to reach the desiredVolumeGals, our final spirit product
+    # the difference between distilledVolumeGals and desiredVolumeGals is the volume of water added
+    dilutedABV = baseABV * (distilledVolumeGals / desiredVolumeGals)
+    return dilutedABV
 
-aleCerealOnePint = aleCerealAmt/240 # 8 pints per gallon; 30 gallons in the above batch
-aleMaltOnePint = aleMaltAmt/240
-aleRoastedMaltOnePint = aleRoastedMaltAmt/240
 # based on the Clare household strong ale recipe from:
 # https://www.cs.cmu.edu/~pwp/tofi/medieval_english_ale.html
+aleCerealPerGallon = Decimal(1.5)
+aleMaltPerGallon = Decimal(4)
+aleRoastedMaltPerGallon = Decimal(0.67)
+aleABV = calculateABV(0, aleCerealPerGallon, aleMaltPerGallon, 1, 1)
+recipeStorage["ale"] = Recipe("brewer",(weightWaterOneGal,"lb"),
+                              [("cereal",aleCerealPerGallon)],
+                              [("malted grain",aleMaltPerGallon),("roasted malt",aleRoastedMaltPerGallon)],
+                              unit=(1,"gallon"),
+                              description="buyer supplies container; " + str(aleABV) + " percent alcohol")
+
+aleCerealOnePint = aleCerealPerGallon * gallonsPerPint
+aleMaltOnePint = aleMaltPerGallon * gallonsPerPint
+aleRoastedMaltOnePint = aleRoastedMaltPerGallon * gallonsPerPint
 recipeStorage["ale, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
                                          [("cereal",aleCerealOnePint)],
                                          [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint)],
                                          unit=(1,"pint"),
-                                         description = str(calculateABV(aleCerealAmt,(aleMaltAmt + aleRoastedMaltAmt),aleBatchGallons)) + " percent alcohol")
+                                         description = str(aleABV) + " percent alcohol")
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
 # a "quarter" equals 256 lbs of grain (b/c it's 64 gallons of dry volume and 1 gallon of grain ~= 4 lbs)
 # a medieval barrel of beer was 36 gallons
 # thus we have 2560 lbs malt, 512 lbs + 512 lbs = 1024 lbs cereal, 40 lbs hops = 2160 gallons.
-# divide all amounts by 72 to arrive at a 30-gallon recipe for a 30-gallon barrel, same as ale above.
-# that's what we have here.
-# to be consistent, I'll do the ABV calc here myself, even though the source lists a number
-beerCereal = Decimal(14.22)
-beerMalt = Decimal(35.55)
-beerHops = Decimal(0.55)
-beerGallons = 30
-recipeStorage["beer"] = Recipe("brewer",((beerGallons*weightWaterOneGal),"lb"),
-                               [("cereal",beerCereal),("hops",beerHops)],
-                               [("malted grain",beerMalt)],
-                               unit=(30,"gallon"),
-                               description="buyer supplies barrel; " + str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
+# divide all amounts by 2160 to arrive at a 1-gallon recipe
+originalGallons = 2160
+beerCerealPerGallon = Decimal(1024)/originalGallons
+beerMaltPerGallon = Decimal(2560)/originalGallons
+beerHopsPerGallon = Decimal(40)/originalGallons
+beerABV = calculateABV(0, beerCerealPerGallon, beerMaltPerGallon, 1, 1)
+recipeStorage["beer"] = Recipe("brewer",((weightWaterOneGal),"lb"),
+                               [("cereal",beerCerealPerGallon),("hops",beerHopsPerGallon)],
+                               [("malted grain",beerMaltPerGallon)],
+                               unit=(1,"gallon"),
+                               description="buyer supplies container; " + str(beerABV) + " percent alcohol")
 
-beerCerealOnePint = beerCereal/240 # 8 pints per gallon; 30 gallons in the above batch
-beerMaltOnePint = beerMalt/240
-beerHopsOnePint = beerHops/240
+beerCerealOnePint = beerCerealPerGallon * gallonsPerPint
+beerMaltOnePint = beerMaltPerGallon * gallonsPerPint
+beerHopsOnePint = beerHopsPerGallon * gallonsPerPint
 recipeStorage["beer, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
                                          [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
                                          [("malted grain",beerMaltOnePint)],
                                          unit=(1,"pint"),
-                                         description= str(calculateABV(beerCereal, beerMalt, beerGallons)) + " percent alcohol")
+                                         description=str(beerABV) + " percent alcohol")
 
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
@@ -1519,24 +1525,8 @@ recipeStorage["brick, unfired"] = Recipe("potter",(brickWeight,"lb"),
 semiGoods.append("brick, unfired")
 spiritMashBrownSugarLbs = 6
 spiritMashWaterGal = 1
-spiritMashWeight = spiritMashBrownSugarLbs + (weightWaterOneGal * spiritMashWaterGal)
-# specific gravity, with respect to water, is the relative density of some solution and water
-# the original gravity is the specific gravity of the mash
-# here since we are dissolving our sugar in 1 gallon of water, and comparing the density of that to the density of 1 gallon of water. because the volumes are the same, we can ignore the volume component of density, and just make a ratio of the weights (no need to convert to kg to use mass, we'd just have to convert back anyway)
-spiritOriginalGravity = Decimal(spiritMashWeight) / Decimal(weightWaterOneGal)
-# then we boil off the alcohol to collect it: this is distillation
-# note that this distilled spirit is NOT pure alcohol!
-# it would be ~ 20%, but I've left off 1% to represent the non-usable "head" of the spirit
-spiritDistilledVolumeGal = Decimal(0.19) * spiritMashWaterGal
-# the final gravity is the specific density of the distilled spirit
-# this value is an average one
-spiritFinalGravity = Decimal(0.99)
-spiritBaseABV = (spiritOriginalGravity - spiritFinalGravity) * 129
-# we want to arrive at 0.5 gal of diluted spirit, so we add water to reach that amount
-desiredVolumeSpiritGal = Decimal(0.5)
-spiritDilutedABV = spiritBaseABV * (spiritDistilledVolumeGal / desiredVolumeSpiritGal)
-
-
+desiredVolumeSpiritGal = Decimal(1)
+spiritDilutedABV = calculateABV(spiritMashBrownSugarLbs, 0, 0, spiritMashWaterGal, desiredVolumeSpiritGal)
 # the actual selling unit is the half-pint
 spiritVolumeInPints = desiredVolumeSpiritGal * 8
 ratioHalfpintToSpiritVolume = Decimal(0.5) / spiritVolumeInPints
