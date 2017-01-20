@@ -1593,3 +1593,4 @@ def recipeSaltFish(freshFishName, startWeight):
                   [(freshFishName, startWeight)],
                   description="salted fish fillets")
 
+recipeStorage["salt herring"] = recipeSaltFish("herring, fresh",1)
