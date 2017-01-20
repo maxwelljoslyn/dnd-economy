@@ -1076,7 +1076,7 @@ leatherArmorWeight = (numberOfLeatherLamella * leatherLamellaWeight) + leatherAr
 recipeStorage["leather armor"] = Recipe("leatherworker", (leatherArmorWeight,"lb"),
                                         [],
                                         [("leather lamella",numberOfLeatherLamella),("yarn, wool", leatherArmorYarnWeight)],
-                                        description="AC 8; lamellar construction; covers torso down to waist, plus arms")
+                                        description="AC 8; lamellar construction; with full sleeves, and covers torso to the waist")
 
 shieldWoodThickness = Decimal(0.5)/Decimal(12)
 
