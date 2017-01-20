@@ -1015,6 +1015,16 @@ recipeStorage["handaxe"] = Recipe("blacksmith",(handaxeHeadWeight + handaxeHaftW
                                   [("steel",handaxeHeadWeight),("handaxe haft",1)],
                                   description="1d4+1 damage; melee/thrown; range 4/6/8")
 
+halberdLength = Decimal(6)
+ratioHalberdLengthSpearLength = halberdLength/Decimal(5)
+halberdHaftWeight = ratioHalberdLengthSpearLength * getWeight("spear haft")
+halberdHeadWeight = 2 * handaxeHeadWeight # is wider and takes up more length along the haft
+halberdTotalWeight = halberdHaftWeight + halberdHeadWeight
+recipeStorage["halberd"] = Recipe("blacksmith",(halberdTotalWeight ,"lb"),
+                                  [],
+                                  [("spear haft", halberdHaftWeight),("steel",halberdHeadWeight)],
+                                  description="1d8 dmg; 2hand; " + str(halberdLength) + " ft long. Attacks normally; enemies 2 hexes away are 'in melee' (move slower)")
+
 quarterstaffCuFt = cylinderCuFt(5,Decimal(0.5/12))
 recipeStorage["quarterstaff"] = Recipe("carpenter",(quarterstaffCuFt * densityTimber,"lb"),
                                        [("timber",quarterstaffCuFt)],
