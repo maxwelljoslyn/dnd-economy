@@ -712,7 +712,7 @@ spearWeight = recipeStorage["spearhead"].weight[0] + recipeStorage["spear haft"]
 recipeStorage["spear"] = Recipe("blacksmith",(spearWeight, "lb"),
                                 [],
                                 [("spearhead",1),("spear haft",1)],
-                                description="1d6+1 damage, one-handed, melee; haft 5 ft. long")
+                                description="1d6 damage, one-handed, melee or thrown 4/7/10; haft 5 ft. long")
 
 maceShaftCrossSectionRadius = Decimal(0.5) # inches
 maceHaftCuFt = cylinderCuFt(2,maceShaftCrossSectionRadius/12)
