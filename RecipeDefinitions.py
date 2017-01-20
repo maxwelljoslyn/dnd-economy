@@ -1065,9 +1065,7 @@ recipeStorage["leather lamella"] = Recipe("leatherworker", (leatherLamellaWeight
                                           description="2x4 inches; punched with holes for lacing")
 semiGoods.append("leather lamella")
 
-# I'm assuming this is enough square feet for good coverage, including arms, down to the waist
-# that's probably a bit small, especially since I made the gambeson 12 square feet of material
-# oh well
+# square footage is a rough guess, but I've tried to make the sq ft needed for each armor consisten with the stated amount of coverage
 leatherArmorSqFt = 8
 numberOfLeatherLamella = leatherArmorSqFt / leatherLamellaSqFt
 yarnFtPerLamella = 2
