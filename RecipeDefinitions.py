@@ -1005,6 +1005,8 @@ semiGoods.append("handaxe haft")
 
 # head made from  metal having approximately these dimensions
 handaxeHeadCuFt = Decimal(3/12) * Decimal(4/12) * Decimal(0.5/12)
+# I reviewed the handaxeHeadCuFt calculation after adding the triangularPrismCuFt function to see whether that would be more fitting,
+# but decided that the rectangular solution was still more appropriate, as the metal chunk would be rectangular before being hammered into shape
 handaxeHeadWeight = handaxeHeadCuFt * densitySteel
 # I'm envisioning this as basically a tomahawk, not a francisca;
 # thus it is both a melee and thrown weapon
