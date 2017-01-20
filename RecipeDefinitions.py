@@ -1584,3 +1584,12 @@ recipeStorage["cod, fresh"] = Recipe("fishmonger",(1,"lb"),
                                          [])
 semiGoods.append("cod, fresh")
 
+def recipeSaltFish(freshFishName, startWeight):
+    saltAmount = Decimal(0.1) * startWeight
+    # I assume the fish ultimately increases in weight by half the weight of the salt used
+    finalWeight = startWeight + Decimal(0.5) * saltAmount
+    return Recipe("fishmonger",(finalWeight,"lb"),
+                  [("salt",saltAmount)],
+                  [(freshFishName, startWeight)],
+                  description="salted fish fillets")
+
