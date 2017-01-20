@@ -507,23 +507,6 @@ recipeStorage["barrel"] = Recipe("cooper",(barrelWeight, "lb"),
                                   ("barrel head",2)],
                                  description="30-gallon barrel; 0.67-ft widest radius; 2 ft 11 in. tall")
 
-# based on the Clare household strong ale recipe from:
-# https://www.cs.cmu.edu/~pwp/tofi/medieval_english_ale.html
-# 8 lbs., Hugh Baird brand English Pale malt
-# I use cereal for oats
-# judging by how much ale is created, 2 gall (8 qts) of water is boiled off in the main batch;
-# that will be useful once I start accounting for water prices
-
-# here is the original:
-# 1 1/3 lbs., (Baird) Pale malt, roasted. 
-# For darker ale, roast to amber: 30 mins. at 225 F. followed by 30 mins. at 300 F. For lighter, roast an hour at 225 F.
-# around 3 lbs., oats (rolled)
-# 14 to 16 qts., water (main batch) 
-# 14 will produce 1 1/2 gallons of ale; 16 will produce 2 gallons
-# 6 to 8 qts., water (second runnings)
-# 1 pkt, Danstar brand Nottingham ale yeast
-# 1 pkt, Danstar brand Windsor ale yeast
-
 def calculateABV(poundsCereal, poundsMalt, gallonsInBatch):
     # for calculating ABV:
     # the source at http://brewery.org/library/PeriodRen.html says:
@@ -558,6 +541,8 @@ recipeStorage["ale"] = Recipe("brewer",((aleBatchGallons * weightWaterOneGal),"l
 aleCerealOnePint = aleCerealAmt/240 # 8 pints per gallon; 30 gallons in the above batch
 aleMaltOnePint = aleMaltAmt/240
 aleRoastedMaltOnePint = aleRoastedMaltAmt/240
+# based on the Clare household strong ale recipe from:
+# https://www.cs.cmu.edu/~pwp/tofi/medieval_english_ale.html
 recipeStorage["ale, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
                                          [("cereal",aleCerealOnePint)],
                                          [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint)],
