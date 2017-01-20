@@ -1579,3 +1579,8 @@ recipeStorage["herring, fresh"] = Recipe("fishmonger",(1,"lb"),
                                          [])
 semiGoods.append("herring, fresh")
 
+recipeStorage["cod, fresh"] = Recipe("fishmonger",(1,"lb"),
+                                         [("cod",1)],
+                                         [])
+semiGoods.append("cod, fresh")
+
