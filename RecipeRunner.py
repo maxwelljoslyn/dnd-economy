@@ -175,6 +175,20 @@ def main():
 
 
         f.write(r"\end{document}")
+    with open("prices.html","w") as f:
+        f.write(r"<!DOCTYPE html>")
+        f.write(r"<head><title>Prices</title></head>")
+        f.write(r"<body><h1>Prices at " + town + r"</h1>")
+        f.write(r"<table border = \"1\">")
+        f.write("</td><td>".join(["<tr><td>Name","Price","Weight","","Num","Units","Description","Num. Avail.</td></tr>"]))
+        for n in names:
+            if n in semiGoods:
+                pass
+            else:
+                f.write(display(n,htmlOutputSkeleton,evaluatedRecipes[n]))
+                f.write("\n")
+        f.write(r"</table>")
+
 
         
 if __name__ == "__main__":
