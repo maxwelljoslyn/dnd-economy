@@ -175,7 +175,7 @@ def main():
 
 
         f.write(r"\end{document}")
-    with open("prices.html","w") as f:
+    with open("Prices.html","w") as f:
         f.write(r"<!DOCTYPE html>")
         f.write(r"<head><title>Prices</title></head>")
         f.write(r"<body><h1>Prices at " + town + r"</h1>")
