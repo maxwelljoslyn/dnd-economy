@@ -552,9 +552,9 @@ aleMaltOnePint = aleMaltPerGallon * gallonsPerPint
 aleRoastedMaltOnePint = aleRoastedMaltPerGallon * gallonsPerPint
 recipeStorage["ale, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
                                          [("cereal",aleCerealOnePint)],
-                                         [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint)],
+                                         [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint), ("bottle, glass",1)],
                                          unit=(1,"pint"),
-                                         description = str(aleABV) + " percent alcohol")
+                                         description = str(aleABV) + " percent alcohol; in glass bottle")
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
