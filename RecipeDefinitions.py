@@ -578,9 +578,9 @@ beerMaltOnePint = beerMaltPerGallon * gallonsPerPint
 beerHopsOnePint = beerHopsPerGallon * gallonsPerPint
 recipeStorage["beer, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
                                          [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
-                                         [("malted grain",beerMaltOnePint)],
+                                         [("malted grain",beerMaltOnePint), ("bottle, glass", 1)],
                                          unit=(1,"pint"),
-                                         description=str(beerABV) + " percent alcohol")
+                                         description=str(beerABV) + " percent alcohol; in glass bottle")
 
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
