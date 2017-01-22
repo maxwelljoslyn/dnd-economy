@@ -1603,3 +1603,30 @@ def recipeSaltFish(freshFishName, startWeight):
 
 recipeStorage["salt herring"] = recipeSaltFish("herring, fresh",1)
 recipeStorage["salt cod"] = recipeSaltFish("cod, fresh",1)
+
+
+bottleInnerRadius = Decimal(1.25)/Decimal(12)
+bottleInnerCylinderHeight = Decimal(6)/Decimal(12)
+bottleInnerConeHeight = Decimal(2)/Decimal(12)
+bottleMouthInnerRadius = Decimal(0.25)/Decimal(12)
+bottleInnerVolume = cylinderCuFt(bottleInnerCylinderHeight, bottleInnerRadius) + truncatedConeCuFt(bottleInnerRadius, bottleMouthInnerRadius, bottleInnerConeHeight)
+# should be 0.01941 cuft, or about 15% more than a pint, which is ~0.0167101 cuft
+bottleThickness = Decimal(0.125)/Decimal(12)
+bottleOuterRadius = bottleInnerRadius + bottleThickness
+bottleOuterCylinderHeight = bottleInnerCylinderHeight + bottleThickness
+bottleMouthOuterRadius = bottleMouthInnerRadius + bottleThickness
+bottleOuterConeHeight = bottleInnerConeHeight + bottleThickness
+bottleOuterVolume = cylinderCuFt(bottleOuterCylinderHeight, bottleOuterRadius) + truncatedConeCuFt(bottleOuterRadius, bottleMouthOuterRadius, bottleOuterConeHeight)
+bottleMaterialAmountCuft = bottleOuterVolume - bottleInnerVolume
+# calculate it as if a clay bottle in order to find the weight of the material
+bottleWeight = bottleMaterialAmountCuft * densityClay
+bottleGlassWeightOfClay = bottleWeight * percentageClayInGlass
+bottleGlassWeightQl = bottleWeight - bottleGlassWeightOfClay
+bottleStopperCuFt = cylinderCuFt(Decimal(0.5)/Decimal(12),bottleMouthInnerRadius)
+bottleTotalHeight = bottleOuterCylinderHeight + bottleOuterConeHeight
+recipeStorage["bottle, glass"] = Recipe("glassblower",(bottleWeight,"lb"),
+                                             [("timber",bottleStopperCuFt),("clay",bottleGlassWeightOfClay)],
+                                             [("quicklime",bottleGlassWeightQl)],
+                                             description="max cap. 1 pint 2 oz; " + str(bottleTotalHeight * 12) + " in. high plus 0.5 in stopper")
+
+
