@@ -962,10 +962,6 @@ recipeStorage["handbell"] = Recipe("blacksmith",(handbellHandleWeight + handbell
                                    [("handbell handle",1),("handbell body",1),("handbell clapper",1)],
                                    description="has leather loop handle; body of bell ~1.5 inches tall") 
 
-# shoulder belt
-# 4 feet
-# can hold 1 pouch in front and one scabbard (or weapon cord)
-
 # some of the weight of the original clay is water;
 # we account for that loss here so that we don't have to do it as part of calculation for weights of
 # pottery pieces
