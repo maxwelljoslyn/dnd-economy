@@ -245,8 +245,8 @@ recipeStorage["quicklime"] = Recipe("potter",(1,"lb"),
                                     description="used in tanning and to make mortar")
 
 recipeStorage["mortar"] = Recipe("potter",(1,"lb"),
-                                 [("clay",0.75)],
-                                 [("quicklime",0.25)],
+                                 [],
+                                 [("kneaded clay",0.75),("quicklime",0.25)],
                                  description="in powdered form")
 
 recipeStorage["mature ewe"] = Recipe("farmer",(90,"lb"),
@@ -406,8 +406,8 @@ recipeStorage["holy symbol, plain, iron"] = Recipe("blacksmith",(1,"lb"),
 # here: https://en.wikipedia.org/wiki/Ochre#Modern_history
 # wiki says that clay would be about 90% junk and 10% ochre
 recipeStorage["separated ochre clay"] = Recipe("potter",(1,"lb"),
-                                       [("clay",10)],
-                                       [])
+                                       [],
+                                       [("kneaded clay",10)])
 semiGoods.append("separated ochre clay")
 
 # primary componenent of paints and of dyes
@@ -591,8 +591,8 @@ semiGoods.append("greasy wool")
 
 
 recipeStorage["fuller's earth"] = Recipe("potter",(1,"lb"),
-                                         [("clay",3)],
                                          [],
+                                         [("kneaded clay",3)],
                                          description = "certain clays used for scouring wool")
 semiGoods.append("fuller's earth")
 
@@ -1125,14 +1125,14 @@ recipeStorage["paint, ultramarine blue"] = Recipe("potter",(poundsPigmentQuartPa
 slingBulletCuFt = sphereCuFt(Decimal(1)/Decimal(12))
 slingBulletWeight = slingBulletCuFt * densityClay
 recipeStorage["sling bullet"] = Recipe("potter",(slingBulletWeight,"lb"),
-                                       [("clay",slingBulletWeight)],
                                        [],
+                                       [("kneaded clay",slingBulletWeight)],
                                        unit=(1,"bullet"),
                                        description="made of clay, with almond-like shape")
 
 recipeStorage["sling bullet, inscribed"] = Recipe("potter",(slingBulletWeight,"lb"),
-                                                  [("clay",slingBulletWeight)],
                                                   [],
+                                                  [("kneaded clay",slingBulletWeight)],
                                                   difficulty=4,
                                                   unit=(1,"bullet"),
                                                   description="inscribed with symbol, or word up to 5 chars")
@@ -1186,8 +1186,8 @@ cupInnerVolume = cylinderCuFt(Decimal(3.5)/Decimal(12),Decimal(0.875)/Decimal(12
 cupCuFt = cupOuterVolume - cupInnerVolume
 cupClayWeight = cupCuFt * densityClay
 recipeStorage["cup, earthenware"] = Recipe("potter",(cupClayWeight,"lb"),
-                                           [("clay",cupClayWeight)],
                                            [],
+                                           [("kneaded clay",cupClayWeight)],
                                            description="4 in. high, 2 in. diameter; no handle")
 
 # using clay in place of sand
@@ -1195,8 +1195,8 @@ recipeStorage["cup, earthenware"] = Recipe("potter",(cupClayWeight,"lb"),
 cupGlassWeightClay = cupClayWeight * percentageClayInGlass
 cupGlassWeightQl = cupClayWeight - cupGlassWeightClay
 recipeStorage["cup, glass, clear"] = Recipe("glassblower",(cupClayWeight,"lb"),
-                                     [("clay",cupGlassWeightClay)],
-                                     [("quicklime",cupGlassWeightQl)],
+                                     [],
+                                     [("kneaded clay",cupGlassWeightClay),("quicklime",cupGlassWeightQl)],
                                      description="4 in. high, 2 in. diameter; no handle")
 
 # shape is roughly a square pyramid
@@ -1207,15 +1207,15 @@ flaskCuFt = flaskOuterVolume - flaskInnerVolume
 flaskClayWeight = flaskCuFt * densityClay
 flaskStopperCuFt = cylinderCuFt(Decimal(0.75)/Decimal(12),Decimal(0.125)/Decimal(12))
 recipeStorage["flask, earthenware"] = Recipe("potter",(flaskClayWeight,"lb"),
-                                             [("timber",flaskStopperCuFt),("clay",flaskClayWeight)],
-                                             [],
+                                             [("timber",flaskStopperCuFt)],
+                                             [("kneaded clay",flaskClayWeight)],
                                              description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
 
 flaskGlassWeightClay = flaskClayWeight * percentageClayInGlass
 flaskGlassWeightQl = flaskClayWeight - flaskGlassWeightClay
 recipeStorage["flask, glass"] = Recipe("glassblower",(flaskClayWeight,"lb"),
-                                             [("timber",flaskStopperCuFt),("clay",flaskGlassWeightClay)],
-                                             [("quicklime",flaskGlassWeightQl)],
+                                             [("timber",flaskStopperCuFt)],
+                                             [("kneaded clay",flaskGlassWeightClay),("quicklime",flaskGlassWeightQl)],
                                              description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
 
 # inches
@@ -1230,8 +1230,8 @@ jarLidCuFt = cylinderCuFt(Decimal(0.5)/Decimal(12),jarOuterRadius/Decimal(12)) +
 jarCuFt = jarOuterVolume - jarInnerVolume + jarLidCuFt
 jarClayWeight = jarCuFt * densityClay
 recipeStorage["jar, earthenware"] = Recipe("potter",(jarClayWeight,"lb"),
-                                           [("clay",jarClayWeight)],
                                            [],
+                                           [("kneaded clay",jarClayWeight)],
                                            description="lidded; holds 12 and 1/8 pints; approx 28\" tall, 4.5\" diameter")
 
 # bulk pitch is sold by the gallon
@@ -1254,16 +1254,16 @@ buttonCuFt = cylinderCuFt(buttonHeight, buttonRadius)
 
 buttonClayWeight = buttonCuFt * densityClay
 recipeStorage["button, ceramic"] = Recipe("potter",(buttonClayWeight,"lb"),
-                                          [("clay",buttonClayWeight*24)],
                                           [],
+                                          [("kneaded clay",buttonClayWeight*24)],
                                           unit=(24,"ct"),
                                           description="two dozen buttons")
 
 buttonGlassWeightClay = buttonClayWeight * percentageClayInGlass
 buttonGlassWeightQl = buttonClayWeight - buttonGlassWeightClay
 recipeStorage["button, glass"] = Recipe("glassblower",(buttonClayWeight,"lb"),
-                                          [("clay",buttonGlassWeightClay*24)],
-                                          [("quicklime",buttonGlassWeightQl*24)],
+                                          [],
+                                          [("kneaded clay",buttonGlassWeightClay*24),("quicklime",buttonGlassWeightQl*24)],
                                           unit=(24,"ct"),
                                           description="two dozen buttons")
 
@@ -1486,8 +1486,8 @@ tankardCuFt = tankardOuterVolume - tankardInnerVolume
 
 clayTankardWeight = tankardCuFt * densityClay
 recipeStorage["tankard"] = Recipe("potter",(clayTankardWeight,"lb"),
-                                  [("clay",clayTankardWeight)],
                                   [],
+                                  [("kneaded clay",clayTankardWeight)],
                                   description="earthenware, " + str(tankardOuterHeight * 12) + " in. tall; holds " + str(tankardInnerVolumeInPints) + " pints")
 
 
@@ -1533,10 +1533,10 @@ recipeStorage["goblet"] = Recipe("tinsmith",(leadGobletWeight,"lb"),
                                   description="long-stemmed chalice; " + str(gobletTotalHeight * 12) + " inches tall")
 brickSqFt = Decimal(4)/Decimal(12) * Decimal(8)/Decimal(12) * Decimal(2)/Decimal(12)
 brickWeight = brickSqFt * densityClay
-recipeStorage["brick, unfired"] = Recipe("potter",(brickWeight,"lb"),
-                                [("clay",brickWeight)],
-                                [])
-semiGoods.append("brick, unfired")
+recipeStorage["brick"] = Recipe("potter",(brickWeight,"lb"),
+                                [],
+                                [("kneaded clay",brickWeight)])
+
 spiritMashBrownSugarLbs = 6
 spiritMashWaterGal = 1
 desiredVolumeSpiritGal = Decimal(1)
@@ -1574,8 +1574,8 @@ recipeStorage["pipe tobacco"] = Recipe("tobacconist",(pipeTobaccoWeight + clothT
 
 pipeSmokingWeight = Decimal(0.33)
 recipeStorage["pipe, smoking"] = Recipe("potter",(pipeSmokingWeight,"lb"),
-                                        [("clay",pipeSmokingWeight)],
                                         [],
+                                        [("kneaded clay",pipeSmokingWeight)],
                                         description="ordinary smoking pipe")
 
 recipeStorage["herring, fresh"] = Recipe("fishmonger",(1,"lb"),
@@ -1621,8 +1621,8 @@ bottleGlassWeightQl = bottleWeight - bottleGlassWeightOfClay
 bottleStopperCuFt = cylinderCuFt(Decimal(0.5)/Decimal(12),bottleMouthInnerRadius)
 bottleTotalHeight = bottleOuterCylinderHeight + bottleOuterConeHeight
 recipeStorage["bottle, glass"] = Recipe("glassblower",(bottleWeight,"lb"),
-                                             [("timber",bottleStopperCuFt),("clay",bottleGlassWeightOfClay)],
-                                             [("quicklime",bottleGlassWeightQl)],
+                                             [("timber",bottleStopperCuFt)],
+                                             [("kneaded clay",bottleGlassWeightOfClay),("quicklime",bottleGlassWeightQl)],
                                              description="max cap. 1 pint 2 oz; " + str(bottleTotalHeight * 12) + " in. high plus 0.5 in stopper")
 
 
