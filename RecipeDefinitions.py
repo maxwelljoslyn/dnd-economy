@@ -378,18 +378,18 @@ recipeStorage["rawhide"] = Recipe("tanner",(15,"lb"),
                                             description="cleaned and dried cowskin")
 semiGoods.append("rawhide")
 
-# density of quicklime is 209.1337 lb/cu ft.
+densityQuicklime = Decimal(209.1337)
 # this site:
 # http://boar.org.uk/aaiwxw3MusprattL6Preparation.htm
 # says that three to four cubic feet measure of "freshly burned fat lime" (aka quicklime)
 # is used for 100 average hides
-# taking 3.5 cubic feet as our measure, that means 731.96795 lbs of quicklime per 100 hides
-# AKA 0.732 lbs of quicklime per hide.
+# let's split the difference between 3 and 4 cuft of quicklime, and call it 3.5
+tannedCowhidePoundsQuicklime = Decimal(3.5) * densityQuicklime / Decimal(100)
 weightCowhideInOz = Decimal(15 * 16)
 cowhideDensityInOzPerSqFt = Decimal(weightCowhideInOz / 50)
 recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
                                          [],
-                                         [("quicklime",0.732),("rawhide",1)],
+                                         [("quicklime",tannedCowhidePoundsQuicklime),("rawhide",1)],
                                          unit=recipeStorage["fleshy cowhide"].unit,
                                          description= str(cowhideDensityInOzPerSqFt) + " oz/sq. ft, thus a 1-ft square is " + str(Decimal(cowhideDensityInOzPerSqFt/64)) + " in. thick")
 
