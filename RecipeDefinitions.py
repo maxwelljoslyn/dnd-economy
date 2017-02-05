@@ -1055,11 +1055,11 @@ recipeStorage["musical bones"] = Recipe("carpenter",(musicalBonePairCuFt * densi
 leatherLamellaWidth = Decimal(4/12)
 leatherLamellaHeight = Decimal(2/12)
 leatherLamellaSqFt = leatherLamellaHeight * leatherLamellaWidth
-leatherLamellaUnitRatio = leatherLamellaSqFt / getUnitSize("tanned cowhide")
-leatherLamellaWeight = leatherLamellaUnitRatio * getWeight("tanned cowhide")
+leatherLamellaUnitRatio = leatherLamellaSqFt / getUnitSize("rawhide")
+leatherLamellaWeight = leatherLamellaUnitRatio * getWeight("rawhide")
 recipeStorage["leather lamella"] = Recipe("leatherworker", (leatherLamellaWeight, "lb"),
                                           [],
-                                          [("tanned cowhide", leatherLamellaWeight)],
+                                          [("rawhide", leatherLamellaWeight)],
                                           description="2x4 inches; punched with holes for lacing")
 semiGoods.append("leather lamella")
 
