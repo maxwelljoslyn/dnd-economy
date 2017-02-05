@@ -1633,3 +1633,10 @@ def steelPlatingWeight(thickness):
     cuFt = 1 * 1 * thickness
     return cuFt * densitySteel
 
+breastplateThickness = Decimal(0.1)/Decimal(12)
+breastplateSqFt = 6
+breastplateWeight = breastplateSqFt * steelPlatingWeight(breastplateThickness)
+recipeStorage["breastplate"] = Recipe("blacksmith",(breastplateWeight,"lb"),
+                                                       [],
+                                                       [("steel",breastplateWeight)],
+                                                       description="AC 5 when worn on its own; part of half- and full-plate")
