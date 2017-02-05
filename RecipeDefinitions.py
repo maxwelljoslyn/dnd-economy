@@ -1680,3 +1680,10 @@ recipeStorage["cuiss"] = Recipe("blacksmith",(cuissWeight,"lb"),
                                                        [("steel",cuissWeight)],
                                                        description="armor for thigh; part of full-plate")
 
+greaveThickness = Decimal(0.075)/Decimal(12)
+greaveSqFt = 1
+greaveWeight = greaveSqFt * steelPlatingWeight(greaveThickness)
+recipeStorage["greave"] = Recipe("blacksmith",(greaveWeight,"lb"),
+                                                       [],
+                                                       [("steel",greaveWeight)],
+                                                       description="armor for lower leg; part of full-plate")
