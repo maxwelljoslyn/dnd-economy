@@ -646,7 +646,10 @@ recipeStorage["cotton cloth"] = Recipe("weaver",(cottonClothWeight,"lb"),
 
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
-# that means 10 lbs of sugarcane to get 1 lb of sugar
+poundsJuicePerPoundSugarcane = Decimal(0.5)
+sugarcaneJuiceSugarPercentage = Decimal(0.2)
+sugarPerPoundSugarcane = poundsJuicePerPoundSugarcane * sugarcaneJuiceSugarPercentage
+sugarcaneForPoundSugar = 1 / sugarPerPoundSugarcane
 # as for molasses, recipe is essentially the same as brown sugar, except for the ratio of inputs to product
 # the sugar in the sugarcane juice is 20% of the juice mass;
 # we can say the remaining 80% of the juice mass turns into molasses; thus 50% * 80% = 4 lbs of molasses per 10 lbs of sugarcane
@@ -654,7 +657,7 @@ recipeStorage["cotton cloth"] = Recipe("weaver",(cottonClothWeight,"lb"),
 sugarcaneForOneGallonMolasses = 10 * molassesGallonWeight / 4
 
 recipeStorage["brown sugar"] = Recipe("miller",(1,"lb"),
-                                      [("sugarcane",10)],
+                                      [("sugarcane",sugarcaneForPoundSugar)],
                                       [],
                                       difficulty=2)
 
