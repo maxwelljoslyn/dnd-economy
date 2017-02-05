@@ -1626,3 +1626,10 @@ recipeStorage["bottle, glass"] = Recipe("glassblower",(bottleWeight,"lb"),
                                              description="max cap. 1 pint 2 oz; " + str(bottleTotalHeight * 12) + " in. high plus 0.5 in stopper")
 
 
+def steelPlatingWeight(thickness):
+    """Returns the amount of steel needed to produce 1 square foot of plating at a given thickness (also expressed in feet).
+    (To make this function generic to any kind of metal, I would first need to move away from the current system, in which material densities are stored in variable names,
+    and instead store them in a dictionary with names as keys and densities as values.)"""
+    cuFt = 1 * 1 * thickness
+    return cuFt * densitySteel
+
