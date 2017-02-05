@@ -1672,3 +1672,11 @@ recipeStorage["vambrace"] = Recipe("blacksmith",(vambraceWeight,"lb"),
                                                        [("steel",vambraceWeight)],
                                                        description="armor for forearm; part of half- and full-plate")
 
+cuissThickness = Decimal(0.075)/Decimal(12)
+cuissSqFt = Decimal(8)/Decimal(12) * Decimal(20)/Decimal(12)
+cuissWeight = cuissSqFt * steelPlatingWeight(cuissThickness)
+recipeStorage["cuiss"] = Recipe("blacksmith",(cuissWeight,"lb"),
+                                                       [],
+                                                       [("steel",cuissWeight)],
+                                                       description="armor for thigh; part of full-plate")
+
