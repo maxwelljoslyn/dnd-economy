@@ -1657,3 +1657,10 @@ recipeStorage["pauldron"] = Recipe("blacksmith",(pauldronWeight,"lb"),
                                                        [("steel",pauldronWeight)],
                                                        description="shoulder armor; part of half- and full-plate")
 
+rerebraceThickness = Decimal(0.075)/Decimal(12)
+rerebraceSqFt = Decimal(8)/Decimal(12)
+rerebraceWeight = rerebraceSqFt * steelPlatingWeight(rerebraceThickness)
+recipeStorage["rerebrace"] = Recipe("blacksmith",(rerebraceWeight,"lb"),
+                                                       [],
+                                                       [("steel",rerebraceWeight)],
+                                                       description="armor for upper arm; part of half- and full-plate")
