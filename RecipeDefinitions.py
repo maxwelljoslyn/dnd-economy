@@ -1640,3 +1640,12 @@ recipeStorage["breastplate"] = Recipe("blacksmith",(breastplateWeight,"lb"),
                                                        [],
                                                        [("steel",breastplateWeight)],
                                                        description="AC 5 when worn on its own; part of half- and full-plate")
+
+fauldThickness = Decimal(0.1)/Decimal(12)
+fauldSqFt = 2
+fauldWeight = fauldSqFt * steelPlatingWeight(fauldThickness)
+recipeStorage["fauld"] = Recipe("blacksmith",(fauldWeight,"lb"),
+                                                       [],
+                                                       [("steel",fauldWeight)],
+                                                       description="hip and groin armor; part of full-plate")
+
