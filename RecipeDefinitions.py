@@ -365,18 +365,18 @@ recipeStorage["soap, hard"] = Recipe("chandler",(weightOneBarSoap,"lb"),
 # a raw cowhide is about 50 square feet
 # this includes the irregularly-shaped edge portions,
 # so a nice big single square piece would only be about 40 square feet at most.
-recipeStorage["raw cowhide"] = Recipe("butcher",(60,"lb"),
+recipeStorage["fleshy cowhide"] = Recipe("butcher",(60,"lb"),
                                       [],
                                       [("cow",1)],
                                       unit=(50,"sq ft"))
-semiGoods.append("raw cowhide")
+semiGoods.append("fleshy cowhide")
 
-recipeStorage["defleshed cowhide"] = Recipe("tanner",(15,"lb"),
+recipeStorage["rawhide"] = Recipe("tanner",(15,"lb"),
                                             [],
-                                            [("raw cowhide",1)],
-                                            unit=recipeStorage["raw cowhide"].unit,
-                                            description="cowhide cleaned of flesh and/or hair")
-semiGoods.append("defleshed cowhide")
+                                            [("fleshy cowhide",1)],
+                                            unit=recipeStorage["fleshy cowhide"].unit,
+                                            description="cleaned and dried cowskin")
+semiGoods.append("rawhide")
 
 # density of quicklime is 209.1337 lb/cu ft.
 # this site:
@@ -389,8 +389,8 @@ weightCowhideInOz = Decimal(15 * 16)
 cowhideDensityInOzPerSqFt = Decimal(weightCowhideInOz / 50)
 recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
                                          [],
-                                         [("quicklime",0.732),("defleshed cowhide",1)],
-                                         unit=recipeStorage["raw cowhide"].unit,
+                                         [("quicklime",0.732),("rawhide",1)],
+                                         unit=recipeStorage["fleshy cowhide"].unit,
                                          description= str(cowhideDensityInOzPerSqFt) + " oz/sq. ft, thus a 1-ft square is " + str(Decimal(cowhideDensityInOzPerSqFt/64)) + " in. thick")
 
 recipeStorage["holy symbol, plain, wooden"] = Recipe("carpenter",(1,"lb"),
@@ -1086,8 +1086,8 @@ shieldTimberWeight = shieldTimberCuFt * densityTimber
 # a strip of leather reinforces the edge of the shield
 # currently LEFT OUT OF THE RECIPE, to do for when leather prices are more stable
 shieldEdgingSqFt = shieldPerimeter * shieldWoodThickness
-shieldEdgingUnitRatio = shieldEdgingSqFt / getUnitSize("defleshed cowhide")
-shieldEdgingWeight = shieldEdgingUnitRatio * getWeight("defleshed cowhide")
+shieldEdgingUnitRatio = shieldEdgingSqFt / getUnitSize("rawhide")
+shieldEdgingWeight = shieldEdgingUnitRatio * getWeight("rawhide")
 
 # two of these ropes act as straps to provide protection against dropping if Dex check failed when hit by crit, at cost of taking time to secure them beforehand
 shieldRopeStrapLength = Decimal(0.5) # 6 inches long
