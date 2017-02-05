@@ -1689,8 +1689,15 @@ recipeStorage["greave"] = Recipe("blacksmith",(greaveWeight,"lb"),
                                                        description="armor for lower leg; part of full-plate")
 
 halfPlateWeight = breastplateWeight + 2 * pauldronWeight + 2 * rerebraceWeight + 2 * vambraceWeight
+fullPlateWeight = halfPlateWeight + fauldWeight + 2 * cuissWeight + 2 * greaveWeight
+
 recipeStorage["half-plate armor"] = Recipe("blacksmith",(halfPlateWeight,"lb"),
                                                        [],
                                                        [("breastplate",1),("pauldron",2),("rerebrace",2),("vambrace",2)],
                                                        description="AC 4; includes breastplate, pauldrons, rerebraces, and vambraces")
+
+recipeStorage["full-plate armor"] = Recipe("blacksmith",(fullPlateWeight,"lb"),
+                                                       [],
+                                                       recipeStorage["half-plate armor"].subRecipes + [("fauld",1),("cuiss",2),("greave",2)],
+                                                       description="AC 3; as half-plate, plus fauld, cuisses, and greaves")
 
