@@ -1649,3 +1649,11 @@ recipeStorage["fauld"] = Recipe("blacksmith",(fauldWeight,"lb"),
                                                        [("steel",fauldWeight)],
                                                        description="hip and groin armor; part of full-plate")
 
+pauldronThickness = Decimal(0.05)/Decimal(12)
+pauldronSqFt = Decimal(0.5)
+pauldronWeight = pauldronSqFt * steelPlatingWeight(pauldronThickness)
+recipeStorage["pauldron"] = Recipe("blacksmith",(pauldronWeight,"lb"),
+                                                       [],
+                                                       [("steel",pauldronWeight)],
+                                                       description="shoulder armor; part of half- and full-plate")
+
