@@ -53,6 +53,7 @@ densitySilver = Decimal(655.4934)
 densityLead = 709
 percentageClayInGlass = Decimal(0.8)
 
+cubicFootInPints = Decimal(59.8442)
 def cylinderCuFt(height,radius):
     height = Decimal(height)
     radius = Decimal(radius)
@@ -973,8 +974,6 @@ recipeStorage["baked clay"] = Recipe("potter",(1,"lb"),
                                        [])
 semiGoods.append("baked clay")
 
-
-cubicFootInPints = Decimal(59.8442)
 
 clubCuFt = cylinderCuFt(2,1.5/12)
 clubWeight = clubCuFt * densityTimber
