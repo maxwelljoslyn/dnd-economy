@@ -128,11 +128,12 @@ towns["Chelong"] = Town((40,-71,31),
 towns["Xin Qia"] = Town((38,-72,34),
                         2034,
                         {"lapis lazuli":1},
-                        {})
+                        {"bowyer":1})
 
 towns["Jiu Qia"] = Town((38,-70,32),
                         1890,
-                        {},{})
+                        {"cinnabar":1},
+                        {})
 
 addConnection("Gungoya","Chelong")
 addConnection("Chelong","Xin Qia")
