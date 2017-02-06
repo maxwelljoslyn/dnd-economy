@@ -1704,3 +1704,13 @@ recipeStorage["full-plate armor"] = Recipe("blacksmith",(fullPlateWeight,"lb"),
                                                        recipeStorage["half-plate armor"].subRecipes + [("fauld",1),("cuiss",2),("greave",2)],
                                                        description="AC 3; as half-plate, plus fauld, cuisses, and greaves")
 
+cinnabarPercentMercury = Decimal(86.218)
+weightMercuryHalfPint = (densityMercury / cubicFootInPints) / Decimal(2)
+cinnabarForHalfPintMercury = weightMercuryHalfPint / (cinnabarPercentMercury / 100)
+recipeStorage["mercury"] = Recipe("smelter", (weightMercuryHalfPint,"lb"),
+                                  [("cinnabar",cinnabarForHalfPintMercury)],
+                                  [],
+                                  unit=(0.5,"pint"),
+                                  description="liquid phase; customer supplies container")
+
+
