@@ -616,6 +616,8 @@ recipeStorage["beer, by the tankard"] = Recipe("brewer",(waterWeightOnePint,"lb"
                                          [("malted grain",beerMaltOnePint)],
                                          unit=(1,"pint"),
                                          description=str(beerABV) + " percent alcohol")
+
+recipeStorage["beer, bottled"] = Recipe("brewer",(waterWeightOnePint + getWeight("bottle, glass"),"lb"),
                                          [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
                                          [("malted grain",beerMaltOnePint), ("bottle, glass", 1)],
                                          unit=(1,"pint"),
