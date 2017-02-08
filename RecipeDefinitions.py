@@ -1409,6 +1409,11 @@ recipeStorage["chicken, killed"] = Recipe("butcher",(5,"lb"),
                                           [("chicken, mature",1)],
                                           description="not plucked, just dead")
 
+chickenDressPercentage = Decimal(0.67)
+recipeStorage["chicken, butchered"] = Recipe("butcher",(chickenDressPercentage * getWeight("chicken, killed"), "lb"),
+                                             [],
+                                             [("chicken, killed",1)],
+                                             description="plucked and ready for cooking")
 # a single chicken, once mature, will produce eggs
 # it will produce approximately 300 eggs in the first year, and less in future years, so let's adjust that first-year figure to 250 for a more average number
 # in the meantime it must be fed for a year -- 2 lbs of feed per week
