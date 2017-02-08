@@ -1787,3 +1787,18 @@ recipeStorage["arrowhead"] = Recipe("blacksmith",(arrowheadWeight, "lb"),
                                     [],
                                     [("steel",arrowheadWeight)])
 semiGoods.append("arrowhead")
+
+feathersPerFinishedArrow = 4
+# let's assume that only 1/4 of chicken feathers, the wing ones, can be used for fletching
+fletcherUsableFeatherPercentage = Decimal(0.25)
+feathersToFinishArrow = feathersPerFinishedArrow / fletcherUsableFeatherPercentage
+arrowFeathersUnitRatio = feathersToFinishArrow / getUnitSize("feathers, chicken")
+arrowFeathersWeight = arrowFeathersUnitRatio * getWeight("feathers, chicken")
+arrowTotalWeight = getWeight("arrow shaft") + getWeight("arrowhead") + arrowFeathersWeight
+# for now, I'll use the bowyer for both bowmaking and fletching recipes
+recipeStorage["arrow"] = Recipe("bowyer",(arrowTotalWeight,"lb"),
+                                [],
+                                [("feathers, chicken",arrowFeathersWeight),
+                                 ("arrow shaft",1),
+                                 ("arrowhead",1)],
+                                description="for bows; " + str(arrowShaftLength) + "-ft shaft")
