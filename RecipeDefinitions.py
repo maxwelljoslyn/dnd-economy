@@ -1717,4 +1717,17 @@ recipeStorage["mercury"] = Recipe("smelter", (weightMercuryHalfPint,"lb"),
                                   unit=(0.5,"pint"),
                                   description="liquid phase; customer supplies container")
 
+# coat of plates
+# the best of the leather-type armors, before giving way to the haubergeon
+coatOfPlatesRawhideSqFt = Decimal(leatherArmorSqFt)
+coatOfPlatesSteelSqFt = coatOfPlatesRawhideSqFt / Decimal(2)
+coatOfPlatesSteelThickness = Decimal(0.05)/Decimal(12)
+coatOfPlatesSteelWeight = coatOfPlatesSteelSqFt * steelPlatingWeight(coatOfPlatesSteelThickness)
+coatOfPlatesRawhideUnitRatio = coatOfPlatesRawhideSqFt / getUnitSize("rawhide")
+coatOfPlatesRawhideWeight = coatOfPlatesRawhideUnitRatio * getWeight("rawhide")
+coatOfPlatesTotalWeight = coatOfPlatesSteelWeight + coatOfPlatesRawhideWeight
+recipeStorage["coat of plates"] = Recipe("leatherworker", (coatOfPlatesTotalWeight,"lb"),
+                                         [],
+                                         [("rawhide",coatOfPlatesRawhideUnitRatio),("steel",coatOfPlatesSteelWeight)],
+                                         description="AC 7; toughened leather with internal steel plates")
 
