@@ -1404,6 +1404,11 @@ recipeStorage["chicken, mature"] = Recipe("farmer",(5,"lb"),
                                           [("cattle feed",chickenFeedLbs)],
                                           description="can be slaughtered or kept to lay eggs")
 
+recipeStorage["chicken, killed"] = Recipe("butcher",(5,"lb"),
+                                          [],
+                                          [("chicken, mature",1)],
+                                          description="not plucked, just dead")
+
 # a single chicken, once mature, will produce eggs
 # it will produce approximately 300 eggs in the first year, and less in future years, so let's adjust that first-year figure to 250 for a more average number
 # in the meantime it must be fed for a year -- 2 lbs of feed per week
