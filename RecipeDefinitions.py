@@ -857,7 +857,7 @@ recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * g
 # belt pouch holds very little;
 # the total square footage is (0.15^2)*6
 beltpouchSqFt = (Decimal(0.15) ** 2) * 6
-beltpouchPortionOfCowhide = Decimal(beltpouchSqFt / 50)
+beltpouchPortionOfCowhide = beltpouchSqFt / getUnitSize("tanned cowhide")
 recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
                                                 [],
                                                 [("thread",Decimal(1.2) / getUnitSize("thread")),
@@ -868,7 +868,7 @@ recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide 
 # let's say a belt is 3 feet long and 1 inch wide, and you cut to the appropriate length -- but the leatherworker is gonna charge you for the whole thing.
 # you also need maybe 12 feet of thread to make the edges tough
 beltSqFt = Decimal(1/12) * 3
-beltPortionOfCowhide = Decimal(beltSqFt/50)
+beltPortionOfCowhide = beltSqFt / getUnitSize("tanned cowhide")
 recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
                                                 [],
                                                 [("thread",Decimal(12) / getUnitSize("thread")),
@@ -964,7 +964,7 @@ recipeStorage["jaw harp"] = Recipe("blacksmith",(jawHarpWeight,"lb"),
                                    description="6 inches long")
 
 handbellHandleSqFt = Decimal(0.5/12) * Decimal(4/12)
-handbellHandleLeatherProportion = handbellHandleSqFt / 50 # sqft of 1 cowhide
+handbellHandleLeatherProportion = handbellHandleSqFt / getUnitSize("tanned cowhide")
 handbellHandleWeight = handbellHandleLeatherProportion * getWeight("tanned cowhide")
 recipeStorage["handbell handle"] = Recipe("leatherworker",(handbellHandleWeight,"lb"),
                                           [],
