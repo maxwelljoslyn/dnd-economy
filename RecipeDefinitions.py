@@ -602,7 +602,7 @@ beerCerealPerGallon = Decimal(1024)/originalGallons
 beerMaltPerGallon = Decimal(2560)/originalGallons
 beerHopsPerGallon = Decimal(40)/originalGallons
 beerABV = calculateABV(0, beerCerealPerGallon, beerMaltPerGallon, 1, 1)
-recipeStorage["beer"] = Recipe("brewer",((weightWaterOneGal),"lb"),
+recipeStorage["beer"] = Recipe("brewer",(weightWaterOneGal,"lb"),
                                [("cereal",beerCerealPerGallon),("hops",beerHopsPerGallon)],
                                [("malted grain",beerMaltPerGallon)],
                                unit=(1,"gallon"),
