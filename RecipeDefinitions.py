@@ -297,9 +297,9 @@ recipeStorage["sheep milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
                                      [],
                                      [("mature ewe",Decimal(1/sheepAnnualMilkGallons))],
                                      unit=(1,"gallon"))
-# sheep for slaughter weighs 120 lbs
-# I take the dress percentage to be 55% of that, giving the hanging/carcass weight, and the useable meat to be 75% of the hanging weight
-sheepCarcassWeight = 120 * Decimal(0.55)
+
+# I take the dress percentage to be 55% of live weight, giving the hanging/carcass weight, and the useable meat to be 75% of the hanging weight
+sheepCarcassWeight = getWeight("mutton sheep") * Decimal(0.55)
 sheepMeatWeight = sheepCarcassWeight * Decimal(0.75)
 # we divide the cost of a mutton sheep by this number to get a price for 1 lb mutton
 recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
