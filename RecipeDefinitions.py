@@ -289,11 +289,13 @@ recipeStorage["mutton sheep"] = Recipe("farmer",(130,"lb"),
                                     unit=(1,"head"),
                                     description="one year old, suitable for slaughter")
 
-# one mature ewe produces ~ 200 lbs of milk, once a year during lambing
-# thus the division by 200
+# one mature ewe produces ~ 200 LBS (not gallons!) of milk, once a year during lambing
+sheepAnnualMilkLbs = 200
+# then we convert it to gallons
+sheepAnnualMilkGallons = sheepAnnualMilkLbs / milkGallonWeight
 recipeStorage["sheep milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
                                      [],
-                                     [("mature ewe",Decimal(1/200))],
+                                     [("mature ewe",Decimal(1/sheepAnnualMilkGallons))],
                                      unit=(1,"gallon"))
 # sheep for slaughter weighs 120 lbs
 # I take the dress percentage to be 55% of that, giving the hanging/carcass weight, and the useable meat to be 75% of the hanging weight
