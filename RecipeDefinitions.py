@@ -1414,6 +1414,17 @@ recipeStorage["chicken, butchered"] = Recipe("butcher",(chickenDressPercentage *
                                              [],
                                              [("chicken, killed",1)],
                                              description="plucked and ready for cooking")
+
+# let's declare that feathers make up 5% of the chicken's of body weight (figures vary)
+feathersPercentageOfChickenWeight = Decimal(0.05)
+# furthermore, let's base the price of the feathers on the weight of the non-meat portion of the chicken carcass
+chickenNonDressPercentage = 1 - chickenDressPercentage
+recipeStorage["feathers, chicken"] = Recipe("butcher",(feathersPercentageOfChickenWeight * getWeight("chicken, killed"),"lb"),
+                                            [],
+                                            [("chicken, killed",chickenNonDressPercentage)],
+                                            unit=("4000","unit"),
+                                            description="from one chicken")
+
 # a single chicken, once mature, will produce eggs
 # it will produce approximately 300 eggs in the first year, and less in future years, so let's adjust that first-year figure to 250 for a more average number
 # in the meantime it must be fed for a year -- 2 lbs of feed per week
