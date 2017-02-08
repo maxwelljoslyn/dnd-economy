@@ -1765,3 +1765,13 @@ recipeStorage["coat of plates"] = Recipe("leatherworker", (coatOfPlatesTotalWeig
                                          [("rawhide",coatOfPlatesRawhideUnitRatio),("steel",coatOfPlatesSteelWeight)],
                                          description="AC 7; toughened leather with internal steel plates")
 
+
+arrowShaftLength = 3
+arrowShaftRadius = Decimal(0.125)/Decimal(12)
+arrowShaftCuFt = cylinderCuFt(arrowShaftLength, arrowShaftRadius)
+arrowShaftWeight = arrowShaftCuFt * densityTimber
+recipeStorage["arrow shaft"] = Recipe("carver",(arrowShaftWeight,"lb"),
+                                      [("timber",arrowShaftCuFt)],
+                                      [])
+semiGoods.append("arrow shaft")
+
