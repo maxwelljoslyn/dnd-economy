@@ -611,7 +611,11 @@ recipeStorage["beer"] = Recipe("brewer",((weightWaterOneGal),"lb"),
 beerCerealOnePint = beerCerealPerGallon * gallonsPerPint
 beerMaltOnePint = beerMaltPerGallon * gallonsPerPint
 beerHopsOnePint = beerHopsPerGallon * gallonsPerPint
-recipeStorage["beer, one pint"] = Recipe("brewer",(waterWeightOnePint,"lb"),
+recipeStorage["beer, by the tankard"] = Recipe("brewer",(waterWeightOnePint,"lb"),
+                                         [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
+                                         [("malted grain",beerMaltOnePint)],
+                                         unit=(1,"pint"),
+                                         description=str(beerABV) + " percent alcohol")
                                          [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
                                          [("malted grain",beerMaltOnePint), ("bottle, glass", 1)],
                                          unit=(1,"pint"),
