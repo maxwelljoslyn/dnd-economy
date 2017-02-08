@@ -1077,8 +1077,8 @@ recipeStorage["musical bones"] = Recipe("carpenter",(musicalBonePairCuFt * densi
 
 # lamella: a rectangle-like piece of material laced together to form armor
 # these will form the basis of leather armor
-leatherLamellaWidth = Decimal(4/12)
-leatherLamellaHeight = Decimal(2/12)
+leatherLamellaWidth = Decimal(4)/Decimal(12)
+leatherLamellaHeight = Decimal(2)/Decimal(12)
 leatherLamellaSqFt = leatherLamellaHeight * leatherLamellaWidth
 leatherLamellaUnitRatio = leatherLamellaSqFt / getUnitSize("rawhide")
 leatherLamellaWeight = leatherLamellaUnitRatio * getWeight("rawhide")
