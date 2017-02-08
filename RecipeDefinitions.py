@@ -1775,3 +1775,15 @@ recipeStorage["arrow shaft"] = Recipe("carver",(arrowShaftWeight,"lb"),
                                       [])
 semiGoods.append("arrow shaft")
 
+# arrowhead shape can be decomposed into a tang and a point
+# the former is a cylinder, the latter is a cone
+arrowheadPointLength = Decimal(2)/Decimal(12)
+arrowheadTangLength = Decimal(1)/Decimal(12)
+arrowheadPointCuFt = coneCuFt(arrowheadPointLength,Decimal(0.125)/Decimal(12))
+arrowheadTangCuFt = cylinderCuFt(arrowheadTangLength,Decimal(0.0625)/Decimal(12))
+arrowheadCuFt = arrowheadTangCuFt + arrowheadPointCuFt
+arrowheadWeight = arrowheadCuFt * densitySteel
+recipeStorage["arrowhead"] = Recipe("blacksmith",(arrowheadWeight, "lb"),
+                                    [],
+                                    [("steel",arrowheadWeight)])
+semiGoods.append("arrowhead")
