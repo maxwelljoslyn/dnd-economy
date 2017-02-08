@@ -1126,7 +1126,6 @@ shieldTimberCuFt = shieldArea * shieldWoodThickness
 shieldTimberWeight = shieldTimberCuFt * densityTimber
 
 # a strip of leather reinforces the edge of the shield
-# currently LEFT OUT OF THE RECIPE, to do for when leather prices are more stable
 shieldEdgingSqFt = shieldPerimeter * shieldWoodThickness
 shieldEdgingUnitRatio = shieldEdgingSqFt / getUnitSize("rawhide")
 shieldEdgingWeight = shieldEdgingUnitRatio * getWeight("rawhide")
@@ -1140,9 +1139,9 @@ shieldRopeStrapWeight = shieldRopeStrapUnitRatio * getWeight("rope")
 shieldHandleCuFt = cylinderCuFt(Decimal(6)/Decimal(12),Decimal(0.25)/Decimal(12))
 shieldHandleWeight = shieldHandleCuFt * densityTimber
 
-recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight + (shieldRopeStrapWeight * 2) + shieldHandleWeight,"lb"),
+recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight + (shieldRopeStrapWeight * 2) + shieldHandleWeight + shieldEdgingWeight,"lb"),
                                                [("timber",shieldTimberCuFt + shieldHandleCuFt)],
-                                               [("rope",shieldRopeStrapWeight * 2)],
+                                               [("rope",shieldRopeStrapWeight * 2), ("rawhide",shieldEdgingUnitRatio)],
                                                description="improves AC by -1; wooden shield 2 feet across, with ropes for securing")
 
 
