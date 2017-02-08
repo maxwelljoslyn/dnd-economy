@@ -1064,7 +1064,7 @@ slingLeatherUnitRatio = slingLeatherSqFt / getUnitSize("tanned cowhide")
 slingLeatherWeight = slingLeatherUnitRatio * getWeight("tanned cowhide")
 recipeStorage["sling"] = Recipe("leatherworker",(slingLeatherWeight + slingYarnWeight,"lb"),
                                 [],
-                                [("yarn, wool",slingYarnWeight),("tanned cowhide",slingLeatherWeight)],
+                                [("yarn, wool",slingYarnWeight),("tanned cowhide",slingLeatherUnitRatio)],
                                 description="1d4 damage (1d4-1, min. 0, with scavenged ammo); missile; range 12/24/36")
 
 musicalBoneCuFt = Decimal(1/12) * Decimal(1/8/12) * Decimal(6/12)
@@ -1084,7 +1084,7 @@ leatherLamellaUnitRatio = leatherLamellaSqFt / getUnitSize("rawhide")
 leatherLamellaWeight = leatherLamellaUnitRatio * getWeight("rawhide")
 recipeStorage["leather lamella"] = Recipe("leatherworker", (leatherLamellaWeight, "lb"),
                                           [],
-                                          [("rawhide", leatherLamellaWeight)],
+                                          [("rawhide", leatherLamellaUnitRatio)],
                                           description="2x4 inches; punched with holes for lacing")
 semiGoods.append("leather lamella")
 
@@ -1369,7 +1369,11 @@ shoeLeatherUnitRatio = shoeLeatherSqFt / getUnitSize("tanned cowhide")
 shoeLeatherWeight = shoeLeatherUnitRatio * getWeight("tanned cowhide")
 recipeStorage["shoe"] = Recipe("cobbler",(shoeLeatherWeight + shoeHeelTimberWeight,"lb"),
                                [("timber",shoeHeelTimberCuFt)],
-                               [("tanned cowhide",shoeLeatherUnitRatio)], # NOT the weight of the leather: for cowhide you need to use the square footage for recipe components
+                               [("tanned cowhide",shoeLeatherUnitRatio)],
+                               # NOT the weight of the leather:
+                               # with leather components, you want to use the unitRatio, since that represents the amount of units of e.g. cowhide which you are using up
+                               # e.g. a cowhide is 50 square foot and you are using 1 square foot for a shoe, thus 1/50 of a cowhide is being used
+                               # trying to do it by weight adds an extra layer of redirection
                                description="leather and wood construction")
 
 recipeStorage["mace, masterwork"] = Recipe("blacksmith",(getWeight("mace haft") + (6 * maceFlangeWeight),"lb"),
