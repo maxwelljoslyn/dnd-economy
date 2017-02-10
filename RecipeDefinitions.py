@@ -1844,3 +1844,7 @@ recipeStorage["bowstring strand"] = Recipe("leatherworker",(bowstringWeight/stra
                                     [],
                                     [("rawhide",bowstringUnitRatio/strandsPerBowstring)])
 semiGoods.append("bowstring strand")
+
+recipeStorage["bowstring"] = Recipe("leatherworker",(bowstringWeight,"lb"),
+                                    [],
+                                    [("bowstring strand",strandsPerBowstring)])
