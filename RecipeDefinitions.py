@@ -144,6 +144,10 @@ recipeStorage["pewter"] = Recipe("smelter",(1,"lb"),
                                  [],
                                  description="ingot, 1x1x3.65 in.")
 
+recipeStorage["iron filings"] = Recipe("blacksmith",(1,"lb"),
+                                       [],
+                                       [("wrought iron",1)])
+semiGoods.append("iron filings")
 recipeStorage["lead"] = Recipe("smelter",(1,"lb"),
                                [("lead ore",1),("coal",Decimal(0.5)), ("limestone",0.25)],
                                 [],
