@@ -1817,3 +1817,17 @@ recipeStorage["arrow"] = Recipe("bowyer",(arrowTotalWeight,"lb"),
                                  ("arrow shaft",1),
                                  ("arrowhead",1)],
                                 description="for bows; " + str(arrowShaftLength) + "-ft shaft")
+
+# lime is not necessarily needed, it can be done just by boiling
+hideGlueDesiredWeight = Decimal(1)
+# assuming that the final glue weight is not all of the weight of the hides
+hideGlueYield = Decimal(0.75)
+hideGlueWeightOfHides = hideGlueDesiredWeight / hideGlueYield
+# we use weight here since, unlike normal, we area only concerned with the hide weight here
+hideGlueWeightRatio = hideGlueWeightOfHides / getWeight("rawhide")
+# assuming that the density of paint is the same as the density of glue
+squareFeetGlueCanCover = hideGlueDesiredWeight / getWeight("paint, ultramarine blue") * squareFeetPaintCanCover
+recipeStorage["hide glue"] = Recipe("tanner",(1, "lb"),
+                                    [],
+                                    [("rawhide",hideGlueWeightRatio)],
+                                    description="customer supplies container; covers " + str(squareFeetGlueCanCover) + " sq ft; heat 1 pt glue in 2 pts water to use")
