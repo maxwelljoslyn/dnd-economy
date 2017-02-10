@@ -969,10 +969,14 @@ recipeStorage["horn, cow"] = Recipe("butcher",(hornWeight,"lb"),
                                     [("cow",Decimal(0.5))],
                                     unit=(1,"horn"),
                                     description=str(hornLength) + " ft long, " + str(hornRadius) + "-inch avg. radius")
+
+gemshornRequiredHornLength = Decimal(8)/Decimal(12)
+gemshornRequiredHornCuFt = gemshornRequiredHornLength * hornRadius
+gemshornRequiredHornWeightRatio = (gemshornRequiredHornCuFt * densityHorn) / getWeight("horn, cow")
 recipeStorage["gemshorn"] = Recipe("carpenter",(2,"lb"),
                                    [],
-                                   [("fipple",1),("cow",Decimal(0.5))],
-                                   description="ocarina-type instrument made from bull horn; 8 inches long")
+                                   [("fipple",1),("horn, cow",gemshornRequiredHornWeightRatio)],
+                                   description="ocarina-type instrument made from bull horn; " + str(gemshornRequiredHornLength) + " inches long")
 
 # this is really a small instrument, and it's not a solid block either, so these dimensions are about right
 # I approximate its dimensions as a thin cylinder, which would then be bent into shape,
