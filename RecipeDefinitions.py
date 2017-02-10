@@ -1866,3 +1866,11 @@ recipeStorage["bow limb wood section"] = Recipe("bowyer",(bowLimbWoodWeight,"lb"
                                    [])
 semiGoods.append("bow limb wood section")
 
+bowLimbHornSectionDepth = bowLimbTotalDepth - bowLimbWoodSectionDepth
+bowLimbHornSectionCuFt = bowLimbWidth * bowLimbHornSectionDepth * bowLimbHeight
+bowLimbHornWeight = bowLimbHornSectionCuFt * densityHorn
+bowLimbHornRatio = bowLimbHornWeight / getWeight("horn, cow")
+recipeStorage["bow limb horn section"] = Recipe("carver",(bowLimbHornWeight,"lb"),
+                                                [],
+                                                [("horn, cow",bowLimbHornRatio)])
+semiGoods.append("bow limb horn section")
