@@ -1831,3 +1831,16 @@ recipeStorage["hide glue"] = Recipe("tanner",(1, "lb"),
                                     [],
                                     [("rawhide",hideGlueWeightRatio)],
                                     description="customer supplies container; covers " + str(squareFeetGlueCanCover) + " sq ft; heat 1 pt glue in 2 pts water to use")
+
+
+bowHeight = Decimal(5)
+bowstringLength = bowHeight * Decimal(1.10) # extra is for tying knots at each end of the bow
+bowstringWidth = Decimal(0.125)/Decimal(12) # eighth of an inch
+bowstringSqFt = bowstringLength * bowstringWidth
+bowstringUnitRatio = bowstringSqFt / getUnitSize("rawhide")
+bowstringWeight = bowstringUnitRatio * getWeight("rawhide")
+strandsPerBowstring = Decimal(3)
+recipeStorage["bowstring strand"] = Recipe("leatherworker",(bowstringWeight/strandsPerBowstring,"lb"),
+                                    [],
+                                    [("rawhide",bowstringUnitRatio/strandsPerBowstring)])
+semiGoods.append("bowstring strand")
