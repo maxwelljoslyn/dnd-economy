@@ -1848,3 +1848,21 @@ semiGoods.append("bowstring strand")
 recipeStorage["bowstring"] = Recipe("leatherworker",(bowstringWeight,"lb"),
                                     [],
                                     [("bowstring strand",strandsPerBowstring)])
+
+# the bow is a flatbow, i.e. has flat limbs, but is not a selfbow, i.e. is not made entirely of one length of wood
+# assuming uniform width and depth
+bowLimbWidth = Decimal(1.5)/Decimal(12)
+bowLimbTotalDepth = Decimal(1.2)/Decimal(12)
+# length of the metal section joining the two limbs of the bow, which we'll need when calculating limb component sizes
+bowRiserLength = Decimal(2)/Decimal(12)
+
+# bow limb is divided into two layers: wood and horn
+bowLimbHeight = ((bowHeight-bowRiserLength)/2)
+bowLimbWoodSectionDepth = bowLimbTotalDepth * Decimal(0.75)
+bowLimbWoodSectionCuFt = bowLimbWidth * bowLimbWoodSectionDepth * bowLimbHeight
+bowLimbWoodWeight = bowLimbWoodSectionCuFt * densityTimber
+recipeStorage["bow limb wood section"] = Recipe("bowyer",(bowLimbWoodWeight,"lb"),
+                                   [("timber",bowLimbWoodSectionCuFt)],
+                                   [])
+semiGoods.append("bow limb wood section")
+
