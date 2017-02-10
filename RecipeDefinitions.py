@@ -1896,3 +1896,11 @@ recipeStorage["bow riser"] = Recipe("blacksmith",(bowRiserWeight,"lb"),
                                     [("wrought iron",bowRiserWeight)],
                                     description="metal rod which joins the limbs of a bow")
 semiGoods.append("bow riser")
+
+bowTotalWeight = bowstringWeight + bowRiserWeight + 2 * bowLimbWeight
+recipeStorage["bow"] = Recipe("bowyer",(bowTotalWeight,"lb"),
+                              [],
+                              [("bowstring",1),
+                               ("bow riser",1),
+                               ("bow limb", 2)],
+                              description="1d6 damage; " + str(bowHeight) + "-ft length; two-limb construction; includes 1 bowstring")
