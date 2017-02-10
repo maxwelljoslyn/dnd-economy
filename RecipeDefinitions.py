@@ -1874,3 +1874,16 @@ recipeStorage["bow limb horn section"] = Recipe("carver",(bowLimbHornWeight,"lb"
                                                 [],
                                                 [("horn, cow",bowLimbHornRatio)])
 semiGoods.append("bow limb horn section")
+
+bowLimbCrossSectionSqFt = bowLimbHeight * bowLimbWidth
+bowLimbRawhideUnitRatio = bowLimbCrossSectionSqFt / getUnitSize("rawhide")
+bowLimbRawhideWeight = bowLimbRawhideUnitRatio * getWeight("rawhide")
+bowLimbWeight = bowLimbWoodWeight + bowLimbHornWeight + bowLimbRawhideWeight
+bowLimbGlueUnitRatio = bowLimbCrossSectionSqFt / squareFeetGlueCanCover
+bowLimbGlueWeight = bowLimbGlueUnitRatio * getWeight("hide glue")
+recipeStorage["bow limb"] = Recipe("bowyer",(bowLimbWeight,"lb"),
+                                   [],
+                                   [("bow limb wood section",1),
+                                    ("bow limb horn section",1),
+                                    ("rawhide",bowLimbRawhideUnitRatio),
+                                    ("hide glue",bowLimbGlueWeight)])
