@@ -1149,12 +1149,12 @@ recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight +
 poundsOfPigmentPerGallonPaint = Decimal(1)/Decimal(8)
 # but we are doing only 1 quart of paint, so we divide by 4
 poundsPigmentQuartPaint = poundsOfPigmentPerGallonPaint / 4
-
+squareFeetPaintCanCover = Decimal(75)
 recipeStorage["paint, red/yellow"] = Recipe("potter",(poundsPigmentQuartPaint + milkGallonWeight/Decimal(4),"lb"),
                                                       [],
                                                       [("cow milk",0.25),("pigment, red/yellow",poundsPigmentQuartPaint)],
                                                       unit=(1,"quart"),
-                                                      description="in powder form; covers 75 sq ft. Keeps for 6 mo. sealed or 4 days once once opened")
+                                                      description="in powder form; covers " + str(squareFeetPaintCanCover) + " sq ft. Keeps for 6 mo. sealed or 4 days once once opened")
 
 recipeStorage["paint, ultramarine blue"] = Recipe("potter",(poundsPigmentQuartPaint + milkGallonWeight/Decimal(4),"lb"),
                                                       [],
