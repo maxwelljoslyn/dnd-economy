@@ -1635,7 +1635,8 @@ clothTwistWoolWeight = clothTwistSqFt * getWeight("wool cloth")
 recipeStorage["pipe tobacco"] = Recipe("tobacconist",(pipeTobaccoWeight + clothTwistSqFt,"lb"),
                                        [],
                                        [("tobacco, cured",pipeTobaccoWeight),("wool cloth",clothTwistSqFt)],
-                                       description=str(pipeTobaccoInOz) + " oz, wrapped in cloth twist")
+                                       unit=(pipeTobaccoInOz,"oz"),
+                                       description="wrapped in cloth twist")
 
 
 pipeSmokingWeight = Decimal(0.33)
