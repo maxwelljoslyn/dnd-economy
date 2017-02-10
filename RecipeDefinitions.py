@@ -1887,3 +1887,12 @@ recipeStorage["bow limb"] = Recipe("bowyer",(bowLimbWeight,"lb"),
                                     ("bow limb horn section",1),
                                     ("rawhide",bowLimbRawhideUnitRatio),
                                     ("hide glue",bowLimbGlueWeight)])
+
+bowRiserRadius = Decimal(0.125)/Decimal(12)
+bowRiserCuFt = cylinderCuFt(bowRiserLength,bowRiserRadius)
+bowRiserWeight = bowRiserCuFt * densityWroughtIron
+recipeStorage["bow riser"] = Recipe("blacksmith",(bowRiserWeight,"lb"),
+                                    [],
+                                    [("wrought iron",bowRiserWeight)],
+                                    description="metal rod which joins the limbs of a bow")
+semiGoods.append("bow riser")
