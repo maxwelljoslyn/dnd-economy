@@ -414,13 +414,13 @@ densityQuicklime = Decimal(209.1337)
 # is used for 100 average hides
 # let's split the difference between 3 and 4 cuft of quicklime, and call it 3.5
 tannedCowhidePoundsQuicklime = Decimal(3.5) * densityQuicklime / Decimal(100)
-weightCowhideInOz = Decimal(15 * 16)
-cowhideDensityInOzPerSqFt = Decimal(weightCowhideInOz / 50)
-recipeStorage["tanned cowhide"] = Recipe("tanner",(15,"lb"),
+weightCowhideInOz = getWeight("rawhide") * 16
+cowhideWeightInOzPerSqFt = weightCowhideInOz / Decimal(getUnitSize("rawhide"))
+recipeStorage["tanned cowhide"] = Recipe("tanner",(getWeight("rawhide"),"lb"),
                                          [],
                                          [("quicklime",tannedCowhidePoundsQuicklime),("rawhide",1)],
                                          unit=recipeStorage["fleshy cowhide"].unit,
-                                         description= str(cowhideDensityInOzPerSqFt) + " oz/sq. ft, thus a 1-ft square is " + str(Decimal(cowhideDensityInOzPerSqFt/64)) + " in. thick")
+                                         description= str(cowhideWeightInOzPerSqFt) + " oz/sq. ft)")
 
 recipeStorage["holy symbol, plain, wooden"] = Recipe("carpenter",(1,"lb"),
                                                       [("timber",0.02)],
