@@ -959,6 +959,16 @@ recipeStorage["gambeson, quilted"] = Recipe("weaver",(gambesonSqFt * getWeight("
                                             [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
                                             description="AC 9; padded cloth armor; full sleeves, and covers torso to the waist")
 
+# some ad-hoc measurements for horns follow
+hornRadius = Decimal(1.5)/Decimal(12)
+hornLength = 4
+hornCuFt = cylinderCuFt(hornLength, hornRadius)
+hornWeight = hornCuFt * densityHorn
+recipeStorage["horn, cow"] = Recipe("butcher",(hornWeight,"lb"),
+                                    [],
+                                    [("cow",Decimal(0.5))],
+                                    unit=(1,"horn"),
+                                    description=str(hornLength) + " ft long, " + str(hornRadius) + "-inch avg. radius")
 recipeStorage["gemshorn"] = Recipe("carpenter",(2,"lb"),
                                    [],
                                    [("fipple",1),("cow",Decimal(0.5))],
