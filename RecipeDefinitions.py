@@ -1428,11 +1428,13 @@ recipeStorage["hood"] = Recipe("tailor",(hoodWeightWool,"lb"),
                                     [("wool cloth",hoodSqFtWool)],
                                     description="separate article of clothing")
 
-recipeStorage["aqua fortis"] = Recipe("alchemist",(8,"oz"),
+aquaFortisWeight = waterWeightOnePint / Decimal(2)
+recipeStorage["aqua fortis"] = Recipe("alchemist",(aquaFortisWeight + getWeight("flask, glass"),"lb"),
                                       [("copper ore",3)],
                                       [],
+                                      unit=(8,"fl oz"),
                                       difficulty=4, # for cleaning and separating the ore and doing the lab work
-                                      description="acid of moderate strength")
+                                      description="acid of moderate strength; in glass flask")
 
 # chicken takes ~6 months to reach maturity, and then produces eggs
 # alternatively can be slaughtered (in reality it only takes about 4 months until it's slaughterable)
