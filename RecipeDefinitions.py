@@ -417,7 +417,6 @@ recipeStorage["rawhide"] = Recipe("tanner",(15,"lb"),
                                             [("fleshy cowhide",1)],
                                             unit=recipeStorage["fleshy cowhide"].unit,
                                             description="cleaned and dried cowskin")
-semiGoods.append("rawhide")
 
 densityQuicklime = Decimal(209.1337)
 # this site:
