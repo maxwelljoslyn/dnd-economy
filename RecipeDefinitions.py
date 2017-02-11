@@ -1774,7 +1774,7 @@ weightMercuryHalfPint = (densityMercury / cubicFootInPints) / Decimal(2)
 cinnabarForHalfPintMercury = weightMercuryHalfPint / (cinnabarPercentMercury / 100)
 recipeStorage["mercury"] = Recipe("smelter", (weightMercuryHalfPint,"lb"),
                                   [("cinnabar",cinnabarForHalfPintMercury)],
-                                  [],
+                                  [("quicklime",cinnabarForHalfPintMercury)], # following the method presented in Subterraneal Treasure: use as much lime as cinnabar
                                   unit=(0.5,"pint"),
                                   description="liquid phase; customer supplies container")
 
