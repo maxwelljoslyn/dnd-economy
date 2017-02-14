@@ -158,14 +158,13 @@ recipeStorage["lead"] = Recipe("smelter",(1,"lb"),
                                 description="ingot, 1.084x1.5x1.5 in.")
 
 
-
 recipeStorage["silver"] = Recipe("smelter",(1,"lb"),
                                  [("silver ore",1),("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
                                  [],
                                  description="ingot, 1.5x1.5x1.175 in.")
 
 recipeStorage["gold"] = Recipe("smelter", (1,"lb"),
-                                 [("gold ore",1)],
+                                 [("gold ore",1), ("coal",Decimal(0.5)), ("limestone", Decimal(0.5))],
                                  [],
                                  description="ingot, 1x1x1.435 in.")
 
