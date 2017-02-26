@@ -1953,3 +1953,18 @@ recipeStorage["rope ladder tophook"] = Recipe("blacksmith",(ropeLadderTophookWei
                                               [("wrought iron",ropeLadderTophookWeight)],
                                               description="metal hook for suspending rope ladder")
 semiGoods.append("rope ladder tophook")
+
+# rope to go through the eyelet of the tophook
+ropeLadderHookRopeLength = Decimal(3)
+ropeLadderHookRopeUnitRatio = ropeLadderHookRopeLength/getUnitSize("rope")
+ropeLadderHookRopeWeight = ropeLadderHookRopeUnitRatio * getWeight("rope")
+
+ropeLadderUnitCount = 15
+ropeLadderTotalRopeUnitRatio = ropeLadderUnitRopeRatio * ropeLadderUnitCount + ropeLadderHookRopeUnitRatio
+ropeLadderTotalWeight = (ropeLadderUnitRopeWeight * ropeLadderUnitCount) + (ladderRungWeight * (ropeLadderUnitCount + 1)) + (ropeLadderTophookWeight * 2) + ropeLadderHookRopeWeight
+recipeStorage["rope ladder"] = Recipe("ropewalker",(ropeLadderTotalWeight,"lb"),
+                                      [],
+                                      [("rope", ropeLadderTotalRopeUnitRatio),
+                                       ("ladder rung", ropeLadderUnitCount+1),
+                                       ("rope ladder tophook",2)],
+                                      description="rollable; 2x hook -> no need to spike; as hard to climb as rope due to swinging; body height: " + str(ropeLadderBodyLength(ropeLadderUnitCount)) + " ft")
