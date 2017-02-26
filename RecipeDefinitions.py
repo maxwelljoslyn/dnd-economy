@@ -1101,7 +1101,7 @@ slingLeatherWeight = slingLeatherUnitRatio * getWeight("tanned cowhide")
 recipeStorage["sling"] = Recipe("leatherworker",(slingLeatherWeight + slingYarnWeight,"lb"),
                                 [],
                                 [("yarn, wool",slingYarnWeight),("tanned cowhide",slingLeatherUnitRatio)],
-                                description="1d4 damage (1d4-1, min. 0, with scavenged ammo); missile; range 12/24/36")
+                                description="1d4 damage (1d4-1, min. 0, with scavenged ammo); missile; range 10/16/22")
 
 musicalBoneCuFt = Decimal(1/12) * Decimal(1/8/12) * Decimal(6/12)
 # musical bones come in pairs
