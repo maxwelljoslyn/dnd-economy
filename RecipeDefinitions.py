@@ -1943,3 +1943,13 @@ def ropeLadderBodyLength(num):
     """Return the length of a rope ladder body having num units.
     The extra rung diameter is for the bottom rung."""
     return (ropeLadderUnitHeight * num) + ladderRungDiameter
+
+# model the hook at the top of the rope ladder as a long spike, bent into a hook shape, with an eyelet at the bottom for rope
+# see /D&D/support_inspiration/images/ladder_pictures.jpg for an example
+ropeLadderTophookCuFt = coneCuFt(Decimal(1.5),spikeRadius)
+ropeLadderTophookWeight = ropeLadderTophookCuFt * densityWroughtIron
+recipeStorage["rope ladder tophook"] = Recipe("blacksmith",(ropeLadderTophookWeight,"lb"),
+                                              [],
+                                              [("wrought iron",ropeLadderTophookWeight)],
+                                              description="metal hook for suspending rope ladder")
+semiGoods.append("rope ladder tophook")
