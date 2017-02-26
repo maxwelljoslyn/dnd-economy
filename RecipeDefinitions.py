@@ -698,14 +698,14 @@ semiGoods.append("clean cotton")
 recipeStorage["thin yarn, cotton"] = Recipe("spinner",(1,"lb"),
                                             [],
                                             [("clean cotton",1)],
-                                            unit=(2000,"feet"),
-			                    description="must be spun to be useful")
+                                            unit=recipeStorage["thin yarn, wool"].unit,
+			                                description="must be spun to be useful")
 semiGoods.append("thin yarn, cotton")
 
 recipeStorage["yarn, cotton"] = Recipe("spinner",(1,"lb"),
                                        [],
                                        [("thin yarn, cotton",1)],
-                                       unit=(getUnitSize("thin yarn, cotton"),"feet"),
+                                       unit=(getUnitSize("yarn, wool"),"feet"),
                                        description="useable as string and in stitching, ropemaking, etc.")
 
 # warning: mostly-bullshit calculations ahead. I just need a figure here.
