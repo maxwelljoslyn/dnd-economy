@@ -1997,3 +1997,9 @@ recipeStorage["fishing line"] = Recipe("weaver",(fishingLineWeight,"lb"),
                                        [],
                                        [("yarn, wool",fishingLineWeight)],
                                        description="sold in " + str(fishingLineFeet) + "-ft roll")
+
+fishHookCuFt = cylinderCuFt(Decimal(3)/Decimal(12),Decimal(0.125)/Decimal(12))
+fishHookWeight = fishHookCuFt * densityWroughtIron
+recipeStorage["fish hook"] = Recipe("blacksmith",(fishHookWeight,"lb"),
+                                    [],
+                                    [("wrought iron",fishHookWeight)])
