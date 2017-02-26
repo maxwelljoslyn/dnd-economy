@@ -1913,4 +1913,4 @@ recipeStorage["bow"] = Recipe("bowyer",(bowTotalWeight,"lb"),
                               [("bowstring",1),
                                ("bow riser",1),
                                ("bow limb", 2)],
-                              description="1d6 damage; " + str(bowHeight) + "-ft length; two-limb construction; includes 1 bowstring")
+                              description="1d6 damage; range 12/24/36; " + str(bowHeight) + " ft tall; includes 1 bowstring")
