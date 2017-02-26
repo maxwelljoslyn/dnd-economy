@@ -1990,3 +1990,10 @@ recipeStorage["wooden ladder"] = Recipe("carpenter",(woodenLadderTotalWeight,"lb
                                          ("ladder rung", woodenLadderNumRungs)],
                                         description="height " + str(woodenLadderHeight) + " ft")
 
+fishingLineFeet = Decimal(45)
+fishingLineUnitRatio = fishingLineFeet / getUnitSize("yarn, wool")
+fishingLineWeight = fishingLineUnitRatio * getWeight("yarn, wool")
+recipeStorage["fishing line"] = Recipe("weaver",(fishingLineWeight,"lb"),
+                                       [],
+                                       [("yarn, wool",fishingLineWeight)],
+                                       description="sold in " + str(fishingLineFeet) + "-ft roll")
