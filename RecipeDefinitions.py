@@ -860,29 +860,6 @@ recipeStorage["haubergeon, mail"] = Recipe("blacksmith",(haubergeonSqFt * getWei
                                           [("mail sqft",haubergeonSqFt)],
                                           description="AC 6; has half-sleeves; covers torso to the waist")
 
-# The amount of feet of yarn per pound of wool which I give here is probably a vast under- or overshoot,
-# but it's a highly variable amount dependent on thickness of resultant yarn, type of sheep, and
-# other factors, so I'll just go ahead and soldier on. Can always fix it later.
-recipeStorage["thin yarn, wool"] = Recipe("spinner",(1,"lb"),
-                                    [],
-                                    [("clean wool",1)],
-                                    unit=(2000,"feet"),
-			       description="must be spun into thread or yarn to be useful")
-semiGoods.append("thin yarn, wool")
-
-recipeStorage["yarn, wool"] = Recipe("spinner",(1,"lb"),
-                               [],
-                               [("thin yarn, wool",1)],
-                               unit=(getUnitSize("thin yarn, wool"),"feet"),
-                               description="useable as string and in stitching, ropemaking, etc.")
-
-
-recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
-                                 [],
-                                 [("thin yarn, wool",1)],
-                                 unit=(getUnitSize("thin yarn, wool")*2,"feet"),
-                                 description="useable for stitching cloth and textiles")
-
 
 # the leather pattern must be worked by a leatherworker with thread, to make the bag;
 # he sews the sides together, and adds the string for tying closed, with its holes
