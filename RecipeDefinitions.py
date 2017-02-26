@@ -1546,8 +1546,8 @@ recipeStorage["torch fuel"] = Recipe("carver",(torchFuelWoolWeight + pitchInFlas
                                      description="illuminates 5-hex radius for 30 minutes. Wool, soaked in pitch")
 
 spikeLength = 1
-spikeRadius = 0.75
-spikeCuFt = coneCuFt(spikeLength,Decimal(spikeRadius)/Decimal(12))
+spikeRadius = Decimal(0.75)/Decimal(12)
+spikeCuFt = coneCuFt(spikeLength,spikeRadius)
 spikeWeight = spikeCuFt * densityWroughtIron
 recipeStorage["spike"] = Recipe("blacksmith",(spikeWeight,"lb"),
                                 [],
