@@ -2003,3 +2003,23 @@ fishHookWeight = fishHookCuFt * densityWroughtIron
 recipeStorage["fish hook"] = Recipe("blacksmith",(fishHookWeight,"lb"),
                                     [],
                                     [("wrought iron",fishHookWeight)])
+
+# a cylinder of metal bent into a little circle
+# only one at the tip; no guide loops, that was a later invention
+fishingRodTipLoopLength = Decimal(1)/Decimal(12)
+fishingRodTipLoopDiameter = Decimal(0.25)/Decimal(12)
+fishingRodTipLoopCuFt = cylinderCuFt(fishingRodTipLoopLength, fishingRodTipLoopDiameter/Decimal(2))
+fishingRodTipLoopWeight = fishingRodTipLoopCuFt * densityWroughtIron
+
+# it seems crazy long, but this is how long they used to be!
+fishingRodLength = Decimal(18)
+fishingRodDiameter = Decimal(0.75)/Decimal(12)
+fishingRodCuFt = cylinderCuFt(fishingRodLength,fishingRodDiameter/Decimal(2))
+fishingRodWeight = fishingRodCuFt * densityTimber
+fishingRodTotalWeight = fishingRodWeight + fishingRodTipLoopWeight
+
+recipeStorage["fishing rod"] = Recipe("carver",(fishingRodTotalWeight,"lb"),
+                                      [("timber",fishingRodCuFt)],
+                                      [("wrought iron",fishingRodTipLoopWeight)],
+                                      description="for angling; " + str(fishingRodLength) + " feet long")
+
