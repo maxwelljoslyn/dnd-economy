@@ -1983,3 +1983,10 @@ recipeStorage["wooden ladder plank"] = Recipe("carpenter",(woodenLadderPlankWeig
                                               [])
 semiGoods.append("wooden ladder plank")
 
+woodenLadderTotalWeight = (woodenLadderPlankWeight * 2) + (ladderRungWeight * woodenLadderNumRungs)
+recipeStorage["wooden ladder"] = Recipe("carpenter",(woodenLadderTotalWeight,"lb"),
+                                        [],
+                                        [("wooden ladder plank",2),
+                                         ("ladder rung", woodenLadderNumRungs)],
+                                        description="height " + str(woodenLadderHeight) + " ft")
+
