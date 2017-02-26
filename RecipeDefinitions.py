@@ -1968,3 +1968,18 @@ recipeStorage["rope ladder"] = Recipe("ropewalker",(ropeLadderTotalWeight,"lb"),
                                        ("ladder rung", ropeLadderUnitCount+1),
                                        ("rope ladder tophook",2)],
                                       description="rollable; 2x hook -> no need to spike; as hard to climb as rope due to swinging; body height: " + str(ropeLadderBodyLength(ropeLadderUnitCount)) + " ft")
+
+
+# rigid ladders of the shortest variety are two long thick planks
+# each plank has divots drilled for installing rungs
+woodenLadderDistanceBetweenRungs = ropeLadderUnitBridgingRopeLength
+woodenLadderNumRungs = 10
+# the height of each plank is two feet higher than the distance the rungs traverse
+woodenLadderHeight = (woodenLadderNumRungs * woodenLadderDistanceBetweenRungs) + 2
+woodenLadderPlankCuFt = woodenLadderHeight * Decimal(2)/Decimal(12) * Decimal(2)/Decimal(12)
+woodenLadderPlankWeight = woodenLadderPlankCuFt * densityTimber
+recipeStorage["wooden ladder plank"] = Recipe("carpenter",(woodenLadderPlankWeight,"lb"),
+                                              [("timber",woodenLadderPlankCuFt)],
+                                              [])
+semiGoods.append("wooden ladder plank")
+
