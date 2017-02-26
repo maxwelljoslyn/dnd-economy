@@ -1914,3 +1914,17 @@ recipeStorage["bow"] = Recipe("bowyer",(bowTotalWeight,"lb"),
                                ("bow riser",1),
                                ("bow limb", 2)],
                               description="1d6 damage; range 12/24/36; " + str(bowHeight) + " ft tall; includes 1 bowstring")
+
+# we can consider a rope ladder as constructed of a certain number of units, PLUS the top rung, plus some kind of solid metal hook with a long "arm" and a generous curve on the business end, to grab onto surfaces/bite into dirt
+# plus, of course, the rope to secure the spike to the top rung.
+# each unit is composed of a rung plus the rope needed to bridge the gap to the next rung and then secure the two rungs together
+# each rung is a solid wooden rod, perhaps sanded against the grain to provide a rough grippy surface or something like that (not sure how that would have been done)
+# we can use these rungs for both rope and wooden ladders
+ladderRungDiameter = Decimal(1.5)/Decimal(12)
+ladderRungLength = Decimal(1)
+ladderRungCuFt = cylinderCuFt(ladderRungLength,ladderRungDiameter/Decimal(2))
+ladderRungWeight = ladderRungCuFt * densityTimber
+recipeStorage["ladder rung"] = Recipe("carver",(ladderRungWeight,"lb"),
+                                      [("timber",ladderRungCuFt)],
+                                      [])
+semiGoods.append("ladder rung")
