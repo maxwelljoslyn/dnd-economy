@@ -1163,7 +1163,7 @@ shieldHandleWeight = shieldHandleCuFt * densityTimber
 
 recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight + (shieldRopeStrapWeight * 2) + shieldHandleWeight + shieldEdgingWeight,"lb"),
                                                [("timber",shieldTimberCuFt + shieldHandleCuFt)],
-                                               [("rope",shieldRopeStrapWeight * 2), ("rawhide",shieldEdgingUnitRatio)],
+                                               [("rope",shieldRopeStrapUnitRatio * 2), ("rawhide",shieldEdgingUnitRatio)],
                                                description="improves AC by -1; wooden shield 2 feet across, with ropes for securing")
 
 
