@@ -114,9 +114,9 @@ bottleGlassWeightQl = bottleWeight - bottleGlassWeightOfClay
 bottleStopperCuFt = cylinderCuFt(Decimal(0.5)/Decimal(12),bottleMouthInnerRadius)
 bottleTotalHeight = bottleOuterCylinderHeight + bottleOuterConeHeight
 recipeStorage["bottle, glass"] = Recipe("glassblower",(bottleWeight,"lb"),
-                                             [("timber",bottleStopperCuFt)],
-                                             [("baked clay",bottleGlassWeightOfClay),("quicklime",bottleGlassWeightQl)],
-                                             description="max cap. 1 pint 2 oz; " + str(bottleTotalHeight * 12) + " in. high plus 0.5 in stopper")
+                                        [("timber",bottleStopperCuFt)],
+                                        [("baked clay",bottleGlassWeightOfClay),("quicklime",bottleGlassWeightQl)],
+                                        description="max cap. 1 pint 2 oz; " + str(bottleTotalHeight * 12) + " in. high plus 0.5 in stopper")
 
 
 
@@ -126,12 +126,11 @@ semiGoods.append("pig iron")
 
 recipeStorage["cast iron"] = Recipe("smelter",(1, "lb"),
                                     # first the components which go into cast iron
-                                       [("manganese ore",0.06),
-                                        ("nickel ore",0.01),
-                                    # then the components to do heating and thus smelting
-                                        ("coal",0.5),
-                                        ("limestone",0.25)],
-                                       [("pig iron",0.93)],
+                                    [("manganese ore",0.06),
+                                     ("nickel ore",0.01),
+                                     ("coal",0.5),
+                                     ("limestone",0.25)],
+                                    [("pig iron",0.93)],
                                     description="ingot, 1x1x3.8 in.")
 pewterTinProportion = Decimal(0.85)
 pewterCopperProportion = Decimal(0.15)
@@ -154,8 +153,8 @@ semiGoods.append("iron filings")
 # the lead filings are on the basis of the methods described in Subterraneal Treasures
 recipeStorage["lead"] = Recipe("smelter",(1,"lb"),
                                [("lead ore",1),("coal",Decimal(0.5)), ("limestone",0.25)],
-                                [("iron filings",Decimal(0.25))],
-                                description="ingot, 1.084x1.5x1.5 in.")
+                               [("iron filings",Decimal(0.25))],
+                               description="ingot, 1.084x1.5x1.5 in.")
 
 
 recipeStorage["silver"] = Recipe("smelter",(1,"lb"),
@@ -164,9 +163,9 @@ recipeStorage["silver"] = Recipe("smelter",(1,"lb"),
                                  description="ingot, 1.5x1.5x1.175 in.")
 
 recipeStorage["gold"] = Recipe("smelter", (1,"lb"),
-                                 [("gold ore",1), ("coal",Decimal(0.5)), ("limestone", Decimal(0.5))],
-                                 [],
-                                 description="ingot, 1x1x1.435 in.")
+                               [("gold ore",1), ("coal",Decimal(0.5)), ("limestone", Decimal(0.5))],
+                               [],
+                               description="ingot, 1x1x1.435 in.")
 
 bronzeCopperProportion = Decimal(0.88)
 bronzeTinProportion = Decimal(0.12)
@@ -185,10 +184,10 @@ volumeBellmetalIngot = (bellmetalTinProportion / densityTin) + (bellmetalCopperP
 densityBellmetal = 1 / volumeBellmetalIngot
 # comes out to 532.8 lb/cuft, almost the same as bronze but not quite
 recipeStorage["bell metal"] = Recipe("smelter",(1,"lb"),
-                                 [("tin ore",bellmetalTinProportion),("copper ore",bellmetalCopperProportion),
-                                  ("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
-                                 [],
-                                 description="ingot, 1.2x1.35x2 in.")
+                                     [("tin ore",bellmetalTinProportion),("copper ore",bellmetalCopperProportion),
+                                      ("coal",Decimal(0.5)),("limestone",Decimal(0.5))],
+                                     [],
+                                     description="ingot, 1.2x1.35x2 in.")
 
 recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
                                        [("coal",Decimal(0.5)),("limestone",Decimal(0.25))],
@@ -196,7 +195,7 @@ recipeStorage["wrought iron"] = Recipe("smelter",(1,"lb"),
                                        description="ingot, 1x1x3.57 in.")
 
 recipeStorage["steel"] = Recipe("smelter",(1,"lb"),
-                                       [("coal",0.25),("limestone",0.25)],
+                                [("coal",0.25),("limestone",0.25)],
                                 # steel requires half as much coal as other iron stuff
                                 # b/c howstuffworks says it only needs to get half as hot
                                        [("pig iron",1)],
@@ -233,28 +232,28 @@ recipeStorage["dagger"] = Recipe("blacksmith",(daggerWeight,"lb"),
 
 shortswordWeight = getWeight("pommel") + getWeight("blade hilt") + (Decimal(2) * getWeight("blade"))
 recipeStorage["shortsword"] = Recipe("blacksmith",(shortswordWeight,"lb"),
-                                 [],
-                                 [("blade",2),("pommel",1),("blade hilt",1)],
-                                 description="1d6 damage; 2-foot blade")
+                                     [],
+                                     [("blade",2),("pommel",1),("blade hilt",1)],
+                                     description="1d6 damage; 2-foot blade")
 
 longswordWeight = getWeight("pommel") + getWeight("blade hilt") + (Decimal(3.5) * getWeight("blade"))
 recipeStorage["longsword"] = Recipe("blacksmith",(longswordWeight,"lb"),
-                                 [],
-                                 [("blade",3.5),("pommel",1),("blade hilt",1)],
-                                 description="1d8 damage; 3.5-foot blade")
+                                    [],
+                                    [("blade",3.5),("pommel",1),("blade hilt",1)],
+                                    description="1d8 damage; 3.5-foot blade")
 
 greatswordWeight = getWeight("pommel") + getWeight("blade hilt") + (Decimal(4.5) * getWeight("blade"))
 recipeStorage["greatsword"] = Recipe("blacksmith",(greatswordWeight,"lb"),
-                                 [],
-                                 [("blade",4.5),("pommel",1),("blade hilt",1)],
-                                 description="1d10 damage; 4.5-foot blade")
+                                     [],
+                                     [("blade",4.5),("pommel",1),("blade hilt",1)],
+                                     description="1d10 damage; 4.5-foot blade")
 
 
 # let's do some foods, plus cattle feed so we do cow prices and all the stuff coming from that
 
 recipeStorage["husked cereal"] = Recipe("miller",(1,"lb"),
-                                         [("cereal",1)],
-                                         [])
+                                        [("cereal",1)],
+                                        [])
 semiGoods.append("husked cereal")
 
 recipeStorage["flour"] = Recipe("miller",(1,"lb"),
@@ -263,19 +262,19 @@ recipeStorage["flour"] = Recipe("miller",(1,"lb"),
                                 description="Flour ground from cereals.")
 
 recipeStorage["cattle feed"] = Recipe("miller",(1,"lb"),
-                                [],
-                                [("husked cereal",1)],
-                                description="coarsely ground from cereals")
+                                      [],
+                                      [("husked cereal",1)],
+                                      description="coarsely ground from cereals")
 
 recipeStorage["horse feed"] = Recipe("miller",(1,"lb"),
-                                [],
-                                [("husked cereal",1)],
-                                description="ground from cereals")
+                                     [],
+                                     [("husked cereal",1)],
+                                     description="ground from cereals")
 
 recipeStorage["bread"] = Recipe("baker",(1,"lb"),
-                                       [("salt",0.05)],
-                                       [("flour",0.7)],
-                                       description="round loaf")
+                                [("salt",0.05)],
+                                [("flour",0.7)],
+                                description="round loaf")
 
 recipeStorage["quicklime"] = Recipe("potter",(1,"lb"),
                                     [("limestone",1),("coal",0.5)],
@@ -295,10 +294,10 @@ recipeStorage["mature ewe"] = Recipe("farmer",(90,"lb"),
 
 # a lamb which has been grain finished for slaughter
 recipeStorage["mutton sheep"] = Recipe("farmer",(130,"lb"),
-                                    [],
-                                    [("mature ewe",1),("horse feed",345)],
-                                    unit=(1,"head"),
-                                    description="one year old, suitable for slaughter")
+                                       [],
+                                       [("mature ewe",1),("horse feed",345)],
+                                       unit=(1,"head"),
+                                       description="one year old, suitable for slaughter")
 
 # one mature ewe produces ~ 200 LBS (not gallons!) of milk, once a year during lambing
 sheepAnnualMilkLbs = 200
@@ -314,8 +313,8 @@ sheepCarcassWeight = getWeight("mutton sheep") * Decimal(0.55)
 sheepMeatWeight = sheepCarcassWeight * Decimal(0.75)
 # we divide the cost of a mutton sheep by this number to get a price for 1 lb mutton
 recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
-                                     [],
-                                     [("mutton sheep",Decimal(1/sheepMeatWeight))])
+                                 [],
+                                 [("mutton sheep",Decimal(1/sheepMeatWeight))])
 
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
@@ -397,25 +396,25 @@ weightOneBarSoap = densityTallow * barSoapInCuFt
 # the soap here is 36 cubic inches, thus it should last about 4 months or 120 washes
 # but I'm going to cut that in half because adventurers get much dirtier than I ever would
 recipeStorage["soap, hard"] = Recipe("chandler",(weightOneBarSoap,"lb"),
-                                    [("salt",saltTallowRatio * weightOneBarSoap)],
-                                    [("lye",lyeTallowRatio * weightOneBarSoap),("tallow",tallowForOneLbSoap * weightOneBarSoap)],
-                                    description="will wash 1 person 60 times; 3x2x6 in.")
+                                     [("salt",saltTallowRatio * weightOneBarSoap)],
+                                     [("lye",lyeTallowRatio * weightOneBarSoap),("tallow",tallowForOneLbSoap * weightOneBarSoap)],
+                                     description="will wash 1 person 60 times; 3x2x6 in.")
 
 
 # a raw cowhide is about 50 square feet
 # this includes the irregularly-shaped edge portions,
 # so a nice big single square piece would only be about 40 square feet at most.
 recipeStorage["fleshy cowhide"] = Recipe("butcher",(60,"lb"),
-                                      [],
-                                      [("cow",1)],
-                                      unit=(50,"sq ft"))
+                                         [],
+                                         [("cow",1)],
+                                         unit=(50,"sq ft"))
 semiGoods.append("fleshy cowhide")
 
 recipeStorage["rawhide"] = Recipe("tanner",(15,"lb"),
-                                            [],
-                                            [("fleshy cowhide",1)],
-                                            unit=recipeStorage["fleshy cowhide"].unit,
-                                            description="cleaned and dried cowskin")
+                                  [],
+                                  [("fleshy cowhide",1)],
+                                  unit=recipeStorage["fleshy cowhide"].unit,
+                                  description="cleaned and dried cowskin")
 
 densityQuicklime = Decimal(209.1337)
 # this site:
@@ -433,20 +432,20 @@ recipeStorage["tanned cowhide"] = Recipe("tanner",(getWeight("rawhide"),"lb"),
                                          description= str(cowhideWeightInOzPerSqFt) + " oz/sq. ft)")
 
 recipeStorage["holy symbol, plain, wooden"] = Recipe("carpenter",(1,"lb"),
-                                                      [("timber",0.02)],
-                                                      [])
+                                                     [("timber",0.02)],
+                                                     [])
 
 recipeStorage["holy symbol, plain, iron"] = Recipe("blacksmith",(1,"lb"),
-                                                      [],
-                                                      [("wrought iron",1)])
+                                                   [],
+                                                   [("wrought iron",1)])
 
 # first step in making red and yellow (ochre) dyes
 # high difficulty because multiple steps in the process
 # here: https://en.wikipedia.org/wiki/Ochre#Modern_history
 # wiki says that clay would be about 90% junk and 10% ochre
 recipeStorage["separated ochre clay"] = Recipe("potter",(1,"lb"),
-                                       [],
-                                       [("baked clay",10)])
+                                               [],
+                                               [("baked clay",10)])
 semiGoods.append("separated ochre clay")
 
 # primary componenent of paints and of dyes
@@ -457,12 +456,12 @@ semiGoods.append("pigment, red/yellow")
 
 # component of blue dye
 recipeStorage["lapis lazuli, ground"] = Recipe("potter",(1,"lb"),
-                                              [("lapis lazuli",1)])
+                                               [("lapis lazuli",1)])
 semiGoods.append("lapis lazuli, ground")
 
 recipeStorage["lapis lazuli, cleaned"] = Recipe("potter",(1,"lb"),
-                                               [],
-                                               [("lapis lazuli, ground",1),("ashes",0.2),("tallow",0.2)])
+                                                [],
+                                                [("lapis lazuli, ground",1),("ashes",0.2),("tallow",0.2)])
 semiGoods.append("lapis lazuli, cleaned")
 
 recipeStorage["pigment, ultramarine"] = Recipe("dyer",(1,"lb"),
@@ -471,8 +470,8 @@ recipeStorage["pigment, ultramarine"] = Recipe("dyer",(1,"lb"),
 semiGoods.append("pigment, ultramarine")
 
 recipeStorage["malted grain"] = Recipe("brewer",(1,"lb"),
-                               [("cereal",1)],
-                               description="germinated and dried; used in brewing")
+                                       [("cereal",1)],
+                                       description="germinated and dried; used in brewing")
 
 recipeStorage["roasted malt"] = Recipe("brewer",(1,"lb"),
                                        [],
@@ -509,8 +508,8 @@ fatHoopCuFt = barrelHeadCircumference * (Decimal(1.25) / Decimal(12)) * (gauge16
 fatHoopWeight = densityWroughtIron * fatHoopCuFt
 
 recipeStorage["barrel hoop, fat"] = Recipe("blacksmith",(fatHoopWeight, "lb"),
-                                                         [],
-                                                         [("wrought iron",fatHoopWeight)])
+                                           [],
+                                           [("wrought iron",fatHoopWeight)])
 semiGoods.append("barrel hoop, fat")
 
 # the thin hoops are actually 1/3 and 2/3 the distance to the middle of the barrel,
@@ -522,8 +521,8 @@ thinHoopCuFt = barrelBodyCircumference * (Decimal(1) / Decimal(12)) * (gauge16Wi
 thinHoopWeight = densityWroughtIron * thinHoopCuFt
 
 recipeStorage["barrel hoop, thin"] = Recipe("blacksmith",(thinHoopWeight, "lb"),
-                                                         [],
-                                                         [("wrought iron",thinHoopWeight)])
+                                            [],
+                                            [("wrought iron",thinHoopWeight)])
 semiGoods.append("barrel hoop, thin")
 
 # these are quite rough measurements. so it goes.
@@ -590,16 +589,16 @@ aleCerealOnePint = aleCerealPerGallon * gallonsPerPint
 aleMaltOnePint = aleMaltPerGallon * gallonsPerPint
 aleRoastedMaltOnePint = aleRoastedMaltPerGallon * gallonsPerPint
 recipeStorage["ale, by the tankard"] = Recipe("brewer",(waterWeightOnePint,"lb"),
-                                         [("cereal",aleCerealOnePint)],
-                                         [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint)],
-                                         unit=(1,"pint"),
-                                         description = str(aleABV) + " percent alcohol")
+                                              [("cereal",aleCerealOnePint)],
+                                              [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint)],
+                                              unit=(1,"pint"),
+                                              description = str(aleABV) + " percent alcohol")
 
 recipeStorage["ale, bottled"] = Recipe("brewer",(waterWeightOnePint + getWeight("bottle, glass"),"lb"),
-                                         [("cereal",aleCerealOnePint)],
-                                         [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint), ("bottle, glass",1)],
-                                         unit=(1,"pint"),
-                                         description = str(aleABV) + " percent alcohol; in glass bottle")
+                                       [("cereal",aleCerealOnePint)],
+                                       [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint), ("bottle, glass",1)],
+                                       unit=(1,"pint"),
+                                       description = str(aleABV) + " percent alcohol; in glass bottle")
 
 # "To brewe beer; 10 quarters malt. 2 quarters wheat, 2 quarters oats, 40 lbs hops. To make 60 barrels of single beer."
 # this is one of the recipes taken from http://brewery.org/library/PeriodRen.html
@@ -622,17 +621,16 @@ beerCerealOnePint = beerCerealPerGallon * gallonsPerPint
 beerMaltOnePint = beerMaltPerGallon * gallonsPerPint
 beerHopsOnePint = beerHopsPerGallon * gallonsPerPint
 recipeStorage["beer, by the tankard"] = Recipe("brewer",(waterWeightOnePint,"lb"),
-                                         [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
-                                         [("malted grain",beerMaltOnePint)],
-                                         unit=(1,"pint"),
-                                         description=str(beerABV) + " percent alcohol")
+                                               [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
+                                               [("malted grain",beerMaltOnePint)],
+                                               unit=(1,"pint"),
+                                               description=str(beerABV) + " percent alcohol")
 
 recipeStorage["beer, bottled"] = Recipe("brewer",(waterWeightOnePint + getWeight("bottle, glass"),"lb"),
-                                         [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
-                                         [("malted grain",beerMaltOnePint), ("bottle, glass", 1)],
-                                         unit=(1,"pint"),
-                                         description=str(beerABV) + " percent alcohol; in glass bottle")
-
+                                        [("cereal",beerCerealOnePint),("hops",beerHopsOnePint)],
+                                        [("malted grain",beerMaltOnePint), ("bottle, glass", 1)],
+                                        unit=(1,"pint"),
+                                        description=str(beerABV) + " percent alcohol; in glass bottle")
 
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
@@ -691,8 +689,8 @@ recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
 # the ratio of raw cotton to clean cotton is b/c approx 60% of the weight of raw cotton is in the boll,
 # which is discarded
 recipeStorage["clean cotton"] = Recipe("miller",(1,"lb"),
-                                         [("cotton",2.5)],
-                                         [])
+                                       [("cotton",2.5)],
+                                       [])
 semiGoods.append("clean cotton")
 
 recipeStorage["thin yarn, cotton"] = Recipe("spinner",(1,"lb"),
@@ -715,9 +713,9 @@ yarnFtPerCottonClothSqFt = 384
 # the weight calculation below works because the table lists 1 lb of yarn.
 cottonClothWeight = (yarnFtPerCottonClothSqFt/getUnitSize("yarn, cotton")) * getWeight("yarn, cotton")
 recipeStorage["cotton cloth"] = Recipe("weaver",(cottonClothWeight,"lb"),
-                                     [],
-                                     [("yarn, cotton",yarnFtPerCottonClothSqFt / getUnitSize("yarn, cotton"))],
-                                     unit=(1,"sq ft"))
+                                       [],
+                                       [("yarn, cotton",yarnFtPerCottonClothSqFt / getUnitSize("yarn, cotton"))],
+                                       unit=(1,"sq ft"))
 
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
@@ -763,9 +761,9 @@ recipeStorage["pork"] = Recipe("butcher",(1,"lb"),
 saltForSaltBeef = Decimal(1/4) + Decimal(1/3)
 brownSugarForSaltBeef = Decimal(1/6)
 recipeStorage["beef jerky"] = Recipe("butcher",(1,"lb"),
-                                    [("salt",saltForSaltBeef)],
-                                    [("brown sugar",brownSugarForSaltBeef)],
-                                    description="will keep for a year if seldom exposed to air")
+                                     [("salt",saltForSaltBeef)],
+                                     [("brown sugar",brownSugarForSaltBeef)],
+                                     description="will keep for a year if seldom exposed to air")
 
 # salt pork, when compared to salt beef, is said to require more salt and less sugar (same source as salt beef)
 saltForSaltPork = Decimal(1/4) + Decimal(2.5/6)
@@ -782,8 +780,8 @@ semiGoods.append("spearhead")
 
 spearHaftCuFt = cylinderCuFt(5,Decimal(0.5/12))
 recipeStorage["spear haft"] = Recipe("carpenter",(spearHaftCuFt * densityTimber,"lb"),
-                                                  [("timber",spearHaftCuFt)],
-                                                  [])
+                                     [("timber",spearHaftCuFt)],
+                                     [])
 semiGoods.append("spear haft")
 
 spearWeight = recipeStorage["spearhead"].weight[0] + recipeStorage["spear haft"].weight[0]
@@ -850,16 +848,15 @@ semiGoods.append("mail sqft")
 # this is an OK-ish estimate, way better than my first one
 hauberkSqFt = 12
 recipeStorage["hauberk, mail"] = Recipe("blacksmith",(hauberkSqFt * getWeight("mail sqft"),"lb"),
-                                       [],
-                                       [("mail sqft",hauberkSqFt)],
-                                       description="AC 5; has full sleeves, and covers torso to the knees")
+                                        [],
+                                        [("mail sqft",hauberkSqFt)],
+                                        description="AC 5; has full sleeves, and covers torso to the knees")
 
 haubergeonSqFt = 6
 recipeStorage["haubergeon, mail"] = Recipe("blacksmith",(haubergeonSqFt * getWeight("mail sqft"),"lb"),
-                                          [],
-                                          [("mail sqft",haubergeonSqFt)],
-                                          description="AC 6; has half-sleeves; covers torso to the waist")
-
+                                           [],
+                                           [("mail sqft",haubergeonSqFt)],
+                                           description="AC 6; has half-sleeves; covers torso to the waist")
 
 # the leather pattern must be worked by a leatherworker with thread, to make the bag;
 # he sews the sides together, and adds the string for tying closed, with its holes
@@ -873,32 +870,32 @@ recipeStorage["haubergeon, mail"] = Recipe("blacksmith",(haubergeonSqFt * getWei
 # A tanned cowhide is 50 square feet, so we divide our total of 7 by 50.
 backpackPortionOfCowhide = Decimal(7 / 50)
 recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
-                                                [],
-                                                [("thread",Decimal(8) / getUnitSize("thread")),
-                                                 ("tanned cowhide",backpackPortionOfCowhide),
-                                                 ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
-                                                description="with string clasp; holds 30 lbs")
+                                   [],
+                                   [("thread",Decimal(8) / getUnitSize("thread")),
+                                    ("tanned cowhide",backpackPortionOfCowhide),
+                                    ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
+                                   description="with string clasp; holds 30 lbs")
 
 # belt pouch holds very little;
 # the total square footage is (0.15^2)*6
 beltpouchSqFt = (Decimal(0.15) ** 2) * 6
 beltpouchPortionOfCowhide = beltpouchSqFt / getUnitSize("tanned cowhide")
 recipeStorage["belt pouch"] = Recipe("leatherworker",(beltpouchPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
-                                                [],
-                                                [("thread",Decimal(1.2) / getUnitSize("thread")),
-                                                 ("tanned cowhide",beltpouchPortionOfCowhide),
-                                                 ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
-                                                description="with string clasp; holds 4.5 lbs")
+                                     [],
+                                     [("thread",Decimal(1.2) / getUnitSize("thread")),
+                                      ("tanned cowhide",beltpouchPortionOfCowhide),
+                                      ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
+                                     description="with string clasp; holds 4.5 lbs")
 
 # let's say a belt is 3 feet long and 1 inch wide, and you cut to the appropriate length -- but the leatherworker is gonna charge you for the whole thing.
 # you also need maybe 12 feet of thread to make the edges tough
 beltSqFt = Decimal(1/12) * 3
 beltPortionOfCowhide = beltSqFt / getUnitSize("tanned cowhide")
 recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
-                                                [],
-                                                [("thread",Decimal(12) / getUnitSize("thread")),
-                                                 ("tanned cowhide",beltPortionOfCowhide)],
-                                                description="leather; can attach up to 3 belt-attachable items: weapon scabbard/loop/hook, belt pouch, quiver")
+                               [],
+                               [("thread",Decimal(12) / getUnitSize("thread")),
+                                ("tanned cowhide",beltPortionOfCowhide)],
+                               description="leather; can attach up to 3 belt-attachable items: weapon scabbard/loop/hook, belt pouch, quiver")
 
 # approximate
 whistleCuFt = cylinderCuFt(Decimal(0.25), Decimal(0.75/12)) 
@@ -1035,8 +1032,8 @@ recipeStorage["handbell"] = Recipe("blacksmith",(handbellHandleWeight + handbell
 # we account for that loss here so that we don't have to do it as part of calculation for weights of
 # pottery pieces
 recipeStorage["baked clay"] = Recipe("potter",(1,"lb"),
-                                       [("clay",Decimal(1.15))],
-                                       [])
+                                     [("clay",Decimal(1.15))],
+                                     [])
 semiGoods.append("baked clay")
 
 
@@ -1176,16 +1173,16 @@ poundsOfPigmentPerGallonPaint = Decimal(1)/Decimal(8)
 poundsPigmentQuartPaint = poundsOfPigmentPerGallonPaint / 4
 squareFeetPaintCanCover = Decimal(75)
 recipeStorage["paint, red/yellow"] = Recipe("potter",(poundsPigmentQuartPaint + milkGallonWeight/Decimal(4),"lb"),
-                                                      [],
-                                                      [("cow milk",0.25),("pigment, red/yellow",poundsPigmentQuartPaint)],
-                                                      unit=(1,"quart"),
-                                                      description="in powder form; covers " + str(squareFeetPaintCanCover) + " sq ft. Keeps for 6 mo. sealed or 4 days once once opened")
+                                            [],
+                                            [("cow milk",0.25),("pigment, red/yellow",poundsPigmentQuartPaint)],
+                                            unit=(1,"quart"),
+                                            description="in powder form; covers " + str(squareFeetPaintCanCover) + " sq ft. Keeps for 6 mo. sealed or 4 days once once opened")
 
 recipeStorage["paint, ultramarine blue"] = Recipe("potter",(poundsPigmentQuartPaint + milkGallonWeight/Decimal(4),"lb"),
-                                                      [],
-                                                      [("cow milk",0.25),("pigment, ultramarine",poundsPigmentQuartPaint)],
-                                                      unit=(1,"quart"),
-                                                      description=recipeStorage["paint, red/yellow"].description)
+                                                  [],
+                                                  [("cow milk",0.25),("pigment, ultramarine",poundsPigmentQuartPaint)],
+                                                  unit=(1,"quart"),
+                                                  description=recipeStorage["paint, red/yellow"].description)
 
 # sling bullet is a 1-inch sphere, pressed into almondish shape
 slingBulletCuFt = sphereCuFt(Decimal(1)/Decimal(12))
@@ -1210,10 +1207,10 @@ recipeStorage["sling bullet, inscribed"] = Recipe("potter",(slingBulletWeight,"l
 lbsTimberPerGallonPitch = 80
 timberCuFtPerGallonPitch = lbsTimberPerGallonPitch / densityTimber
 recipeStorage["pitch, bulk"] = Recipe("potter",(weightWaterOneGal,"lb"),
-                                [("timber",timberCuFtPerGallonPitch)],
-                                [],
-                                unit=(1,"gallon"),
-                                description="viscous fluid derived from trees; customer supplies container")
+                                      [("timber",timberCuFtPerGallonPitch)],
+                                      [],
+                                      unit=(1,"gallon"),
+                                      description="viscous fluid derived from trees; customer supplies container")
 
 semiGoods.append("pitch, bulk")
 # temporarily renamed and made a semigood until I've sorted out a container for it,
@@ -1226,9 +1223,9 @@ shirtNeededWoolYarnProportion = (shirtWoolSqFt * 2) / getUnitSize("yarn, wool")
 shirtWoolYarnWeight = shirtNeededWoolYarnProportion * getWeight("yarn, wool")
 shirtTotalWeight = shirtWoolYarnWeight + (shirtWoolSqFt * getWeight("wool cloth"))
 recipeStorage["shirt"] = Recipe("tailor",(shirtTotalWeight, "lb"),
-                                        [],
-                                        [("wool cloth",shirtWoolSqFt),("yarn, wool",shirtWoolYarnWeight)],
-                                        description="underwear for both sexes; full sleeves, reaches knees")
+                                [],
+                                [("wool cloth",shirtWoolSqFt),("yarn, wool",shirtWoolYarnWeight)],
+                                description="underwear for both sexes; full sleeves, reaches knees")
 
 bicorneFeltSqFt = Decimal(1.75)
 bicorneWeight = bicorneFeltSqFt * getWeight("felt")
@@ -1240,9 +1237,9 @@ recipeStorage["hat, bicorne"] = Recipe("hatter",(bicorneWeight,"lb"),
 tricorneFeltSqFt = Decimal(2.25)
 tricorneWeight = tricorneFeltSqFt * getWeight("felt")
 recipeStorage["hat, tricorne"] = Recipe("hatter",(tricorneWeight,"lb"),
-                                       [],
-                                       [("felt",tricorneWeight)],
-                                       description="hat with brim folded up in a triangular shape")
+                                        [],
+                                        [("felt",tricorneWeight)],
+                                        description="hat with brim folded up in a triangular shape")
 
 # model the amount of clay needed for a cup,
 # as the volume of a cylinder 4 inches high and 1 inch radius, minus the inner volume,
@@ -1261,9 +1258,9 @@ recipeStorage["cup, earthenware"] = Recipe("potter",(cupClayWeight,"lb"),
 cupGlassWeightClay = cupClayWeight * percentageClayInGlass
 cupGlassWeightQl = cupClayWeight - cupGlassWeightClay
 recipeStorage["cup, glass, clear"] = Recipe("glassblower",(cupClayWeight,"lb"),
-                                     [],
-                                     [("baked clay",cupGlassWeightClay),("quicklime",cupGlassWeightQl)],
-                                     description="4 in. high, 2 in. diameter; no handle")
+                                            [],
+                                            [("baked clay",cupGlassWeightClay),("quicklime",cupGlassWeightQl)],
+                                            description="4 in. high, 2 in. diameter; no handle")
 
 # shape is roughly a square pyramid
 # 3-inch edge, 5-inches heigh
@@ -1280,9 +1277,9 @@ recipeStorage["flask, earthenware"] = Recipe("potter",(flaskClayWeight,"lb"),
 flaskGlassWeightClay = flaskClayWeight * percentageClayInGlass
 flaskGlassWeightQl = flaskClayWeight - flaskGlassWeightClay
 recipeStorage["flask, glass"] = Recipe("glassblower",(flaskClayWeight,"lb"),
-                                             [("timber",flaskStopperCuFt)],
-                                             [("baked clay",flaskGlassWeightClay),("quicklime",flaskGlassWeightQl)],
-                                             description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
+                                       [("timber",flaskStopperCuFt)],
+                                       [("baked clay",flaskGlassWeightClay),("quicklime",flaskGlassWeightQl)],
+                                       description="holds 8 fl oz (1/2 a pint); with wooden stopper; 5 in. high")
 
 # inches
 jarHeight = Decimal(28)
@@ -1328,10 +1325,10 @@ recipeStorage["button, ceramic"] = Recipe("potter",(buttonClayWeight,"lb"),
 buttonGlassWeightClay = buttonClayWeight * percentageClayInGlass
 buttonGlassWeightQl = buttonClayWeight - buttonGlassWeightClay
 recipeStorage["button, glass"] = Recipe("glassblower",(buttonClayWeight,"lb"),
-                                          [],
-                                          [("baked clay",buttonGlassWeightClay*24),("quicklime",buttonGlassWeightQl*24)],
-                                          unit=(24,"ct"),
-                                          description="two dozen buttons")
+                                        [],
+                                        [("baked clay",buttonGlassWeightClay*24),("quicklime",buttonGlassWeightQl*24)],
+                                        unit=(24,"ct"),
+                                        description="two dozen buttons")
 
 waistcoatSqFtWool = 4
 waistcoatNumButtons = 12
@@ -1350,9 +1347,9 @@ dressThreadUnitRatio = dressThread / getUnitSize("yarn, wool")
 dressThreadWeight = dressThreadUnitRatio * getWeight("yarn, wool")
 dressWeightWool = dressSqFtWool * getWeight("wool cloth")
 recipeStorage["dress"] = Recipe("tailor",(dressWeightWool + dressThreadWeight,"lb"),
-                                    [],
-                                    [("wool cloth",dressSqFtWool), ("yarn, wool",dressThreadWeight)],
-                                    description="women's garment")
+                                [],
+                                [("wool cloth",dressSqFtWool), ("yarn, wool",dressThreadWeight)],
+                                description="women's garment")
 
 skirtSqFtWool = 6
 skirtThread = 4 * skirtSqFtWool
@@ -1360,9 +1357,9 @@ skirtThreadUnitRatio = skirtThread / getUnitSize("yarn, wool")
 skirtThreadWeight = skirtThreadUnitRatio * getWeight("yarn, wool")
 skirtWeightWool = skirtSqFtWool * getWeight("wool cloth")
 recipeStorage["skirt"] = Recipe("tailor",(skirtWeightWool + skirtThreadWeight,"lb"),
-                                    [],
-                                    [("wool cloth",skirtSqFtWool), ("yarn, wool",skirtThreadWeight)],
-                                    description="women's garment, worn with bodice or under dress")
+                                [],
+                                [("wool cloth",skirtSqFtWool), ("yarn, wool",skirtThreadWeight)],
+                                description="women's garment, worn with bodice or under dress")
 
 bodiceSqFtWool = 4
 bodiceThread = (4 * bodiceSqFtWool) + 4 # the normal 4 * wool sqft, plus an additional 4 feet for the lacing
@@ -1370,23 +1367,23 @@ bodiceThreadUnitRatio = bodiceThread / getUnitSize("yarn, wool")
 bodiceThreadWeight = bodiceThreadUnitRatio * getWeight("yarn, wool")
 bodiceWeightWool = bodiceSqFtWool * getWeight("wool cloth")
 recipeStorage["bodice"] = Recipe("tailor",(bodiceWeightWool + bodiceThreadWeight,"lb"),
-                                    [],
-                                    [("wool cloth",bodiceSqFtWool), ("yarn, wool",bodiceThreadWeight)],
-                                    description="women's garment, laced in front; not restrictive like corset")
+                                 [],
+                                 [("wool cloth",bodiceSqFtWool), ("yarn, wool",bodiceThreadWeight)],
+                                 description="women's garment, laced in front; not restrictive like corset")
 
 knitCapSqFtWool = Decimal(1.25)
 knitCapWeightWool = knitCapSqFtWool * getWeight("wool cloth")
 recipeStorage["knit cap"] = Recipe("tailor",(knitCapWeightWool,"lb"),
-                                    [],
-                                    [("wool cloth",knitCapSqFtWool)],
-                                    description="woolen cap, like a tuque")
+                                   [],
+                                   [("wool cloth",knitCapSqFtWool)],
+                                   description="woolen cap, like a tuque")
 
 stockingSqFtWool = Decimal(1)
 stockingWeightWool = stockingSqFtWool * getWeight("wool cloth")
 recipeStorage["stocking"] = Recipe("tailor",(stockingWeightWool,"lb"),
-                                    [],
-                                    [("wool cloth",stockingSqFtWool)],
-                                    description="analogue to modern sock, rising to the knee; for men and women alike")
+                                   [],
+                                   [("wool cloth",stockingSqFtWool)],
+                                   description="analogue to modern sock, rising to the knee; for men and women alike")
 
 breechesWoolSqFt = Decimal(5)
 breechesWoolWeight = breechesWoolSqFt * getWeight("wool cloth")
@@ -1423,9 +1420,9 @@ recipeStorage["mace, masterwork"] = Recipe("blacksmith",(getWeight("mace haft") 
 hoodSqFtWool = Decimal(2)
 hoodWeightWool = hoodSqFtWool * getWeight("wool cloth")
 recipeStorage["hood"] = Recipe("tailor",(hoodWeightWool,"lb"),
-                                    [],
-                                    [("wool cloth",hoodSqFtWool)],
-                                    description="separate article of clothing")
+                               [],
+                               [("wool cloth",hoodSqFtWool)],
+                               description="separate article of clothing")
 
 aquaFortisWeight = waterWeightOnePint / Decimal(2)
 recipeStorage["aqua fortis"] = Recipe("alchemist",(aquaFortisWeight + getWeight("flask, glass"),"lb"),
@@ -1480,9 +1477,9 @@ statuetteCuFt = (Decimal(6)/Decimal(12)) * (Decimal(2)/Decimal(12) ** 2)
 # let's assume 1/4 of the material is carved away
 statuetteWoodWeight = Decimal(0.75) * (statuetteCuFt * densityTimber)
 recipeStorage["statuette, wooden, small"] = Recipe("carver",(statuetteWoodWeight,"lb"),
-                                            [("timber",statuetteCuFt)],
-                                            [],
-                                            description="6x2x2 in.")
+                                                   [("timber",statuetteCuFt)],
+                                                   [],
+                                                   description="6x2x2 in.")
 
 # life size, thus starting from a block of wood six feet tall, and 1 foot on a side
 statueCuFt = 6 * 1 * 1
@@ -1621,9 +1618,9 @@ gobletTotalCuFt = chaliceBowlCuFt + gobletStemCuFt + chaliceBaseCuFt
 
 leadGobletWeight = gobletTotalCuFt * densityLead
 recipeStorage["goblet"] = Recipe("tinsmith",(leadGobletWeight,"lb"),
-                                  [("lead ore",leadGobletWeight)],
-                                  [],
-                                  description="long-stemmed chalice; " + str(gobletTotalHeight * 12) + " inches tall")
+                                 [("lead ore",leadGobletWeight)],
+                                 [],
+                                 description="long-stemmed chalice; " + str(gobletTotalHeight * 12) + " inches tall")
 brickSqFt = Decimal(4)/Decimal(12) * Decimal(8)/Decimal(12) * Decimal(2)/Decimal(12)
 brickWeight = brickSqFt * densityClay
 recipeStorage["brick"] = Recipe("potter",(brickWeight,"lb"),
@@ -1678,8 +1675,8 @@ recipeStorage["herring, fresh"] = Recipe("fishmonger",(1,"lb"),
 semiGoods.append("herring, fresh")
 
 recipeStorage["cod, fresh"] = Recipe("fishmonger",(1,"lb"),
-                                         [("cod",1)],
-                                         [])
+                                     [("cod",1)],
+                                     [])
 semiGoods.append("cod, fresh")
 
 def recipeSaltFish(freshFishName, startWeight):
@@ -1706,69 +1703,69 @@ breastplateThickness = Decimal(0.1)/Decimal(12)
 breastplateSqFt = 6
 breastplateWeight = breastplateSqFt * steelPlatingWeight(breastplateThickness)
 recipeStorage["breastplate"] = Recipe("blacksmith",(breastplateWeight,"lb"),
-                                                       [],
-                                                       [("steel",breastplateWeight)],
-                                                       description="AC 5 when worn on its own; part of half- and full-plate")
+                                      [],
+                                      [("steel",breastplateWeight)],
+                                      description="AC 5 when worn on its own; part of half- and full-plate")
 
 fauldThickness = Decimal(0.1)/Decimal(12)
 fauldSqFt = 2
 fauldWeight = fauldSqFt * steelPlatingWeight(fauldThickness)
 recipeStorage["fauld"] = Recipe("blacksmith",(fauldWeight,"lb"),
-                                                       [],
-                                                       [("steel",fauldWeight)],
-                                                       description="hip and groin armor; part of full-plate")
+                                [],
+                                [("steel",fauldWeight)],
+                                description="hip and groin armor; part of full-plate")
 
 pauldronThickness = Decimal(0.05)/Decimal(12)
 pauldronSqFt = Decimal(0.5)
 pauldronWeight = pauldronSqFt * steelPlatingWeight(pauldronThickness)
 recipeStorage["pauldron"] = Recipe("blacksmith",(pauldronWeight,"lb"),
-                                                       [],
-                                                       [("steel",pauldronWeight)],
-                                                       description="shoulder armor; part of half- and full-plate")
+                                   [],
+                                   [("steel",pauldronWeight)],
+                                   description="shoulder armor; part of half- and full-plate")
 
 rerebraceThickness = Decimal(0.075)/Decimal(12)
 rerebraceSqFt = Decimal(8)/Decimal(12)
 rerebraceWeight = rerebraceSqFt * steelPlatingWeight(rerebraceThickness)
 recipeStorage["rerebrace"] = Recipe("blacksmith",(rerebraceWeight,"lb"),
-                                                       [],
-                                                       [("steel",rerebraceWeight)],
-                                                       description="armor for upper arm; part of half- and full-plate")
+                                    [],
+                                    [("steel",rerebraceWeight)],
+                                    description="armor for upper arm; part of half- and full-plate")
 vambraceThickness = Decimal(0.075)/Decimal(12)
 vambraceSqFt = Decimal(8)/Decimal(12) * Decimal(9)/Decimal(12)
 vambraceWeight = vambraceSqFt * steelPlatingWeight(vambraceThickness)
 recipeStorage["vambrace"] = Recipe("blacksmith",(vambraceWeight,"lb"),
-                                                       [],
-                                                       [("steel",vambraceWeight)],
-                                                       description="armor for forearm; part of half- and full-plate")
+                                   [],
+                                   [("steel",vambraceWeight)],
+                                   description="armor for forearm; part of half- and full-plate")
 
 cuissThickness = Decimal(0.075)/Decimal(12)
 cuissSqFt = Decimal(8)/Decimal(12) * Decimal(20)/Decimal(12)
 cuissWeight = cuissSqFt * steelPlatingWeight(cuissThickness)
 recipeStorage["cuiss"] = Recipe("blacksmith",(cuissWeight,"lb"),
-                                                       [],
-                                                       [("steel",cuissWeight)],
-                                                       description="armor for thigh; part of full-plate")
+                                [],
+                                [("steel",cuissWeight)],
+                                description="armor for thigh; part of full-plate")
 
 greaveThickness = Decimal(0.075)/Decimal(12)
 greaveSqFt = 1
 greaveWeight = greaveSqFt * steelPlatingWeight(greaveThickness)
 recipeStorage["greave"] = Recipe("blacksmith",(greaveWeight,"lb"),
-                                                       [],
-                                                       [("steel",greaveWeight)],
-                                                       description="armor for lower leg; part of full-plate")
+                                 [],
+                                 [("steel",greaveWeight)],
+                                 description="armor for lower leg; part of full-plate")
 
 halfPlateWeight = breastplateWeight + 2 * pauldronWeight + 2 * rerebraceWeight + 2 * vambraceWeight
 fullPlateWeight = halfPlateWeight + fauldWeight + 2 * cuissWeight + 2 * greaveWeight
 
 recipeStorage["half-plate armor"] = Recipe("blacksmith",(halfPlateWeight,"lb"),
-                                                       [],
-                                                       [("breastplate",1),("pauldron",2),("rerebrace",2),("vambrace",2)],
-                                                       description="AC 4; includes breastplate, pauldrons, rerebraces, and vambraces")
+                                           [],
+                                           [("breastplate",1),("pauldron",2),("rerebrace",2),("vambrace",2)],
+                                           description="AC 4; includes breastplate, pauldrons, rerebraces, and vambraces")
 
 recipeStorage["full-plate armor"] = Recipe("blacksmith",(fullPlateWeight,"lb"),
-                                                       [],
-                                                       recipeStorage["half-plate armor"].subRecipes + [("fauld",1),("cuiss",2),("greave",2)],
-                                                       description="AC 3; as half-plate, plus fauld, cuisses, and greaves")
+                                           [],
+                                           recipeStorage["half-plate armor"].subRecipes + [("fauld",1),("cuiss",2),("greave",2)],
+                                           description="AC 3; as half-plate, plus fauld, cuisses, and greaves")
 
 cinnabarPercentMercury = Decimal(86.218)
 weightMercuryHalfPint = (densityMercury / cubicFootInPints) / Decimal(2)
@@ -1854,8 +1851,8 @@ bowstringUnitRatio = bowstringSqFt / getUnitSize("rawhide")
 bowstringWeight = bowstringUnitRatio * getWeight("rawhide")
 strandsPerBowstring = Decimal(3)
 recipeStorage["bowstring strand"] = Recipe("leatherworker",(bowstringWeight/strandsPerBowstring,"lb"),
-                                    [],
-                                    [("rawhide",bowstringUnitRatio/strandsPerBowstring)])
+                                           [],
+                                           [("rawhide",bowstringUnitRatio/strandsPerBowstring)])
 semiGoods.append("bowstring strand")
 
 recipeStorage["bowstring"] = Recipe("leatherworker",(bowstringWeight,"lb"),
@@ -1875,8 +1872,8 @@ bowLimbWoodSectionDepth = bowLimbTotalDepth * Decimal(0.75)
 bowLimbWoodSectionCuFt = bowLimbWidth * bowLimbWoodSectionDepth * bowLimbHeight
 bowLimbWoodWeight = bowLimbWoodSectionCuFt * densityTimber
 recipeStorage["bow limb wood section"] = Recipe("bowyer",(bowLimbWoodWeight,"lb"),
-                                   [("timber",bowLimbWoodSectionCuFt)],
-                                   [])
+                                                [("timber",bowLimbWoodSectionCuFt)],
+                                                [])
 semiGoods.append("bow limb wood section")
 
 bowLimbHornSectionDepth = bowLimbTotalDepth - bowLimbWoodSectionDepth
