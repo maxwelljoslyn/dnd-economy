@@ -14,14 +14,14 @@ class Recipe:
         self.subRaws = subRaws
         self.subRecipes = subRecipes
         self.weight = (Decimal(weight[0]),weight[1])
-        if unit is None:
-            self.unit = self.weight
-        else:
-            self.unit = (Decimal(unit[0]),unit[1])
         self.description = description
         # description of item, including dimensions, weight, properties
         # there may be some subclasses of Recipe specific to particular item types, such as Weapon and Armor,
         # since those have special details (AC, damage dice, break chance, etc)
+        if unit is None:
+            self.unit = self.weight
+        else:
+            self.unit = (Decimal(unit[0]),unit[1])
 
 # keys in this dict are recipe names, used in printing
 # values are Recipe objects
