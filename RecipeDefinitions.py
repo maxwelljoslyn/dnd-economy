@@ -662,6 +662,30 @@ recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
                                      description="either brownish or whitish in color")
 semiGoods.append("clean wool")
 
+# The amount of feet of yarn per pound of wool which I give here is probably a vast under- or overshoot,
+# but it's a highly variable amount dependent on thickness of resultant yarn, type of sheep, and
+# other factors, so I'll just go ahead and soldier on. Can always fix it later.
+recipeStorage["thin yarn, wool"] = Recipe("spinner",(1,"lb"),
+                                          [],
+                                          [("clean wool",1)],
+                                          unit=(Decimal(2000),"feet"),
+			                              description="must be spun into thread or yarn to be useful")
+semiGoods.append("thin yarn, wool")
+
+recipeStorage["yarn, wool"] = Recipe("spinner",(1,"lb"),
+                                     [],
+                                     [("thin yarn, wool",1)],
+                                     unit=(getUnitSize("thin yarn, wool")/Decimal(4),"feet"),
+                                     description="useable as string and in stitching, ropemaking, etc.")
+
+
+recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
+                                 [],
+                                 [("thin yarn, wool",1)],
+                                 unit=(getUnitSize("thin yarn, wool")/Decimal(2),"feet"),
+                                 description="useable for stitching cloth and textiles")
+
+
 # similar to the processes for cleaning wool, but for cotton instead
 # no need to scour it, just to clean it (carding, picking, combing, etc)
 # the ratio of raw cotton to clean cotton is b/c approx 60% of the weight of raw cotton is in the boll,
