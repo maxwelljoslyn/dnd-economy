@@ -1928,3 +1928,18 @@ recipeStorage["ladder rung"] = Recipe("carver",(ladderRungWeight,"lb"),
                                       [("timber",ladderRungCuFt)],
                                       [])
 semiGoods.append("ladder rung")
+
+# let's says it's 1.5 feet per side to bridge the gap plus another foot per side to secure with knots
+ropeLadderUnitBridgingRopeLength = Decimal(1.5)
+ropeLadderUnitSecuringRopeLength = Decimal(1)
+ropeLadderUnitRopeFt = (ropeLadderUnitBridgingRopeLength + ropeLadderUnitSecuringRopeLength)
+ropeLadderUnitRopeRatio = ropeLadderUnitRopeFt / getUnitSize("rope")
+ropeLadderUnitRopeWeight = ropeLadderUnitRopeRatio * getWeight("rope")
+
+ropeLadderUnitWeight = ropeLadderUnitRopeWeight + ladderRungWeight
+ropeLadderUnitHeight = ropeLadderUnitBridgingRopeLength + ladderRungDiameter
+
+def ropeLadderBodyLength(num):
+    """Return the length of a rope ladder body having num units.
+    The extra rung diameter is for the bottom rung."""
+    return (ropeLadderUnitHeight * num) + ladderRungDiameter
