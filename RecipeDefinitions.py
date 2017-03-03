@@ -666,14 +666,18 @@ semiGoods.append("clean wool")
 recipeStorage["thin yarn, wool"] = Recipe("spinner",(1,"lb"),
                                           [],
                                           [("clean wool",1)],
-                                          unit=(Decimal(2000),"feet"),
+                                          unit=(Decimal(1000),"feet"),
 			                              description="must be spun into thread or yarn to be useful")
 semiGoods.append("thin yarn, wool")
 
-recipeStorage["yarn, wool"] = Recipe("spinner",(1,"lb"),
+thinYarnFeetPerFootRegularYarn = Decimal(4)
+# taking 1 unit of thin yarn, as described above, and turning it into regular yarn,
+# means the weight of 1 unit of regular yarn is the same as the weight of 1 unit of thin yarn.
+# it's the feet, ie. the size of the unit, that changes
+recipeStorage["yarn, wool"] = Recipe("spinner",(getWeight("thin yarn, wool"),"lb"),
                                      [],
                                      [("thin yarn, wool",1)],
-                                     unit=(getUnitSize("thin yarn, wool")/Decimal(4),"feet"),
+                                     unit=(getUnitSize("thin yarn, wool")/thinYarnFeetPerFootRegularYarn,"feet"),
                                      description="useable as string and in stitching, ropemaking, etc.")
 
 
@@ -693,14 +697,14 @@ recipeStorage["clean cotton"] = Recipe("miller",(1,"lb"),
                                        [])
 semiGoods.append("clean cotton")
 
-recipeStorage["thin yarn, cotton"] = Recipe("spinner",(1,"lb"),
+recipeStorage["thin yarn, cotton"] = Recipe("spinner",(getWeight("thin yarn, wool"),"lb"),
                                             [],
                                             [("clean cotton",1)],
                                             unit=recipeStorage["thin yarn, wool"].unit,
 			                                description="must be spun to be useful")
 semiGoods.append("thin yarn, cotton")
 
-recipeStorage["yarn, cotton"] = Recipe("spinner",(1,"lb"),
+recipeStorage["yarn, cotton"] = Recipe("spinner",(getWeight("thin yarn, cotton"),"lb"),
                                        [],
                                        [("thin yarn, cotton",1)],
                                        unit=(getUnitSize("yarn, wool"),"feet"),
@@ -921,20 +925,34 @@ recipeStorage["recorder"] = Recipe("carpenter",(recorderBodyWeight + fippleWeigh
                                    [("fipple",1)],
                                    description="type of wooden flute; 15 inches long")
 
-# four strands of yarn are twisted into a strand, turning one direction;
-# four strands are twisted into a rope, turning the other direction.
-# thus 16 feet of yarn makes 1 foot of rope, and a foot of rope weighs 16 times as much as a foot of yarn
-recipeStorage["rope strand"] = Recipe("ropewalker",(4,"lb"),
+# four strands of yarn are twisted into a rope strand, turning one direction;
+# four rope strands are twisted into a rope, turning the other direction.
+yarnStrandsPerRopeStrand = Decimal(4)
+# the weight of one rope strand is the same as the yarn used to make it
+# but the amount of feet is 1/yarnStrandsPerRopeStrand
+recipeStorage["rope strand"] = Recipe("ropewalker",(getWeight("yarn, wool"),"lb"),
                                       [],
                                       [("yarn, wool",1)],
-                                      unit=(getUnitSize("yarn, wool")/4,"feet"))
+                                      unit=(getUnitSize("yarn, wool")/yarnStrandsPerRopeStrand,"feet"))
 semiGoods.append("rope strand")
 
-recipeStorage["rope"] = Recipe("ropewalker",(16,"lb"),
+strandFeetPerSegmentOfRope = Decimal(4)
+# the weight of one segment of rope is the same as the strands used to make it
+# but the length of one segment is 1/ropeStrandsPerRope.
+# this is the same as forming yarn from thin yarn, rope strands from yarn, etc.
+
+# however, there's a further consideration
+# a single segment of rope is just too short to be useful
+# the minimum length by which rope is sold must be longer than that.
+# thus we calculate a rope's selling unit size as being the length of several segments "joined together"
+# if there are X segments' worth of length of rope, then the weight must go up by X times, too
+numberOfSegments = Decimal(8)
+recipeStorage["rope"] = Recipe("ropewalker",(getWeight("rope strand")*numberOfSegments,"lb"),
                                [],
-                               [("rope strand",1)],
-                               unit=(getUnitSize("rope strand")/4,"feet"),
-                               description="1 inch thick; can suspend up to 500 lbs")
+                               [("rope strand",numberOfSegments)],
+                               unit=((getUnitSize("rope strand")/strandFeetPerSegmentOfRope) * numberOfSegments,
+                               "feet"),
+                               description="")
 
 # warning: mostly-bullshit calculations ahead. I just need a figure here.
 # if yarn is 1/16 inch thick, then it requires 16*12=192 feet of yarn to cover a square foot;
