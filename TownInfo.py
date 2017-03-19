@@ -71,7 +71,7 @@ towns["Kededal"] = Town((43,-60,17),
                         {"timber":1},
                         {"vintner":1, "spinner":2, "carpenter":1, "farmer":1})
 towns["Gootonu"] = Town((43,-66,23),
-                        1119,
+                        8739,
                         {"cereal":1, "iron ore":1},
                         {"tailor":1, "smelter":2, "miller":2, "baker":1, "tanner":2})
 # more southerly, warmer cities
