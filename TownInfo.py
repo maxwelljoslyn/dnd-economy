@@ -87,7 +87,7 @@ towns["Serdabach"] = Town((45,-68,23),
 towns["Berdorl"] = Town((43,-69,26),
                         3966,
                         {"sugarcane":1, "cotton":1},
-                        {"hatter":1, "ropewalker":1, "carpenter":1 ,"blacksmith":2})
+                        {"hatter":1, "ropewalker":1, "carpenter":1 ,"blacksmith":2, "innkeeper":1})
 
 # more central, slightly colder-climate port
 # same as other ports, plus whales
