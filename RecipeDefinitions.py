@@ -2154,3 +2154,26 @@ recipeStorage["paper, foolscap"] = Recipe("miller",(1,"lb"),
                                            ("gelatin",gelatinPerReam)],
                                           unit=recipeStorage["paper, foolscap, unfinished"].unit,
                                           description="16x13 in.; looseleaf")
+# foolscap leaf: 16 by 13
+# foolscap folio: foolscap folded in two, to make two sheets of 8 by 13
+# each sheet has a front and a back, thus forming 2 pages as we think of them today
+# if a quire is 25 leaves, and a leaf makes two sheets, and a sheet makes 2 pages, then one quire makes 100 pages
+pagesPerFolioSheet = Decimal(2)
+folioSheetsPerLeaf = Decimal(2)
+leavesPerQuire = Decimal(25)
+pagesPerQuire = leavesPerQuire * folioSheetsPerLeaf * pagesPerFolioSheet
+
+# stitched up and down, twice
+quireThreadFt = Decimal(4) * (foolscapHeight / Decimal(12))
+quireThreadUnitRatio = quireThreadFt / getUnitSize("yarn, cotton")
+quireThreadWeight = quireThreadUnitRatio * getWeight("yarn, cotton")
+quirePaperUnitRatio = leavesPerQuire / getUnitSize("paper, foolscap")
+quirePaperWeight = quirePaperUnitRatio * getWeight("paper, foolscap")
+quireWeight = quireThreadWeight + quirePaperWeight
+recipeStorage["quire, foolscap"] = Recipe("bookbinder",(quireWeight,"lb"),
+                                          [],
+                                          [("paper, foolscap",quirePaperUnitRatio),
+                                           ("yarn, cotton",quireThreadWeight)],
+                                          unit=(Decimal(100),"page"),
+                                          description="bound sheets; basic unit of bookbinding")
+
