@@ -328,6 +328,14 @@ recipeStorage["calf"] = Recipe("farmer",(calfSlaughterWeight,"lb"),
                                description="8 months old, weaned, suitable for veal and rennet")
 
 
+
+cowCarcassFraction = Decimal(2)/Decimal(3)
+cowMeatFraction = Decimal(2)/Decimal(3)
+vealPerCalf = calfSlaughterWeight * cowCarcassFraction * cowMeatFraction
+recipeStorage["veal"] = Recipe("butcher",(1,"lb"),
+                               [],
+                               [("calf",1/vealPerCalf)])
+
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
                               [("arable land",5.28)],
