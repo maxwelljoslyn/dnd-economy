@@ -344,9 +344,10 @@ recipeStorage["abomasum"] = Recipe("butcher",(abomasumWeight,"lb"),
                                         description="fourth compartment of calf stomach")
 
 
+
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
-                              [("arable land",5.28)],
+                              [("arable land",Decimal(5.28))],
                               [("cattle feed",246)],
                               unit=(1,"head"),
                               description="1 year and 4 months old, suitable for slaughtering")
