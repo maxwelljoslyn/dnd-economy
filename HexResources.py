@@ -48,15 +48,19 @@ def getServices(resourceDict):
 # for each of the resources listed below.
 # these are currently listed at 1/1000 of their full world size
 worldProductionMatrix = {}
-worldProductionMatrix["timber"] = (1000000, "cuft")
-worldProductionMatrix["arable land"] = (1000000, "acre")
+worldProductionMatrix["flax"] = (10000000,"lb")
+worldProductionMatrix["timber"] = (2000000, "cuft")
+worldProductionMatrix["arable land"] = (10000000, "acre")
 worldProductionMatrix["clay"] = (10000000, "lb")
 worldProductionMatrix["cereal"] = (10000000, "lb")
 worldProductionMatrix["hops"] = (1000000, "lb")
-worldProductionMatrix["sugarcane"] = (100000, "lb")
-worldProductionMatrix["fish"] = (1000000, "lb")
+worldProductionMatrix["sugarcane"] = (1000000, "lb")
+worldProductionMatrix["cod"] = (500000, "lb")
+worldProductionMatrix["herring"] = (500000, "lb")
+worldProductionMatrix["tobacco"] = (1943618, "lb")
+worldProductionMatrix["cotton"] = (10000000, "lb")
 
-worldProductionMatrix["iron ore"] = (100000000,"lb")
+worldProductionMatrix["iron ore"] = (1000000000,"lb") 
 worldProductionMatrix["manganese ore"] = (80000000, "lb")
 worldProductionMatrix["nickel ore"] = (60000000, "lb")
 worldProductionMatrix["zinc ore"] = (40000000,"lb")
@@ -71,13 +75,15 @@ worldProductionMatrix["platinum ore"] = (156250, "lb")
 worldProductionMatrix["gold ore"] = (78125, "lb")
 worldProductionMatrix["mithril ore"] = (40000, "lb")
 worldProductionMatrix["adamantine ore"] = (20000, "lb")
-                      
+worldProductionMatrix["lapis lazuli"] = (50000, "lb")
+
 stoneAndMinerals = ["chalk","coal","salt","talc","emery","granite",
                     "marble","slate","flint","obsidian","phosphorus",
                     "witherite","sulfur", "limestone"]
 
 for sm in stoneAndMinerals:
     worldProductionMatrix[sm] = (1000000,"lb")
+worldProductionMatrix["limestone"] = (2000000,"lb")
 
 
 preciousGems = [("ruby",10),("emerald",10),("topaz",10),("sapphire",10),

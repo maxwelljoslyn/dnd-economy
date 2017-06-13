@@ -64,11 +64,11 @@ towns["Veder Vek"] = Town((44,-62,18),
                           {"hatter":1, "leatherworker":2, "baker":2, "farmer":2, "brewer":1, "tanner":1})
 towns["Ekodo"] = Town((44,-64,20),
                       1686,
-                      {"fish":1,"cereal":1, "timber":2},
+                      {"cereal":1, "timber":2},
                       {"cooper":1, "smelter":1, "carver":2, "miller":1, "farmer":1, "butcher":1})
 towns["Kededal"] = Town((43,-60,17),
                         2109,
-                        {"timber":1},
+                        {"timber":1,"flax":1},
                         {"vintner":1, "spinner":2, "carpenter":1, "farmer":1})
 towns["Gootonu"] = Town((43,-66,23),
                         8739,
@@ -78,23 +78,23 @@ towns["Gootonu"] = Town((43,-66,23),
 # example: shipping, salt, sugarcane, shipwright, tobacco, shells
 towns["Torkada"] = Town((42,-67,25),
                         916,
-                        {"fish":1, "arable land":1},
+                        {"cod":1, "arable land":1},
                         {"baker":1, "dyer":1, "weaver":2, "farmer":1, "miller":1})
 towns["Serdabach"] = Town((45,-68,23),
-                          2913,
-                          {"salt":1, "timber":1, "sugarcane":1, "cotton":1},
+                          3913,
+                          {"herring":1,"salt":1, "timber":1, "sugarcane":1, "cotton":1},
                           {"ropewalker":1, "shipwright":1, "tailor":1, "carver":1,"smelter":1, "carpenter":2, "brewer":1})
 towns["Berdorl"] = Town((43,-69,26),
-                        3966,
+                        2966,
                         {"sugarcane":1, "cotton":1},
                         {"hatter":1, "ropewalker":1, "carpenter":1 ,"blacksmith":2, "innkeeper":1})
 
 # more central, slightly colder-climate port
 # same as other ports, plus whales
 towns["Ror Kadda"] = Town((41,-62,21),
-                       {"timber":1, "fish":1},
-                       {"ropewalker":1, "chandler":1, "shipwright":1,"carver":1})
                           1152,
+                        {"cod":2,"flax":1},
+                        {"ropewalker":1, "chandler":1, "shipwright":2,"carver":1})
 
 # Drode is jungley, thought not as dense as true rainforest to the south
 # Dreot has a bit of mild jungle in its lowlands, with open hills and river valleys
@@ -112,7 +112,7 @@ towns["Drode"] = Town((48,-68,20),
 # this town should be very powerful since it has access to the sea AND the small inland sea
 towns["Nam Gong"] = Town((40,-67,27),
                          5089,
-                         {"fish":2, "tobacco":1},
+                         {"cod":1, "herring":1, "tobacco":1},
                          {"shipwright":1,"fishmonger":1,"tobacconist":1})
 
 towns["Gungoya"] = Town((41,-70,29),
@@ -123,17 +123,17 @@ towns["Gungoya"] = Town((41,-70,29),
 towns["Chelong"] = Town((40,-71,31),
                         1157,
                           {"lead ore":1},
-                          {"glassblower":2})
+                          {"glassblower":2, "bookbinder":1})
 
 towns["Xin Qia"] = Town((38,-72,34),
                         2034,
                         {"lapis lazuli":1},
-                        {"bowyer":1})
+                        {"bowyer":1, "bookbinder":1})
 
 towns["Jiu Qia"] = Town((38,-70,32),
                         1890,
                         {"cinnabar":1},
-                        {})
+                        {"locksmith":1})
 
 addConnection("Gungoya","Chelong")
 addConnection("Chelong","Xin Qia")
