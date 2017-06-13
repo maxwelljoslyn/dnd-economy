@@ -1447,7 +1447,7 @@ recipeStorage["breeches"] = Recipe("tailor",(breechesWoolWeight,"lb"),
                                    description="tight knee-length pants with no pockets; worn by all social levels")
 
 
-shoeHeelTimberCuFt = (Decimal(1)/Decimal(12) ** 2) * (Decimal(0.5)/Decimal(12))
+shoeHeelTimberCuFt = ((Decimal(1)/Decimal(12)) ** 2) * (Decimal(0.5)/Decimal(12))
 shoeHeelTimberWeight = shoeHeelTimberCuFt * densityTimber
 shoeLeatherSqFt = 1
 shoeLeatherUnitRatio = shoeLeatherSqFt / getUnitSize("tanned cowhide")
