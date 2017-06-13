@@ -1895,6 +1895,11 @@ recipeStorage["hide glue"] = Recipe("tanner",(hideGlueDesiredWeight, "lb"),
                                     [("rawhide",hideGlueWeightRatio)],
                                     description="customer supplies container; covers " + str(squareFeetGlueCanCover) + " sq ft; heat 1 pt glue in 2 pts water to use")
 
+recipeStorage["gelatin"] = Recipe("tanner",(1,"lb"),
+                                  [],
+                                  [("hide glue",1)],
+                                  description="as hide glue, but heat 1 pt in 3 pts water to use")
+
 
 bowHeight = Decimal(5)
 bowstringLength = bowHeight * Decimal(1.10) # extra is for tying knots at each end of the bow
