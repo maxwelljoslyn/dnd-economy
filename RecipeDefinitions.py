@@ -2012,14 +2012,14 @@ recipeStorage["rope ladder tophook"] = Recipe("blacksmith",(ropeLadderTophookWei
                                               description="metal hook for suspending rope ladder")
 semiGoods.append("rope ladder tophook")
 
-# rope to go through the eyelet of the tophook
+# rope to go through the eyelet of each tophook
 ropeLadderHookRopeLength = Decimal(3)
 ropeLadderHookRopeUnitRatio = ropeLadderHookRopeLength/getUnitSize("rope")
 ropeLadderHookRopeWeight = ropeLadderHookRopeUnitRatio * getWeight("rope")
 
 ropeLadderUnitCount = 15
 ropeLadderTotalRopeUnitRatio = ropeLadderUnitRopeRatio * ropeLadderUnitCount + ropeLadderHookRopeUnitRatio
-ropeLadderTotalWeight = (ropeLadderUnitRopeWeight * ropeLadderUnitCount) + (ladderRungWeight * (ropeLadderUnitCount + 1)) + (ropeLadderTophookWeight * 2) + ropeLadderHookRopeWeight
+ropeLadderTotalWeight = (ropeLadderUnitRopeWeight * ropeLadderUnitCount) + (ladderRungWeight * (ropeLadderUnitCount + 1)) + (ropeLadderTophookWeight * 2) + (ropeLadderHookRopeWeight * 2)
 recipeStorage["rope ladder"] = Recipe("ropewalker",(ropeLadderTotalWeight,"lb"),
                                       [],
                                       [("rope", ropeLadderTotalRopeUnitRatio),
