@@ -1523,7 +1523,7 @@ recipeStorage["egg, chicken"] = Recipe("farmer",(Decimal(0.125),"lb"),
                                        [("chicken, mature",1/eggsChickenPerYear),("cattle feed",egglayingChickenFeedLbs/eggsChickenPerYear)])
 
 # base volume of starting material: 6 x 2 x 2 inches
-statuetteCuFt = (Decimal(6)/Decimal(12)) * (Decimal(2)/Decimal(12) ** 2)
+statuetteCuFt = (Decimal(6)/Decimal(12)) * (Decimal(2)/Decimal(12)) * (Decimal(2)/Decimal(12))
 # let's assume 1/4 of the material is carved away
 statuetteWoodWeight = Decimal(0.75) * (statuetteCuFt * densityTimber)
 recipeStorage["statuette, wooden, small"] = Recipe("carver",(statuetteWoodWeight,"lb"),
