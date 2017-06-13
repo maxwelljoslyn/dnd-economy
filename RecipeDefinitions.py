@@ -2112,3 +2112,8 @@ recipeStorage["egg oil"] = Recipe("alchemist",((waterWeightOnePint / Decimal(2))
                                   [("egg, chicken",totalEggs),("flask, glass",1)],
                                   unit = (Decimal(0.5),"pint"),
                                   description="in glass flask; cosmetic or ointment for skin and hair")
+
+# raw:dried ratio taken from Timothy Barrett "European Papermaking 1300-1800" website http://paper.lib.uiowa.edu/european.php
+recipeStorage["flax, dried"] = Recipe("farmer",(1,"lb"),
+                                      [("flax",4)],
+                                      [])
