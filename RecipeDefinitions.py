@@ -1480,7 +1480,7 @@ recipeStorage["aqua fortis"] = Recipe("alchemist",(aquaFortisWeight + getWeight(
                                       [],
                                       unit=(8,"fl oz"),
                                       difficulty=4, # for cleaning and separating the ore and doing the lab work
-                                      description="acid of moderate strength; in glass flask")
+                                      description="moderate-strength; on successful (breaking) throw, 1d3 damage and 1 splash")
 
 # chicken takes ~6 months to reach maturity, and then produces eggs
 # alternatively can be slaughtered (in reality it only takes about 4 months until it's slaughterable)
