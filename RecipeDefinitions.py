@@ -655,6 +655,13 @@ recipeStorage["beer, bottled"] = Recipe("brewer",(waterWeightOnePint + getWeight
                                         unit=(1,"pint"),
                                         description=str(beerABV) + " percent alcohol; in glass bottle")
 
+weightPintVinegar = densityVinegar / cubicFootInPints
+recipeStorage["vinegar"] = Recipe("brewer",(weightPintVinegar + getWeight("bottle, glass"), "lb"),
+                                  [],
+                                  [("beer, bottled",1)],
+                                  unit=(1, "pint"),
+                                  description="in glass bottle")
+
 # production figures for greasy wool vary wildly, so I'll go with one sheep producing 25 lbs of greasy wool, which can be turned into 15 lbs of scoured wool (which must then be pounded)
 recipeStorage["greasy wool"] = Recipe("farmer",(25,"lb"),
                                       [],
