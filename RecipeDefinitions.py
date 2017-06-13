@@ -1677,17 +1677,20 @@ recipeStorage["brick"] = Recipe("potter",(brickWeight,"lb"),
                                 [],
                                 [("baked clay",brickWeight)])
 
-spiritMashBrownSugarLbs = 6
-spiritMashWaterGal = 1
-desiredVolumeSpiritGal = Decimal(1)
+spiritMashWaterGal = gallonsPerBarrel
+spiritMashBrownSugarLbs = 6 * spiritMashWaterGal
+desiredVolumeSpiritGal = gallonsPerBarrel
 spiritDilutedABV = calculateABV(spiritMashBrownSugarLbs, 0, 0, spiritMashWaterGal, desiredVolumeSpiritGal)
-# the actual selling unit is the half-pint
-spiritVolumeInPints = desiredVolumeSpiritGal * 8
-ratioHalfpintToSpiritVolume = Decimal(0.5) / spiritVolumeInPints
-rumTotalWeight = Decimal(0.5) * waterWeightOnePint + getWeight("flask, glass")
-recipeStorage["rum"] = Recipe("brewer",(rumTotalWeight,"lb"),
+recipeStorage["rum, barrel"] = Recipe("brewer",(weightWaterOneGal * gallonsPerBarrel + getWeight("barrel"),"lb"),
+                                      [],
+                                      [("brown sugar",spiritMashBrownSugarLbs),("barrel",1)],
+                                      unit=(gallonsPerBarrel,"gallon"),
+                                      description="light rum; in barrel; " + str(spiritDilutedABV) + "% alcohol")
+
+flaskRumWeight = Decimal(0.5) * waterWeightOnePint + getWeight("flask, glass")
+recipeStorage["rum, flask"] = Recipe("brewer",(flaskRumWeight,"lb"),
                               [],
-                              [("brown sugar",spiritMashBrownSugarLbs * ratioHalfpintToSpiritVolume), ("flask, glass",1)],
+                              [("rum, barrel",Decimal(0.5)/pintsPerBarrel),("flask, glass",1)],
                               unit=(8,"fl oz"),
                               description="light rum; in half-pint glass flask; " + str(spiritDilutedABV) + "% alcohol")
 
