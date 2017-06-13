@@ -2081,3 +2081,23 @@ recipeStorage["fishing rod"] = Recipe("carver",(fishingRodTotalWeight,"lb"),
                                       [("wrought iron",fishingRodTipLoopWeight)],
                                       description="for angling; " + str(fishingRodLength) + " feet long")
 
+# this is the value by which innkeeper expenses will be divided,
+# to find the proportion of the total each patron is paying for their stay
+innMainRoomMaxPatrons = Decimal(20)
+# part of the price of staying in communal main room is coal to heat it at night
+innDailyCoal = Decimal(10) # lbs, a TOTAL guess, I have still not figured out coal heating values at all
+# the other part: the cost of paying inn employees
+# for now I can find a cost by saying the employees get paid according to some value of bread and beer
+innEmployeeDailyBread = Decimal(2) # pounds
+innEmployeeDailyBeer = Decimal(2) # pints
+# the innkeeper himself, plus cook, cleaning boy or maid, barkeep, and one more for good measure, perhaps representing fees to gong collector and other municipal services
+innEmployeeCount = Decimal(5)
+innTotalEmployeeDailyBread = innEmployeeDailyBread * innEmployeeCount
+innTotalEmployeeDailyBeer = innEmployeeDailyBeer * innEmployeeCount
+recipeStorage["room at inn, communal"] = Recipe("innkeeper",(0,"lb"),
+                                                [],
+                                                [("bread",innTotalEmployeeDailyBread/innMainRoomMaxPatrons),
+                                                 ("beer, barrel",innTotalEmployeeDailyBeer/innMainRoomMaxPatrons * Decimal(1)/pintsPerBarrel)],
+                                                unit=(1,"night"),
+                                                description="IGNORE NON-ZERO AVAILABILITY; sleep in huddle; fire")
+
