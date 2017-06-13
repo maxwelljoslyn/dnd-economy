@@ -336,6 +336,14 @@ recipeStorage["veal"] = Recipe("butcher",(1,"lb"),
                                [],
                                [("calf",1/vealPerCalf)])
 
+# this is a guess
+abomasumWeight = Decimal(5)
+recipeStorage["abomasum"] = Recipe("butcher",(abomasumWeight,"lb"),
+                                        [],
+                                        [("calf",abomasumWeight/(calfSlaughterWeight * cowCarcassFraction))],
+                                        description="fourth compartment of calf stomach")
+
+
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
                               [("arable land",5.28)],
