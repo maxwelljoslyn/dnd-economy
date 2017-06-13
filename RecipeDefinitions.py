@@ -2117,3 +2117,11 @@ recipeStorage["egg oil"] = Recipe("alchemist",((waterWeightOnePint / Decimal(2))
 recipeStorage["flax, dried"] = Recipe("farmer",(1,"lb"),
                                       [("flax",4)],
                                       [])
+
+# I assign this to millers because it would often be done where streams which powered mills were also located
+# retted:dried ratio is equivalent to the 4.4:25 ratio given by Barrett,
+# simplified into 1:5.682
+recipeStorage["flax, retted"] = Recipe("miller",(1,"lb"),
+                                       [],
+                                       [("flax, dried",Decimal(5.682))],
+                                       description="after fermentation to break down plant structure")
