@@ -606,24 +606,23 @@ aleCerealPerGallon = Decimal(1.5)
 aleMaltPerGallon = Decimal(4)
 aleRoastedMaltPerGallon = Decimal(0.67)
 aleABV = calculateABV(0, aleCerealPerGallon, aleMaltPerGallon, 1, 1)
-recipeStorage["ale"] = Recipe("brewer",(weightWaterOneGal,"lb"),
-                              [("cereal",aleCerealPerGallon)],
-                              [("malted grain",aleMaltPerGallon),("roasted malt",aleRoastedMaltPerGallon)],
-                              unit=(1,"gallon"),
-                              description="buyer supplies container; " + str(aleABV) + " percent alcohol")
+gallonsPerBarrel = Decimal(30)
+recipeStorage["ale, barrel"] = Recipe("brewer",(weightWaterOneGal * gallonsPerBarrel + getWeight("barrel") ,"lb"),
+                              [("cereal",aleCerealPerGallon * gallonsPerBarrel)],
+                              [("malted grain",aleMaltPerGallon * gallonsPerBarrel),("roasted malt",aleRoastedMaltPerGallon * gallonsPerBarrel),("barrel",1)],
+                              unit=(gallonsPerBarrel,"gallon"),
+                              description="in barrel; " + str(aleABV) + " percent alcohol")
 
-aleCerealOnePint = aleCerealPerGallon * gallonsPerPint
-aleMaltOnePint = aleMaltPerGallon * gallonsPerPint
-aleRoastedMaltOnePint = aleRoastedMaltPerGallon * gallonsPerPint
+pintsPerBarrel = gallonsPerBarrel * (Decimal(1)/gallonsPerPint) # 30 * 8 = 240
 recipeStorage["ale, by the tankard"] = Recipe("brewer",(waterWeightOnePint,"lb"),
-                                              [("cereal",aleCerealOnePint)],
-                                              [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint)],
+                                              [],
+                                              [("ale, barrel",Decimal(1) / pintsPerBarrel)],
                                               unit=(1,"pint"),
                                               description = str(aleABV) + " percent alcohol")
 
 recipeStorage["ale, bottled"] = Recipe("brewer",(waterWeightOnePint + getWeight("bottle, glass"),"lb"),
-                                       [("cereal",aleCerealOnePint)],
-                                       [("malted grain",aleMaltOnePint),("roasted malt",aleRoastedMaltOnePint), ("bottle, glass",1)],
+                                       [],
+                                       [("ale, barrel",Decimal(1) / pintsPerBarrel), ("bottle, glass",1)],
                                        unit=(1,"pint"),
                                        description = str(aleABV) + " percent alcohol; in glass bottle")
 
