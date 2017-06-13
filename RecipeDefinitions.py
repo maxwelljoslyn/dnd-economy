@@ -317,6 +317,17 @@ recipeStorage["mutton"] = Recipe("butcher",(1,"lb"),
                                  [],
                                  [("mutton sheep",Decimal(1/sheepMeatWeight))])
 
+# see ForageCalch.hs, as messy as it is, for how I arrived at this value.
+# one day I'll stick those into here
+calfSlaughterWeight = Decimal(410)
+
+recipeStorage["calf"] = Recipe("farmer",(calfSlaughterWeight,"lb"),
+                               [("arable land",Decimal(2.4045))],
+                               [("cattle feed",123)],
+                               unit=(1,"head"),
+                               description="8 months old, weaned, suitable for veal and rennet")
+
+
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
                               [("arable land",5.28)],
