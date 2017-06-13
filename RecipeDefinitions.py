@@ -2130,3 +2130,17 @@ recipeStorage["flax, beaten"] = Recipe("miller",(1,"lb"),
                                        [],
                                        [("flax, retted",Decimal(1))],
                                        description="after going through stamping process")
+
+# using the combed:papermaking ratio from Barrett's table, but for the beaten flax, since that step comes between retting and sheetmaking
+ratioFlaxPaper = Decimal(4.18)/Decimal(1.69)
+foolscapReamLeaves = Decimal(255)
+foolscapReamWeight = Decimal(1)
+foolscapHeight = Decimal(13) # inches
+foolscapLength = Decimal(16) # inches
+foolscapLeafPoundsPerSqFt = ratioFlaxPaper / ((foolscapHeight / Decimal(12)) * (foolscapLength / Decimal(12))) / foolscapReamLeaves
+# works out to 3.5 grams per leaf, that's not bad
+recipeStorage["paper, foolscap, unfinished"] = Recipe("miller",(foolscapReamWeight,"lb"),
+                                            [],
+                                            [("flax, beaten",ratioFlaxPaper * foolscapReamWeight)],
+                                            unit=(foolscapReamLeaves,"leaf"),
+                                            description="one ream; neither cut nor coated with size")
