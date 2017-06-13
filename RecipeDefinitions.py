@@ -55,6 +55,7 @@ percentageClayInGlass = Decimal(0.8)
 densityMercury = Decimal(844.900018) # in liquid form
 densityHorn = Decimal(81.1563)
 densityGold = Decimal(1204.86)
+densityVinegar = Decimal(63.05224)
 
 cubicFootInPints = Decimal(59.8442)
 def cylinderCuFt(height,radius):
