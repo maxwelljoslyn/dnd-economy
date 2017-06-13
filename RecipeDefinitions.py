@@ -2004,7 +2004,7 @@ def ropeLadderBodyLength(num):
 
 # model the hook at the top of the rope ladder as a long spike, bent into a hook shape, with an eyelet at the bottom for rope
 # see /D&D/support_inspiration/images/ladder_pictures.jpg for an example
-ropeLadderTophookCuFt = coneCuFt(Decimal(1.5),spikeRadius)
+ropeLadderTophookCuFt = coneCuFt(Decimal(1),spikeRadius)
 ropeLadderTophookWeight = ropeLadderTophookCuFt * densityWroughtIron
 recipeStorage["rope ladder tophook"] = Recipe("blacksmith",(ropeLadderTophookWeight,"lb"),
                                               [],
