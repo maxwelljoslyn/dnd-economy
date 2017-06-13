@@ -932,7 +932,7 @@ recipeStorage["belt"] = Recipe("leatherworker",(beltPortionOfCowhide * getWeight
                                description="leather; can attach up to 3 belt-attachable items: weapon scabbard/loop/hook, belt pouch, quiver")
 
 # approximate
-whistleCuFt = cylinderCuFt(Decimal(0.25), Decimal(0.75/12)) 
+whistleCuFt = cylinderCuFt(Decimal(0.25), Decimal(3)/(12))
 whistleWeight = whistleCuFt * densityTimber
 recipeStorage["whistle"] = Recipe("carpenter",(whistleWeight,"lb"),
                                   [("timber",whistleCuFt)],
