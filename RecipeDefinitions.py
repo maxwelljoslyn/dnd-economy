@@ -1595,7 +1595,7 @@ recipeStorage["torch fuel"] = Recipe("carver",(torchFuelWoolWeight + pitchInFlas
                                      [("wool cloth",torchFuelWoolSqFt),("pitch",1)],
                                      description="illuminates 5-hex radius for 30 minutes. Wool, soaked in pitch")
 
-spikeLength = 1
+spikeLength = Decimal(0.5)
 spikeRadius = Decimal(0.75)/Decimal(12)
 spikeCuFt = coneCuFt(spikeLength,spikeRadius)
 spikeWeight = spikeCuFt * densityWroughtIron
