@@ -2144,3 +2144,13 @@ recipeStorage["paper, foolscap, unfinished"] = Recipe("miller",(foolscapReamWeig
                                             [("flax, beaten",ratioFlaxPaper * foolscapReamWeight)],
                                             unit=(foolscapReamLeaves,"leaf"),
                                             description="one ream; neither cut nor coated with size")
+# Barrett estimates 5,114 grams of dry gelatin for 15 reams of paper (crown paper, not foolscap, but oh well)
+# that's 11.27 pounds
+# to get a per-ream figure, just divide
+gelatinPerReam = Decimal(11.27)/Decimal(15)
+recipeStorage["paper, foolscap"] = Recipe("miller",(1,"lb"),
+                                          [],
+                                          [("paper, foolscap, unfinished",1),
+                                           ("gelatin",gelatinPerReam)],
+                                          unit=recipeStorage["paper, foolscap, unfinished"].unit,
+                                          description="16x13 in.; looseleaf")
