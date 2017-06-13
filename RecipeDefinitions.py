@@ -368,10 +368,8 @@ recipeStorage["cow milk"] = Recipe("farmer",(milkGallonWeight,"lb"),
                                    [("cow",Decimal(1/yearlyMilkGallons))],
                                    unit=(1,"gallon"))
 
-# I assume a cow for slaughter weighs 1300 pounds
-# taking the carcass weight to be 2/3 of that and the useable meat, in turn, to be 2/3 of carcass weight,
-# the remaining meat is 577.7 lbs.
-# thus to get a price for 1 lb, we divide the price of the cow by 577.7.
+# take the carcass weight to be 2/3 of slaughter weight
+# and the useable meat, in turn, to be 2/3 of carcass weight
 # this approach treats all beef as generic: in reality, a given cow produces different amounts
 # of each cut of beef. for now we'll treat them all as the same.
 cowCarcassWeight = Decimal(cowSlaughterWeight*2) / Decimal(3)
