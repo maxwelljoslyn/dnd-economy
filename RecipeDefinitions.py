@@ -1283,11 +1283,12 @@ recipeStorage["hat, bicorne"] = Recipe("hatter",(bicorneWeight,"lb"),
                                        [("felt",bicorneFeltUnitRatio)],
                                        description="hat with both sides of brim turned up")
 
-tricorneFeltSqFt = Decimal(2.25)
+tricorneFeltSqFt = Decimal(1.25)
+tricorneFeltUnitRatio = tricorneFeltSqFt / getUnitSize("felt")
 tricorneWeight = tricorneFeltSqFt * getWeight("felt")
 recipeStorage["hat, tricorne"] = Recipe("hatter",(tricorneWeight,"lb"),
                                         [],
-                                        [("felt",tricorneWeight)],
+                                        [("felt",tricorneFeltUnitRatio)],
                                         description="hat with brim folded up in a triangular shape")
 
 # model the amount of clay needed for a cup,
