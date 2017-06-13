@@ -2101,3 +2101,14 @@ recipeStorage["room at inn, communal"] = Recipe("innkeeper",(0,"lb"),
                                                 unit=(1,"night"),
                                                 description="IGNORE NON-ZERO AVAILABILITY; sleep in huddle; fire")
 
+
+
+# egg yolk density: 64.12 lb/cu ft
+eggOilFlOz = Decimal(8)
+eggsPerFlOzOil = Decimal(10)
+totalEggs = eggOilFlOz * eggsPerFlOzOil
+recipeStorage["egg oil"] = Recipe("alchemist",((waterWeightOnePint / Decimal(2)) + getWeight("flask, glass"),"lb"),
+                                  [],
+                                  [("egg, chicken",totalEggs),("flask, glass",1)],
+                                  unit = (Decimal(0.5),"pint"),
+                                  description="in glass flask; cosmetic or ointment for skin and hair")
