@@ -1890,7 +1890,7 @@ hideGlueWeightOfHides = hideGlueDesiredWeight / hideGlueYield
 hideGlueWeightRatio = hideGlueWeightOfHides / getWeight("rawhide")
 # assuming that the density of paint is the same as the density of glue
 squareFeetGlueCanCover = hideGlueDesiredWeight / getWeight("paint, ultramarine blue") * squareFeetPaintCanCover
-recipeStorage["hide glue"] = Recipe("tanner",(1, "lb"),
+recipeStorage["hide glue"] = Recipe("tanner",(hideGlueDesiredWeight, "lb"),
                                     [],
                                     [("rawhide",hideGlueWeightRatio)],
                                     description="customer supplies container; covers " + str(squareFeetGlueCanCover) + " sq ft; heat 1 pt glue in 2 pts water to use")
