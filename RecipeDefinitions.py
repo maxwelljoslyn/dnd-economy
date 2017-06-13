@@ -2125,3 +2125,8 @@ recipeStorage["flax, retted"] = Recipe("miller",(1,"lb"),
                                        [],
                                        [("flax, dried",Decimal(5.682))],
                                        description="after fermentation to break down plant structure")
+
+recipeStorage["flax, beaten"] = Recipe("miller",(1,"lb"),
+                                       [],
+                                       [("flax, retted",Decimal(1))],
+                                       description="after going through stamping process")
