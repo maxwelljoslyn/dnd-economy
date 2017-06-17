@@ -2148,12 +2148,19 @@ recipeStorage["paper, foolscap, unfinished"] = Recipe("miller",(foolscapReamWeig
 # that's 11.27 pounds
 # to get a per-ream figure, just divide
 gelatinPerReam = Decimal(11.27)/Decimal(15)
-recipeStorage["paper, foolscap"] = Recipe("miller",(1,"lb"),
+recipeStorage["paper, foolscap, sized"] = Recipe("miller",(1,"lb"),
                                           [],
                                           [("paper, foolscap, unfinished",1),
                                            ("gelatin",gelatinPerReam)],
                                           unit=recipeStorage["paper, foolscap, unfinished"].unit,
-                                          description="16x13 in.; looseleaf")
+                                          description="coated in gelatin size")
+# finally, the paper is finished by being scraped with a smooth stone
+recipeStorage["paper, foolscap, looseleaf"] = Recipe("miller",(1,"lb"),
+                                          [],
+                                          [("paper, foolscap, sized",1)],
+                                          unit=recipeStorage["paper, foolscap, unfinished"].unit,
+                                          description="16x13 in.")
+
 # foolscap leaf: 16 by 13
 # foolscap folio: foolscap folded in two, to make two sheets of 8 by 13
 # each sheet has a front and a back, thus forming 2 pages as we think of them today
@@ -2167,13 +2174,13 @@ pagesPerQuire = leavesPerQuire * folioSheetsPerLeaf * pagesPerFolioSheet
 quireThreadFt = Decimal(4) * (foolscapHeight / Decimal(12))
 quireThreadUnitRatio = quireThreadFt / getUnitSize("yarn, cotton")
 quireThreadWeight = quireThreadUnitRatio * getWeight("yarn, cotton")
-quirePaperUnitRatio = leavesPerQuire / getUnitSize("paper, foolscap")
-quirePaperWeight = quirePaperUnitRatio * getWeight("paper, foolscap")
+quirePaperUnitRatio = leavesPerQuire / getUnitSize("paper, foolscap, looseleaf")
+quirePaperWeight = quirePaperUnitRatio * getWeight("paper, foolscap, looseleaf")
 quireWeight = quireThreadWeight + quirePaperWeight
-recipeStorage["quire, foolscap"] = Recipe("bookbinder",(quireWeight,"lb"),
+recipeStorage["paper, foolscap, quire"] = Recipe("bookbinder",(quireWeight,"lb"),
                                           [],
-                                          [("paper, foolscap",quirePaperUnitRatio),
+                                          [("paper, foolscap, looseleaf",quirePaperUnitRatio),
                                            ("yarn, cotton",quireThreadWeight)],
                                           unit=(Decimal(100),"page"),
-                                          description="bound sheets; basic unit of bookbinding")
+                                          description="bound folio sheets (8x13 in.)")
 
