@@ -2117,6 +2117,7 @@ recipeStorage["egg oil"] = Recipe("alchemist",((waterWeightOnePint / Decimal(2))
 recipeStorage["flax, dried"] = Recipe("farmer",(1,"lb"),
                                       [("flax",4)],
                                       [])
+semiGoods.append("flax, dried")
 
 # I assign this to millers because it would often be done where streams which powered mills were also located
 # retted:dried ratio is equivalent to the 4.4:25 ratio given by Barrett,
@@ -2125,11 +2126,13 @@ recipeStorage["flax, retted"] = Recipe("miller",(1,"lb"),
                                        [],
                                        [("flax, dried",Decimal(5.682))],
                                        description="after fermentation to break down plant structure")
+semiGoods.append("flax, retted")
 
 recipeStorage["flax, beaten"] = Recipe("miller",(1,"lb"),
                                        [],
                                        [("flax, retted",Decimal(1))],
                                        description="after going through stamping process")
+semiGoods.append("flax, beaten")
 
 # using the combed:papermaking ratio from Barrett's table, but for the beaten flax, since that step comes between retting and sheetmaking
 ratioFlaxPaper = Decimal(4.18)/Decimal(1.69)
@@ -2144,6 +2147,8 @@ recipeStorage["paper, foolscap, unfinished"] = Recipe("miller",(foolscapReamWeig
                                             [("flax, beaten",ratioFlaxPaper * foolscapReamWeight)],
                                             unit=(foolscapReamLeaves,"leaf"),
                                             description="one ream; neither cut nor coated with size")
+semiGoods.append("paper, foolscap, unfinished")
+
 # Barrett estimates 5,114 grams of dry gelatin for 15 reams of paper (crown paper, not foolscap, but oh well)
 # that's 11.27 pounds
 # to get a per-ream figure, just divide
@@ -2154,6 +2159,8 @@ recipeStorage["paper, foolscap, sized"] = Recipe("miller",(1,"lb"),
                                            ("gelatin",gelatinPerReam)],
                                           unit=recipeStorage["paper, foolscap, unfinished"].unit,
                                           description="coated in gelatin size")
+semiGoods.append("paper, foolscap, sized")
+
 # finally, the paper is finished by being scraped with a smooth stone
 recipeStorage["paper, foolscap, looseleaf"] = Recipe("miller",(1,"lb"),
                                           [],
