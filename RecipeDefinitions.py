@@ -2445,3 +2445,47 @@ recipeStorage["ronge frame timber, faering"] = Recipe("shipwright",(faeringRonge
                                                         [("timber",faeringRongeFrameTimberCuFt)],
                                                         [])
 
+# width of overlap between each strake: an estimate
+faeringLapWidth = Decimal(2)/Decimal(12)
+# times 2, once for each side
+faeringHullJoinLinearFeet = (Decimal(2) * (faeringRongeFrameTimberLength +
+                                           faeringKeelLength +
+                                           faeringGarboardLength +
+                                           faeringBilgestrakeLength +
+                                           faeringSheerstrakeLength +
+                                           faeringGunwaleLength +
+                                           # times 2, once for attachment to each stem
+                                           Decimal(2) * (faeringGarboardWidth +
+                                                         faeringBilgestrakeWidth +
+                                                         faeringSheerstrakeWidth +
+                                                         faeringGunwaleWidth)))
+faeringHullJoinLinearFeet += faeringMidshipFrameTimberLength + faeringAftFrameTimberLength + faeringForeFrameTimberLength
+
+
+faeringHullJoinSquareFeet = Decimal(2) * ( (faeringKeelLength * faeringKeelHeight) +
+                                           (faeringGarboardLength * faeringLapWidth) +
+                                           (faeringBilgestrakeLength * faeringLapWidth) +
+                                           (faeringSheerstrakeLength * faeringLapWidth) )
+faeringHullJoinSquareFeet += faeringFrameTimberWidth * (faeringMidshipFrameTimberLength + faeringForeFrameTimberLength + faeringAftFrameTimberLength + (Decimal(2) * faeringRongeFrameTimberLength))
+
+# caulk and rivets are applied between each of the wooden sections
+# the caulk units is here is both (a) the weight of the caulk needed and (b) the number of units to use in the recipe, since that's how many flasks of caulk would be needed
+faeringHullCaulk = (faeringHullJoinSquareFeet / caulkSqFtCoverage) * caulkWeight
+# rivet spacing is 1 per 3 inches (4 per foot)
+faeringHullRivets = faeringHullJoinLinearFeet * Decimal(4)
+faeringHullTotalWeight = getWeight("keel, faering") + (Decimal(2) * getWeight("garboard, faering")) + (Decimal(2) * getWeight("bilgestrake, faering")) + (Decimal(2) * getWeight("sheerstrake, faering")) + (Decimal(2) * getWeight("bilgestrake, faering")) + (faeringHullRivets * getWeight("rivet")) + faeringHullCaulk
+faeringHullTotalWeight += getWeight("midship frame timber, faering") + getWeight("fore frame timber, faering") + getWeight("aft frame timber, faering") + (Decimal(2) * getWeight("ronge frame timber, faering"))
+recipeStorage["hull, faering"] = Recipe("shipwright",(faeringHullTotalWeight,"lb"),
+                                        [],
+                                        [("caulk",faeringHullCaulk),
+                                         ("rivet",faeringHullRivets),
+                                         ("keel, faering",1),
+                                         ("garboard, faering, shaped",2),
+                                         ("bilgestrake, faering, shaped",2),
+                                         ("sheerstrake, faering, shaped",2),
+                                         ("gunwale, faering, shaped",2),
+                                         ("midship frame timber, faering",1),
+                                         ("ronge frame timber, faering",2),
+                                         ("fore frame timber, faering",1),
+                                         ("aft frame timber, faering",1)])
+
