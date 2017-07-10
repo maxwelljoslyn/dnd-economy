@@ -2282,3 +2282,35 @@ recipeStorage["tattoo needle"] = Recipe("blacksmith",(tattooNeedleWeight,"lb"),
                                         [],
                                         [("steel",tattooNeedleWeight)],
                                         difficulty=4)
+
+cuFtPerPintLiquid = cuFtPerGallonLiquid / Decimal(8)
+# the "thickness" of the tattoo under the skin, so we can calculate volume for a given square area of tattooed skin
+tattooThickness = Decimal(0.01)/Decimal(12) # i.e. one hundredth of an inch
+# for a square inch, width and length equal 1, thus only relevant dimension is thickness, thus volume = thickness
+tattooPintsInkSquareInch = tattooThickness / cuFtPerPintLiquid
+
+for color in ["black","ultramarine blue","red/yellow"]:
+    ink = "ink, " + color
+    geom = "tattoo, geometric, " + color
+    recipeStorage[geom] = Recipe("sailor",(0,"lb"),
+                                 [],
+                                 [("tattoo needle",1),
+                                  (ink,tattooPintsInkSquareInch)],
+                                 unit=(Decimal(1),"sq in"),
+                                 description="includes lines, shapes, and tribal patterns")
+    letter = "tattoo, lettering, " + color
+    recipeStorage[letter] = Recipe("sailor",(0,"lb"),
+                                   [],
+                                   [("tattoo needle",1),
+                                  (ink,tattooPintsInkSquareInch)],
+                                   unit=(Decimal(1),"sq in"),
+                                   difficulty=3,
+                                   description="includes all types of lettering")
+    figure = "tattoo, figure, " + color
+    recipeStorage[figure] = Recipe("sailor",(0,"lb"),
+                                   [],
+                                   [("tattoo needle",1),
+                                    (ink,tattooPintsInkSquareInch)],
+                                   unit=(Decimal(1),"sq in"),
+                                   difficulty=6,
+                                   description="includes people and creatures")
