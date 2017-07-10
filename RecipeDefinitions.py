@@ -715,6 +715,16 @@ recipeStorage["yarn, wool"] = Recipe("spinner",(getWeight("thin yarn, wool"),"lb
                                      unit=(getUnitSize("thin yarn, wool")/thinYarnFeetPerFootRegularYarn,"feet"),
                                      description="useable as string and in stitching, ropemaking, etc.")
 
+yarnThickness = Decimal(1)/Decimal(16)/Decimal(12) # 1/16 of an inch
+yarnFtPerClothSqFt = Decimal(1) / yarnThickness
+# we could say that this needs to be doubled, since there is both weft and warp, but since they share some of the space, we can just say this is the total amount needed
+# the weight calculation below works because the table lists 1 lb of yarn
+woolClothWeight = (yarnFtPerClothSqFt/getUnitSize("yarn, wool")) * getWeight("yarn, wool")
+recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
+                                     [],
+                                     [("yarn, wool",yarnFtPerClothSqFt / getUnitSize("yarn, wool"))],
+                                     unit=(1,"sq ft"))
+
 
 recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
                                  [],
@@ -745,15 +755,11 @@ recipeStorage["yarn, cotton"] = Recipe("spinner",(getWeight("thin yarn, cotton")
                                        unit=(getUnitSize("yarn, wool"),"feet"),
                                        description="useable as string and in stitching, ropemaking, etc.")
 
-# warning: mostly-bullshit calculations ahead. I just need a figure here.
-# if yarn is 1/16 inch thick, then it requires 16*12=192 feet of yarn to cover a square foot;
-# if we need two such layers (i.e. two threads) to produce an actual square of cloth, then yarn per square foot is 384 feet
-yarnFtPerCottonClothSqFt = 384
 # the weight calculation below works because the table lists 1 lb of yarn.
-cottonClothWeight = (yarnFtPerCottonClothSqFt/getUnitSize("yarn, cotton")) * getWeight("yarn, cotton")
+cottonClothWeight = (yarnFtPerClothSqFt/getUnitSize("yarn, cotton")) * getWeight("yarn, cotton")
 recipeStorage["cotton cloth"] = Recipe("weaver",(cottonClothWeight,"lb"),
                                        [],
-                                       [("yarn, cotton",yarnFtPerCottonClothSqFt / getUnitSize("yarn, cotton"))],
+                                       [("yarn, cotton",yarnFtPerClothSqFt / getUnitSize("yarn, cotton"))],
                                        unit=(1,"sq ft"))
 
 # brown (or "raw") sugar, which still contains some molasses
@@ -989,16 +995,6 @@ recipeStorage["rope"] = Recipe("ropewalker",(getWeight("rope strand")*numberOfSe
                                "feet"),
                                description="")
 
-# warning: mostly-bullshit calculations ahead. I just need a figure here.
-# if yarn is 1/16 inch thick, then it requires 16*12=192 feet of yarn to cover a square foot;
-# if we need two such layers to produce an actual square of cloth, then yarn per square foot is 384 feet
-yarnFtPerWoolClothSqFt = 384
-# the weight calculation below works because the table lists 1 lb of yarn.
-woolClothWeight = (yarnFtPerWoolClothSqFt/getUnitSize("yarn, wool")) * getWeight("yarn, wool")
-recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
-                                     [],
-                                     [("yarn, wool",yarnFtPerWoolClothSqFt / getUnitSize("yarn, wool"))],
-                                     unit=(1,"sq ft"))
 
 # felt is produced by squishing layers of clean wool together and addig lye
 # 1/8 of an inch thick
