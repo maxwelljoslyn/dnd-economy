@@ -2,6 +2,8 @@ import random
 import itertools
 import bisect
 from decimal import Decimal
+from TownInfo import towns
+
 
 # choose randomly from a population built from a list of choices with weights
 def weightedChoice(weightedlist):
