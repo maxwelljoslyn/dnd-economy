@@ -2415,3 +2415,12 @@ recipeStorage["gunwale, faering, shaped"] = Recipe("shipwright",(getWeight("gunw
                                                    [],
                                                    [("gunwale, faering",1)])
 
+
+faeringMidshipFrameTimberLength = Decimal(4)
+faeringFrameTimberWidth = Decimal(0.75)/Decimal(12)
+faeringFrameTimberHeight = Decimal(1)/Decimal(12)
+faeringMidshipFrameTimberCuFt = faeringMidshipFrameTimberLength * faeringFrameTimberHeight * faeringFrameTimberWidth
+faeringMidshipFrameTimberWeight = faeringMidshipFrameTimberCuFt * densityTimber
+recipeStorage["midship frame timber, faering"] = Recipe("shipwright",(faeringMidshipFrameTimberWeight,"lb"),
+                                                        [("timber",faeringMidshipFrameTimberCuFt)],
+                                                        [])
