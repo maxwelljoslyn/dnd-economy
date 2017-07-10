@@ -996,9 +996,9 @@ recipeStorage["rope"] = Recipe("ropewalker",(getWeight("rope strand")*numberOfSe
                                description="")
 
 
-# felt is produced by squishing layers of clean wool together and addig lye
-# 1/8 of an inch thick
-feltThicknessRelativeToWoolCloth = 3
+# felt is produced by squishing layers of clean wool together and adding lye
+feltThickness = Decimal(1)/Decimal(8)/Decimal(12)
+feltThicknessRelativeToWoolCloth = feltThickness / yarnThickness
 poundsCleanWoolPerSqFtFelt = feltThicknessRelativeToWoolCloth * woolClothWeight
 recipeStorage["felt"] = Recipe("fuller",(poundsCleanWoolPerSqFtFelt,"lb"),
                                [],
