@@ -168,6 +168,11 @@ recipeStorage["gold"] = Recipe("smelter", (1,"lb"),
                                [],
                                description="ingot, 1x1x1.435 in.")
 
+recipeStorage["copper"] = Recipe("smelter", (1,"lb"),
+                                 [("copper ore",1), ("coal",Decimal(0.5)), ("limestone",Decimal(0.5))],
+                                 [],
+                                 description="ingot, 2x1.065x1.45 in.")
+
 bronzeCopperProportion = Decimal(0.88)
 bronzeTinProportion = Decimal(0.12)
 volumeBronzeIngot = (bronzeTinProportion / densityTin) + (bronzeCopperProportion / densityCopper)
