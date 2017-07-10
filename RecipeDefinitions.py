@@ -2213,3 +2213,9 @@ recipeStorage["green vitriol"] = Recipe("alchemist",(1,"lb"),
                                         difficulty=4, # so-far standard difficulty for basic alchemy
                                         description="AKA copperas")
 semiGoods.append("green vitriol")
+
+recipeStorage["timber, ground"] = Recipe("miller",(1,"lb"),
+                                         [("timber",1/densityTimber)], # 1 lb / density = desired volume
+                                         [],
+                                         description="for extraction of tannin")
+semiGoods.append("timber, ground")
