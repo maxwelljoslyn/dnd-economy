@@ -2344,3 +2344,21 @@ faeringKeelWeight = faeringKeelCuFt * densityTimber
 recipeStorage["keel, faering"] = Recipe("shipwright",(faeringKeelWeight,"lb"),
                                         [("timber",faeringKeelCuFt)],
                                         [])
+
+faeringStemLength = Decimal(2)
+faeringStemWidth = faeringKeelWidth
+faeringStemHeight = Decimal(2)/Decimal(12)
+faeringStemCuFtMain = faeringStemLength * faeringStemWidth * faeringStemHeight
+# model stem as a rectangular piece plus a triangular piece under it
+faeringStemCuFtSupp = triangularPrismCuFt(faeringStemWidth,
+                                          faeringKeelHeight - faeringStemHeight,
+                                          faeringStemLength)
+faeringStemTotalCuFt = faeringStemCuFtMain + faeringStemCuFtSupp
+faeringStemWeight = faeringStemTotalCuFt * densityTimber
+recipeStorage["stem, faering"] = Recipe("shipwright",(faeringStemWeight,"lb"),
+                                        [("timber",faeringStemTotalCuFt)],
+                                        [])
+
+recipeStorage["stem, faering, shaped"] = Recipe("shipwright",(getWeight("stem, faering"),"lb"),
+                                                 [],
+                                                 [("stem, faering",1)])
