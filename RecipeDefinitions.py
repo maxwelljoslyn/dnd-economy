@@ -2265,3 +2265,11 @@ recipeStorage["ink, ultramarine blue"] = Recipe("dyer",(inkColorTotalWeight + ge
                                                  ("pigment, ultramarine",inkColorPoundsPigmentPerPint * inkSaleUnit)],
                                                 unit=(Decimal(0.5),"pint"),
                                                 description="in glass flask")
+
+recipeStorage["ink, red/yellow"] = Recipe("dyer",(inkColorTotalWeight + getWeight("flask, glass"),"lb"),
+                                                [],
+                                                [("gelatin",inkColorPoundsGelatinPerPint * inkSaleUnit),
+                                                 ("pigment, red/yellow",inkColorPoundsPigmentPerPint * inkSaleUnit)],
+                                                unit=(Decimal(0.5),"pint"),
+                                                description="in glass flask")
+
