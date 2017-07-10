@@ -1,5 +1,6 @@
 from decimal import *
 from math import pi
+from ResourcePriceCalculator import allServiceNames
 
 #set up the Decimal environment
 getcontext().prec = 4
@@ -2314,3 +2315,8 @@ for color in ["black","ultramarine blue","red/yellow"]:
                                    unit=(Decimal(1),"sq in"),
                                    difficulty=6,
                                    description="includes people and creatures")
+
+for service in allServiceNames:
+    recipeStorage["hireling, " + service] = Recipe(service, (1,"head"),
+                                                               [("labor",Decimal(1)/Decimal(1000))],
+                                                               [])
