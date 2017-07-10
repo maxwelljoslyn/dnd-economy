@@ -2478,6 +2478,9 @@ faeringHullJoinLinearFeet = (Decimal(2) * (faeringRongeFrameTimberLength +
                                            faeringBilgestrakeLength +
                                            faeringSheerstrakeLength +
                                            faeringGunwaleLength +
+                                           faeringAftFlooringLength +
+                                           faeringForeFlooringLength +
+                                           (Decimal(2) * faeringMidshipFlooringLength) +
                                            # times 2, once for attachment to each stem
                                            Decimal(2) * (faeringGarboardWidth +
                                                          faeringBilgestrakeWidth +
@@ -2499,6 +2502,7 @@ faeringHullCaulk = (faeringHullJoinSquareFeet / caulkSqFtCoverage) * caulkWeight
 faeringHullRivets = faeringHullJoinLinearFeet * Decimal(4)
 faeringHullTotalWeight = getWeight("keel, faering") + (Decimal(2) * getWeight("garboard, faering")) + (Decimal(2) * getWeight("bilgestrake, faering")) + (Decimal(2) * getWeight("sheerstrake, faering")) + (Decimal(2) * getWeight("bilgestrake, faering")) + (faeringHullRivets * getWeight("rivet")) + faeringHullCaulk
 faeringHullTotalWeight += getWeight("midship frame timber, faering") + getWeight("fore frame timber, faering") + getWeight("aft frame timber, faering") + (Decimal(2) * getWeight("ronge frame timber, faering"))
+faeringHullTotalWeight += getWeight("aft flooring, faering") + getWeight("fore flooring, faering") + (Decimal(2) * getWeight("midship flooring, faering"))
 recipeStorage["hull, faering"] = Recipe("shipwright",(faeringHullTotalWeight,"lb"),
                                         [],
                                         [("caulk",faeringHullCaulk),
@@ -2511,5 +2515,9 @@ recipeStorage["hull, faering"] = Recipe("shipwright",(faeringHullTotalWeight,"lb
                                          ("midship frame timber, faering",1),
                                          ("ronge frame timber, faering",2),
                                          ("fore frame timber, faering",1),
-                                         ("aft frame timber, faering",1)])
+                                         ("aft frame timber, faering",1),
+                                         ("midship flooring, faering",2),
+                                         ("fore flooring, faering",1),
+                                         ("aft flooring, faering",1)])
+
 
