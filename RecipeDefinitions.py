@@ -2219,3 +2219,13 @@ recipeStorage["timber, ground"] = Recipe("miller",(1,"lb"),
                                          [],
                                          description="for extraction of tannin")
 semiGoods.append("timber, ground")
+
+# this is the figure for most high-tannin woods
+tanninPercentInWood = Decimal(0.1)
+tanninOutputWeight = Decimal(1)
+tanninWoodInputWeight = tanninOutputWeight / tanninPercentInWood
+tanninWoodCuFt = tanninWoodInputWeight / densityTimber
+recipeStorage["tannin"] = Recipe("dyer",(tanninOutputWeight,"lb"),
+                                 [],
+                                 [("timber, ground",tanninWoodCuFt)])
+
