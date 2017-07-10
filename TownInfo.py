@@ -73,21 +73,21 @@ towns["Kededal"] = Town((43,-60,17),
 towns["Gootonu"] = Town((43,-66,23),
                         8739,
                         {"cereal":1, "iron ore":1},
-                        {"tailor":1, "miller":2, "butcher":1, "tanner":2, "innkeeper":1})
+                        {"miller":2, "butcher":1, "tanner":2, "innkeeper":1})
 # more southerly, warmer cities
 # example: shipping, salt, sugarcane, shipwright, tobacco, shells
 towns["Torkada"] = Town((42,-67,25),
                         916,
                         {"cod":1, "arable land":1},
-                        {"baker":1, "dyer":1, "weaver":2, "farmer":1, "miller":1})
+                        {"baker":1, "dyer":1, "weaver":2, "sailor":1, "miller":1})
 towns["Serdabach"] = Town((45,-68,23),
                           3913,
                           {"herring":1,"salt":1, "timber":1, "sugarcane":1, "cotton":1},
-                          {"ropewalker":1, "shipwright":1, "tailor":1, "carver":1,"smelter":1, "carpenter":2, "brewer":1})
+                          {"ropewalker":1, "shipwright":1, "lumpman":1,"smelter":1, "carpenter":2, "brewer":1})
 towns["Berdorl"] = Town((43,-69,26),
                         2966,
                         {"sugarcane":1, "cotton":1},
-                        {"hatter":1, "ropewalker":1, "carpenter":1 ,"blacksmith":2, "innkeeper":1})
+                        {"hatter":1, "ropewalker":1, "carpenter":1 ,"blacksmith":1, "innkeeper":1})
 
 # more central, slightly colder-climate port
 # same as other ports, plus whales
