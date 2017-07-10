@@ -151,7 +151,7 @@ recipeStorage["iron filings"] = Recipe("blacksmith",(1,"lb"),
                                        [("wrought iron",1)])
 semiGoods.append("iron filings")
 
-# the lead filings are on the basis of the methods described in Subterraneal Treasures
+# the filings are on the basis of the methods described in Subterraneal Treasures
 recipeStorage["lead"] = Recipe("smelter",(1,"lb"),
                                [("lead ore",1),("coal",Decimal(0.5)), ("limestone",0.25)],
                                [("iron filings",Decimal(0.25))],
