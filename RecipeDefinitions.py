@@ -2229,3 +2229,24 @@ recipeStorage["tannin"] = Recipe("dyer",(tanninOutputWeight,"lb"),
                                  [],
                                  [("timber, ground",tanninWoodCuFt)])
 
+
+inkBlackPoundsTanninPerPint = Decimal(3)/Decimal(16)
+inkBlackPoundsGelatinPerPint = Decimal(2)/Decimal(16)
+inkBlackPoundsVitriolPerPint = inkBlackPoundsGelatinPerPint
+inkBlackSolidWeight = inkBlackPoundsTanninPerPint + inkBlackPoundsGelatinPerPint + inkBlackPoundsVitriolPerPint
+inkBlackWaterPerPint = Decimal(4)/Decimal(16)
+inkBlackAlePerPint = Decimal(6)/Decimal(16)
+inkBlackVinegarPerPint = Decimal(6)/Decimal(16)
+inkBlackLiquidWeight = (inkBlackWaterPerPint * waterWeightOnePint) + (inkBlackAlePerPint * waterWeightOnePint) + (inkBlackVinegarPerPint * weightPintVinegar)
+inkBlackTotalWeight = inkBlackSolidWeight + inkBlackLiquidWeight
+inkSaleUnit = Decimal(0.5)
+recipeStorage["ink, black"] = Recipe("dyer",((inkBlackTotalWeight * inkSaleUnit) + getWeight("flask, glass"),"lb"),
+                                            [],
+                                            [("ale, barrel",(inkBlackAlePerPint * inkSaleUnit) / pintsPerBarrel),
+                                             ("vinegar",inkSaleUnit),
+                                             ("tannin",inkBlackPoundsTanninPerPint * inkSaleUnit),
+                                             ("gelatin",inkBlackPoundsGelatinPerPint * inkSaleUnit),
+                                             ("green vitriol",inkBlackPoundsVitriolPerPint * inkSaleUnit),
+                                             ("flask, glass",1)],
+                                            unit=(Decimal(0.5),"pint"),
+                                            description="iron gall ink, in glass flask")
