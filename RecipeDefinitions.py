@@ -2250,3 +2250,18 @@ recipeStorage["ink, black"] = Recipe("dyer",((inkBlackTotalWeight * inkSaleUnit)
                                              ("flask, glass",1)],
                                             unit=(Decimal(0.5),"pint"),
                                             description="iron gall ink, in glass flask")
+
+inkColorWaterPerPint = Decimal(0.8)
+inkColorLiquidWeight = inkColorWaterPerPint * waterWeightOnePint
+# gelatin is the binder
+# the amounts for gelatin and pigment are made up; since after considerable searching I couldn't find anything
+inkColorPoundsGelatinPerPint = Decimal(1)/Decimal(16)
+inkColorPoundsPigmentPerPint = Decimal(1)/Decimal(16)
+inkColorSolidWeight = inkColorPoundsGelatinPerPint + inkColorPoundsPigmentPerPint
+inkColorTotalWeight = inkColorLiquidWeight + inkColorSolidWeight
+recipeStorage["ink, ultramarine blue"] = Recipe("dyer",(inkColorTotalWeight + getWeight("flask, glass"),"lb"),
+                                                [],
+                                                [("gelatin",inkColorPoundsGelatinPerPint * inkSaleUnit),
+                                                 ("pigment, ultramarine",inkColorPoundsPigmentPerPint * inkSaleUnit)],
+                                                unit=(Decimal(0.5),"pint"),
+                                                description="in glass flask")
