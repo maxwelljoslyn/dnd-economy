@@ -2362,3 +2362,16 @@ recipeStorage["stem, faering"] = Recipe("shipwright",(faeringStemWeight,"lb"),
 recipeStorage["stem, faering, shaped"] = Recipe("shipwright",(getWeight("stem, faering"),"lb"),
                                                  [],
                                                  [("stem, faering",1)])
+
+faeringGarboardLength = faeringKeelLength + Decimal(0.75)
+faeringGarboardWidth = Decimal(14)/Decimal(12)
+faeringGarboardHeight = Decimal(0.5)/Decimal(12)
+faeringGarboardCuFt = faeringGarboardLength * faeringGarboardWidth * faeringGarboardHeight
+faeringGarboardWeight = faeringGarboardCuFt * densityTimber
+recipeStorage["garboard, faering"] = Recipe("shipwright",(faeringGarboardWeight,"lb"),
+                                            [("timber",faeringGarboardCuFt)],
+                                            [])
+
+recipeStorage["garboard, faering, shaped"] = Recipe("shipwright",(getWeight("garboard, faering"),"lb"),
+                                                     [],
+                                                     [("garboard, faering",1)])
