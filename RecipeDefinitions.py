@@ -2388,3 +2388,16 @@ recipeStorage["bilgestrake, faering"] = Recipe("shipwright",(faeringBilgestrakeW
 recipeStorage["bilgestrake, faering, shaped"] = Recipe("shipwright",(getWeight("bilgestrake, faering"),"lb"),
                                                      [],
                                                      [("bilgestrake, faering",1)])
+
+faeringSheerstrakeLength = faeringKeelLength * Decimal(1.25)
+faeringSheerstrakeWidth = Decimal(8)/Decimal(12)
+faeringSheerstrakeHeight = Decimal(0.125)/Decimal(12)
+faeringSheerstrakeCuFt =faeringSheerstrakeLength * faeringSheerstrakeWidth * faeringSheerstrakeHeight
+faeringSheerstrakeWeight = faeringSheerstrakeCuFt * densityTimber
+recipeStorage["sheerstrake, faering"] = Recipe("shipwright",(faeringSheerstrakeWeight,"lb"),
+                                               [("timber",faeringSheerstrakeCuFt)],
+                                               [])
+
+recipeStorage["sheerstrake, faering, shaped"] = Recipe("shipwright",(getWeight("sheerstrake, faering"),"lb"),
+                                                       [],
+                                                       [("sheerstrake, faering",1)])
