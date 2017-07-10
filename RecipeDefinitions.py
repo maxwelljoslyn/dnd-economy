@@ -2438,3 +2438,10 @@ recipeStorage["fore frame timber, faering"] = Recipe("shipwright",(faeringForeFr
                                                         [("timber",faeringForeFrameTimberCuFt)],
                                                         [])
 
+faeringRongeFrameTimberLength = Decimal(2.5)
+faeringRongeFrameTimberCuFt = faeringRongeFrameTimberLength * faeringFrameTimberHeight * faeringFrameTimberWidth
+faeringRongeFrameTimberWeight = faeringRongeFrameTimberCuFt * densityTimber
+recipeStorage["ronge frame timber, faering"] = Recipe("shipwright",(faeringRongeFrameTimberWeight,"lb"),
+                                                        [("timber",faeringRongeFrameTimberCuFt)],
+                                                        [])
+
