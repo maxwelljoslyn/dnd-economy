@@ -2401,3 +2401,17 @@ recipeStorage["sheerstrake, faering"] = Recipe("shipwright",(faeringSheerstrakeW
 recipeStorage["sheerstrake, faering, shaped"] = Recipe("shipwright",(getWeight("sheerstrake, faering"),"lb"),
                                                        [],
                                                        [("sheerstrake, faering",1)])
+
+faeringGunwaleLength = faeringSheerstrakeLength
+faeringGunwaleWidth = Decimal(3)/Decimal(12)
+faeringGunwaleHeight = faeringSheerstrakeHeight
+faeringGunwaleCuFt = faeringGunwaleLength * faeringGunwaleWidth * faeringGunwaleHeight
+faeringGunwaleWeight = faeringGunwaleCuFt * densityTimber
+recipeStorage["gunwale, faering"] = Recipe("shipwright",(faeringGunwaleWeight,"lb"),
+                                           [("timber",faeringGunwaleCuFt)],
+                                           [])
+
+recipeStorage["gunwale, faering, shaped"] = Recipe("shipwright",(getWeight("gunwale, faering"),"lb"),
+                                                   [],
+                                                   [("gunwale, faering",1)])
+
