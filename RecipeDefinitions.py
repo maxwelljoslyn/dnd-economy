@@ -784,10 +784,10 @@ recipeStorage["molasses"] = Recipe("miller",(molassesGallonWeight,"lb"),
                                    [],
                                    unit=(1,"gallon"))
 
-# 6 month old pig for the slaughter, weighing 150 lbs
-recipeStorage["pig"] = Recipe("farmer",(150, "lb"),
+# 6 month old pig for the slaughter, weighing 120 lbs
+recipeStorage["pig"] = Recipe("farmer",(120, "lb"),
                               [],
-                              [("cattle feed",630)],
+                              [("cattle feed",504)],
                               description="6 months old, ready for slaughter")
 
 # going off the web, carcass weight is 75% of live weight, and dress weight is 75% of carcass weight
