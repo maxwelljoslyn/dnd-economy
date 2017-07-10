@@ -1124,7 +1124,7 @@ halberdTotalWeight = halberdHaftWeight + halberdHeadWeight
 recipeStorage["halberd"] = Recipe("blacksmith",(halberdTotalWeight ,"lb"),
                                   [],
                                   [("spear haft", halberdHaftWeight),("steel",halberdHeadWeight)],
-                                  description="1d8 dmg; 2hand; " + str(halberdLength) + " ft long. Attacks normally; enemies 2 hexes away are 'in melee' (move slower)")
+                                  description="1d8 dmg; 2hand; " + str(halberdLength) + " ft long. Attacks normally; enemies 2 hexes away are threatened")
 
 quarterstaffCuFt = cylinderCuFt(5,Decimal(0.5/12))
 recipeStorage["quarterstaff"] = Recipe("carpenter",(quarterstaffCuFt * densityTimber,"lb"),
