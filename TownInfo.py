@@ -5,9 +5,11 @@ class Town():
     """Stores data associated with a given town."""
     def __init__(self,coord,population,resources,services):
         self.coord = coord
-        self.population = population
+        self.population = Decimal(population)
         self.resources = resources
+        self.resources["labor"] = self.population / Decimal(1000)
         self.services = services
+        self.services["laborer"] = self.resources["labor"]
         self.blackMarket = False
 
 towns = {}

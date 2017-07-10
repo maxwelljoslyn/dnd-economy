@@ -50,6 +50,11 @@ def getServices(resourceDict):
 # for each of the resources listed below.
 # these are currently listed at 1/1000 of their full world size
 worldProductionMatrix = {}
+
+populationSum = 0
+for t,d in towns.items():
+    populationSum += d.population
+worldProductionMatrix["labor"] = (populationSum,"head")
 worldProductionMatrix["flax"] = (10000000,"lb")
 worldProductionMatrix["timber"] = (2000000, "cuft")
 worldProductionMatrix["arable land"] = (10000000, "acre")
