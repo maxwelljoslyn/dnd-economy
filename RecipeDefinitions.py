@@ -2194,3 +2194,22 @@ recipeStorage["paper, foolscap, quire"] = Recipe("bookbinder",(quireWeight,"lb")
                                           unit=(Decimal(100),"page"),
                                           description="bound folio sheets (8x13 in.)")
 
+
+# Source: A Booke of Secrets [...] written first in Italian, and now newly translated into English, by W.P., London, Edward White, 1596
+# Take halfe a pint of water, a pint wanting a quarter of wine, and as much vineger, which being mixed together make a quart and a quarter of a pint more, then take six ounces of gauls beaten into small pouder and sifted through a sive, put this pouder into a pot by it selfe, and poure halfe the water, wine and vineger into it, take likewise foure ounces of vietriall, and beat it into pouder, and put it also in a pot by it selfe, whereinto put a quarter of the wine, water, and vineger that remaineth, and to the other quarter, put foure ounces of gum Arabike beaten to pouder, that done, cover the three pots close, and let them stand three or foure daies together, stirring them every day three or foure times, on the first day set the pot with gaules on the fire, and when it begins to seeth, stir it about till it be throughly warme, then straine it through a cloath into another pot, and mixe it with the other two pots, stirring them well together, and being covered, then let it stand three daies, til thou meanest to use it, on the fourth day, when it is setled, poure it out, and it wil be good inke.
+# If there remaine any dregs behind, poure some raine water that hath stand long in a tub or vessell into it, for the older the water is, the better it is, and keepe that untill you make more inke, so it is better then clean water."
+
+# from this we can extrapolate:
+# 0.5 pint water + 0.75 pint ale + 0.75 pint vinegar + 6 oz tannin + 4 oz gelatin (binder) + 4 oz vitriol
+# vitriol here refers green vitriol (iron sulfate), confusingly also called "copperas"
+# assuming the liquids retain their volume, this makes 2 pints of fluid
+# thus, to make one pint (16 floz) we want 4 floz water, 6 floz ale, 6 floz vinegar
+# thus, to make one pint (16 floz) we want 3 oz tannin, 2 oz gelatin, 2 oz vitriol
+
+
+recipeStorage["green vitriol"] = Recipe("alchemist",(1,"lb"),
+                                        [("iron ore",4)],
+                                        [],
+                                        difficulty=4, # so-far standard difficulty for basic alchemy
+                                        description="AKA copperas")
+semiGoods.append("green vitriol")
