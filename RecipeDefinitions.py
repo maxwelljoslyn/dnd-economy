@@ -1006,11 +1006,11 @@ recipeStorage["felt"] = Recipe("fuller",(poundsCleanWoolPerSqFtFelt,"lb"),
                                unit=(1,"sq ft"),
                                description="soft and thick wool textile")
 
-# gambesons are quite thick, with lots of layers
-gambesonLayers = 6
+# gambesons are thickly padded
+gambesonLayers = 2
 # we'll need  feet of thread per layer, to go around the edges of each layer twice, attaching them to the others into a big stack
 gambesonThread = gambesonLayers * 8
-gambesonSqFt = 8 * gambesonLayers
+gambesonSqFt = 6 * gambesonLayers
 recipeStorage["gambeson, quilted"] = Recipe("weaver",(gambesonSqFt * getWeight("wool cloth"),"lb"),
                                             [],
                                             [("wool cloth",gambesonSqFt),("thread",(gambesonThread/getUnitSize("thread")))],
