@@ -869,7 +869,7 @@ recipeStorage["wire"] = Recipe("blacksmith",(1,"lb"),
                                [("wrought iron",1)],
                                difficulty=3, # lots of hammering and then lots and lots of pulling
                                unit=(feetOfWire,"feet"),
-                               description="thickness 16 gauge, i.e. 0.05082 in. diameter")
+                               description="thickness 16 gauge (diameter 0.05082 in.)")
 
 # this is in feet b/c division by 12
 mailRingRadius = Decimal(0.2) / 12
