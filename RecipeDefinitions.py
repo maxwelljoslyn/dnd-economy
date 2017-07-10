@@ -1617,7 +1617,7 @@ tankardInnerRadius = Decimal(1.25)/Decimal(12)
 tankardInnerHeight = Decimal(6)/Decimal(12)
 # the inner volume is the amount of liquid it can hold, the size of the "inner" cylinder
 tankardInnerVolume = cylinderCuFt(tankardInnerHeight, tankardInnerRadius)
-tankardInnerVolumeInPints = tankardInnerVolume / cuFtPerGallonLiquid * 8
+tankardInnerVolumeInPints = tankardInnerVolume / (cuFtPerGallonLiquid / 8)
 tankardOuterRadius = tankardInnerRadius + Decimal(0.125)/Decimal(12)
 tankardOuterHeight = tankardInnerHeight + Decimal(0.25)/Decimal(12)
 # the outer volume is the size of the tankard if it were a solid cylinder
