@@ -2335,3 +2335,12 @@ rivetWeight = Decimal(0.025)
 recipeStorage["rivet"] = Recipe("coppersmith",(rivetWeight,"lb"),
                                 [],
                                 [("copper",rivetWeight)])
+
+faeringKeelLength = Decimal(14)
+faeringKeelWidth= Decimal(2)/Decimal(12)
+faeringKeelHeight= Decimal(3)/Decimal(12)
+faeringKeelCuFt = faeringKeelLength * faeringKeelWidth * faeringKeelHeight
+faeringKeelWeight = faeringKeelCuFt * densityTimber
+recipeStorage["keel, faering"] = Recipe("shipwright",(faeringKeelWeight,"lb"),
+                                        [("timber",faeringKeelCuFt)],
+                                        [])
