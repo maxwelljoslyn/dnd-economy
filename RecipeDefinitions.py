@@ -2021,7 +2021,7 @@ ropeLadderHookRopeWeight = ropeLadderHookRopeUnitRatio * getWeight("rope")
 ropeLadderUnitCount = 15
 ropeLadderTotalRopeUnitRatio = ropeLadderUnitRopeRatio * ropeLadderUnitCount + ropeLadderHookRopeUnitRatio
 ropeLadderTotalWeight = (ropeLadderUnitRopeWeight * ropeLadderUnitCount) + (ladderRungWeight * (ropeLadderUnitCount + 1)) + (ropeLadderTophookWeight * 2) + (ropeLadderHookRopeWeight * 2)
-recipeStorage["rope ladder"] = Recipe("ropewalker",(ropeLadderTotalWeight,"lb"),
+recipeStorage["ladder, rope"] = Recipe("ropewalker",(ropeLadderTotalWeight,"lb"),
                                       [],
                                       [("rope", ropeLadderTotalRopeUnitRatio),
                                        ("ladder rung", ropeLadderUnitCount+1),
@@ -2043,7 +2043,7 @@ recipeStorage["wooden ladder plank"] = Recipe("carpenter",(woodenLadderPlankWeig
 semiGoods.append("wooden ladder plank")
 
 woodenLadderTotalWeight = (woodenLadderPlankWeight * 2) + (ladderRungWeight * woodenLadderNumRungs)
-recipeStorage["wooden ladder"] = Recipe("carpenter",(woodenLadderTotalWeight,"lb"),
+recipeStorage["ladder, wooden"] = Recipe("carpenter",(woodenLadderTotalWeight,"lb"),
                                         [],
                                         [("wooden ladder plank",2),
                                          ("ladder rung", woodenLadderNumRungs)],
