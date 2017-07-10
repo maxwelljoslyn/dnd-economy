@@ -1,3 +1,6 @@
+from decimal import *
+
+
 class Town():
     """Stores data associated with a given town."""
     def __init__(self,coord,population,resources,services):
