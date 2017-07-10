@@ -807,7 +807,8 @@ saltForSaltBeef = Decimal(1/4) + Decimal(1/3)
 brownSugarForSaltBeef = Decimal(1/6)
 recipeStorage["beef jerky"] = Recipe("butcher",(1,"lb"),
                                      [("salt",saltForSaltBeef)],
-                                     [("brown sugar",brownSugarForSaltBeef)],
+                                     [("brown sugar",brownSugarForSaltBeef),
+                                      ("beef",1)],
                                      description="will keep for a year if seldom exposed to air")
 
 # salt pork, when compared to salt beef, is said to require more salt and less sugar (same source as salt beef)
