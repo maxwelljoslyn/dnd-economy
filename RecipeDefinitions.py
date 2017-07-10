@@ -2273,3 +2273,12 @@ recipeStorage["ink, red/yellow"] = Recipe("dyer",(inkColorTotalWeight + getWeigh
                                                 unit=(Decimal(0.5),"pint"),
                                                 description="in glass flask")
 
+
+tattooNeedleLength = Decimal(1)
+tattooNeedleMaxDiameter = Decimal(0.25)/Decimal(12)
+tattooNeedleCuFt = coneCuFt(tattooNeedleLength,tattooNeedleMaxDiameter/Decimal(2))
+tattooNeedleWeight = tattooNeedleCuFt * densitySteel
+recipeStorage["tattoo needle"] = Recipe("blacksmith",(tattooNeedleWeight,"lb"),
+                                        [],
+                                        [("steel",tattooNeedleWeight)],
+                                        difficulty=4)
