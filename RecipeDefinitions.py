@@ -2320,3 +2320,13 @@ for service in allServiceNames:
     recipeStorage["hireling, " + service] = Recipe(service, (1,"head"),
                                                                [("labor",Decimal(1)/Decimal(1000))],
                                                                [])
+# caulk = pitch plus cotton fibers, i.e. the recipe "clean cotton"
+caulkPitchPercentage = Decimal(0.75) # by weight
+caulkCottonPercentage = Decimal(1) - caulkPitchPercentage
+caulkCottonWeight = caulkCottonPercentage * pitchInFlaskWeightPitch
+caulkWeight = pitchInFlaskWeightPitch + caulkCottonWeight
+caulkSqFtCoverage = (caulkWeight / hideGlueDesiredWeight) * squareFeetGlueCanCover
+recipeStorage["caulk"] = Recipe("shipwright",(caulkWeight + getWeight("flask, earthenware"),"lb"),
+                                [],
+                                [("pitch",1), ("clean cotton",caulkCottonWeight), ("flask, earthenware",1)],
+                                description="in earthenware flask; covers " + str(caulkSqFtCoverage) + " sqft")
