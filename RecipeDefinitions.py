@@ -816,7 +816,8 @@ saltForSaltPork = Decimal(1/4) + Decimal(2.5/6)
 brownSugarForSaltPork = Decimal(0.5/6)
 recipeStorage["salt pork"] = Recipe("butcher",(1,"lb"),
                                     [("salt",saltForSaltPork)],
-                                    [("brown sugar",brownSugarForSaltPork)],
+                                    [("brown sugar",brownSugarForSaltPork),
+                                     ("pork",1)],
                                     description="will keep for a year if seldom exposed to air")
 
 recipeStorage["spearhead"] = Recipe("blacksmith",(1.5,"lb"),
