@@ -2330,3 +2330,8 @@ recipeStorage["caulk"] = Recipe("shipwright",(caulkWeight + getWeight("flask, ea
                                 [],
                                 [("pitch",1), ("clean cotton",caulkCottonWeight), ("flask, earthenware",1)],
                                 description="in earthenware flask; covers " + str(caulkSqFtCoverage) + " sqft")
+
+rivetWeight = Decimal(0.025)
+recipeStorage["rivet"] = Recipe("coppersmith",(rivetWeight,"lb"),
+                                [],
+                                [("copper",rivetWeight)])
