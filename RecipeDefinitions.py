@@ -2453,6 +2453,14 @@ recipeStorage["midship flooring, faering"] = Recipe("shipwright",(faeringMidship
                                                     [("timber",faeringMidshipFlooringCuFt)],
                                                     [],
                                                     description="two required for construction")
+
+faeringForeFlooringLength = Decimal(3)
+faeringForeFlooringCuFt = triangularPrismCuFt(faeringForeFrameTimberLength,faeringForeFlooringLength,faeringFlooringHeight)
+faeringForeFlooringWeight = faeringForeFlooringCuFt * densityTimber
+recipeStorage["fore flooring, faering"] = Recipe("shipwright",(faeringForeFlooringWeight,"lb"),
+                                                    [("timber",faeringForeFlooringCuFt)],
+                                                    [])
+
 # width of overlap between each strake: an estimate
 faeringLapWidth = Decimal(2)/Decimal(12)
 # times 2, once for each side
