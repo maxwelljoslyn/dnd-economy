@@ -469,7 +469,8 @@ weightOneBarSoap = densityTallow * barSoapInCuFt
 # but I'm going to cut that in half because adventurers get much dirtier than I ever would
 recipeStorage["soap, hard"] = Recipe("chandler",(weightOneBarSoap,"lb"),
                                      [("salt",saltTallowRatio * weightOneBarSoap)],
-                                     [("lye",lyeTallowRatio * weightOneBarSoap),("tallow",tallowForOneLbSoap * weightOneBarSoap)],
+                                     [("lye",lyeTallowRatio * weightOneBarSoap),
+                                      ("tallow",tallowForOneLbSoap * weightOneBarSoap)],
                                      description="will wash 1 person 60 times; 3x2x6 in.")
 
 
