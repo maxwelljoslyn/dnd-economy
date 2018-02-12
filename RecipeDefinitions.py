@@ -2369,6 +2369,18 @@ for service in allServiceNames:
                                                    [],
                                                    unit=(Decimal(1),"head"),
                                                    description="weekly wage")
+basicWeapons = ["dagger","shortsword","spear","sling"]
+
+paymentsPerYear = Decimal(12)
+XPbeforeCombatTraining = Decimal(500)
+XPforLevelOne = Decimal(1500)
+mercenaryImprovementOverLaborer = XPbeforeCombatTraining / XPforLevelOne
+mercenaryPersonValue = Decimal(1) + Decimal(1) * mercenaryImprovementOverLaborer
+recipeStorage["hireling, mercenary"] = Recipe("laborer",(0,"lb"),
+                                              [],
+                                              [("hireling, laborer",mercenaryPersonValue)] + [(weapon,Decimal(1)/paymentsPerYear) for weapon in basicWeapons],
+                                              unit=(Decimal(1),"head"),
+                                              description="monthly wage; trained with " + ", ".join(basicWeapons))
 # caulk = pitch plus cotton fibers, i.e. the recipe "clean cotton"
 caulkPitchPercentage = Decimal(0.75) # by weight
 caulkCottonPercentage = Decimal(1) - caulkPitchPercentage
