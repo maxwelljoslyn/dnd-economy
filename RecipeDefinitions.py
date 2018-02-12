@@ -378,6 +378,18 @@ recipeStorage["rennet"] = Recipe("butcher",(waterWeightOnePint,"lb"),
                                  unit=(1, "pint"))
 # semiGoods.append("rennet")
 
+teaspoonsRennetPerGallonMilk = Decimal(0.5)
+pintsRennetPerGallonMilk = teaspoonsRennetPerGallonMilk / teaspoonsPerPint
+gallonsMilkPerPoundCheese = Decimal(3)
+# salt amount is a guess
+recipeStorage["cheese"] = Recipe("cheesemonger",(1,"lb"),
+                                 [("salt",Decimal(0.25))],
+                                 [("cow milk", gallonsMilkPerPoundCheese),
+                                  ("rennet", pintsRennetPerGallonMilk * gallonsMilkPerPoundCheese)])
+                                  
+
+                                 
+
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
                               [("arable land",Decimal(5.28))],
