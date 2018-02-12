@@ -129,9 +129,6 @@ def display(name, skeleton, info):
 # TODO: parameterize to cities named on the command line (any number of)
 def main():
     town = "Veder Vek"
-    terminalOutputSkeleton = "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{7:>4} {6}"
-    latexOutputSkeleton = "{0} & {1} & {2} & {3} & {4} & {5} & {7} & {6}"
-    htmlOutputSkeleton = "<tr><td>{0} </td><td> {1} </td><td> {2} </td><td> {3} </td><td> {4} </td><td> {5} </td><td> {7} </td><td> {6}</td></tr>"
     print("At",town + ":")
     names = list(recipeStorage.keys())
     names.sort()
