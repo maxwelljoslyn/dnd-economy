@@ -2381,6 +2381,15 @@ recipeStorage["hireling, mercenary"] = Recipe("laborer",(0,"lb"),
                                               [("hireling, laborer",mercenaryPersonValue)] + [(weapon,Decimal(1)/paymentsPerYear) for weapon in basicWeapons],
                                               unit=(Decimal(1),"head"),
                                               description="weekly wage; trained with " + ", ".join(basicWeapons))
+
+XPafterCombatTraining = XPforLevelOne - XPbeforeCombatTraining
+levelOneImprovementOverMercenary = XPafterCombatTraining / XPforLevelOne
+levelOnePersonValue = Decimal(1) + Decimal(1) * levelOneImprovementOverMercenary
+recipeStorage["hireling, fighter, level 1"] = Recipe("laborer",(0,"lb"),
+                                                     [],
+                                                     [("hireling, mercenary",levelOnePersonValue)],
+                                                     unit=(Decimal(1),"head"),
+                                                     description="weekly wage")
 # caulk = pitch plus cotton fibers, i.e. the recipe "clean cotton"
 caulkPitchPercentage = Decimal(0.75) # by weight
 caulkCottonPercentage = Decimal(1) - caulkPitchPercentage
