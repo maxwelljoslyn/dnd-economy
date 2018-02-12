@@ -2380,7 +2380,7 @@ recipeStorage["hireling, mercenary"] = Recipe("laborer",(0,"lb"),
                                               [],
                                               [("hireling, laborer",mercenaryPersonValue)] + [(weapon,Decimal(1)/paymentsPerYear) for weapon in basicWeapons],
                                               unit=(Decimal(1),"head"),
-                                              description="monthly wage; trained with " + ", ".join(basicWeapons))
+                                              description="weekly wage; trained with " + ", ".join(basicWeapons))
 # caulk = pitch plus cotton fibers, i.e. the recipe "clean cotton"
 caulkPitchPercentage = Decimal(0.75) # by weight
 caulkCottonPercentage = Decimal(1) - caulkPitchPercentage
