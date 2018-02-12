@@ -1,20 +1,6 @@
-import random
-import itertools
-import bisect
 from decimal import Decimal
 from TownInfo import towns
 
-
-# choose randomly from a population built from a list of choices with weights
-def weightedChoice(weightedlist):
-    choices, weights = zip(*weightedlist)
-    cumulativeDist = list(itertools.accumulate(weights))
-    x = random.random() * cumulativeDist[-1]
-    return choices[bisect.bisect(cumulativeDist,x)]
-
-def stripWeights(weightedList):
-    """Helper function to return only the names in a resource list, not its weights."""
-    return [member[0] for member in weightedList]
 
 # this dictionary holds world production figures, with both amounts and units thereof,
 # for each of the resources listed below.
