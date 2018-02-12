@@ -286,18 +286,17 @@ semiGoods.append("husked cereal")
 recipeStorage["flour"] = Recipe("miller",(1,"lb"),
                                 [],
                                 [("husked cereal",1)],
-                                description="Flour ground from cereals.")
+                                difficulty=2,
+                                description="ground from cereals")
 
 recipeStorage["feed, cattle/horse"] = Recipe("miller",(1,"lb"),
                                       [],
                                       [("husked cereal",1)],
                                       description="coarsely ground from cereals")
 
-
 recipeStorage["bread"] = Recipe("baker",(1,"lb"),
-                                [("salt",0.05)],
-                                [("flour",0.7)],
-                                description="round loaf")
+                                      [("salt",0.05)],
+                                      [("flour",0.7)])
 
 recipeStorage["quicklime"] = Recipe("potter",(1,"lb"),
                                     [("limestone",1),("coal",0.5)],
@@ -2186,7 +2185,7 @@ recipeStorage["paper, foolscap, looseleaf"] = Recipe("miller",(1,"lb"),
                                           [],
                                           [("paper, foolscap, sized",1)],
                                           unit=recipeStorage["paper, foolscap, unfinished"].unit,
-                                          description="16x13 in.")
+                                          description=str(foolscapHeight) + "x" + str(foolscapLength) + "in.")
 
 # foolscap leaf: 16 by 13
 # foolscap folio: foolscap folded in two, to make two sheets of 8 by 13
