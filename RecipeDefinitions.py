@@ -2364,9 +2364,11 @@ for color in ["black","ultramarine blue","red/yellow"]:
                                    description="includes people and creatures")
 
 for service in allServiceNames:
-    recipeStorage["hireling, " + service] = Recipe(service, (1,"head"),
-                                                               [("labor",Decimal(1)/Decimal(1000))],
-                                                               [])
+    recipeStorage["hireling, " + service] = Recipe(service, (0,"lb"),
+                                                   [("labor",Decimal(1)/Decimal(1000))],
+                                                   [],
+                                                   unit=(Decimal(1),"head"),
+                                                   description="weekly wage")
 # caulk = pitch plus cotton fibers, i.e. the recipe "clean cotton"
 caulkPitchPercentage = Decimal(0.75) # by weight
 caulkCottonPercentage = Decimal(1) - caulkPitchPercentage
