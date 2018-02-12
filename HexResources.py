@@ -16,36 +16,6 @@ def stripWeights(weightedList):
     """Helper function to return only the names in a resource list, not its weights."""
     return [member[0] for member in weightedList]
 
-# all of the above services are also listed here, for random distribution
-serviceList = ["beekeeper","weaver","tailor","tanner","leatherworker","butcher",
-               "hunter","fishmonger","smelter","assayer","tinsmith","goldsmith",
-               "stonecarver","mason","jeweler","silversmith","blacksmith",
-               "miller","brewer","baker","tobacconist","alchemist","vintner",
-               "carpenter"]
-
-def getServices(resourceDict):
-    """Given a dict mapping from resource names to counts of those resources,
-    return the appropriate services (occupational resources, like blacksmith and chandler)
-    which are appropriate for those resources."""
-    result = {}
-    for name,count in resourceDict.items():
-        servs = resourceToServices(name)
-        for s in servs:
-            if s in result:
-                result[s] += Decimal(count)
-            else:
-                result[s] = Decimal(count)
-    # then, add some extra services from the list, for more variety
-    extraServs = random.randint(1,6)
-    while extraServs > 0:
-        e = random.choice(serviceList)
-        if e in result:
-            result[e] += Decimal(1)
-        else:
-            result[e] = Decimal(1)
-        extraServs = extraServs - 1
-    return result
-
 # this dictionary holds world production figures, with both amounts and units thereof,
 # for each of the resources listed below.
 # these are currently listed at 1/1000 of their full world size

@@ -58,7 +58,16 @@ densityHorn = Decimal(81.1563)
 densityGold = Decimal(1204.86)
 densityVinegar = Decimal(63.05224)
 
+weightWaterOneGal = Decimal(8.345404)
+gallonsPerPint = Decimal(1)/Decimal(8)
+waterWeightOnePint = weightWaterOneGal * gallonsPerPint
+
+gramsPerOz = Decimal(28.3495)
+
 cubicFootInPints = Decimal(59.8442)
+
+teaspoonsPerPint = Decimal(96)
+
 def cylinderCuFt(height,radius):
     height = Decimal(height)
     radius = Decimal(radius)
