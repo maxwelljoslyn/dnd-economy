@@ -276,7 +276,7 @@ recipeStorage["greatsword"] = Recipe("blacksmith",(greatswordWeight,"lb"),
                                      description="1d10 damage; 4.5-foot blade")
 
 
-# let's do some foods, plus cattle feed so we do cow prices and all the stuff coming from that
+# let's do some foods, plus feed, cattle/horse so we do cow prices and all the stuff coming from that
 
 recipeStorage["husked cereal"] = Recipe("miller",(1,"lb"),
                                         [("cereal",1)],
@@ -288,15 +288,11 @@ recipeStorage["flour"] = Recipe("miller",(1,"lb"),
                                 [("husked cereal",1)],
                                 description="Flour ground from cereals.")
 
-recipeStorage["cattle feed"] = Recipe("miller",(1,"lb"),
+recipeStorage["feed, cattle/horse"] = Recipe("miller",(1,"lb"),
                                       [],
                                       [("husked cereal",1)],
                                       description="coarsely ground from cereals")
 
-recipeStorage["horse feed"] = Recipe("miller",(1,"lb"),
-                                     [],
-                                     [("husked cereal",1)],
-                                     description="ground from cereals")
 
 recipeStorage["bread"] = Recipe("baker",(1,"lb"),
                                 [("salt",0.05)],
@@ -322,7 +318,7 @@ recipeStorage["mature ewe"] = Recipe("farmer",(90,"lb"),
 # a lamb which has been grain finished for slaughter
 recipeStorage["mutton sheep"] = Recipe("farmer",(130,"lb"),
                                        [],
-                                       [("mature ewe",1),("horse feed",345)],
+                                       [("mature ewe",1),("feed, cattle/horse",345)],
                                        unit=(1,"head"),
                                        description="one year old, suitable for slaughter")
 
@@ -349,7 +345,7 @@ calfSlaughterWeight = Decimal(410)
 
 recipeStorage["calf"] = Recipe("farmer",(calfSlaughterWeight,"lb"),
                                [("arable land",Decimal(2.4045))],
-                               [("cattle feed",123)],
+                               [("feed, cattle/horse",123)],
                                unit=(1,"head"),
                                description="8 months old, weaned, suitable for veal and rennet")
 
@@ -374,7 +370,7 @@ recipeStorage["abomasum"] = Recipe("butcher",(abomasumWeight,"lb"),
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
                               [("arable land",Decimal(5.28))],
-                              [("cattle feed",246)],
+                              [("feed, cattle/horse",246)],
                               unit=(1,"head"),
                               description="1 year and 4 months old, suitable for slaughtering")
 
@@ -808,7 +804,7 @@ recipeStorage["molasses"] = Recipe("miller",(molassesGallonWeight,"lb"),
 # 6 month old pig for the slaughter, weighing 120 lbs
 recipeStorage["pig"] = Recipe("farmer",(120, "lb"),
                               [],
-                              [("cattle feed",504)],
+                              [("feed, cattle/horse",504)],
                               description="6 months old, ready for slaughter")
 
 # going off the web, carcass weight is 75% of live weight, and dress weight is 75% of carcass weight
@@ -1512,7 +1508,7 @@ recipeStorage["aqua fortis"] = Recipe("alchemist",(aquaFortisWeight + getWeight(
 chickenFeedLbs = 6 * 4 * 2
 recipeStorage["chicken, mature"] = Recipe("farmer",(5,"lb"),
                                           [], # we say the cost of land for chickens is negligible
-                                          [("cattle feed",chickenFeedLbs)],
+                                          [("feed, cattle/horse",chickenFeedLbs)],
                                           description="can be slaughtered or kept to lay eggs")
 
 recipeStorage["chicken, killed"] = Recipe("butcher",(5,"lb"),
@@ -1544,7 +1540,7 @@ eggsChickenPerYear = 250
 # we will price a single egg
 recipeStorage["egg, chicken"] = Recipe("farmer",(Decimal(0.125),"lb"),
                                        [],
-                                       [("chicken, mature",1/eggsChickenPerYear),("cattle feed",egglayingChickenFeedLbs/eggsChickenPerYear)])
+                                       [("chicken, mature",1/eggsChickenPerYear),("feed, cattle/horse",egglayingChickenFeedLbs/eggsChickenPerYear)])
 
 # base volume of starting material: 6 x 2 x 2 inches
 statuetteCuFt = (Decimal(6)/Decimal(12)) * (Decimal(2)/Decimal(12)) * (Decimal(2)/Decimal(12))
