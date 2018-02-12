@@ -929,8 +929,7 @@ recipeStorage["mail sqft"] = Recipe("blacksmith",(getWeight("mail ring") * rings
                                     unit=(1,"sq ft"))
 semiGoods.append("mail sqft")
 
-# this is an OK-ish estimate, way better than my first one
-hauberkSqFt = 12
+hauberkSqFt = 9
 recipeStorage["hauberk, mail"] = Recipe("blacksmith",(hauberkSqFt * getWeight("mail sqft"),"lb"),
                                         [],
                                         [("mail sqft",hauberkSqFt)],
