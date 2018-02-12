@@ -2428,10 +2428,13 @@ faeringStemWeight = faeringStemTotalCuFt * densityTimber
 recipeStorage["stem, faering"] = Recipe("shipwright",(faeringStemWeight,"lb"),
                                         [("timber",faeringStemTotalCuFt)],
                                         [])
+semiGoods.append("stem, faering")
 
 recipeStorage["stem, faering, shaped"] = Recipe("shipwright",(getWeight("stem, faering"),"lb"),
                                                  [],
                                                  [("stem, faering",1)])
+semiGoods.append("stem, faering, shaped")
+
 
 faeringGarboardLength = faeringKeelLength + Decimal(0.75)
 faeringGarboardWidth = Decimal(14)/Decimal(12)
@@ -2441,10 +2444,12 @@ faeringGarboardWeight = faeringGarboardCuFt * densityTimber
 recipeStorage["garboard, faering"] = Recipe("shipwright",(faeringGarboardWeight,"lb"),
                                             [("timber",faeringGarboardCuFt)],
                                             [])
+semiGoods.append("garboard, faering")
 
 recipeStorage["garboard, faering, shaped"] = Recipe("shipwright",(getWeight("garboard, faering"),"lb"),
                                                      [],
                                                      [("garboard, faering",1)])
+semiGoods.append("garboard, faering, shaped")
 
 faeringBilgestrakeLength = faeringKeelLength * Decimal(1)
 faeringBilgestrakeWidth = Decimal(16)/Decimal(12)
@@ -2454,10 +2459,12 @@ faeringBilgestrakeWeight = faeringBilgestrakeCuFt * densityTimber
 recipeStorage["bilgestrake, faering"] = Recipe("shipwright",(faeringBilgestrakeWeight,"lb"),
                                              [("timber",faeringBilgestrakeCuFt)],
                                              [])
+semiGoods.append("bilgestrake, faering")
 
 recipeStorage["bilgestrake, faering, shaped"] = Recipe("shipwright",(getWeight("bilgestrake, faering"),"lb"),
                                                      [],
                                                      [("bilgestrake, faering",1)])
+semiGoods.append("bilgestrake, faering, shaped")
 
 faeringSheerstrakeLength = faeringKeelLength * Decimal(1.25)
 faeringSheerstrakeWidth = Decimal(8)/Decimal(12)
@@ -2467,10 +2474,12 @@ faeringSheerstrakeWeight = faeringSheerstrakeCuFt * densityTimber
 recipeStorage["sheerstrake, faering"] = Recipe("shipwright",(faeringSheerstrakeWeight,"lb"),
                                                [("timber",faeringSheerstrakeCuFt)],
                                                [])
+semiGoods.append("sheerstrake, faering")
 
 recipeStorage["sheerstrake, faering, shaped"] = Recipe("shipwright",(getWeight("sheerstrake, faering"),"lb"),
                                                        [],
                                                        [("sheerstrake, faering",1)])
+semiGoods.append("sheerstrake, faering, shaped")
 
 faeringGunwaleLength = faeringSheerstrakeLength
 faeringGunwaleWidth = Decimal(3)/Decimal(12)
@@ -2480,11 +2489,12 @@ faeringGunwaleWeight = faeringGunwaleCuFt * densityTimber
 recipeStorage["gunwale, faering"] = Recipe("shipwright",(faeringGunwaleWeight,"lb"),
                                            [("timber",faeringGunwaleCuFt)],
                                            [])
+semiGoods.append("gunwale, faering")
 
 recipeStorage["gunwale, faering, shaped"] = Recipe("shipwright",(getWeight("gunwale, faering"),"lb"),
                                                    [],
                                                    [("gunwale, faering",1)])
-
+semiGoods.append("gunwale, faering, shaped")
 
 faeringMidshipFrameTimberLength = Decimal(4)
 faeringFrameTimberWidth = Decimal(0.75)/Decimal(12)
@@ -2494,6 +2504,7 @@ faeringMidshipFrameTimberWeight = faeringMidshipFrameTimberCuFt * densityTimber
 recipeStorage["midship frame timber, faering"] = Recipe("shipwright",(faeringMidshipFrameTimberWeight,"lb"),
                                                         [("timber",faeringMidshipFrameTimberCuFt)],
                                                         [])
+semiGoods.append("midship frame timber, faering")
 
 faeringAftFrameTimberLength = Decimal(3)
 faeringAftFrameTimberCuFt = faeringAftFrameTimberLength * faeringFrameTimberHeight * faeringFrameTimberWidth
@@ -2501,12 +2512,15 @@ faeringAftFrameTimberWeight = faeringAftFrameTimberCuFt * densityTimber
 recipeStorage["aft frame timber, faering"] = Recipe("shipwright",(faeringAftFrameTimberWeight,"lb"),
                                                         [("timber",faeringAftFrameTimberCuFt)],
                                                         [])
+semiGoods.append("aft frame timber, faering")
+
 faeringForeFrameTimberLength = Decimal(3)
 faeringForeFrameTimberCuFt = faeringForeFrameTimberLength * faeringFrameTimberHeight * faeringFrameTimberWidth
 faeringForeFrameTimberWeight = faeringForeFrameTimberCuFt * densityTimber
 recipeStorage["fore frame timber, faering"] = Recipe("shipwright",(faeringForeFrameTimberWeight,"lb"),
                                                         [("timber",faeringForeFrameTimberCuFt)],
                                                         [])
+semiGoods.append("fore frame timber, faering")
 
 faeringRongeFrameTimberLength = Decimal(2.5)
 faeringRongeFrameTimberCuFt = faeringRongeFrameTimberLength * faeringFrameTimberHeight * faeringFrameTimberWidth
@@ -2514,6 +2528,7 @@ faeringRongeFrameTimberWeight = faeringRongeFrameTimberCuFt * densityTimber
 recipeStorage["ronge frame timber, faering"] = Recipe("shipwright",(faeringRongeFrameTimberWeight,"lb"),
                                                         [("timber",faeringRongeFrameTimberCuFt)],
                                                         [])
+semiGoods.append("ronge frame timber, faering")
 
 faeringFlooringHeight = Decimal(0.125)/Decimal(12)
 faeringMidshipFlooringLength = Decimal(3)
@@ -2523,6 +2538,7 @@ recipeStorage["midship flooring, faering"] = Recipe("shipwright",(faeringMidship
                                                     [("timber",faeringMidshipFlooringCuFt)],
                                                     [],
                                                     description="two required for construction")
+semiGoods.append("midship flooring, faering")
 
 faeringForeFlooringLength = Decimal(3)
 faeringForeFlooringCuFt = triangularPrismCuFt(faeringForeFrameTimberLength,faeringForeFlooringLength,faeringFlooringHeight)
@@ -2530,6 +2546,7 @@ faeringForeFlooringWeight = faeringForeFlooringCuFt * densityTimber
 recipeStorage["fore flooring, faering"] = Recipe("shipwright",(faeringForeFlooringWeight,"lb"),
                                                     [("timber",faeringForeFlooringCuFt)],
                                                     [])
+semiGoods.append("fore flooring, faering")
 
 faeringAftFlooringLength = Decimal(3)
 faeringAftFlooringCuFt = triangularPrismCuFt(faeringAftFrameTimberLength,faeringAftFlooringLength,faeringFlooringHeight)
@@ -2537,6 +2554,7 @@ faeringAftFlooringWeight = faeringAftFlooringCuFt * densityTimber
 recipeStorage["aft flooring, faering"] = Recipe("shipwright",(faeringAftFlooringWeight,"lb"),
                                                     [("timber",faeringAftFlooringCuFt)],
                                                     [])
+semiGoods.append("aft flooring, faering")
 
 
 # width of overlap between each strake: an estimate
