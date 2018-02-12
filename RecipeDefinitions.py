@@ -364,6 +364,11 @@ recipeStorage["abomasum"] = Recipe("butcher",(abomasumWeight,"lb"),
                                         [("calf",abomasumWeight/(calfSlaughterWeight * cowCarcassFraction))],
                                         description="fourth compartment of calf stomach")
 
+recipeStorage["abomasum, cured"] = Recipe("butcher",(abomasumWeight,"lb"),
+                                        [("salt", Decimal(0.25))],
+                                        [("abomasum", 1),
+                                         ("vinegar", 1)])
+# semiGoods.append("abomasum, cured")
 
 
 cowSlaughterWeight = 800
