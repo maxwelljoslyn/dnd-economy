@@ -370,6 +370,13 @@ recipeStorage["abomasum, cured"] = Recipe("butcher",(abomasumWeight,"lb"),
                                          ("vinegar", 1)])
 # semiGoods.append("abomasum, cured")
 
+# this is a guess
+pintsRennetPerAbomasum = Decimal(2)
+recipeStorage["rennet"] = Recipe("butcher",(waterWeightOnePint,"lb"),
+                                 [],
+                                 [("abomasum, cured", Decimal(1) / pintsRennetPerAbomasum)],
+                                 unit=(1, "pint"))
+# semiGoods.append("rennet")
 
 cowSlaughterWeight = 800
 recipeStorage["cow"] = Recipe("farmer",(cowSlaughterWeight,"lb"),
