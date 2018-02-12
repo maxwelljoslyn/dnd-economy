@@ -617,10 +617,6 @@ recipeStorage["barrel"] = Recipe("cooper",(barrelWeight, "lb"),
                                   ("barrel head",2)],
                                  description="30-gallon barrel; 0.67-ft widest radius; 2 ft 11 in. tall")
 
-weightWaterOneGal = Decimal(8.345404)
-
-gallonsPerPint = Decimal(1)/Decimal(8)
-waterWeightOnePint = weightWaterOneGal * gallonsPerPint
 
 def calculateABV(sugarPounds, cerealPounds, maltPounds, waterGals, desiredVolumeGals):
     sugarOfCereal = sugarPounds * Decimal(0.75)
