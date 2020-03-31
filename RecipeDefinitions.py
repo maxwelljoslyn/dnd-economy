@@ -829,6 +829,14 @@ recipeStorage["embroidery"] = Recipe("embroiderer",
                                      [],
                                      [("thread",threadSqFtUR)],
                                      unit=(1,"sq ft"))
+chemiseSqFt = Decimal(6)
+chemiseThread = chemiseSqFt * 4
+chemiseWeight = chemiseSqFt * getWeight("wool cloth")
+recipeStorage["chemise"] = Recipe("tailor",(chemiseWeight, "lb"),
+                                    [],
+                                    [("wool cloth",chemiseSqFt),
+                                     ("thread",chemiseThread/getUnitSize("thread"))],
+                                    description="unisex; simple homespun shirt worn next to skin")
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 poundsJuicePerPoundSugarcane = Decimal(0.5)
