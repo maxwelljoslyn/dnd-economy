@@ -846,6 +846,19 @@ recipeStorage["tunic"] = Recipe("tailor",(tunicWeight, "lb"),
                                     [("wool cloth",tunicSqFt),
                                      ("thread",tunicThread/getUnitSize("thread"))],
                                     description="short-sleeved upper garment") 
+
+# at 3 places (collar and both cuffs), frilly lace is added to show off wealth
+# each piece of lace is 1 inch wide, and is as long as a shirtsleeve is wide
+# for now let's say that's 6 inches; once I establish standard sizes for shirtsleeves, leg tubes, etc., this can be changed
+fancyChemiseFrillSqFt = Decimal(0.5) * Decimal(1)/Decimal(12)
+fancyChemiseTotalFrillSqFt = Decimal(3) * fancyChemiseFrillSqFt
+fancyChemiseTotalFrillUR = fancyChemiseTotalFrillSqFt / getUnitSize("lace")
+fancyChemiseTotalFrillWt = fancyChemiseTotalFrillUR * getWeight("lace")
+recipeStorage["chemise, fancy"] = Recipe("tailor",(getWeight("chemise") + fancyChemiseTotalFrillWt,"lb"),
+                                         [],
+                                         [("chemise",1), ("lace", fancyChemiseTotalFrillUR)],
+                                         difficulty=5,
+                                         description="chemise with lace-trimmed cuffs and collar")
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 poundsJuicePerPoundSugarcane = Decimal(0.5)
