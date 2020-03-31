@@ -1584,12 +1584,14 @@ recipeStorage["knit cap"] = Recipe("tailor",(knitCapWeightWool,"lb"),
                                    [("wool cloth",knitCapSqFtWool)],
                                    description="woolen cap, like a tuque")
 
-stockingSqFtWool = Decimal(1)
+# model as a tube 1 foot long (my foot) plus 18 inches (ankle to knee), with width 1 foot
+stockingSqFtWool = Decimal(2.5) * Decimal(1)
 stockingWeightWool = stockingSqFtWool * getWeight("wool cloth")
-recipeStorage["stocking"] = Recipe("tailor",(stockingWeightWool,"lb"),
+stockingNumberSold = 2
+recipeStorage["stockings"] = Recipe("tailor",(stockingWeightWool * stockingNumberSold,"lb"),
                                    [],
-                                   [("wool cloth",stockingSqFtWool)],
-                                   description="analogue to modern sock, rising to the knee; for men and women alike")
+                                   [("wool cloth",stockingSqFtWool * stockingNumberSold)],
+                                   description=str(stockingNumberSold) + " stockings; unisex; rises to knee")
 
 breechesWoolSqFt = Decimal(5)
 breechesWoolWeight = breechesWoolSqFt * getWeight("wool cloth")
