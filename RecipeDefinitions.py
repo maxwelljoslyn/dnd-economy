@@ -2752,3 +2752,13 @@ recipeStorage["hull, faering"] = Recipe("shipwright",(faeringHullTotalWeight,"lb
                                          ("aft flooring, faering",1)])
 
 
+outfitMonkParts = [("chemise",1),
+                   ("cowl",1),
+                   ("stockings",1),
+                   ("scapular",1),
+                   ("clog",2)]
+outfitMonkWt = sum([getWeight(x)*y for x,y in outfitMonkParts])
+recipeStorage["outfit, monk"] = Recipe("tailor",(outfitMonkWt,"lb"),
+                                       [],
+                                       outfitMonkParts,
+                                       description="contains: " + ", ".join([str(y) + "x " + x for x, y in outfitMonkParts]))
