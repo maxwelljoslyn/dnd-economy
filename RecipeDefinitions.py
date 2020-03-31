@@ -1643,6 +1643,15 @@ recipeStorage["hood"] = Recipe("tailor",(hoodWeightWool,"lb"),
                                [("wool cloth",hoodSqFtWool)],
                                description="with attached capelet, covers head and neck")
 
+# thicker and more crinkled than a hood, but less material overall
+wimpleSqFtWool = hoodSqFtWool / Decimal(2)
+wimpleWeightWool = wimpleSqFtWool * getWeight("wool cloth")
+recipeStorage["wimple"] = Recipe("tailor",(wimpleWeightWool,"lb"),
+                               [],
+                               [("wool cloth",wimpleSqFtWool)],
+                               description="thick headdress commonly worn by nuns")
+
+
 aquaFortisWeight = waterWeightOnePint / Decimal(2)
 recipeStorage["aqua fortis"] = Recipe("alchemist",(aquaFortisWeight + getWeight("flask, glass"),"lb"),
                                       [("copper ore",3)],
