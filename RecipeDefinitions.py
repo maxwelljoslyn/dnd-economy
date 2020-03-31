@@ -2785,3 +2785,11 @@ recipeStorage["bedroll"] = Recipe("tailor",
                                   [],
                                   [("wool cloth",45)],
                                   description="sleeping cloth")
+
+
+# tarpWidth = Decimal(10)
+
+# recipeStorage["tarp"] = Recipe("tailor",(10, "lb"),
+#                                     [],
+#                                     [("wool cloth",tarpWidth)],
+#                                     description="sleeping cloth: ")
