@@ -88,10 +88,10 @@ towns["Torkada"] = Town((42,-67,25),
 towns["Serdabach"] = Town((45,-68,23),
                           3913,
                           {"herring":1,"salt":1, "timber":1, "sugarcane":1, "cotton":1},
-                          {"ropewalker":1, "shipwright":1, "lumpman":1,"smelter":1, "carpenter":2, "brewer":1})
+                          {"ropewalker":1, "shipwright":1, "lumpman":1,"smelter":1, "carpenter":2, "brewer":1, "embroiderer": 1})
 towns["Berdorl"] = Town((43,-69,26),
                         2966,
-                        {"sugarcane":1, "cotton":1},
+                        {"sugarcane":1, "cotton":1, "zinc ore": 1},
                         {"hatter":1, "ropewalker":1, "carpenter":1 ,"blacksmith":1, "innkeeper":1})
 
 # more central, slightly colder-climate port
@@ -127,13 +127,13 @@ towns["Gungoya"] = Town((41,-70,29),
 
 towns["Chelong"] = Town((40,-71,31),
                         1157,
-                          {"lead ore":1},
+                          {"lead ore":1, "phosphorus rock":1, "sulfate":1},
                           {"glassblower":2, "bookbinder":1})
 
 towns["Xin Qia"] = Town((38,-72,34),
                         2034,
                         {"lapis lazuli":1},
-                        {"bowyer":1, "bookbinder":1})
+                        {"bowyer":1, "bookbinder":1, "cheesemonger":1})
 
 towns["Jiu Qia"] = Town((38,-70,32),
                         1890,
