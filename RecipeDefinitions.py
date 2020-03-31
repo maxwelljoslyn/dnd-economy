@@ -1537,6 +1537,17 @@ recipeStorage["scapular"] = Recipe("tailor",(scapularWt,"lb"),
                                    [],
                                    [("wool cloth", scapularRawClothSqFt)],
                                    description="long tabard-like garment; front and back drape to floor")
+
+tabardRawClothSqFt = Decimal(0.5) * scapularRawClothSqFt
+tabardHeadCutout = Decimal(pi) * (Decimal(0.5) ** 2)
+tabardFinalClothSqFt = tabardRawClothSqFt - tabardHeadCutout
+tabardWt = (tabardFinalClothSqFt / getUnitSize("wool cloth")) *  getWeight("wool cloth")
+recipeStorage["tabard"] = Recipe("tailor",(tabardWt,"lb"),
+                                   [],
+                                   [("wool cloth", tabardRawClothSqFt)],
+                                   description="torso garment; usually additionally decorated with coat of arms")
+
+
 # assuming 30-inch waist and falling 2 feet to mid-calf, we have 720 square inches or 5 square feet
 skirtSqFtWool = 5
 skirtThread = 4 # one 2-foot thread connecting it together like a tube, doubled for strength
