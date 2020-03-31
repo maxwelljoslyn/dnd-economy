@@ -1520,6 +1520,14 @@ recipeStorage["cowl"] = Recipe("tailor",(cowlThreadWt + cowlClothWt,"lb"),
                                 ("thread", cowlThreadUR)],
                                difficulty=Decimal(0.5), # because they are roughly made
                                description="hooded, wide-sleeved full-body garment, commonly worn by monks")
+
+# model this as fancier cowl
+recipeStorage["cassock"] = Recipe("tailor",(cowlThreadWt + cowlClothWt,"lb"),
+                                  [],
+                                  [("cowl",1),
+                                   ("button, ceramic",1)],
+                                  difficulty=2,
+                                  description="buttoned full-body garment, commonly worn by priests")
 # assuming 30-inch waist and falling 2 feet to mid-calf, we have 720 square inches or 5 square feet
 skirtSqFtWool = 5
 skirtThread = 4 # one 2-foot thread connecting it together like a tube, doubled for strength
