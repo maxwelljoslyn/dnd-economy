@@ -2773,3 +2773,6 @@ def outfit(parts):
 
 def add_outfit(person, parts):
     recipeStorage["outfit, " + person] = outfit(parts)
+
+add_outfit("rich peasant", [("chemise, fancy", 1), ("shoe", 2), ("hose", 1)])
+
