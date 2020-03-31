@@ -1380,16 +1380,6 @@ semiGoods.append("pitch, bulk")
 # temporarily renamed and made a semigood until I've sorted out a container for it,
 # i.e. done programming to do accurate pricing for container + components scenarios
 
-# the shirt, which was the sole underwear for most people, had full sleeves and fell to the knees
-# let's call it 10 square feet
-shirtWoolSqFt = 10
-shirtNeededWoolYarnProportion = (shirtWoolSqFt * 2) / getUnitSize("yarn, wool")
-shirtWoolYarnWeight = shirtNeededWoolYarnProportion * getWeight("yarn, wool")
-shirtTotalWeight = shirtWoolYarnWeight + (shirtWoolSqFt * getWeight("wool cloth"))
-recipeStorage["shirt"] = Recipe("tailor",(shirtTotalWeight, "lb"),
-                                [],
-                                [("wool cloth",shirtWoolSqFt),("yarn, wool",shirtWoolYarnWeight)],
-                                description="underwear for both sexes; full sleeves, reaches knees")
 
 bicorneFeltSqFt = Decimal(1)
 bicorneFeltUnitRatio = bicorneFeltSqFt / getUnitSize("felt")
