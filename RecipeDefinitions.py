@@ -2762,3 +2762,14 @@ recipeStorage["outfit, monk"] = Recipe("tailor",(outfitMonkWt,"lb"),
                                        [],
                                        outfitMonkParts,
                                        description="contains: " + ", ".join([str(y) + "x " + x for x, y in outfitMonkParts]))
+
+def outfit(parts):
+    weight = sum([getWeight(x)*y for x,y in parts])
+    desc = ", ".join([str(y) + "x " + x for x, y in parts])
+    return Recipe("tailor",(weight,"lb"),
+                  [],
+                  parts,
+                  description="contains: " + desc)
+
+def add_outfit(person, parts):
+    recipeStorage["outfit, " + person] = outfit(parts)
