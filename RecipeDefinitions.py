@@ -1528,6 +1528,15 @@ recipeStorage["cassock"] = Recipe("tailor",(cowlThreadWt + cowlClothWt,"lb"),
                                    ("button, ceramic",1)],
                                   difficulty=2,
                                   description="buttoned full-body garment, commonly worn by priests")
+
+scapularRawClothSqFt = Decimal(1.5) * Decimal(10)
+scapularHeadCutout = Decimal(pi) * (Decimal(0.5) ** 2)
+scapularFinalClothSqFt = scapularRawClothSqFt - scapularHeadCutout
+scapularWt = (scapularFinalClothSqFt / getUnitSize("wool cloth")) *  getWeight("wool cloth")
+recipeStorage["scapular"] = Recipe("tailor",(scapularWt,"lb"),
+                                   [],
+                                   [("wool cloth", scapularRawClothSqFt)],
+                                   description="long tabard-like garment; front and back drape to floor")
 # assuming 30-inch waist and falling 2 feet to mid-calf, we have 720 square inches or 5 square feet
 skirtSqFtWool = 5
 skirtThread = 4 # one 2-foot thread connecting it together like a tube, doubled for strength
