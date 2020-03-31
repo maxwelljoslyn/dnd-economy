@@ -2780,3 +2780,8 @@ add_outfit("peasant", [("tunic", 1), ("chemise", 1), ("clog", 2), ("stockings", 
 
 add_outfit("priest", [("chemise", 1), ("cassock", 1), ("hose", 1), ("clog", 2)])
 
+recipeStorage["bedroll"] = Recipe("tailor",
+                                  (45/getUnitSize("wool cloth"), "lb"),
+                                  [],
+                                  [("wool cloth",45)],
+                                  description="sleeping cloth")
