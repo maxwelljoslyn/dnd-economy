@@ -1636,12 +1636,12 @@ recipeStorage["mace, masterwork"] = Recipe("blacksmith",(getWeight("mace haft") 
                                            difficulty=8,
                                            description="1d8 damage, one-handed, melee; haft is 2 ft.")
 
-hoodSqFtWool = Decimal(2)
+hoodSqFtWool = knitCapSqFtWool * 4 # it's larger and it includes capelet
 hoodWeightWool = hoodSqFtWool * getWeight("wool cloth")
 recipeStorage["hood"] = Recipe("tailor",(hoodWeightWool,"lb"),
                                [],
                                [("wool cloth",hoodSqFtWool)],
-                               description="separate article of clothing")
+                               description="with attached capelet, covers head and neck")
 
 aquaFortisWeight = waterWeightOnePint / Decimal(2)
 recipeStorage["aqua fortis"] = Recipe("alchemist",(aquaFortisWeight + getWeight("flask, glass"),"lb"),
