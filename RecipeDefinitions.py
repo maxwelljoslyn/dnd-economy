@@ -1662,8 +1662,8 @@ recipeStorage["aqua fortis"] = Recipe("alchemist",(aquaFortisWeight + getWeight(
 
 # chicken takes ~6 months to reach maturity, and then produces eggs
 # alternatively can be slaughtered (in reality it only takes about 4 months until it's slaughterable)
-# 6 months of food, 4 weeks per month, and let's say 2 lbs of feed per week -- it's hard to judge
-chickenFeedLbs = 6 * 4 * 2
+# 6 months of food, 4 weeks per month, and let's say 1 lb of feed per week
+chickenFeedLbs = 6 * 4
 recipeStorage["chicken, mature"] = Recipe("farmer",(5,"lb"),
                                           [], # we say the cost of land for chickens is negligible
                                           [("feed, cattle/horse",chickenFeedLbs)],
