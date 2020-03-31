@@ -803,6 +803,12 @@ recipeStorage["cotton cloth"] = Recipe("weaver",(cottonClothWeight,"lb"),
                                        [("yarn, cotton",yarnFtPerClothSqFt / getUnitSize("yarn, cotton"))],
                                        unit=(1,"sq ft"))
 
+recipeStorage["thread, cotton"] = Recipe("spinner",(1,"lb"),
+                                 [],
+                                 [("clean cotton",1)],
+                                 unit=(threadFtPerLb,"feet"),
+                                 description="useable for stitching cloth and textiles")
+
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 poundsJuicePerPoundSugarcane = Decimal(0.5)
