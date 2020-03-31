@@ -2776,3 +2776,5 @@ def add_outfit(person, parts):
 
 add_outfit("rich peasant", [("chemise, fancy", 1), ("shoe", 2), ("hose", 1)])
 
+add_outfit("peasant", [("tunic", 1), ("chemise", 1), ("clog", 2), ("stockings", 1)])
+
