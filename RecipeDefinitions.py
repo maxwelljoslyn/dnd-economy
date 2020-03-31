@@ -2257,7 +2257,7 @@ fishingRodTotalWeight = fishingRodWeight + fishingRodTipLoopWeight
 recipeStorage["fishing rod"] = Recipe("carver",(fishingRodTotalWeight,"lb"),
                                       [("timber",fishingRodCuFt)],
                                       [("wrought iron",fishingRodTipLoopWeight)],
-                                      description="for angling; " + str(fishingRodLength) + " feet long")
+                                      description="for angling; " + str(fishingRodLength) + " feet long; breaks down into 3 6-fot sections (dis/assembly time 1 minute)")
 
 # this is the value by which innkeeper expenses will be divided,
 # to find the proportion of the total each patron is paying for their stay
