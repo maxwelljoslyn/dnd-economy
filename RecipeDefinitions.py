@@ -2508,7 +2508,7 @@ for color in ["black","ultramarine blue","red/yellow"]:
 
 for service in allServiceNames:
     recipeStorage["hireling, " + service] = Recipe(service, (0,"lb"),
-                                                   [("labor",Decimal(1)/Decimal(1000))],
+                                                   [("labor",Decimal(1)/Decimal(500))],
                                                    [],
                                                    unit=(Decimal(1),"head"),
                                                    description="weekly wage")
