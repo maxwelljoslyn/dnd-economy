@@ -822,6 +822,13 @@ recipeStorage["lace"] = Recipe("weaver",(laceWt,"lb"),
                                [("thread",threadSqFtUR)],
                                unit=(1,"sq ft"),
                                difficulty=30)
+
+embroideryWeight = threadSqFtWt
+recipeStorage["embroidery"] = Recipe("embroiderer",
+                                     (embroideryWeight,"lb"),
+                                     [],
+                                     [("thread",threadSqFtUR)],
+                                     unit=(1,"sq ft"))
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 poundsJuicePerPoundSugarcane = Decimal(0.5)
