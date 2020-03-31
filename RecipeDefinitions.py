@@ -1593,6 +1593,13 @@ recipeStorage["stockings"] = Recipe("tailor",(stockingWeightWool * stockingNumbe
                                    [("wool cloth",stockingSqFtWool * stockingNumberSold)],
                                    description=str(stockingNumberSold) + " stockings; unisex; rises to knee")
 
+hoseSqFtWool = stockingSqFtWool * Decimal(1.5) * Decimal(2)
+hoseWeightWool = hoseSqFtWool * getWeight("wool cloth")
+recipeStorage["hose"] =  Recipe("tailor",(hoseWeightWool,"lb"),
+                                   [],
+                                   [("wool cloth",hoseSqFtWool)],
+                                   description="tights covering BOTH LEGS from foot to waist")
+
 # waist section is modeled as 36-inch by 1 foot tube
 # leg sections are modeled as two conic shells, two feet at top of thigh and 1.5 feet at knee; length 1.25 ft
 breechWaistSqFt = Decimal(3)
