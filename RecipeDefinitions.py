@@ -1328,7 +1328,7 @@ shieldHandleWeight = shieldHandleCuFt * densityTimber
 recipeStorage["shield, round wooden"] = Recipe("carpenter",(shieldTimberWeight + (shieldRopeStrapWeight * 2) + shieldHandleWeight + shieldEdgingWeight,"lb"),
                                                [("timber",shieldTimberCuFt + shieldHandleCuFt)],
                                                [("rope",shieldRopeStrapUnitRatio * 2), ("rawhide",shieldEdgingUnitRatio)],
-                                               description="improves AC by -1; wooden shield 2 feet across, with ropes for securing")
+                                               description="improves AC by -1; wooden shield " + str(shieldRadius * 2) + " feet across. has handle and rope straps")
 
 
 # 2 ounces, or 1/8 lb, of pigment for a gallon of paint
