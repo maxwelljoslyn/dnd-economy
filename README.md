@@ -2,7 +2,7 @@
 
 ## Introduction
 
-I run D&D (no group at the moment since I've been moving a lot in recent years). I use the computer to construct various artifacts to help me run D&D. These are a gameworld map and a set of tables giving price information for many objects which the players can sell and purchase.
+I run D&D. I use the computer to construct various artifacts to help me run D&D. These are a gameworld map and a set of tables giving price information for many objects which the players can sell and purchase.
 
 These tools are a work in progress. At this time they do work end-to-end: my program goes all the way from market town info to producing a pricing table for any of those towns, and the map program generates a map for some or all of the hemisphere.
 
@@ -16,7 +16,7 @@ If you want to contact me, do it at maxwelljoslyn AT gmail DOT com.
 
 These programs are written in Python 3 and Haskell. I greatly prefer Haskell, but at the time of starting I still had a lot of trouble doing stuff involving random generation in that language. It is also difficult to replicate many standard algorithms which assume mutable reference (but check back when I've had a chance to study the ST monad.) Thus I currently use Python to generate the world information, and then either import the results into other Python files for further work in that language, or write it into structured text files for parsing into Haskell programs.
 
-Ultimately I'd like for the entire system to be Haskell, and once I am satisfied with the output, I'll'll work on that goal. For now, that is not a concern; instead I am focused on adding to the content of the pricing system.
+For now, I am focused on adding to the content of the pricing system.
 
 ## You Will Need
 
@@ -28,15 +28,19 @@ One day I might figure out how to save the noise lib for you locally, so you don
 
 ### For Haskell
 
-The parsers use the [Parsec](https://hackage.haskell.org/package/parsec) library, and the renderer uses the [Diagrams](http://projects.haskell.org/diagrams/) library. You can get both of these through ```cabal```, as usual. I am using Diagrams 1.3 and Parsec 3.1.5.
+The parsers use the [Parsec](https://hackage.haskell.org/package/parsec) library, and the renderer uses the [Diagrams](http://projects.haskell.org/diagrams/) library. You can get both of these through `cabal`, as usual. I am using Diagrams 1.3 and Parsec 3.1.5.
 
 Eventually I will update the Haskell portion of the codebase to support Stack, like a real project; then you won't have to manually install these libraries, nor worry about versions.
 
 ## Usage Instructions
 
+### To Output Recipe Prices
+
+Run `python3 RecipeRunner.py` to get prices written both to standard output, and to a file `Prices.html`.
+
 ### To Build World Data and Emit it for Rendering
 
-Simply run `python3 WorldGenerator.`
+Simply run `python3 WorldGenerator.py`
 
 ### To Run the Map Renderer
 
