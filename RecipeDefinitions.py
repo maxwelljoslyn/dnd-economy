@@ -1849,6 +1849,9 @@ recipeStorage["goblet"] = Recipe("tinsmith",(leadGobletWeight,"lb"),
                                  [("lead ore",leadGobletWeight)],
                                  [],
                                  description="long-stemmed chalice; " + str(gobletTotalHeight * 12) + " inches tall")
+
+
+# TODO: bricks need straw or flax in them to make them strong!!!
 brickSqFt = Decimal(4)/Decimal(12) * Decimal(8)/Decimal(12) * Decimal(2)/Decimal(12)
 brickWeight = brickSqFt * densityClay
 recipeStorage["brick"] = Recipe("potter",(brickWeight,"lb"),
