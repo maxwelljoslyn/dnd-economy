@@ -809,6 +809,19 @@ recipeStorage["thread, cotton"] = Recipe("spinner",(1,"lb"),
                                  unit=(threadFtPerLb,"feet"),
                                  description="useable for stitching cloth and textiles")
 
+
+threadPerSqInchWeave = Decimal(12) * threadWrapsInch
+# doubled for warp and weft
+threadPerSqFt = Decimal(2) * Decimal(12) * threadPerSqInchWeave
+threadSqFtUR = threadPerSqFt / getUnitSize("thread")
+threadSqFtWt = threadSqFtUR * getWeight("thread")
+laceEmptinessProprtion = Decimal(0.5)
+laceWt = threadSqFtWt * (Decimal(1) - laceEmptinessProprtion)
+recipeStorage["lace"] = Recipe("weaver",(laceWt,"lb"),
+                               [],
+                               [("thread",threadSqFtUR)],
+                               unit=(1,"sq ft"),
+                               difficulty=30)
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 poundsJuicePerPoundSugarcane = Decimal(0.5)
