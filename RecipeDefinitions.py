@@ -2266,9 +2266,10 @@ innMainRoomMaxPatrons = Decimal(20)
 innDailyCoal = Decimal(10) # lbs, a TOTAL guess, I have still not figured out coal heating values at all
 # the other part: the cost of paying inn employees
 # for now I can find a cost by saying the employees get paid according to some value of bread and beer
-innEmployeeDailyBread = Decimal(2) # pounds
-innEmployeeDailyBeer = Decimal(2) # pints
-# the innkeeper himself, plus cook, cleaning boy or maid, barkeep, and one more for good measure, perhaps representing fees to gong collector and other municipal services
+innEmployeeDailyBread = Decimal(3) # pounds
+innEmployeeDailyBeer = Decimal(4) # pints
+# the innkeeper himself, plus cook, cleaning boy or maid, barkeep, and one more for good measure, perhaps representing fees, taxes, municipal services
+# not yet sure how those things worked in 17th century
 innEmployeeCount = Decimal(5)
 innTotalEmployeeDailyBread = innEmployeeDailyBread * innEmployeeCount
 innTotalEmployeeDailyBeer = innEmployeeDailyBeer * innEmployeeCount
