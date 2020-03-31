@@ -1559,14 +1559,20 @@ recipeStorage["skirt"] = Recipe("tailor",(skirtWeightWool + skirtThreadWeight,"l
                                 [("wool cloth",skirtSqFtWool), ("thread",skirtThreadUnitRatio)],
                                 description="mid-calf length; worn with bodice or layered under dress")
 
-bodiceSqFtWool = 4
-bodiceThread = (4 * bodiceSqFtWool) + 4 # the normal 4 * wool sqft, plus an additional 4 feet for the lacing
-bodiceThreadUnitRatio = bodiceThread / getUnitSize("yarn, wool")
-bodiceThreadWeight = bodiceThreadUnitRatio * getWeight("yarn, wool")
+bodiceSqFtWool = 6
+bodiceThread = (4 * bodiceSqFtWool) # the normal 4 * wool sqft
+bodiceThreadUnitRatio = bodiceThread / getUnitSize("thread")
+bodiceThreadWeight = bodiceThreadUnitRatio * getWeight("thread")
 bodiceWeightWool = bodiceSqFtWool * getWeight("wool cloth")
-recipeStorage["bodice"] = Recipe("tailor",(bodiceWeightWool + bodiceThreadWeight,"lb"),
+
+bodiceLacingFt = 4
+bodiceLacingUR = bodiceLacingFt / getUnitSize("yarn, wool")
+bodiceLacingWeight = bodiceLacingUR * getWeight("yarn, wool")
+recipeStorage["bodice"] = Recipe("tailor",(bodiceWeightWool + bodiceThreadWeight + bodiceLacingWeight,"lb"),
                                  [],
-                                 [("wool cloth",bodiceSqFtWool), ("yarn, wool",bodiceThreadWeight)],
+                                 [("wool cloth", bodiceSqFtWool),
+                                  ("thread", bodiceThreadUnitRatio),
+                                  ("yarn, wool", bodiceLacingUR)],
                                  description="women's garment, laced in front; not restrictive like corset")
 
 knitCapSqFtWool = Decimal(1.25)
