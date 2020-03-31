@@ -1575,8 +1575,10 @@ recipeStorage["bodice"] = Recipe("tailor",(bodiceWeightWool + bodiceThreadWeight
                                   ("yarn, wool", bodiceLacingUR)],
                                  description="women's garment, laced in front; not restrictive like corset")
 
-knitCapSqFtWool = Decimal(1.25)
+# let's just pretent its a tube 2 feet around (circumference of my head at ear level) and 8 inches high, then the tube is closed at the top
+knitCapSqFtWool = Decimal(2) * (Decimal(2) / Decimal(3))
 knitCapWeightWool = knitCapSqFtWool * getWeight("wool cloth")
+# no thread needed, it's just knitted in one go
 recipeStorage["knit cap"] = Recipe("tailor",(knitCapWeightWool,"lb"),
                                    [],
                                    [("wool cloth",knitCapSqFtWool)],
