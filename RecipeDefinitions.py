@@ -1486,15 +1486,16 @@ recipeStorage["button, glass"] = Recipe("glassblower",(buttonClayWeight,"lb"),
                                         unit=(24,"ct"),
                                         description="two dozen buttons")
 
-waistcoatSqFtWool = 4
+waistcoatLayers = 2
+waistcoatSqFtWool = 8 * waistcoatLayers
 waistcoatNumButtons = 12
 waistcoatThread = 4 * waistcoatSqFtWool
-waistcoatThreadUnitRatio = waistcoatThread / getUnitSize("yarn, wool")
-waistcoatThreadWeight = waistcoatThreadUnitRatio * getWeight("yarn, wool")
+waistcoatThreadUnitRatio = waistcoatThread / getUnitSize("thread")
+waistcoatThreadWeight = waistcoatThreadUnitRatio * getWeight("thread")
 waistcoatWeightWool = waistcoatSqFtWool * getWeight("wool cloth")
 recipeStorage["waistcoat"] = Recipe("tailor",(waistcoatWeightWool + waistcoatThreadWeight,"lb"),
                                     [],
-                                    [("wool cloth",waistcoatSqFtWool), ("yarn, wool",waistcoatThreadWeight),("button, ceramic",0.5)],
+                                    [("wool cloth",waistcoatSqFtWool), ("thread",waistcoatThreadUnitRatio),("button, ceramic",0.5)],
                                     description="men's torso garment, with 12 buttons; worn by all levels of society")
 
 dressSqFtWool = 8
