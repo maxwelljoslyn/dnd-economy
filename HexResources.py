@@ -41,8 +41,8 @@ worldProductionMatrix["adamantine ore"] = (20000, "lb")
 worldProductionMatrix["lapis lazuli"] = (50000, "lb")
 
 stoneAndMinerals = ["chalk","coal","salt","talc","emery","granite",
-                    "marble","slate","flint","obsidian","phosphorus",
-                    "witherite","sulfur", "limestone"]
+                    "marble","slate","flint","obsidian","phosphorus rock",
+                    "witherite","sulfate", "limestone"]
 
 for sm in stoneAndMinerals:
     worldProductionMatrix[sm] = (1000000,"lb")
