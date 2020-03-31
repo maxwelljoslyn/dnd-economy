@@ -1,0 +1,33 @@
+# .Python, .gitignore, etc.
+.*
+!.gitignore
+
+# textual
+Specifications/*
+
+# executable
+WorldRenderer
+
+# intermediate files
+inputForParser.txt
+*.tex
+
+# Haskell interface and object files 
+*.hi
+*.o
+
+# output files
+Prices.html
+*.pdf
+*.aux
+*.dvi
+*.log
+generated_images/*
+*.svg
+*.dot
+
+*.*~
+*.htm
+*.txt
+*.pyc
+
