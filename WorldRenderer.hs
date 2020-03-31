@@ -78,8 +78,9 @@ drawHexLayer pts hs = atPoints pts $ map drawHex hs
 drawHex :: Hex -> Diagram B
 drawHex h =
   alignedText 0.5 0 qAndR # fc black # scale 0.5
-  `atop`
-  alignedText 0.5 0.75 (show . cs . coord $ h) # fc black # scale 0.5
+  --`atop`
+  --alignedText 0.5 0.75 (show $ infraToval (infra h)) # fc black # scale 0.5
+  --alignedText 0.5 0.75 (show . cs . coord $ h) # fc black # scale 0.5
   `atop`
   hexagon 1 # fc infraColor # lc black # lw veryThin # scale 1
   where
@@ -88,8 +89,13 @@ drawHex h =
     climateColor' = climateColor $ climate h
     moistColor' = moistColor $ moist h
     elevColor' = elevColor (elev h) (isLand h)
+    elevColorGradient' = elevColorGradient (elev h) (isLand h)
     onlyColorLandBorder = if (isLand h) == True then black else elevColor'
     infraColor = infrastructureColor (infra h)
+    infraToVal (Infrastructure a) = a
+    elevToVal (Elevation x) = x
+    roundToNth x n = (fromInteger $ round $ x * (10 ^ n)) / (10.0^^n)
+    prettyElev = (show (roundToNth (elevToVal $ elev h) 3))
     --onlyColorLandBorder creates weird image,
     --b/c hexes render in strange order,
     --and some border colors overlap onto others,
@@ -138,10 +144,19 @@ subDirQualityToColor dir subs =
   where
     theSub = DM.lookup dir subs
 
-infrastructureColor (Infrastructure a) = sRGB a' 0 0
-  where
-    a' = a / 200.0
-    
+infrastructureColor (Infrastructure a)
+  |a == 0.0  = sRGB 0 0 0
+  |a < 0.1 = sRGB 0.1 0 0
+  |a < 0.2  = sRGB 0.2 0 0
+  |a < 0.3  = sRGB 0.3 0 0
+  |a < 0.4  = sRGB 0.4 0 0
+  |a < 0.5  = sRGB 0.5 0 0
+  |a < 0.6 = sRGB 0.6 0 0
+  |a < 0.7 = sRGB 0.7 0 0
+  |a < 0.8 = sRGB 0.8  0 0
+  |a < 0.9 = sRGB 0.9  0 0
+  |otherwise = sRGB 1.0 0 0
+
 drawTownLayer :: [P2 Double] -> Map Coord TownData -> [Hex] -> Diagram B
 drawTownLayer pts ts hs = atPoints pts $ map (drawTown ts) hs
 
@@ -162,6 +177,7 @@ coordToPixel (Coord q r s) = p2 (x,y)
 
 elevColor (Elevation e) l
 	|l == False	= sRGB 0 0 e --it's sea, therefore color it blueish
+        --remember, sea level is 0.46, thus the lowest bracket is 0.46000000X to 0.49999
 	|e < 0.50		= lightgreen
 	|e < 0.55		= green
 	|e < 0.60		= darkgreen
@@ -173,6 +189,15 @@ elevColor (Elevation e) l
 	|e < 0.90		= goldenrod
 	|e < 0.95		= slategray
 	|otherwise	= white
+
+elevColorGradient (Elevation e) l
+	|l == False	= sRGB 0 0 e --it's sea, therefore color it blueish
+        |otherwise = sRGB 0 (fromIntegral val) 0
+        where
+          --val = floor $ 255 * e
+          cutoffs = [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
+          lessers = takeWhile (< e) cutoffs
+          val = ((length lessers) + 10) * 10
 
 tempColor (Temperature t)
 	|t' <= 0	= sRGB (0) (0) (abs (t'))
