@@ -1593,16 +1593,20 @@ recipeStorage["stockings"] = Recipe("tailor",(stockingWeightWool * stockingNumbe
                                    [("wool cloth",stockingSqFtWool * stockingNumberSold)],
                                    description=str(stockingNumberSold) + " stockings; unisex; rises to knee")
 
-breechesWoolSqFt = Decimal(5)
+# waist section is modeled as 36-inch by 1 foot tube
+# leg sections are modeled as two conic shells, two feet at top of thigh and 1.5 feet at knee; length 1.25 ft
+breechWaistSqFt = Decimal(3)
+breechLegSqFt = truncatedConeCuFt(Decimal(2), Decimal(1.5), Decimal(1.25)) - truncatedConeCuFt(Decimal(1.8), Decimal(1.3), Decimal(1.25))
+breechesWoolSqFt = breechWaistSqFt + (2 * breechLegSqFt)
 breechesWoolWeight = breechesWoolSqFt * getWeight("wool cloth")
-breechesThreadFeet = Decimal(20)
+breechesThreadFeet = 4 * breechesWoolSqFt
 breechesThreadUnitRatio = breechesThreadFeet / getUnitSize("yarn, wool")
 breechesThreadWeight = breechesThreadUnitRatio * getWeight("yarn, wool")
 breechesTotalWeight = breechesWoolWeight + breechesThreadWeight
 recipeStorage["breeches"] = Recipe("tailor",(breechesWoolWeight,"lb"),
                                    [],
-                                   [("wool cloth",breechesWoolSqFt),("yarn, wool",breechesThreadWeight),("button, ceramic",0.75)], #uses 18 buttons
-                                   description="tight knee-length pants with no pockets; worn by all social levels")
+                                   [("wool cloth",breechesWoolSqFt),("thread",breechesThreadWeight),("button, ceramic",0.75)], #uses 18 buttons
+                                   description="tight knee-length pants; no pockets; worn by middle and upper class")
 
 
 shoeHeelTimberCuFt = ((Decimal(1)/Decimal(12)) ** 2) * (Decimal(0.5)/Decimal(12))
