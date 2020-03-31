@@ -749,29 +749,21 @@ recipeStorage["clean wool"] = Recipe("miller",(1,"lb"),
                                      description="either brownish or whitish in color")
 semiGoods.append("clean wool")
 
-# The amount of feet of yarn per pound of wool which I give here is probably a vast under- or overshoot,
-# but it's a highly variable amount dependent on thickness of resultant yarn, type of sheep, and
-# other factors, so I'll just go ahead and soldier on. Can always fix it later.
-recipeStorage["thin yarn, wool"] = Recipe("spinner",(1,"lb"),
-                                          [],
-                                          [("clean wool",1)],
-                                          unit=(Decimal(1000),"feet"),
-			                              description="must be spun into thread or yarn to be useful")
-semiGoods.append("thin yarn, wool")
 
-thinYarnFeetPerFootRegularYarn = Decimal(4)
-# taking 1 unit of thin yarn, as described above, and turning it into regular yarn,
-# means the weight of 1 unit of regular yarn is the same as the weight of 1 unit of thin yarn.
-# it's the feet, ie. the size of the unit, that changes
-recipeStorage["yarn, wool"] = Recipe("spinner",(getWeight("thin yarn, wool"),"lb"),
+# Wikipedia lists the weight of "medium" yarn at 120-200 m/100 gram
+# that works out to 2,232.24592 ft / pound
+# I'll round it to 2250
+mediumYarnFeetPerLb = Decimal(2250)
+recipeStorage["yarn, wool"] = Recipe("spinner",(1,"lb"),
                                      [],
-                                     [("thin yarn, wool",1)],
-                                     unit=(getUnitSize("thin yarn, wool")/thinYarnFeetPerFootRegularYarn,"feet"),
-                                     description="useable as string and in stitching, ropemaking, etc.")
+                                     [("clean wool",1)],
+                                     unit=(mediumYarnFeetPerLb,"feet"),
+                                     description="useable as string, in ropemaking, etc.")
 
-yarnThickness = Decimal(1)/Decimal(16)/Decimal(12) # 1/16 of an inch
-yarnFtPerClothSqFt = Decimal(1) / yarnThickness
-# we could say that this needs to be doubled, since there is both weft and warp, but since they share some of the space, we can just say this is the total amount needed
+# wraps per inch is highly variable
+mediumYarnWrapsInch = Decimal(1)/Decimal(16)/Decimal(12) # 1/16 of an inch
+# doubling (for plain weave) is because we need both weft and warp
+yarnFtPerClothSqFt = Decimal(2) * (Decimal(1) / mediumYarnWrapsInch)
 # the weight calculation below works because the table lists 1 lb of yarn
 woolClothWeight = (yarnFtPerClothSqFt/getUnitSize("yarn, wool")) * getWeight("yarn, wool")
 recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
@@ -779,13 +771,15 @@ recipeStorage["wool cloth"] = Recipe("weaver",(woolClothWeight,"lb"),
                                      [("yarn, wool",yarnFtPerClothSqFt / getUnitSize("yarn, wool"))],
                                      unit=(1,"sq ft"))
 
-
+ratioYarnThreadThickness = Decimal(4)
+threadWrapsInch = ratioYarnThreadThickness * mediumYarnWrapsInch
+# treating it as 4 times thinner than yarn, and thus equivalent to "Super Fine (thin)" yarn
+threadFtPerLb = ratioYarnThreadThickness * mediumYarnFeetPerLb
 recipeStorage["thread"] = Recipe("spinner",(1,"lb"),
                                  [],
-                                 [("thin yarn, wool",1)],
-                                 unit=(getUnitSize("thin yarn, wool")/Decimal(2),"feet"),
+                                 [("clean wool",1)],
+                                 unit=(threadFtPerLb,"feet"),
                                  description="useable for stitching cloth and textiles")
-
 
 # similar to the processes for cleaning wool, but for cotton instead
 # no need to scour it, just to clean it (carding, picking, combing, etc)
@@ -796,18 +790,11 @@ recipeStorage["clean cotton"] = Recipe("miller",(1,"lb"),
                                        [])
 semiGoods.append("clean cotton")
 
-recipeStorage["thin yarn, cotton"] = Recipe("spinner",(getWeight("thin yarn, wool"),"lb"),
-                                            [],
-                                            [("clean cotton",1)],
-                                            unit=recipeStorage["thin yarn, wool"].unit,
-			                                description="must be spun to be useful")
-semiGoods.append("thin yarn, cotton")
-
-recipeStorage["yarn, cotton"] = Recipe("spinner",(getWeight("thin yarn, cotton"),"lb"),
+recipeStorage["yarn, cotton"] = Recipe("spinner",(1,"lb"),
                                        [],
-                                       [("thin yarn, cotton",1)],
+                                       [("clean cotton",1)],
                                        unit=(getUnitSize("yarn, wool"),"feet"),
-                                       description="useable as string and in stitching, ropemaking, etc.")
+                                       description="useable as string, in ropemaking, etc.")
 
 # the weight calculation below works because the table lists 1 lb of yarn.
 cottonClothWeight = (yarnFtPerClothSqFt/getUnitSize("yarn, cotton")) * getWeight("yarn, cotton")
