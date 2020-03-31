@@ -1508,6 +1508,18 @@ recipeStorage["dress"] = Recipe("tailor",(dressWeightWool + dressThreadWeight,"l
                                 [("wool cloth",dressSqFtWool), ("thread",dressThreadUnitRatio)],
                                 description="women's garment")
 
+# here "cowl" doesn't just mean hood, but rather the flowy wide-sleeved garment worn by monks
+cowlSqFt = Decimal(1.25) * dressSqFtWool
+cowlClothWt = cowlSqFt * getWeight("wool cloth")
+cowlThread = cowlSqFt * 4
+cowlThreadUR = cowlThread / getUnitSize("thread")
+cowlThreadWt = cowlThreadUR * getWeight("thread")
+recipeStorage["cowl"] = Recipe("tailor",(cowlThreadWt + cowlClothWt,"lb"),
+                               [],
+                               [("wool cloth", cowlSqFt),
+                                ("thread", cowlThreadUR)],
+                               difficulty=Decimal(0.5), # because they are roughly made
+                               description="hooded, wide-sleeved full-body garment, commonly worn by monks")
 # assuming 30-inch waist and falling 2 feet to mid-calf, we have 720 square inches or 5 square feet
 skirtSqFtWool = 5
 skirtThread = 4 # one 2-foot thread connecting it together like a tube, doubled for strength
