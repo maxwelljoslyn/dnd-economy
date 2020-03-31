@@ -68,6 +68,8 @@ cubicFootInPints = Decimal(59.8442)
 
 teaspoonsPerPint = Decimal(96)
 
+densityZinc = Decimal(445)
+
 def cylinderCuFt(height,radius):
     height = Decimal(height)
     radius = Decimal(radius)
