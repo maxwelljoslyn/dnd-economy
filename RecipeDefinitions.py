@@ -1017,22 +1017,24 @@ recipeStorage["haubergeon, mail"] = Recipe("blacksmith",(haubergeonSqFt * getWei
                                            [("mail sqft",haubergeonSqFt)],
                                            description="AC 6; has half-sleeves; covers torso to the waist")
 
-# the leather pattern must be worked by a leatherworker with thread, to make the bag;
+# the leather pattern must be worked by a leatherworker with yarn, to make the bag;
 # he sews the sides together, and adds the string for tying closed, with its holes
-# 4 feet of thread are used to sew the sides of the bag together;
-# another 4 feet are used to make the top flap extra secure
+# 4 feet of yarn are used to sew the sides of the bag together, then 4 feet going over it for strength
+# repeat that process to make the top flap secure
 
 # I approximate the pattern of a leather backpack holding one cubic foot
 # as the pattern which, when folded up, makes a cube, each side 1 foot long.
 # Thus the pattern requires 6 square feet of leather (roughly the shape of a Christian cross).
 # Then we add another 1 square foot of leather for the straps.
-# A tanned cowhide is 50 square feet, so we divide our total of 7 by 50.
-backpackPortionOfCowhide = Decimal(7 / 50)
-recipeStorage["backpack"] = Recipe("leatherworker",(backpackPortionOfCowhide * getWeight("tanned cowhide"),"lb"),
+backpackPortionOfCowhide = Decimal(7) / getUnitSize("tanned cowhide")
+backpackLeatherWeight = backpackPortionOfCowhide * getWeight("tanned cowhide")
+backpackYarnFt = Decimal(16) + Decimal(2) # 2 extra feet for clasp
+backpackYarnUR = backpackYarnFt / getUnitSize("yarn, wool")
+backpackYarnWt = backpackYarnUR * getWeight("yarn, wool")
+recipeStorage["backpack"] = Recipe("leatherworker",(backpackLeatherWeight + backpackYarnWt,"lb"),
                                    [],
-                                   [("thread",Decimal(8) / getUnitSize("thread")),
-                                    ("tanned cowhide",backpackPortionOfCowhide),
-                                    ("yarn, wool",Decimal(1) / getUnitSize("yarn, wool"))],
+                                   [("tanned cowhide",backpackPortionOfCowhide),
+                                    ("yarn, wool",backpackYarnUR)],
                                    description="with string clasp; holds 30 lbs")
 
 # belt pouch holds very little;
@@ -1094,8 +1096,7 @@ semiGoods.append("rope strand")
 strandFeetPerSegmentOfRope = Decimal(4)
 # the weight of one segment of rope is the same as the strands used to make it
 # but the length of one segment is 1/ropeStrandsPerRope.
-# this is the same as forming yarn from thin yarn, rope strands from yarn, etc.
-
+# conceptually, this is the same as forming rope strands from yarn
 # however, there's a further consideration
 # a single segment of rope is just too short to be useful
 # the minimum length by which rope is sold must be longer than that.
