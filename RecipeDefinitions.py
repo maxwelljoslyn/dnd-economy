@@ -2778,3 +2778,5 @@ add_outfit("rich peasant", [("chemise, fancy", 1), ("shoe", 2), ("hose", 1)])
 
 add_outfit("peasant", [("tunic", 1), ("chemise", 1), ("clog", 2), ("stockings", 1)])
 
+add_outfit("priest", [("chemise", 1), ("cassock", 1), ("hose", 1), ("clog", 2)])
+
