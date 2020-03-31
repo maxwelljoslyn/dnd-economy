@@ -859,6 +859,22 @@ recipeStorage["chemise, fancy"] = Recipe("tailor",(getWeight("chemise") + fancyC
                                          [("chemise",1), ("lace", fancyChemiseTotalFrillUR)],
                                          difficulty=5,
                                          description="chemise with lace-trimmed cuffs and collar")
+
+# clogs are normally made from poplar
+# compare this Dutch video of a clogmaker, De Klompenmaker
+# https://www.youtube.com/watch?v=F-WrDDfTBVQ
+# with this Discovery Channel episode about industrial manufacture of the same kind of shoe
+# https://www.youtube.com/watch?v=gUDHPiJXkyU
+# online websites list two clogs as weighing 1kg together
+# I'll thus make each clog roughly one pound
+clogWt = Decimal(1.1)
+# the clog is made from a block, so I'll round this up to nearest whole num
+clogCuFt = clogWt / densityTimber
+recipeStorage["clog"] = Recipe("carver",(clogWt,"lb"),
+                               [("timber",clogCuFt)],
+                               [],
+                               description="Dutch-style klomp; hand-carved wooden shoe")
+
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 poundsJuicePerPoundSugarcane = Decimal(0.5)
