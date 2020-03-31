@@ -104,7 +104,6 @@ def randomNumberAvailable(price, baseRange):
                 return temp
 
 
-
 def evalRecipe(city, name):
     recipe = recipeStorage[name]
     basePrice = findCost(city, name)
@@ -127,7 +126,7 @@ def display(name, skeleton, info):
     return skeleton.format(name,priceString,displayWeight,recipeData.weight[1],displayUnitCount,displayUnitName,recipeData.description, "(" + str(numAvail) + ")")
 
 
-terminalOutputSkeleton = "{0:30}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{7:>4} {6}"
+terminalOutputSkeleton = "{0:36}| {1:>10}|{2:>8} {3:>2}|{4:>8} {5:6}|{7:>4} {6}"
 latexOutputSkeleton = "{0} & {1} & {2} & {3} & {4} & {5} & {7} & {6}"
 htmlOutputSkeleton = "<tr><td>{0} </td><td> {1} </td><td> {2} </td><td> {3} </td><td> {4} </td><td> {5} </td><td> {7} </td><td> {6}</td></tr>"
 
@@ -142,7 +141,7 @@ def main():
     # we only want to call evaluate once,
     # then store the results of those calls to send as the info parameter whenever we make a call to display
     evaluatedRecipes = {}
-    print("{0:30}  {1:>10} {2:>8} {3:>2} {4:>8} {5:6} {6}".format("Name","Price","Weight","","Units",""," (#) Description"))
+    print("{0:36}  {1:>10} {2:>8} {3:>2} {4:>8} {5:6} {6}".format("Name","Price","Weight","","Units",""," (#) Description"))
     for n in names:
         if n in semiGoods:
             pass
@@ -181,8 +180,9 @@ def main():
         f.write(r"<!DOCTYPE html>")
         f.write(r"<head><title>Prices</title></head>")
         f.write(r"<body><h1>Prices at " + town + r"</h1>")
+        f.write(r"<p>Number of recipes: " + str(len(names)) + "</p>")
         f.write(r"<table border = \"1\">")
-        f.write("</td><td>".join(["<tr><td>Name","Price","Weight","","Num","Units","Description","Num. Avail.</td></tr>"]))
+        f.write("</td><td>".join(["<tr><td>Name","Price","Weight","","Num","Units","Num. Avail.","Description</td></tr>"]))
         for n in names:
             if n in semiGoods:
                 pass
