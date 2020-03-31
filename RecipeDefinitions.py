@@ -2793,3 +2793,20 @@ recipeStorage["bedroll"] = Recipe("tailor",
 #                                     [],
 #                                     [("wool cloth",tarpWidth)],
 #                                     description="sleeping cloth: ")
+# all coal in use is assumed to be lignite
+# that's a huge simplification from the real world, but that's OK:
+# I can add the other types of coal in once I've programmed the recipe runner's price calculator to pick from a list of possible ingredients by price, instead of hard coding each recipe's ingredients to a single type
+# then I'll be more able to vary coal, or grains, or things like that (e.g. bread could be made from any grain, changing depending on what's local. descriptions could depend too!)
+
+#ligniteHeatingValue = Decimal(6900) # BTU per pound of coal
+#sizeOfHearth = 1 * 3 * 5 # height, length, width
+#def heatingCoal(oreMeltingPoint):
+#"""Determine how much coal is needed to achieve the melting point of the ore.
+#Desired heat is assumed to be reached over one hour, for one pound of ore.
+#Thus, for increased time (such as for smelting) or for increased amounts of ore,
+#simply multiply the value returned by this function by the appropriate factor."""
+#return result
+
+# cannonball/cannon info
+# The bore diameter (caliber) of a smoothbore cannon was often given as mass (or weight at sea level...) of a lead sphere of appropriate size to fit the cannon.
+# A 3pdr would fire an approx. 70mm ball, a 6pdr 85mm, and a 12pdr 110mm. Very roughly (based on Wikipedia data).
