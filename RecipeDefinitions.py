@@ -1508,15 +1508,16 @@ recipeStorage["dress"] = Recipe("tailor",(dressWeightWool + dressThreadWeight,"l
                                 [("wool cloth",dressSqFtWool), ("thread",dressThreadUnitRatio)],
                                 description="women's garment")
 
-skirtSqFtWool = 4
-skirtThread = 4 * skirtSqFtWool
-skirtThreadUnitRatio = skirtThread / getUnitSize("yarn, wool")
-skirtThreadWeight = skirtThreadUnitRatio * getWeight("yarn, wool")
+# assuming 30-inch waist and falling 2 feet to mid-calf, we have 720 square inches or 5 square feet
+skirtSqFtWool = 5
+skirtThread = 4 # one 2-foot thread connecting it together like a tube, doubled for strength
+skirtThreadUnitRatio = skirtThread / getUnitSize("thread")
+skirtThreadWeight = skirtThreadUnitRatio * getWeight("thread")
 skirtWeightWool = skirtSqFtWool * getWeight("wool cloth")
 recipeStorage["skirt"] = Recipe("tailor",(skirtWeightWool + skirtThreadWeight,"lb"),
                                 [],
-                                [("wool cloth",skirtSqFtWool), ("yarn, wool",skirtThreadWeight)],
-                                description="women's garment, worn with bodice or under dress")
+                                [("wool cloth",skirtSqFtWool), ("thread",skirtThreadUnitRatio)],
+                                description="mid-calf length; worn with bodice or layered under dress")
 
 bodiceSqFtWool = 4
 bodiceThread = (4 * bodiceSqFtWool) + 4 # the normal 4 * wool sqft, plus an additional 4 feet for the lacing
