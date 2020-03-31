@@ -1317,7 +1317,7 @@ shieldEdgingUnitRatio = shieldEdgingSqFt / getUnitSize("rawhide")
 shieldEdgingWeight = shieldEdgingUnitRatio * getWeight("rawhide")
 
 # two of these ropes act as straps to provide protection against dropping if Dex check failed when hit by crit, at cost of taking time to secure them beforehand
-shieldRopeStrapLength = Decimal(0.5) # 6 inches long
+shieldRopeStrapLength = Decimal(1) # 1 foot
 shieldRopeStrapUnitRatio = shieldRopeStrapLength / getUnitSize("rope")
 shieldRopeStrapWeight = shieldRopeStrapUnitRatio * getWeight("rope")
 
