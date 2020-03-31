@@ -1898,7 +1898,7 @@ pipeSmokingWeight = Decimal(0.33)
 recipeStorage["pipe, smoking"] = Recipe("potter",(pipeSmokingWeight,"lb"),
                                         [],
                                         [("baked clay",pipeSmokingWeight)],
-                                        description="ordinary smoking pipe")
+                                        description="long-stemmed tobacco pipe")
 
 recipeStorage["herring, fresh"] = Recipe("fishmonger",(1,"lb"),
                                          [("herring",1)],
