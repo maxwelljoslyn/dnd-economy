@@ -837,6 +837,15 @@ recipeStorage["chemise"] = Recipe("tailor",(chemiseWeight, "lb"),
                                     [("wool cloth",chemiseSqFt),
                                      ("thread",chemiseThread/getUnitSize("thread"))],
                                     description="unisex; simple homespun shirt worn next to skin")
+
+tunicSqFt = Decimal(0.8) * chemiseSqFt
+tunicThread = tunicSqFt * 4
+tunicWeight = tunicSqFt * getWeight("wool cloth")
+recipeStorage["tunic"] = Recipe("tailor",(tunicWeight, "lb"),
+                                    [],
+                                    [("wool cloth",tunicSqFt),
+                                     ("thread",tunicThread/getUnitSize("thread"))],
+                                    description="short-sleeved upper garment") 
 # brown (or "raw") sugar, which still contains some molasses
 # cane can yield 50% of its mass in juice; approximately 20% of that juice is sugar
 poundsJuicePerPoundSugarcane = Decimal(0.5)
