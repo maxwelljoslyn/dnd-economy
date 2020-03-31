@@ -1,6 +1,7 @@
 import noise
 from decimal import *
 from math import pi
+import random
 
 from HexResources import *
 from Direction import *
@@ -144,7 +145,7 @@ class HexData:
         self.resources = {}
         self.subConfigurationType = 0 # an invalid setting, on purpose
         self.subs = {}
-        self.infrastructure = 0
+        self.infrastructure = Decimal(0)
 
 def tempAtCoord(coord):
     """Return a heat number for the hex at coord.
@@ -378,10 +379,26 @@ def initialize():
             pass
         else:
             findInfraToSpread(coord)
+    # initialize variables which we will use for infrastructure normalization
+    infraMin = 1000000
+    infraMax = 0
     for coord, additionToInfrastructure in accumulatedInfrastructureAdjustments.items():
         worldModel[coord].infrastructure += additionToInfrastructure
+        # now that the infrastructure has been updated at this hex,
+        # see if we need to update our min or max values
+        infra = worldModel[coord].infrastructure
+        if infra < infraMin:
+            infraMin = infra
+        if infra > infraMax:
+            infraMax = infra
 
-            
+    # normalize infrastructure from 0 to 1
+    for coord,data in worldModel.items():
+        if data.infrastructure == Decimal(0):
+            pass
+        else:
+            normalizedInfra = (data.infrastructure - infraMin) / (infraMax - infraMin)
+            data.infrastructure = normalizedInfra
 
     return worldModel, roadModelByName, roadModelByCoord
 
@@ -393,6 +410,7 @@ worldModel, roadModelByName, roadModelByCoord = initialize()
 strippedRoadModel = {src:{dest:data[0] for dest,data in goesTo.items()} for src,goesTo in roadModelByName.items()}
 # building the all-pairs shortest path matrix from the road model,
 # giving us distances from each town to each other town
+# this is used in resourcePriceCalculator; it's calculated here there are so fewer imports from this file to that one
 shortestPathMatrix = {}
 for source in strippedRoadModel:
     shortestPathMatrix[source] = {}
@@ -407,7 +425,6 @@ for source in strippedRoadModel:
             shortestPathMatrix[source][dest] = d
 
 def main():
-    counter = {}
     with open("inputWorldParser.txt", "w") as f:
         for c,d in worldModel.items():
             subsList = ",".join([str(sub) + " Elevation " + str(info["Elevation"]) + " Quality " + info["Quality"] for sub,info in d.subs.items()])
