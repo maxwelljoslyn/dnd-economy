@@ -1,5 +1,5 @@
 from decimal import Decimal
-from TownInfo import towns
+from .TownInfo import towns
 
 
 # this dictionary holds world production figures, with both amounts and units thereof,

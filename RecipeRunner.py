@@ -1,7 +1,7 @@
 from decimal import *
 from math import ceil
-from RecipeDefinitions import *
-from ResourcePriceCalculator import towns, pricesPerProductionUnit, averageServiceReferences, pseudoAverageRefPercent, allServiceNames
+from .RecipeDefinitions import *
+from .ResourcePriceCalculator import towns, pricesPerProductionUnit, averageServiceReferences, pseudoAverageRefPercent, allServiceNames
 import random
 
 #set up the Decimal environment
