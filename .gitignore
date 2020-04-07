@@ -31,3 +31,12 @@ generated_images/*
 *.txt
 *.pyc
 
+# meanderings
+BarrettTimothy_2014_papermaking_files/
+DFS.py
+ForageCalc.hs
+RecipeTree.py
+WeightedChoice.py
+apple_potato_calculations.py
+coordinate_sum_analysis.py
+pigcalculations.hs
