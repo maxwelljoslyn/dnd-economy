@@ -1,9 +1,9 @@
 # also writen by David Eppstein (see below)
-from priodict import priorityDictionary
+from .priodict import priorityDictionary
 
 # Dijkstra's algo for shortest paths
 # David Eppstein, UC Irvine, 4 April 2002
-# http://aspn.activatestate.com/ASPN/Cookbook/Python/Recipe/117228
+# https://code.activestate.com/recipes/522995-priority-dict-a-priority-queue-with-updatable-prio/
 def Dijkstra(G,start,end=None):
     # dict of final distances
     D = {}

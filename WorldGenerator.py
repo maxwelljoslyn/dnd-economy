@@ -3,12 +3,12 @@ from decimal import *
 from math import pi
 import random
 
-from HexResources import *
-from Direction import *
-from AStarSearch import *
-from ShortestPaths3 import shortestPath
-from TownInfo import towns, connections
-from Triangles import getHexTypeAndConfiguration, getConfiguration
+from .HexResources import *
+from .Direction import *
+from .AStarSearch import *
+from .ShortestPaths3 import shortestPath
+from .TownInfo import towns, connections
+from .Triangles import getHexTypeAndConfiguration, getConfiguration
 
 # desired seed for the RNG
 # ALL PORTIONS OF WORLD GENERATION WHICH USE RANDOMNESS
@@ -452,4 +452,5 @@ def main():
                 outputString = "[" + pathString + "]\n"
                 f.write(outputString)
 
-main()
+if __name__ == "__main__":
+    main()

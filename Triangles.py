@@ -1,4 +1,4 @@
-from Direction import Direction
+from .Direction import Direction
 from random import *
 
 dirs = Direction.__members__.keys()

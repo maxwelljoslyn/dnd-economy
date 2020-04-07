@@ -1,6 +1,6 @@
 from decimal import *
 from math import pi
-from ResourcePriceCalculator import allServiceNames
+from .ResourcePriceCalculator import allServiceNames
 
 #set up the Decimal environment
 getcontext().prec = 4

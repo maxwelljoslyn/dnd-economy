@@ -1,7 +1,7 @@
 from decimal import *
 import copy
-from WorldGenerator import towns, shortestPathMatrix
-from HexResources import worldProductionMatrix
+from .WorldGenerator import towns, shortestPathMatrix
+from .HexResources import worldProductionMatrix
 
 #set up the Decimal environment
 getcontext().prec = 4
