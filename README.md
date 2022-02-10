@@ -1,0 +1,1 @@
+This repository is outdated. All the code from the economy project has been folded into [my D&D monorepo](https://github.com/maxwelljoslyn/dnd), where, as of 2022-02-10, it is undergoing a substantial refactor.
